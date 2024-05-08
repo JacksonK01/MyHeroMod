@@ -12,6 +12,11 @@ public class PlayerData {
     public int[] quirkAbilityTimers = {0, 0, 0, 0, 0};
     public boolean[] abilityActive = {false, false, false, false, false};
     public boolean[] keyBindsHeld = {false, false, false, false, false}; //In order of keybinds 1 through 5
+
+    //Cap is 5 abilities for now.
+    public AbilityBase[] abilities = new AbilityBase[5];
+
+
     public int quirkCooldown = 0;
     public int quirkStamina = 1000;
 

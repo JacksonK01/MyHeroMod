@@ -13,6 +13,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import java.util.HashMap;
 import java.util.Map;
 
+//This is bad, i didn't really know what I was doing when I made this system.
 public class AbilityMap {
     public HashMap<Integer, AbilityBase> abilityHandlerMap = new HashMap<>();
     //TODO THIS CAN BE CLONED NOW

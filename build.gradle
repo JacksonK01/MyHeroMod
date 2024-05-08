@@ -42,6 +42,8 @@ dependencies {
 
 	//If you don't want to include the library in your jar, remove the include word
 	//You can find the latest version in [](https://maven.kosmx.dev/dev/kosmx/player-anim/player-animation-lib-fabric/)
+
+	//Player Animator
 	include modImplementation("dev.kosmx.player-anim:player-animation-lib-fabric:1.0.2-rc1+1.20")
 }
 

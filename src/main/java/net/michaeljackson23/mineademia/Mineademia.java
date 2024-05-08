@@ -19,10 +19,10 @@ public class Mineademia implements ModInitializer {
     public static final Logger LOGGER = LoggerFactory.getLogger("mineademia");
 
 
+	//Registers elements for server + client. Stuff like items, blocks and any logic you want serverside goes here.
 	@Override
 	public void onInitialize() {
-		new Keybinds();
-		new KillOnUse();
+		Keybinds.keysRegister();
 		Client2Server.registerClientToServerPackets();
 		QuirkInitialize.InitializeEvent();
 		AbilitiesTicks.AbilitiesTickEvent();

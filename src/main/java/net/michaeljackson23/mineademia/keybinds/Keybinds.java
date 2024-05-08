@@ -22,8 +22,7 @@ public class Keybinds {
     private static HoldableKeybind keyAbilityFive;
     private static HoldableKeybind keyDodge;
 
-
-    public Keybinds() {
+    public static void keysRegister() {
         keyAbilityOne = (HoldableKeybind) KeyBindingHelper.registerKeyBinding(new HoldableKeybind(
                 "key.mineademia.ability_one",
                 InputUtil.Type.KEYSYM,
@@ -61,9 +60,6 @@ public class Keybinds {
                 "key.mineademia.mineademia"
         ));
     }
-
-
-
     public static void keybindActions() {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             client.execute(() -> {

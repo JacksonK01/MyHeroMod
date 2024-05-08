@@ -16,6 +16,7 @@ import net.minecraft.client.render.entity.FlyingItemEntityRenderer;
 
 public class MineademiaClient implements ClientModInitializer {
 
+    //Only client related elements go here. Such as actions on keybind press or entity rendering.
     @Override
     public void onInitializeClient() {
         Server2Client.registerServerToClientPackets();

@@ -14,6 +14,8 @@ import net.minecraft.network.PacketByteBuf;
 import static net.michaeljackson23.mineademia.hud.DevHudElements.DEV_HUD_SYNC;
 
 public class AbilitiesTicks {
+    //This where the server event checks if the player has an ability active, and whether they need to regenerate stamina, and whether to decrease the cooldown
+    //TODO fix this mess
     public static void AbilitiesTickEvent() {
         PacketByteBuf data = PacketByteBufs.create();
         ServerTickEvents.START_SERVER_TICK.register((server) -> {

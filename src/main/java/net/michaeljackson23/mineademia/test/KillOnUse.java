@@ -10,7 +10,7 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.Vec3d;
 
-
+//This class is useless, it was for testing, look around if you'd like
 public class KillOnUse {
     public Integer mana = 500;
     public KillOnUse() {

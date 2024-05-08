@@ -13,33 +13,20 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class StateSaverAndLoader extends PersistentState {
-    //This is creating a map for a player and it's using the data from the class I already created
-    //Theoretically I could replace playerdata with different data then? like I could put an integer there?
     public HashMap<UUID, PlayerData> players = new HashMap<>();
 
-    //Writes the nbt, but its not going to be saved
     @Override
     public NbtCompound writeNbt(NbtCompound nbt) {
-        //Add serverwide nbt data storage here
-
         NbtCompound playersNbt = new NbtCompound();
         players.forEach((uuid, playerData) -> {
-            //This variable is created without an "s" perhaps its for the speficic player targeted now
             NbtCompound playerNbt = new NbtCompound();
 
-            //Grabbing the custom number and appending it to the player
             playerNbt.putString("playerQuirk", playerData.playerQuirk);
             playerNbt.putIntArray("quirkAbilities", playerData.quirkAbilities);
             playerNbt.putIntArray("quirkStats", playerData.quirkStats);
 
-
-            //Adding a hashmap is a bit more complicated, won't do here
-
-
-            //Notice this playersNbt has the "s" in it, this isnt the same one I've been using
             playersNbt.put(uuid.toString(), playerNbt);
         });
-        //The variable here has an s as well
         nbt.put("players", playersNbt);
 
         return nbt;
@@ -57,10 +44,6 @@ public class StateSaverAndLoader extends PersistentState {
             playerData.playerQuirk = playersNbt.getCompound(key).getString("playerQuirk");
             playerData.quirkAbilities = playersNbt.getCompound(key).getIntArray("quirkAbilities");
 
-
-            for(int stats : playersNbt.getCompound(key).getIntArray("quirkStats")) {
-                playerData.quirkStats.add(stats);
-            }
 
             //This finds the player to add the nbt to
             UUID uuid = UUID.fromString(key);
@@ -85,7 +68,7 @@ public class StateSaverAndLoader extends PersistentState {
         return state;
     }
 
-
+    //This can only be called serverside
     public static PlayerData getPlayerState(ServerPlayerEntity player) {
         StateSaverAndLoader serverState = getServerState(player.getWorld().getServer());
 
