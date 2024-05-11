@@ -21,9 +21,8 @@ public class StateSaverAndLoader extends PersistentState {
         players.forEach((uuid, playerData) -> {
             NbtCompound playerNbt = new NbtCompound();
 
-            playerNbt.putString("playerQuirk", playerData.playerQuirk);
-            playerNbt.putIntArray("quirkAbilities", playerData.quirkAbilities);
-            playerNbt.putIntArray("quirkStats", playerData.quirkStats);
+            playerNbt.putString("playerQuirk", playerData.getQuirk());
+            playerNbt.putIntArray("quirkStats", playerData.getQuirkStats());
 
             playersNbt.put(uuid.toString(), playerNbt);
         });
@@ -41,9 +40,7 @@ public class StateSaverAndLoader extends PersistentState {
             PlayerData playerData = new PlayerData();
 
             //I don't really know whats going on here, we are setting the varaible we created to the nbt from the player
-            playerData.playerQuirk = playersNbt.getCompound(key).getString("playerQuirk");
-            playerData.quirkAbilities = playersNbt.getCompound(key).getIntArray("quirkAbilities");
-
+            playerData.setQuirk(playersNbt.getCompound(key).getString("playerQuirk"));
 
             //This finds the player to add the nbt to
             UUID uuid = UUID.fromString(key);

@@ -6,18 +6,12 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 
 public class Empty extends AbilityBase {
-    public Empty(ServerPlayerEntity player, PlayerData playerData, MinecraftServer server, int slot) {
-        super(player, playerData, server, slot);
-    }
-    //I just need this here for the map
-
-    @Override
-    public void activate() {
+    public Empty() {
 
     }
 
     @Override
-    public void deactivate() {
+    public void activate(ServerPlayerEntity player, PlayerData playerData, MinecraftServer server) {
 
     }
 }

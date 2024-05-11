@@ -31,7 +31,6 @@ public class Client2Server {
 //                if(playerState.quirkAbilityTimers[1] == 0) {
 //                    playerState.quirkAbilityTimers[1] = 1;
 //                }
-                playerState.quirkAbilityTimers[4] = 1;
 
             });
         });
@@ -41,19 +40,16 @@ public class Client2Server {
 //                if(playerState.quirkAbilityTimers[1] == 0) {
 //                    playerState.quirkAbilityTimers[1] = 1;
 //                }
-                        playerState.quirkAbilityTimers[1] = 1;
+//                        playerState.quirkAbilityTimers[1] = 1;
 
                     });
                 });
         ServerPlayNetworking.registerGlobalReceiver(ABILITY_ONE, (server, player, handler, buf, responseSender) -> {
             server.execute(() -> {
                 PlayerData playerState = StateSaverAndLoader.getPlayerState(player);
-                if (buf.readBoolean() && playerState.quirkCooldown == 0) {
-                    playerState.abilityActive[0] = true;
-                    AbilityMap abilitiesMap = new AbilityMap(player, playerState, server, 0);
-                    playerState.abilityStack.add(abilitiesMap.abilityHandlerMap.get(playerState.quirkAbilities[0]));
+                if (buf.readBoolean() && playerState.getCooldown() == 0) {
+                    playerState.getAbilityQueue().add(playerState.getAbilities()[0]);
                 }
-                playerState.keyBindsHeld[0] = buf.readBoolean();
             });
         });
         ServerPlayNetworking.registerGlobalReceiver(QUIRKTABLETGUIOPEN, (server, player, handler, buf, responseSender) -> {
@@ -61,7 +57,7 @@ public class Client2Server {
                 String quirk = buf.readString();
                 PlayerData playerState = StateSaverAndLoader.getPlayerState(player);
                 player.sendMessage(Text.literal("Changed quirk to "+quirk));
-                playerState = QuirkInitialize.setQuirk(playerState, quirk);
+                QuirkInitialize.setQuirk(playerState, quirk);
             });
         });
     }

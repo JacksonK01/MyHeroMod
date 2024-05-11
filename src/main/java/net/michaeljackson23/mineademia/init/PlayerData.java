@@ -1,35 +1,72 @@
 package net.michaeljackson23.mineademia.init;
 import net.michaeljackson23.mineademia.abilities.AbilityBase;
 import net.michaeljackson23.mineademia.abilities.abilityinit.IAbilityHandler;
-import java.util.Stack;
-import java.util.ArrayList;
-import java.util.List;
+
+import java.util.*;
 
 public class PlayerData {
     //This is all the information I store onto the player
-    public String playerQuirk = "empty";
-    public int[] quirkAbilities = {0, 0, 0, 0, 0};
-    public int[] quirkAbilityTimers = {0, 0, 0, 0, 0};
-    public boolean[] abilityActive = {false, false, false, false, false};
-    public boolean[] keyBindsHeld = {false, false, false, false, false}; //In order of keybinds 1 through 5
-
+    private String quirk = "empty";
     //Cap is 5 abilities for now.
-    public AbilityBase[] abilities = new AbilityBase[5];
-
-
-    public int quirkCooldown = 0;
-    public int quirkStamina = 1000;
-
-    public Stack<AbilityBase> abilityStack = new Stack<>();
-
+    private AbilityBase[] abilities = new AbilityBase[5];
+    private int cooldown = 0;
+    private int stamina = 1000;
     //This is for leveling up your quirk, I don't know what I'll use it for yet
-    public List<Integer> quirkStats = new ArrayList<>();
-
-    public double[] storedBlackwhip = {0, 0, 0};
+    private List<Integer> quirkStats = new ArrayList<>();
+    private Queue<AbilityBase> abilityQueue = new LinkedList<>();
 
     public PlayerData() {
-        quirkStats.add(0);
-        quirkStats.add(0);
-        quirkStats.add(0);
+
     }
+
+    public int getCooldown() {
+        return cooldown;
+    }
+
+    public void setCooldown(int cooldown) {
+        if (cooldown >= 0) {
+            this.cooldown = cooldown;
+        }
+    }
+
+    public int getStamina() {
+        return stamina;
+    }
+
+    public void setStamina(int stamina) {
+        if (stamina >= 0) {
+            this.stamina = stamina;
+        }
+    }
+
+    public String getQuirk() {
+        return this.quirk;
+    }
+
+    public void setQuirk(String quirk) {
+        this.quirk = quirk;
+    }
+
+    public AbilityBase[] getAbilities() {
+        return abilities;
+    }
+
+    public List<Integer> getQuirkStats() {
+        return quirkStats;
+    }
+
+    public void setAbility(int index, AbilityBase ability) {
+        if (index >= 0 && index < abilities.length) {
+            abilities[index] = ability;
+        }
+    }
+
+    public void setAbilities(AbilityBase[] abilities) {
+        this.abilities = abilities;
+    }
+
+    public Queue<AbilityBase> getAbilityQueue() {
+        return abilityQueue;
+    }
+
 }

@@ -5,20 +5,50 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 
 public abstract class AbilityBase {
-    public ServerPlayerEntity player;
-    public PlayerData playerData;
-    public MinecraftServer server;
-    public int timer = 0;
-    public int slot;
+    protected int timer = 0;
+    protected int abilityDuration;
+    protected int staminaDrain;
+    protected int cooldownAdd;
+    protected String title;
+    protected String description;
+    private boolean isActive = false;
+    protected boolean isLoop;
 
-    public AbilityBase(ServerPlayerEntity player, PlayerData playerData, MinecraftServer server, int slot) {
-        this.player = player;
-        this.playerData = playerData;
-        this.server = server;
-        this.slot = slot;
+    //Declare these variables here, don't add parameters to constructor, it's not needed
+    public AbilityBase() {
+        this.abilityDuration = 0;
+        this.staminaDrain = 0;
+        this.cooldownAdd = 0;
+        this.isLoop = false;
     }
 
-    public abstract void activate();
+    public String getTitle() {
+        return title;
+    }
 
-    public abstract void deactivate();
+    public String getDescription() {
+        return description;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void execute(ServerPlayerEntity player, PlayerData playerData, MinecraftServer server) {
+        isActive = true;
+        timer++;
+        if(timer <= abilityDuration) {
+            activate(player, playerData, server);
+        } else {
+            deactivate();
+        }
+    }
+
+    protected abstract void activate(ServerPlayerEntity player, PlayerData playerData, MinecraftServer server);
+
+    //Override if needed
+    protected void deactivate() {
+        this.timer = 0;
+        isActive = false;
+    }
 }

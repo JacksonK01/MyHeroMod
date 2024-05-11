@@ -3,19 +3,20 @@ package net.michaeljackson23.mineademia.init;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.michaeljackson23.mineademia.abilities.AbilityBase;
 import net.michaeljackson23.mineademia.abilities.QuirkAbilities;
+import net.michaeljackson23.mineademia.abilities.ofa.AirForce;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 
 import java.util.List;
 import java.util.Random;
 
-import static net.michaeljackson23.mineademia.networking.Server2Client.CHANGED_QUIRK;
 import static net.michaeljackson23.mineademia.networking.Server2Client.INITIAL_SYNC;
 
 public class QuirkInitialize {
     private static List<String> allQuirks = List.of("One For All", "Explosion", "Half-Cold Half-Hot", "Whirlwind", "Electrification");
+    private static final Random rand = new Random();
 
     public static void InitializeEvent() {
         ServerPlayConnectionEvents.JOIN.register(((handler, sender, server) -> {
@@ -23,44 +24,37 @@ public class QuirkInitialize {
             PlayerData playerData = StateSaverAndLoader.getPlayerState(handler.getPlayer());
             PacketByteBuf data = PacketByteBufs.create();
 
-            if(playerData.playerQuirk.equals("empty")) {
-                playerData = quirkSetup(playerData, handler.getPlayer());
+            if(playerData.getQuirk().equals("empty")) {
+                quirkSetup(playerData);
             }
 
-            data.writeString(playerData.playerQuirk);
+            data.writeString(playerData.getQuirk());
             server.execute(() -> {
                 ServerPlayNetworking.send(handler.getPlayer(), INITIAL_SYNC, data);
             });
         }));
     }
 
-    public static int[] abilitySetup(String quirk) {
-        int[] abilities = new int[5];
-
-        for(int i = 0;i < abilities.length;i++) {
-            abilities[i] = 0;
-        }
+    public static AbilityBase[] abilitySetup(String quirk) {
+        AbilityBase[] abilities = new AbilityBase[5];
 
         if(quirk.equals("One For All")) {
-            abilities[0] = QuirkAbilities.AIR_FORCE.getValue();
-            abilities[1] = QuirkAbilities.BLACKWHIP.getValue();
-            abilities[4] = QuirkAbilities.COWLING.getValue();
+            abilities[0] = new AirForce();
+//            abilities[1] = new Blackwhip();
+//            abilities[4] = QuirkAbilities.COWLING.getValue();
         }
         return abilities;
     }
 
-    public static PlayerData quirkSetup(PlayerData playerData, ServerPlayerEntity player) {
-        Random rand = new Random();
+    public static void quirkSetup(PlayerData playerData) {
         int randomInt = rand.nextInt(allQuirks.size());
-        playerData.playerQuirk = allQuirks.get(randomInt);
-        playerData.quirkAbilities = abilitySetup(playerData.playerQuirk);
-        return playerData;
+        playerData.setQuirk(allQuirks.get(randomInt));
+        playerData.setAbilities(abilitySetup(playerData.getQuirk()));
     }
 
-    public static PlayerData setQuirk(PlayerData playerData, String quirk) {
-        playerData.playerQuirk = quirk;
-        playerData.quirkAbilities = abilitySetup(quirk);
-        return playerData;
+    public static void setQuirk(PlayerData playerData, String quirk) {
+        playerData.setQuirk(quirk);
+        playerData.setAbilities(abilitySetup(quirk));
     }
 }
 
