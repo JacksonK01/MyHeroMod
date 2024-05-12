@@ -1,0 +1,226 @@
+{
+  "electricity_1": {
+    "category": "master",
+    "subtitle": "subtitles.electricity_1",
+    "sounds": [
+      {
+        "name": "mineademia:electricity_1",
+        "stream": false
+      }
+    ]
+  },
+  "electricity_2": {
+    "category": "master",
+    "subtitle": "subtitles.electricity_2",
+    "sounds": [
+      {
+        "name": "mineademia:electricity_2",
+        "stream": false
+      }
+    ]
+  },
+  "electricity_3": {
+    "category": "master",
+    "subtitle": "subtitles.electricity_3",
+    "sounds": [
+      {
+        "name": "mineademia:electricity_3",
+        "stream": false
+      }
+    ]
+  },
+  "electricity_4": {
+    "category": "neutral",
+    "subtitle": "subtitles.electricity_4",
+    "sounds": [
+      {
+        "name": "mineademia:electricity_4",
+        "stream": false
+      }
+    ]
+  },
+  "fart": {
+    "category": "master",
+    "subtitle": "subtitles.fart",
+    "sounds": [
+      {
+        "name": "mineademia:fart",
+        "stream": false
+      }
+    ]
+  },
+  "wet_fart": {
+    "category": "master",
+    "subtitle": "subtitles.wet_fart",
+    "sounds": [
+      {
+        "name": "mineademia:wet_fart",
+        "stream": false
+      }
+    ]
+  },
+  "fa_jin": {
+    "category": "master",
+    "subtitle": "subtitles.fa_jin",
+    "sounds": [
+      {
+        "name": "mineademia:fajin",
+        "stream": false
+      }
+    ]
+  },
+  "warpgate": {
+    "category": "master",
+    "subtitle": "subtitles.warpgate",
+    "sounds": [
+      {
+        "name": "mineademia:warpgate",
+        "stream": false
+      }
+    ]
+  },
+  "punch_impact_crunch": {
+    "category": "master",
+    "subtitle": "subtitles.punch_impact_crunch",
+    "sounds": [
+      {
+        "name": "mineademia:punch_impact_crunch",
+        "stream": false
+      }
+    ]
+  },
+  "punch_impact": {
+    "category": "master",
+    "subtitle": "subtitles.punch_impact",
+    "sounds": [
+      {
+        "name": "mineademia:punch_sound",
+        "stream": false
+      }
+    ]
+  },
+  "charge_impact_1": {
+    "category": "master",
+    "subtitle": "subtitles.charge_impact_1",
+    "sounds": [
+      {
+        "name": "mineademia:charge_impact_1",
+        "stream": false
+      }
+    ]
+  },
+  "charge_impact_2": {
+    "category": "master",
+    "subtitle": "subtitles.charge_impact_2",
+    "sounds": [
+      {
+        "name": "mineademia:charge_impact_2",
+        "stream": false
+      }
+    ]
+  },
+  "leg_movement": {
+    "category": "master",
+    "subtitle": "subtitles.leg_movement",
+    "sounds": [
+      {
+        "name": "mineademia:leg_movement",
+        "stream": false
+      }
+    ]
+  },
+  "explosion": {
+    "category": "master",
+    "subtitle": "subtitles.explosion",
+    "sounds": [
+      {
+        "name": "mineademia:explosion_1",
+        "stream": false
+      },
+      {
+        "name": "mineademia:explosion_2",
+        "stream": false
+      }
+    ]
+  },
+  "ice_sound_effect": {
+    "category": "master",
+    "subtitle": "subtitles.ice_sound_effect",
+    "sounds": [
+      {
+        "name": "mineademia:ice_place_sound",
+        "stream": false
+      }
+    ]
+  },
+  "cowling_start": {
+    "category": "master",
+    "subtitle": "subtitles.cowling_start",
+    "sounds": [
+      {
+        "name": "mineademia:cowling_start",
+        "stream": false
+      }
+    ]
+  },
+  "cowling_repeat": {
+    "category": "master",
+    "subtitle": "subtitles.cowling_repeat",
+    "sounds": [
+      {
+        "name": "mineademia:cowling_repeat",
+        "stream": false
+      }
+    ]
+  },
+  "cowling_end": {
+    "category": "master",
+    "subtitle": "subtitles.cowling_end",
+    "sounds": [
+      {
+        "name": "mineademia:cowling_end",
+        "stream": false
+      }
+    ]
+  },
+  "ofa_charge_up": {
+    "category": "master",
+    "subtitle": "subtitles.ofa_charge_up",
+    "sounds": [
+      {
+        "name": "mineademia:ofa_charge_up",
+        "stream": false
+      }
+    ]
+  },
+  "ofa_charge_release": {
+    "category": "master",
+    "subtitle": "subtitles.ofa_charge_release",
+    "sounds": [
+      {
+        "name": "mineademia:ofa_charge_release",
+        "stream": false
+      }
+    ]
+  },
+  "fire_sound_effect": {
+    "category": "master",
+    "subtitle": "subtitles.fire_sound_effect",
+    "sounds": [
+      {
+        "name": "mineademia:shoto_fire",
+        "stream": false
+      }
+    ]
+  },
+  "heart_use": {
+    "category": "master",
+    "subtitle": "subtitles.heart_use",
+    "sounds": [
+      {
+        "name": "mineademia:heart_use_sound",
+        "stream": false
+      }
+    ]
+  }
+}

@@ -1,17 +1,16 @@
 package net.michaeljackson23.mineademia.abilities.abilityinit;
 
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.michaeljackson23.mineademia.abilities.AbilityBase;
-import net.michaeljackson23.mineademia.abilities.abilityinit.AbilityMap;
-import net.michaeljackson23.mineademia.hud.DevQuirkDisplay;
 import net.michaeljackson23.mineademia.init.PlayerData;
 import net.michaeljackson23.mineademia.init.StateSaverAndLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.text.Text;
 
+import java.util.Iterator;
 import java.util.Queue;
 
 import static net.michaeljackson23.mineademia.hud.DevHudElements.DEV_HUD_SYNC;
@@ -30,6 +29,16 @@ public class AbilitiesTicks {
                         abilityQueuePointer.peek().execute(player, playerState, server);
                         if(!abilityQueuePointer.peek().isActive()) {
                             abilityQueuePointer.remove();
+                        }
+                    }
+                    //TODO fix this duct tape solution, use an iterator or something
+
+                    Iterator<PassiveAbility> passiveAbilityIterator = playerState.getPassiveAbilities().iterator();
+                    while (passiveAbilityIterator.hasNext()) {
+                        PassiveAbility next = passiveAbilityIterator.next();
+                        if(next.activate()) {
+                            passiveAbilityIterator.remove();
+                            player.sendMessage(Text.literal("Removed Passive"));
                         }
                     }
 

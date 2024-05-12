@@ -24,6 +24,7 @@ import net.minecraft.world.World;
 import java.util.Random;
 
 public class AirForceProjectile extends ThrownItemEntity {
+    int timer = 0;
 
     @Override
     protected Item getDefaultItem() {
@@ -44,12 +45,12 @@ public class AirForceProjectile extends ThrownItemEntity {
     public void tick() {
         super.tick();
         this.getWorld().addParticle(ParticleTypes.END_ROD, true, this.getX(), this.getY(), this.getZ(), 0, 0, 0);
-        Random random = new Random();
         PlaceParticleInWorld.run(this.getWorld(), ParticleTypes.EXPLOSION, this.getX(), this.getY(), this.getZ(), 1, 1, 1, 3);
-        //This crashed the game
-//        ServerWorld world = (ServerWorld) this.getWorld();
-//        world.spawnParticles(ParticleTypes.EXPLOSION, this.getX(), this.getY(), this.getZ(), 3, 0.3f, 0.3f, 0.3f, 0);
-//        world.spawnParticles(ParticleTypes.END_ROD, this.getX(), this.getY(), this.getZ(), 1, 0, 0, 0, 0);
+        this.setNoGravity(true);
+        timer++;
+        if(timer >= 40) {
+            this.kill();
+        }
     }
 
     protected void onEntityHit(EntityHitResult entityHitResult) { // called on entity hit.

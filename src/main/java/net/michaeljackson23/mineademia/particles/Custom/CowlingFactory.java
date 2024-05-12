@@ -14,11 +14,11 @@ public class CowlingFactory extends SpriteBillboardParticle {
         super(clientWorld, x, y, z, dx, dy, dz);
         this.spriteSet = spriteSet;
         this.velocityMultiplier = 0f;
-        this.x = dx;
-        this.y = dy;
-        this.z = dz;
+        this.x = x;
+        this.y = y;
+        this.z = z;
         this.scale = 0.14f;
-        this.maxAge = 5;
+        this.maxAge = 2;
         this.setSprite(spriteSet);
     }
 

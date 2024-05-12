@@ -2,7 +2,6 @@ package net.michaeljackson23.mineademia.networking;
 
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.michaeljackson23.mineademia.Mineademia;
-import net.michaeljackson23.mineademia.abilities.abilityinit.AbilityMap;
 import net.michaeljackson23.mineademia.init.PlayerData;
 import net.michaeljackson23.mineademia.init.QuirkInitialize;
 import net.michaeljackson23.mineademia.init.StateSaverAndLoader;
@@ -28,10 +27,9 @@ public class Client2Server {
         ServerPlayNetworking.registerGlobalReceiver(ABILITY_FIVE, (server, player, handler, buf, responseSender) -> {
             server.execute(() -> {
                 PlayerData playerState = StateSaverAndLoader.getPlayerState(player);
-//                if(playerState.quirkAbilityTimers[1] == 0) {
-//                    playerState.quirkAbilityTimers[1] = 1;
-//                }
-
+                if (buf.readBoolean() && playerState.getCooldown() == 0) {
+                    playerState.getAbilityQueue().add(playerState.getAbilities()[4]);
+                }
             });
         });
         ServerPlayNetworking.registerGlobalReceiver(ABILITY_TWO, (server, player, handler, buf, responseSender) -> {

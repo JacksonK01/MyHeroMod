@@ -1,61 +1,78 @@
-//package net.michaeljackson23.mineademia.abilities.ofa;
-//
-//import net.michaeljackson23.mineademia.abilities.abilityinit.IAbilityHandler;
-//import net.michaeljackson23.mineademia.init.PlayerData;
-//import net.michaeljackson23.mineademia.particles.ParticleRegister;
-//import net.minecraft.server.MinecraftServer;
-//import net.minecraft.server.network.ServerPlayerEntity;
-//import net.minecraft.text.Text;
-//
-//public class Cowling implements IAbilityHandler {
-//
-//    @Override
-//    public void activate(ServerPlayerEntity player, PlayerData playerData, MinecraftServer server, int slot) {
-//        //1 = 10%
-//        //2 = 20%
-//        //etc etc
-//
-//        switch (playerData.quirkAbilityTimers[slot]) {
-//            case 1:
-//                CowlingFunctionality(1, 0, player);
-//                break;
-//            case 2:
-//                CowlingFunctionality(2, 0, player);
-//                break;
-//            case 3:
-//                CowlingFunctionality(3, 0, player);
-//                break;
-//            case 4:
-//                CowlingFunctionality(4, 0, player);
-//                break;
-//            case 5:
-//                CowlingFunctionality(5, 0, player);
-//                break;
-//            case 6:
-//                CowlingFunctionality(6, 0, player);
-//                break;
-//            case 7:
-//                CowlingFunctionality(7, 0, player);
-//                break;
-//            case 8:
-//                CowlingFunctionality(8, 0, player);
-//                break;
-//            case 9:
-//                CowlingFunctionality(9, 0, player);
-//                break;
-//            case 10:
-//                CowlingFunctionality(10, 0, player);
-//                break;
-//            case 11:
-//                playerData.quirkAbilityTimers[slot] = 0;
-//                player.sendMessage(Text.literal("Cowling De-Activated"));
-//        }
-//
-//    }
-//
-//    private void CowlingFunctionality(int particleAmount, int power, ServerPlayerEntity player) {
-//        player.getServerWorld().spawnParticles(ParticleRegister.COWLING_PARTICLES, player.getX(), player.getY() + 1, player.getZ(),
-//                particleAmount, 0.3f, 0.5f, 0.3f, 0);
-//        player.sendMessage(Text.literal("Cowling "+ particleAmount + "0%"));
-//    }
-//}
+package net.michaeljackson23.mineademia.abilities.ofa;
+
+import net.michaeljackson23.mineademia.abilities.AbilityBase;
+import net.michaeljackson23.mineademia.abilities.abilityinit.PassiveAbility;
+import net.michaeljackson23.mineademia.init.PlayerData;
+import net.michaeljackson23.mineademia.particles.ParticleRegister;
+import net.michaeljackson23.mineademia.sound.CustomSounds;
+import net.minecraft.client.sound.TickableSoundInstance;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.network.packet.s2c.play.StopSoundS2CPacket;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.Text;
+
+public class Cowling extends AbilityBase {
+    //1 = 10%
+    //2 = 20%
+    //etc etc
+    int cowlingPower = 0;
+    PassiveAbility cowling;
+
+    private Cowling() {
+        super(1, 0, 5, false, "Cowling", "Add Description");
+    }
+
+    @Override
+    protected void activate(ServerPlayerEntity player, PlayerData playerData, MinecraftServer server) {
+        if(player.isSneaking() && cowlingPower > 0) {
+            cowlingPower--;
+            if(cowlingPower == 0) {
+                player.getWorld().playSound(null, player.getX(), player.getY(), player.getZ(), CustomSounds.COWLING_END_EVENT, SoundCategory.PLAYERS, 1f, 1f);
+                StopSoundS2CPacket stopSoundS2CPacket = new StopSoundS2CPacket(CustomSounds.COWLING_REPEAT_ID, SoundCategory.PLAYERS);
+//                for (ServerPlayerEntity serverPlayerEntity : ) {
+//                    serverPlayerEntity.networkHandler.sendPacket(stopSoundS2CPacket);
+//                }
+//                server.getPlayerManager().getPlayerList().forEach();
+                player.networkHandler.sendPacket(stopSoundS2CPacket);
+
+            }
+        } else if(!player.isSneaking() && cowlingPower <= 10){
+            cowlingPower++;
+            if(cowlingPower == 1) {
+                player.getWorld().playSound(null, player.getX(), player.getY(), player.getZ(), CustomSounds.COWLING_START_EVENT, SoundCategory.PLAYERS, 1f, 1f);
+            }
+        }
+        if(cowlingPower <= 10) {
+            player.sendMessage(Text.literal("Cowling " + cowlingPower * 10 + "%"));
+        } else {
+            player.sendMessage(Text.literal("Resetting Cowling to 0%"));
+            cowlingPower = 0;
+            player.getWorld().playSound(null, player.getX(), player.getY(), player.getZ(), CustomSounds.COWLING_END_EVENT, SoundCategory.PLAYERS, 1f, 1f);
+        }
+        if(cowling == null) {
+            cowling = () -> {
+                player.getWorld().playSound(null, player.getX(), player.getY(), player.getZ(), CustomSounds.COWLING_REPEAT_EVENT, SoundCategory.PLAYERS, 1f, 1f);
+                player.getServerWorld().spawnParticles(ParticleRegister.COWLING_PARTICLES, player.getX(), player.getY() + 1, player.getZ(),
+                        cowlingPower, 0.3f, 0.5f, 0.3f, 0);
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 2, cowlingPower, true, false));
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.JUMP_BOOST, 2, cowlingPower, true, false));
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, 2, cowlingPower, true, false));
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 2, cowlingPower, true, false));
+                return cowlingPower <= 0;
+            };
+        }
+        if(!playerData.getPassiveAbilities().contains(cowling)) {
+            playerData.getPassiveAbilities().add(cowling);
+        }
+
+    }
+
+    public static AbilityBase getInstance() {
+        return new Cowling();
+    }
+}

@@ -4,8 +4,9 @@ import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.michaeljackson23.mineademia.abilities.AbilityBase;
-import net.michaeljackson23.mineademia.abilities.QuirkAbilities;
+import net.michaeljackson23.mineademia.abilities.Empty;
 import net.michaeljackson23.mineademia.abilities.ofa.AirForce;
+import net.michaeljackson23.mineademia.abilities.ofa.Cowling;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.Text;
 
@@ -39,9 +40,15 @@ public class QuirkInitialize {
         AbilityBase[] abilities = new AbilityBase[5];
 
         if(quirk.equals("One For All")) {
-            abilities[0] = new AirForce();
+            abilities[0] = AirForce.getInstance();
 //            abilities[1] = new Blackwhip();
-//            abilities[4] = QuirkAbilities.COWLING.getValue();
+            abilities[4] = Cowling.getInstance();
+        }
+
+        for (int i = 0; i < abilities.length; i++) {
+            if(abilities[i] == null) {
+                abilities[i] = Empty.getInstance();
+            }
         }
         return abilities;
     }

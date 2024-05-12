@@ -1,6 +1,6 @@
 package net.michaeljackson23.mineademia.init;
 import net.michaeljackson23.mineademia.abilities.AbilityBase;
-import net.michaeljackson23.mineademia.abilities.abilityinit.IAbilityHandler;
+import net.michaeljackson23.mineademia.abilities.abilityinit.PassiveAbility;
 
 import java.util.*;
 
@@ -12,11 +12,17 @@ public class PlayerData {
     private int cooldown = 0;
     private int stamina = 1000;
     //This is for leveling up your quirk, I don't know what I'll use it for yet
-    private List<Integer> quirkStats = new ArrayList<>();
+    private ArrayList<Integer> quirkStats = new ArrayList<>();
+    //Plan to add a more advanced system, that's why I use a queue here.
     private Queue<AbilityBase> abilityQueue = new LinkedList<>();
+    private LinkedList<PassiveAbility> passiveAbilities = new LinkedList<>();
 
     public PlayerData() {
 
+    }
+
+    public LinkedList<PassiveAbility> getPassiveAbilities() {
+        return this.passiveAbilities;
     }
 
     public int getCooldown() {

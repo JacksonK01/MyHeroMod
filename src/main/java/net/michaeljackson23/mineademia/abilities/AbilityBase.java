@@ -15,11 +15,13 @@ public abstract class AbilityBase {
     protected boolean isLoop;
 
     //Declare these variables here, don't add parameters to constructor, it's not needed
-    public AbilityBase() {
-        this.abilityDuration = 0;
-        this.staminaDrain = 0;
-        this.cooldownAdd = 0;
-        this.isLoop = false;
+    protected AbilityBase(int abilityDuration, int staminaDrain, int cooldownAdd, boolean isLoop, String title, String description) {
+        this.abilityDuration = abilityDuration;
+        this.staminaDrain = staminaDrain;
+        this.cooldownAdd = cooldownAdd;
+        this.isLoop = isLoop;
+        this.title = title;
+        this.description = description;
     }
 
     public String getTitle() {
