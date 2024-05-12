@@ -31,16 +31,6 @@ public class Cowling extends AbilityBase {
     protected void activate(ServerPlayerEntity player, PlayerData playerData, MinecraftServer server) {
         if(player.isSneaking() && cowlingPower > 0) {
             cowlingPower--;
-            if(cowlingPower == 0) {
-                player.getWorld().playSound(null, player.getX(), player.getY(), player.getZ(), CustomSounds.COWLING_END_EVENT, SoundCategory.PLAYERS, 1f, 1f);
-                StopSoundS2CPacket stopSoundS2CPacket = new StopSoundS2CPacket(CustomSounds.COWLING_REPEAT_ID, SoundCategory.PLAYERS);
-//                for (ServerPlayerEntity serverPlayerEntity : ) {
-//                    serverPlayerEntity.networkHandler.sendPacket(stopSoundS2CPacket);
-//                }
-//                server.getPlayerManager().getPlayerList().forEach();
-                player.networkHandler.sendPacket(stopSoundS2CPacket);
-
-            }
         } else if(!player.isSneaking() && cowlingPower <= 10){
             cowlingPower++;
             if(cowlingPower == 1) {
@@ -63,13 +53,17 @@ public class Cowling extends AbilityBase {
                 player.addStatusEffect(new StatusEffectInstance(StatusEffects.JUMP_BOOST, 2, cowlingPower, true, false));
                 player.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, 2, cowlingPower, true, false));
                 player.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 2, cowlingPower, true, false));
+                if(cowlingPower == 0) {
+                    player.getWorld().playSound(null, player.getX(), player.getY(), player.getZ(), CustomSounds.COWLING_END_EVENT, SoundCategory.PLAYERS, 1f, 1f);
+                    StopSoundS2CPacket stopSoundS2CPacket = new StopSoundS2CPacket(CustomSounds.COWLING_REPEAT_ID, SoundCategory.PLAYERS);
+                    player.networkHandler.sendPacket(stopSoundS2CPacket);
+                }
                 return cowlingPower <= 0;
             };
         }
         if(!playerData.getPassiveAbilities().contains(cowling)) {
             playerData.getPassiveAbilities().add(cowling);
         }
-
     }
 
     public static AbilityBase getInstance() {
