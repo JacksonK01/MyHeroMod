@@ -22,6 +22,9 @@ public class Cowling extends AbilityBase {
     //etc etc
     int cowlingPower = 0;
     PassiveAbility cowling;
+    int soundCounter = 0;
+    //Sound is about 15 seconds, minecraft has 20 ticks per second, basic math.
+    final int SOUND_COUNT_MAX = 300;
 
     private Cowling() {
         super(1, 0, 5, false, "Cowling", "Add Description");
@@ -46,7 +49,13 @@ public class Cowling extends AbilityBase {
         }
         if(cowling == null) {
             cowling = () -> {
-                player.getWorld().playSound(null, player.getX(), player.getY(), player.getZ(), CustomSounds.COWLING_REPEAT_EVENT, SoundCategory.PLAYERS, 1f, 1f);
+                if(soundCounter == 0) {
+                    player.getWorld().playSound(null, player.getX(), player.getY(), player.getZ(), CustomSounds.COWLING_REPEAT_EVENT, SoundCategory.PLAYERS, 1f, 1f);
+                }
+                soundCounter++;
+                if (soundCounter > SOUND_COUNT_MAX) {
+                    soundCounter = 0;
+                }
                 player.getServerWorld().spawnParticles(ParticleRegister.COWLING_PARTICLES, player.getX(), player.getY() + 1, player.getZ(),
                         cowlingPower, 0.3f, 0.5f, 0.3f, 0);
                 player.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 2, cowlingPower, true, false));
@@ -64,6 +73,11 @@ public class Cowling extends AbilityBase {
         if(!playerData.getPassiveAbilities().contains(cowling)) {
             playerData.getPassiveAbilities().add(cowling);
         }
+    }
+
+    @Override
+    protected void deactivate() {
+        super.deactivate();
     }
 
     public static AbilityBase getInstance() {

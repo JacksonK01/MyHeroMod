@@ -19,7 +19,6 @@ public class AbilitiesTicks {
     //This where the server event checks if the player has an ability active, and whether they need to regenerate stamina, and whether to decrease the cooldown
     //TODO fix this mess
     public static void AbilitiesTickEvent() {
-        PacketByteBuf data = PacketByteBufs.create();
         ServerTickEvents.START_SERVER_TICK.register((server) -> {
             server.execute(() -> {
                 server.getPlayerManager().getPlayerList().forEach((player) -> {
@@ -31,7 +30,6 @@ public class AbilitiesTicks {
                             abilityQueuePointer.remove();
                         }
                     }
-                    //TODO fix this duct tape solution, use an iterator or something
 
                     Iterator<PassiveAbility> passiveAbilityIterator = playerState.getPassiveAbilities().iterator();
                     while (passiveAbilityIterator.hasNext()) {
@@ -58,11 +56,6 @@ public class AbilitiesTicks {
                         dataHud.writeInt(playerState.getCooldown());
                         ServerPlayNetworking.send(player, DEV_HUD_SYNC, dataHud);
                     }
-                    //Sending this info to update the hud
-//                DevQuirkDisplay.playerQuirk = playerState.playerQuirk;
-//                DevQuirkDisplay.abilityOne = playerState.quirkAbilityTimers[0];
-//                DevQuirkDisplay.abilityTwo = playerState.quirkAbilityTimers[1];
-
                 });
             });
         });
