@@ -38,6 +38,7 @@ public class Cowling extends AbilityBase {
             cowlingPower++;
             if(cowlingPower == 1) {
                 player.getWorld().playSound(null, player.getX(), player.getY(), player.getZ(), CustomSounds.COWLING_START_EVENT, SoundCategory.PLAYERS, 1f, 1f);
+                soundCounter = 0;
             }
         }
         if(cowlingPower <= 10) {
@@ -73,11 +74,6 @@ public class Cowling extends AbilityBase {
         if(!playerData.getPassiveAbilities().contains(cowling)) {
             playerData.getPassiveAbilities().add(cowling);
         }
-    }
-
-    @Override
-    protected void deactivate() {
-        super.deactivate();
     }
 
     public static AbilityBase getInstance() {
