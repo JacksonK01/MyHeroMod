@@ -24,7 +24,7 @@ public class AirForce extends AbilityBase {
 
         player.swingHand(player.getActiveHand(), true);
 
-        player.addVelocity(PlayerAngleVector.getPlayerAngleVector(player, -0.5, -0.5));
+        player.setVelocity(PlayerAngleVector.getPlayerAngleVector(player, -0.5, -0.5));
         player.velocityModified = true;
     }
 
