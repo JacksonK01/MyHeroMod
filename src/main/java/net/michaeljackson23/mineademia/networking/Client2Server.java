@@ -5,6 +5,8 @@ import net.michaeljackson23.mineademia.Mineademia;
 import net.michaeljackson23.mineademia.init.PlayerData;
 import net.michaeljackson23.mineademia.init.QuirkInitialize;
 import net.michaeljackson23.mineademia.init.StateSaverAndLoader;
+import net.minecraft.network.PacketByteBuf;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
@@ -23,33 +25,27 @@ public class Client2Server {
 
     public static void registerClientToServerPackets() {
         Mineademia.LOGGER.info("Registering all Client to Server event listeners");
-        //This is the ability one packet
-        ServerPlayNetworking.registerGlobalReceiver(ABILITY_FIVE, (server, player, handler, buf, responseSender) -> {
-            server.execute(() -> {
-                PlayerData playerState = StateSaverAndLoader.getPlayerState(player);
-                if (buf.readBoolean() && playerState.getCooldown() == 0) {
-                    playerState.getAbilityQueue().add(playerState.getAbilities()[4]);
-                }
-            });
-        });
-        ServerPlayNetworking.registerGlobalReceiver(ABILITY_TWO, (server, player, handler, buf, responseSender) -> {
-                    server.execute(() -> {
-                        PlayerData playerState = StateSaverAndLoader.getPlayerState(player);
-//                if(playerState.quirkAbilityTimers[1] == 0) {
-//                    playerState.quirkAbilityTimers[1] = 1;
-//                }
-//                        playerState.quirkAbilityTimers[1] = 1;
 
-                    });
-                });
-        ServerPlayNetworking.registerGlobalReceiver(ABILITY_ONE, (server, player, handler, buf, responseSender) -> {
-            server.execute(() -> {
-                PlayerData playerState = StateSaverAndLoader.getPlayerState(player);
-                if (buf.readBoolean() && playerState.getCooldown() == 0) {
-                    playerState.getAbilityQueue().add(playerState.getAbilities()[0]);
-                }
-            });
+        ServerPlayNetworking.registerGlobalReceiver(ABILITY_FIVE, (server, player, handler, buf, responseSender) -> {
+            server.execute(() -> Client2Server.activateAbility(player, buf, 4));
         });
+
+        ServerPlayNetworking.registerGlobalReceiver(ABILITY_FOUR, (server, player, handler, buf, responseSender) -> {
+            server.execute(() -> Client2Server.activateAbility(player, buf, 3));
+        });
+
+        ServerPlayNetworking.registerGlobalReceiver(ABILITY_THREE, (server, player, handler, buf, responseSender) -> {
+            server.execute(() -> Client2Server.activateAbility(player, buf, 2));
+        });
+
+        ServerPlayNetworking.registerGlobalReceiver(ABILITY_TWO, (server, player, handler, buf, responseSender) -> {
+            server.execute(() -> Client2Server.activateAbility(player, buf, 1));
+        });
+
+        ServerPlayNetworking.registerGlobalReceiver(ABILITY_ONE, (server, player, handler, buf, responseSender) -> {
+            server.execute(() -> Client2Server.activateAbility(player, buf, 0));
+        });
+
         ServerPlayNetworking.registerGlobalReceiver(QUIRKTABLETGUIOPEN, (server, player, handler, buf, responseSender) -> {
             server.execute(() -> {
                 String quirk = buf.readString();
@@ -58,5 +54,17 @@ public class Client2Server {
                 QuirkInitialize.setQuirk(playerState, quirk);
             });
         });
+    }
+
+    //This where the game checks for cooldown and stamina
+    private static void activateAbility(ServerPlayerEntity player, PacketByteBuf buf, int i) {
+        PlayerData playerState = StateSaverAndLoader.getPlayerState(player);
+        boolean isHeld = buf.readBoolean();
+        if (isHeld && playerState.getCooldown() == 0) {
+            playerState.setActiveAbility(playerState.getAbilities()[i]);
+        }
+        if(playerState.getActiveAbility() != null) {
+            playerState.getActiveAbility().setIsCurrentlyHeld(isHeld);
+        }
     }
 }

@@ -23,11 +23,11 @@ public class AbilitiesTicks {
             server.execute(() -> {
                 server.getPlayerManager().getPlayerList().forEach((player) -> {
                     PlayerData playerState = StateSaverAndLoader.getPlayerState(player);
-                    Queue<AbilityBase> abilityQueuePointer = playerState.getAbilityQueue();
-                    if (abilityQueuePointer.peek() != null) {
-                        abilityQueuePointer.peek().execute(player, playerState, server);
-                        if(!abilityQueuePointer.peek().isActive()) {
-                            abilityQueuePointer.remove();
+                    AbilityBase active = playerState.getActiveAbility();
+                    if (active != null) {
+                        active.execute(player, playerState, server);
+                        if (!active.isActive()) {
+                            playerState.setActiveAbility(null);
                         }
                     }
 

@@ -1,0 +1,8 @@
+{
+  "parent": "block/template_glass_pane_side_alt",
+  "textures": {
+    "edge": "quirk:blocks/fake_ice",
+    "pane": "quirk:blocks/fake_ice"
+  },
+  "render_type": "cutout_mipped"
+}

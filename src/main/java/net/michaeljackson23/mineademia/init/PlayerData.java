@@ -7,18 +7,28 @@ import java.util.*;
 public class PlayerData {
     //This is all the information I store onto the player
     private String quirk = "empty";
-    //Cap is 5 abilities for now.
+    //Cap is 5 abilities for now. The order of the array corresponds to the keybinds, like ability one keybind is index 0 and ability 3 is index 4 etc etc...
     private AbilityBase[] abilities = new AbilityBase[5];
+    //This is the ability that will be activated and used in for the server ticks
+    private AbilityBase activeAbility;
     private int cooldown = 0;
     private int stamina = 1000;
     //This is for leveling up your quirk, I don't know what I'll use it for yet
     private ArrayList<Integer> quirkStats = new ArrayList<>();
-    //Plan to add a more advanced system, that's why I use a queue here.
-    private Queue<AbilityBase> abilityQueue = new LinkedList<>();
+    //Bring this back some time
+    //private Queue<AbilityBase> abilityQueue = new LinkedList<>();
     private LinkedList<PassiveAbility> passiveAbilities = new LinkedList<>();
 
     public PlayerData() {
 
+    }
+
+    public AbilityBase getActiveAbility() {
+        return activeAbility;
+    }
+
+    public void setActiveAbility(AbilityBase activeAbility) {
+        this.activeAbility = activeAbility;
     }
 
     public LinkedList<PassiveAbility> getPassiveAbilities() {
@@ -71,8 +81,8 @@ public class PlayerData {
         this.abilities = abilities;
     }
 
-    public Queue<AbilityBase> getAbilityQueue() {
-        return abilityQueue;
-    }
+//    public Queue<AbilityBase> getAbilityQueue() {
+//        return abilityQueue;
+//    }
 
 }

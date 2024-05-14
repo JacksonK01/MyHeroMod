@@ -2,16 +2,49 @@ package net.michaeljackson23.mineademia.abilities.explosion;
 
 import net.michaeljackson23.mineademia.abilities.AbilityBase;
 import net.michaeljackson23.mineademia.init.PlayerData;
+import net.michaeljackson23.mineademia.util.PlayerAngleVector;
+import net.minecraft.entity.EntityPose;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.math.Vec3d;
 
 public class ExplosionDash extends AbilityBase {
-    private ExplosionDash(int abilityDuration, int staminaDrain, int cooldownAdd, boolean isLoop, String title, String description) {
-        super(abilityDuration, staminaDrain, cooldownAdd, isLoop, title, description);
+    int interval = 0;
+    final int MAX_INTERVAL = 20;
+    private ExplosionDash() {
+        super(0, 5, 5, true, "Explosion Dash", "Insert desc");
     }
 
     @Override
     protected void activate(ServerPlayerEntity player, PlayerData playerData, MinecraftServer server) {
+        if(interval == 0) {
+            player.addVelocity(PlayerAngleVector.getPlayerAngleVector(player, 1, 1, 1));
+            player.velocityModified = true;
+            Vec3d playerRotationVec = player.getRotationVec(1.0f);
+            player.getServerWorld().spawnParticles(ParticleTypes.EXPLOSION, player.getX() + playerRotationVec.z, player.getY() + 0.5, player.getZ() - playerRotationVec.x,
+                    1, 0, 0, 0, 0);
+            player.getServerWorld().spawnParticles(ParticleTypes.EXPLOSION, player.getX() - playerRotationVec.z, player.getY() + 0.5, player.getZ() + playerRotationVec.x,
+                    1, 0, 0, 0, 0);
+        } else if(interval >= MAX_INTERVAL) {
+            interval = -1;
+        } else {
+            Vec3d playerRotationVec = player.getRotationVec(1.0f);
+            player.getServerWorld().spawnParticles(ParticleTypes.SMOKE, player.getX() + playerRotationVec.z, player.getY() + 0.5, player.getZ() - playerRotationVec.x,
+                    1, 0, 0, 0, 0);
+            player.getServerWorld().spawnParticles(ParticleTypes.SMOKE, player.getX() - playerRotationVec.z, player.getY() + 0.5, player.getZ() + playerRotationVec.x,
+                    1, 0, 0, 0, 0);
+        }
+        interval++;
+    }
 
+    @Override
+    protected void deactivate() {
+        super.deactivate();
+        interval = 0;
+    }
+
+    public static AbilityBase getInstance() {
+        return new ExplosionDash();
     }
 }

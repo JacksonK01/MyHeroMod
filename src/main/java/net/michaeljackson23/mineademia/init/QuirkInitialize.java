@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.michaeljackson23.mineademia.abilities.AbilityBase;
 import net.michaeljackson23.mineademia.abilities.Empty;
+import net.michaeljackson23.mineademia.abilities.explosion.ExplosionDash;
 import net.michaeljackson23.mineademia.abilities.ofa.AirForce;
 import net.michaeljackson23.mineademia.abilities.ofa.Cowling;
 import net.minecraft.network.PacketByteBuf;
@@ -43,6 +44,8 @@ public class QuirkInitialize {
             abilities[0] = AirForce.getInstance();
 //            abilities[1] = new Blackwhip();
             abilities[4] = Cowling.getInstance();
+        } else if(quirk.equals("Explosion")) {
+            abilities[2] = ExplosionDash.getInstance();
         }
 
         for (int i = 0; i < abilities.length; i++) {

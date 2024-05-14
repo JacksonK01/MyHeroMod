@@ -1,0 +1,8 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "quirk:blocks/tungsten_block",
+    "particle": "quirk:blocks/tungsten_block"
+  },
+  "render_type": "solid"
+}

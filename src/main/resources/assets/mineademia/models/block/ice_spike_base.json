@@ -1,0 +1,9 @@
+{
+  "parent": "quirk:custom/ice_spike_base",
+  "textures": {
+    "all": "quirk:blocks/fake_ice",
+    "particle": "quirk:blocks/fake_ice",
+    "0": "quirk:blocks/fake_ice"
+  },
+  "render_type": "translucent"
+}

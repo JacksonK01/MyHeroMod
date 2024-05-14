@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "axis=z": {
+      "model": "mineademia:block/dystopia_portal_ew"
+    },
+    "axis=x": {
+      "model": "mineademia:block/dystopia_portal_ns"
+    }
+  }
+}

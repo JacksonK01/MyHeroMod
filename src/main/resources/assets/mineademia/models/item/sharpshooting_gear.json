@@ -1,0 +1,7 @@
+{
+  "parent": "quirk:custom/sharpshoot",
+  "textures": {
+    "0": "quirk:blocks/electrificationshooter",
+    "particle": "quirk:items/electrificationshooter"
+  }
+}
