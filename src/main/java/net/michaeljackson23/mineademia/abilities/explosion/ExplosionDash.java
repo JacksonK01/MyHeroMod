@@ -21,19 +21,14 @@ public class ExplosionDash extends AbilityBase {
 
     @Override
     protected void activate(ServerPlayerEntity player, PlayerData playerData, MinecraftServer server) {
-        double pitch = ((player.getPitch() + 90) * Math.PI) / 180;
-        double yaw = ((player.getYaw() + 90) * Math.PI)/ 180;
-        double x = Math.cos(yaw) ;
-        double y = Math.sin(pitch);
-        double z = Math.sin(yaw);
+        Vec3d playerRotationVec = player.getRotationVec(1.0f).normalize();
         player.getServerWorld().spawnParticles(ParticleTypes.SMOKE,
-                player.getX() + z*.5, player.getY() + 0.7, player.getZ() - x*.5,
+                player.getX() + playerRotationVec.z * 2, player.getY() + 0.5, player.getZ() - playerRotationVec.x * 2,
                 1, 0, 0, 0, 0);
 
         player.getServerWorld().spawnParticles(ParticleTypes.SMOKE,
-                player.getX() - z*.5, player.getY() + 0.7, player.getZ() + x*.5,
+                player.getX() - playerRotationVec.z * 2, player.getY() + 0.5, player.getZ() + playerRotationVec.x * 2,
                 1, 0, 0, 0, 0);
-
         interval++;
     }
 
