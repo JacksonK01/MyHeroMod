@@ -23,7 +23,6 @@ public class Blackwhip extends AbilityBase {
 
     @Override
     protected void activate(ServerPlayerEntity player, PlayerData playerData, MinecraftServer server) {
-        player.sendMessage(Text.literal("Blackwhip"));
         if (blockHit == null) {
             this.blockHit = player.raycast(DISTANCE, 1.0f, false);
         }
@@ -47,6 +46,7 @@ public class Blackwhip extends AbilityBase {
 
     @Override
     protected void deactivate() {
+        super.deactivate();
         this.entityHit = null;
         this.blockHit = null;
     }
