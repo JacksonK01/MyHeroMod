@@ -1,11 +1,8 @@
 package net.michaeljackson23.mineademia.abilities.ofa;
 
-import net.fabricmc.loader.impl.lib.sat4j.core.Vec;
 import net.michaeljackson23.mineademia.abilities.AbilityBase;
 import net.michaeljackson23.mineademia.abilities.abilityinit.PassiveAbility;
 import net.michaeljackson23.mineademia.init.PlayerData;
-import net.michaeljackson23.mineademia.util.PlayerAngleVector;
-import net.minecraft.block.Block;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
