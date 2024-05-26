@@ -1,0 +1,15 @@
+{
+    "structures": [
+        {
+            "structure": "mineademia:city",
+            "weight": 1
+        }
+    ],
+    "placement": {
+        "salt": 38924675982,
+        "spacing": 120,
+        "separation": 76,
+        "type": "random_spread",
+        "spread_type": "triangular"
+    }
+}
