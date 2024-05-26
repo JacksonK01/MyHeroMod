@@ -17,7 +17,7 @@ public class PlayerData {
     private ArrayList<Integer> quirkStats = new ArrayList<>();
     //Bring this back some time
     //private Queue<AbilityBase> abilityQueue = new LinkedList<>();
-    private LinkedList<PassiveAbility> passiveAbilities = new LinkedList<>();
+    private LinkedList<PassiveAbility> passives = new LinkedList<>();
 
     public PlayerData() {
 
@@ -31,8 +31,8 @@ public class PlayerData {
         this.activeAbility = activeAbility;
     }
 
-    public LinkedList<PassiveAbility> getPassiveAbilities() {
-        return this.passiveAbilities;
+    public LinkedList<PassiveAbility> getPassives() {
+        return this.passives;
     }
 
     public int getCooldown() {

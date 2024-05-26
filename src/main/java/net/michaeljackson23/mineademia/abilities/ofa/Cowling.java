@@ -5,15 +5,12 @@ import net.michaeljackson23.mineademia.abilities.abilityinit.PassiveAbility;
 import net.michaeljackson23.mineademia.init.PlayerData;
 import net.michaeljackson23.mineademia.particles.ParticleRegister;
 import net.michaeljackson23.mineademia.sound.CustomSounds;
-import net.minecraft.client.sound.TickableSoundInstance;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.network.packet.s2c.play.StopSoundS2CPacket;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 
 public class Cowling extends AbilityBase {
@@ -71,8 +68,8 @@ public class Cowling extends AbilityBase {
                 return cowlingPower <= 0;
             };
         }
-        if(!playerData.getPassiveAbilities().contains(cowling)) {
-            playerData.getPassiveAbilities().add(cowling);
+        if(!playerData.getPassives().contains(cowling)) {
+            playerData.getPassives().add(cowling);
         }
     }
 

@@ -11,7 +11,6 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.Text;
 
 import java.util.Iterator;
-import java.util.Queue;
 
 import static net.michaeljackson23.mineademia.hud.DevHudElements.DEV_HUD_SYNC;
 
@@ -31,7 +30,7 @@ public class AbilitiesTicks {
                         }
                     }
 
-                    Iterator<PassiveAbility> passiveAbilityIterator = playerState.getPassiveAbilities().iterator();
+                    Iterator<PassiveAbility> passiveAbilityIterator = playerState.getPassives().iterator();
                     while (passiveAbilityIterator.hasNext()) {
                         PassiveAbility next = passiveAbilityIterator.next();
                         if(next.activate()) {
