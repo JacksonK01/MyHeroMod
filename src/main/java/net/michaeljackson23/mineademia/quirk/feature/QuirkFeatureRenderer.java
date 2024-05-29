@@ -1,10 +1,10 @@
-package net.michaeljackson23.mineademia.quirk.models;
+package net.michaeljackson23.mineademia.quirk.feature;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.michaeljackson23.mineademia.Mineademia;
-import net.michaeljackson23.mineademia.armor.deku.gamma.model.GammaSuitModel;
+import net.michaeljackson23.mineademia.quirk.feature.models.EnginesModel;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.OverlayTexture;
@@ -13,14 +13,11 @@ import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.feature.FeatureRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
-import net.minecraft.client.render.entity.model.AnimalModel;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ArmorItem;
 import net.minecraft.util.Identifier;
-import org.jetbrains.annotations.Nullable;
 
 @Environment(value= EnvType.CLIENT)
 public class QuirkFeatureRenderer <T extends LivingEntity, M extends BipedEntityModel<T>>
@@ -42,11 +39,11 @@ public class QuirkFeatureRenderer <T extends LivingEntity, M extends BipedEntity
 
     @Override
     public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, T entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
-//        enginesModel.setEnginesVisible(true);
-//        enginesModel.setEnginesFireVisible(true);
-//        VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityCutoutNoCull(ENGINE_TEXTURE));
-//        playerContext.getModel().copyBipedStateTo(enginesModel);
-//        enginesModel.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, 1.0f, 1.0f, 1.0f, 1.0f);
+        enginesModel.setEnginesVisible(true);
+        enginesModel.setEnginesFireVisible(false);
+        VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityCutoutNoCull(ENGINE_TEXTURE));
+        playerContext.getModel().copyBipedStateTo(enginesModel);
+        enginesModel.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, 1.0f, 1.0f, 1.0f, 1.0f);
     }
 
     private void getTexture() {

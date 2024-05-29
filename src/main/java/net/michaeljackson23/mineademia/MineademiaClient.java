@@ -10,7 +10,7 @@ import net.michaeljackson23.mineademia.networking.Server2Client;
 import net.michaeljackson23.mineademia.entity.EntityRegister;
 import net.michaeljackson23.mineademia.keybinds.Keybinds;
 import net.michaeljackson23.mineademia.particles.ParticleRegister;
-import net.michaeljackson23.mineademia.quirk.models.QuirkFeatureRenderer;
+import net.michaeljackson23.mineademia.quirk.feature.QuirkFeatureRenderer;
 
 public class MineademiaClient implements ClientModInitializer {
 
