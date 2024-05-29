@@ -1,7 +1,7 @@
 package net.michaeljackson23.mineademia.init;
 
 import net.michaeljackson23.mineademia.Mineademia;
-import net.minecraft.entity.LivingEntity;
+import net.michaeljackson23.mineademia.quirk.QuirkInitialize;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -21,8 +21,7 @@ public class StateSaverAndLoader extends PersistentState {
         players.forEach((uuid, playerData) -> {
             NbtCompound playerNbt = new NbtCompound();
 
-            playerNbt.putString("playerQuirk", playerData.getQuirk());
-            playerNbt.putIntArray("quirkStats", playerData.getQuirkStats());
+            playerNbt.putString("playerQuirk", playerData.getQuirk().getName());
 
             playersNbt.put(uuid.toString(), playerNbt);
         });
@@ -33,16 +32,13 @@ public class StateSaverAndLoader extends PersistentState {
 
     public static StateSaverAndLoader createFromNbt(NbtCompound tag) {
         StateSaverAndLoader state = new StateSaverAndLoader();
-
-        //I think we are grabbing the information from line 42, using mapping and the key is "players"
         NbtCompound playersNbt = tag.getCompound("players");
         playersNbt.getKeys().forEach(key -> {
             PlayerData playerData = new PlayerData();
 
-            //I don't really know whats going on here, we are setting the varaible we created to the nbt from the player
-            playerData.setQuirk(playersNbt.getCompound(key).getString("playerQuirk"));
+            String quirk = playersNbt.getCompound(key).getString("playerQuirk");
+            QuirkInitialize.setQuirkWithString(playerData, quirk);
 
-            //This finds the player to add the nbt to
             UUID uuid = UUID.fromString(key);
             state.players.put(uuid, playerData);
         });
@@ -50,9 +46,9 @@ public class StateSaverAndLoader extends PersistentState {
     }
 
     private static Type<StateSaverAndLoader> type = new Type<>(
-            StateSaverAndLoader::new, // If there's no 'StateSaverAndLoader' yet create one
-            StateSaverAndLoader::createFromNbt, // If there is a 'StateSaverAndLoader' NBT, parse it with 'createFromNbt'
-            null // Supposed to be an 'DataFixTypes' enum, but we can just pass null
+            StateSaverAndLoader::new,
+            StateSaverAndLoader::createFromNbt,
+            null
     );
 
     public static StateSaverAndLoader getServerState(MinecraftServer server) {
@@ -65,11 +61,11 @@ public class StateSaverAndLoader extends PersistentState {
         return state;
     }
 
-    //This can only be called serverside
+
     public static PlayerData getPlayerState(ServerPlayerEntity player) {
         StateSaverAndLoader serverState = getServerState(player.getWorld().getServer());
 
-        // Either get the player by the uuid, or we don't have data for him yet, make a new player state
+
         PlayerData playerState = serverState.players.computeIfAbsent(player.getUuid(), uuid -> new PlayerData());
 
         return playerState;

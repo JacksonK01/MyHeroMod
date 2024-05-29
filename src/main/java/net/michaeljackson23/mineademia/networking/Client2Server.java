@@ -3,7 +3,8 @@ package net.michaeljackson23.mineademia.networking;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.michaeljackson23.mineademia.Mineademia;
 import net.michaeljackson23.mineademia.init.PlayerData;
-import net.michaeljackson23.mineademia.init.QuirkInitialize;
+import net.michaeljackson23.mineademia.quirk.Quirk;
+import net.michaeljackson23.mineademia.quirk.QuirkInitialize;
 import net.michaeljackson23.mineademia.init.StateSaverAndLoader;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -50,8 +51,8 @@ public class Client2Server {
             server.execute(() -> {
                 String quirk = buf.readString();
                 PlayerData playerState = StateSaverAndLoader.getPlayerState(player);
-                player.sendMessage(Text.literal("Changed quirk to "+quirk));
-                QuirkInitialize.setQuirk(playerState, quirk);
+                player.sendMessage(Text.literal("Changed quirk to " + quirk));
+                QuirkInitialize.setQuirkWithString(playerState, quirk);
             });
         });
     }
@@ -59,12 +60,13 @@ public class Client2Server {
     //This where the game checks for cooldown and stamina
     private static void activateAbility(ServerPlayerEntity player, PacketByteBuf buf, int i) {
         PlayerData playerState = StateSaverAndLoader.getPlayerState(player);
+        Quirk quirkPointer = playerState.getQuirk();
         boolean isHeld = buf.readBoolean();
-        if (isHeld && playerState.getCooldown() == 0) {
-            playerState.setActiveAbility(playerState.getAbilities()[i]);
+        if (isHeld && quirkPointer.getCooldown() == 0) {
+            quirkPointer.setActiveAbility(quirkPointer.getAbilities()[i]);
         }
-        if(playerState.getActiveAbility() != null) {
-            playerState.getActiveAbility().setIsCurrentlyHeld(isHeld);
+        if(quirkPointer.getActiveAbility() != null) {
+            quirkPointer.getActiveAbility().setIsCurrentlyHeld(isHeld);
         }
     }
 }

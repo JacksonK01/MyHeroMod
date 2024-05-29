@@ -15,7 +15,7 @@ import static net.michaeljackson23.mineademia.networking.Client2Server.*;
 
 public class DevHudElements {
     public static String quirk;
-    public static int stamina;
+    public static double stamina;
     public static int cooldown;
 
     public static final Identifier DEV_HUD_SYNC = new Identifier(Mineademia.Mod_id, "dev_hud_sync");
@@ -24,7 +24,7 @@ public class DevHudElements {
         ClientPlayNetworking.registerGlobalReceiver(DEV_HUD_SYNC, (client, handler, buf, responseSender) -> {
             client.execute(() -> {
                 quirk = buf.readString();
-                stamina = buf.readInt();
+                stamina = buf.readDouble();
                 cooldown = buf.readInt();
             });
         });

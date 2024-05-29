@@ -19,9 +19,13 @@ public class CustomSounds {
     public static final Identifier COWLING_REPEAT_ID = new Identifier(Mineademia.Mod_id, "cowling_repeat");
     public static SoundEvent COWLING_REPEAT_EVENT = SoundEvent.of(COWLING_REPEAT_ID);
 
+    public static final Identifier MHA_FIRE_ID = new Identifier(Mineademia.Mod_id, "fire_sound_effect");
+    public static SoundEvent MHA_FIRE_EVENT = SoundEvent.of(MHA_FIRE_ID);
+
     public static void register() {
         Registry.register(Registries.SOUND_EVENT, COWLING_START_ID, COWLING_START_EVENT);
         Registry.register(Registries.SOUND_EVENT, COWLING_END_ID, COWLING_END_EVENT);
         Registry.register(Registries.SOUND_EVENT, COWLING_REPEAT_ID, COWLING_REPEAT_EVENT);
+        Registry.register(Registries.SOUND_EVENT, MHA_FIRE_ID, MHA_FIRE_EVENT);
     }
 }

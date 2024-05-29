@@ -1,7 +1,0 @@
-{
-  "parent": "quirk:custom/desert_eagle",
-  "textures": {
-    "0": "quirk:blocks/desert_eagle",
-    "particle": "quirk:items/desert_eagle"
-  }
-}

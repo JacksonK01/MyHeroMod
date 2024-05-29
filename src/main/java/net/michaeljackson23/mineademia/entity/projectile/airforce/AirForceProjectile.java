@@ -30,6 +30,7 @@ public class AirForceProjectile extends ThrownItemEntity {
     protected Item getDefaultItem() {
         return Items.AIR.asItem();
     }
+
     public AirForceProjectile(EntityType<? extends ThrownItemEntity> entityType, World world) {
         super(entityType, world);
     }
@@ -39,28 +40,23 @@ public class AirForceProjectile extends ThrownItemEntity {
     }
 
     public AirForceProjectile(World world, double x, double y, double z) {
-        super(EntityRegister.AIR_FORCE_PROJECTILE, x, y, z, world); // null will be changed later
+        super(EntityRegister.AIR_FORCE_PROJECTILE, x, y, z, world);
     }
 
     public void tick() {
         super.tick();
         this.getWorld().addParticle(ParticleTypes.END_ROD, true, this.getX(), this.getY(), this.getZ(), 0, 0, 0);
-        PlaceParticleInWorld.run(this.getWorld(), ParticleTypes.EXPLOSION, this.getX(), this.getY(), this.getZ(), 1, 1, 1, 3);
+        PlaceParticleInWorld.spawn(this.getWorld(), ParticleTypes.EXPLOSION, this.getX(), this.getY(), this.getZ(), 1, 1, 1, 3);
         this.setNoGravity(true);
         timer++;
-        if(timer >= 40) {
+        if(timer > 40) {
             this.kill();
         }
     }
 
     protected void onEntityHit(EntityHitResult entityHitResult) { // called on entity hit.
         super.onEntityHit(entityHitResult);
-        Entity entity = entityHitResult.getEntity(); // sets a new Entity instance as the EntityHitResult (victim)
-//        int i = entity instanceof BlazeEntity ? 3 : 0; // sets i to 3 if the Entity instance is an instance of BlazeEntity
-//        DamageType damageType = new DamageType("Damage", DamageScaling.ALWAYS, 2f, DamageEffects.HURT, DeathMessageType.DEFAULT);
-//        DamageSource damageSource = new DamageSource(RegistryEntry.of(damageType));
-//        entity.damage(damageSource, 5f);
-
+        Entity entity = entityHitResult.getEntity();
         if (entity instanceof LivingEntity livingEntity) { // checks if entity is an instance of LivingEntity (meaning it is not a boat or minecart)
             livingEntity.playSound(SoundEvents.BLOCK_ANVIL_HIT, 2F, 1F); // plays a sound for the entity hit only
         }

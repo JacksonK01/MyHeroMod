@@ -15,18 +15,9 @@ public class Server2Client {
     //This class is when the client needs to listen for a packet sent by the server
     public static final Identifier INITIAL_SYNC = new Identifier(Mineademia.Mod_id, "initial_sync");
     public static final Identifier QUIRK_TABLET_GUI = new Identifier(Mineademia.Mod_id, "quirk_tablet_gui");
-    public static final Identifier CHANGED_QUIRK = new Identifier(Mineademia.Mod_id, "quirk_tablet_gui");
 
     public static void registerServerToClientPackets() {
         Mineademia.LOGGER.info("Registering all Server to Client event listener");
-        ClientPlayNetworking.registerGlobalReceiver(INITIAL_SYNC, (client, handler, buf, responseSender) -> {
-            String quirk = buf.readString();
-
-            client.execute(() -> {
-                client.player.sendMessage(Text.literal("Initialized Quirk: "+quirk));
-            });
-        });
-        //When the button is pressed on the tablet, it sends this packet for functionality
         ClientPlayNetworking.registerGlobalReceiver(QUIRK_TABLET_GUI, (client, handler, buf, responseSender) -> {
             client.execute(() -> {
                 QuirkTabletGui quirkTabletGui = new QuirkTabletGui(Text.literal("Quirk Tablet"));

@@ -1,22 +1,11 @@
 package net.michaeljackson23.mineademia.hud;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
-import net.michaeljackson23.mineademia.init.PlayerData;
-import net.michaeljackson23.mineademia.init.StateSaverAndLoader;
-import net.michaeljackson23.mineademia.networking.Client2Server;
-import net.michaeljackson23.mineademia.networking.Server2Client;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtString;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
-
-import java.util.Objects;
 
 @Environment(EnvType.CLIENT)
 public class DevQuirkDisplay {

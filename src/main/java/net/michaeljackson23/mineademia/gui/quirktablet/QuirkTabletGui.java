@@ -15,8 +15,10 @@ public class QuirkTabletGui extends Screen {
     public QuirkTabletGui(Text title) {
         super(title);
     }
-    public ButtonWidget ofa;
-    public ButtonWidget explosion;
+    private ButtonWidget ofa;
+    private ButtonWidget explosion;
+    private ButtonWidget hchh;
+    private ButtonWidget whirlwind;
 
     @Override
     protected void init() {
@@ -37,8 +39,28 @@ public class QuirkTabletGui extends Screen {
                 .tooltip(Tooltip.of(Text.literal("changes quirk")))
                 .build();
 
+        hchh = ButtonWidget.builder(Text.literal("Hchh"), button -> {
+                    PacketByteBuf data = PacketByteBufs.create();
+                    data.writeString("Half-Cold Half-Hot");
+                    ClientPlayNetworking.send(Client2Server.QUIRKTABLETGUIOPEN, data);
+                })
+                .dimensions(width / 2 - 205, 40, 200, 20)
+                .tooltip(Tooltip.of(Text.literal("changes quirk")))
+                .build();
+
+        whirlwind = ButtonWidget.builder(Text.literal("Whirlwind"), button -> {
+                    PacketByteBuf data = PacketByteBufs.create();
+                    data.writeString("Whirlwind");
+                    ClientPlayNetworking.send(Client2Server.QUIRKTABLETGUIOPEN, data);
+                })
+                .dimensions(width / 2 + 5, 40, 200, 20)
+                .tooltip(Tooltip.of(Text.literal("changes quirk")))
+                .build();
+
         addDrawableChild(ofa);
         addDrawableChild(explosion);
+        addDrawableChild(hchh);
+        addDrawableChild(whirlwind);
     }
 
     public boolean shouldPause() {

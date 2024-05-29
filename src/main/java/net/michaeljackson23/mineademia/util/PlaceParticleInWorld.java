@@ -9,7 +9,7 @@ import java.util.Random;
 
 public class PlaceParticleInWorld {
     //This is creating a similar effect to the command
-    public static void run(World world, ParticleEffect type, double x, double y, double z, int dx, int dy, int dz, int amount) {
+    public static void spawn(World world, ParticleEffect type, double x, double y, double z, double dx, double dy, double dz, int amount) {
         for (int counter = 0; counter < amount; counter++) {
 
             Random random = new Random();
