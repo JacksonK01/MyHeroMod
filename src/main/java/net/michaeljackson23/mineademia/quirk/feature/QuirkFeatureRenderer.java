@@ -4,6 +4,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.michaeljackson23.mineademia.Mineademia;
+import net.michaeljackson23.mineademia.hud.DevHudElements;
 import net.michaeljackson23.mineademia.quirk.feature.models.EnginesModel;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.model.ModelPart;
@@ -39,8 +40,8 @@ public class QuirkFeatureRenderer <T extends LivingEntity, M extends BipedEntity
 
     @Override
     public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, T entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
-        enginesModel.setEnginesVisible(true);
-        enginesModel.setEnginesFireVisible(false);
+        enginesModel.setEnginesVisible(DevHudElements.quirk.equals("Electrification"));
+        enginesModel.setEnginesFireVisible(DevHudElements.cooldown > 0 && DevHudElements.quirk.equals("Electrification"));
         VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityCutoutNoCull(ENGINE_TEXTURE));
         playerContext.getModel().copyBipedStateTo(enginesModel);
         enginesModel.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, 1.0f, 1.0f, 1.0f, 1.0f);

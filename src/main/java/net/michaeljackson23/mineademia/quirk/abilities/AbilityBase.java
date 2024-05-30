@@ -69,9 +69,18 @@ public abstract class AbilityBase {
                 deactivate();
                 return;
             }
-            applyCooldownAndStamina(quirk);
+            if(isHoldable) {
+                quirk.setCooldown(quirk.getCooldown() + cooldownAdd);
+            } else {
+                applyCooldownAndStamina(quirk);
+            }
             hasInit = true;
         }
+
+        if(isHoldable) {
+            quirk.setStamina(quirk.getStamina() - staminaDrain);
+        }
+
         timer++;
         if(executeCondition()) {
             activate(player, quirk);

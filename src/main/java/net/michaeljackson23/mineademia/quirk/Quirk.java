@@ -69,6 +69,10 @@ public abstract class Quirk {
         return this.passives;
     }
 
+    public void addPassive(PassiveAbility passive) {
+        this.passives.add(passive);
+    }
+
     public int getCooldown() {
         return cooldown;
     }
