@@ -13,7 +13,18 @@ public class ExplosionDash extends AbilityBase {
     final int MAX_INTERVAL = 20;
 
     int velocityCounter = 0;
-    PassiveAbility particlesPassive;
+    PassiveAbility particlesPassive = (player, quirk) -> {
+        if(interval <= 0) {
+            interval = 0;
+            return true;
+        }
+        interval--;
+        spawnParticlesUnderHands(player, ParticleTypes.SMOKE);
+
+
+        return false;
+    };
+
     public ExplosionDash() {
         super(0, 5, 5, true, "Explosion Dash", "Insert desc");
     }
@@ -21,20 +32,7 @@ public class ExplosionDash extends AbilityBase {
     @Override
     protected void activate(ServerPlayerEntity player, Quirk quirk) {
         interval = 10;
-        if(particlesPassive == null) {
-            particlesPassive = () -> {
-                if(interval <= 0) {
-                    interval = 0;
-                    return true;
-                }
-                interval--;
-                spawnParticlesUnderHands(player, ParticleTypes.SMOKE);
-
-
-                return false;
-            };
-            quirk.addPassive(particlesPassive);
-        }
+        quirk.addPassive(particlesPassive);
         velocityCounter++;
         if(velocityCounter >= 5) {
             spawnParticlesUnderHands(player, ParticleTypes.EXPLOSION);
@@ -61,10 +59,8 @@ public class ExplosionDash extends AbilityBase {
     }
 
     @Override
-    protected void deactivate() {
-        super.deactivate();
-        particlesPassive = null;
+    protected void deactivate(ServerPlayerEntity player, Quirk quirk) {
+        super.deactivate(player, quirk);
         velocityCounter = 0;
     }
-
 }

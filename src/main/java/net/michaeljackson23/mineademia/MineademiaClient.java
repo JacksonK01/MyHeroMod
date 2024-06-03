@@ -6,18 +6,21 @@ import net.michaeljackson23.mineademia.armor.CustomArmorModelRenderer;
 import net.michaeljackson23.mineademia.blocks.BlockRegister;
 import net.michaeljackson23.mineademia.hud.DevHudElements;
 import net.michaeljackson23.mineademia.hud.DevQuirkDisplay;
-import net.michaeljackson23.mineademia.networking.Server2Client;
 import net.michaeljackson23.mineademia.entity.EntityRegister;
 import net.michaeljackson23.mineademia.keybinds.Keybinds;
+import net.michaeljackson23.mineademia.networking.Networking;
 import net.michaeljackson23.mineademia.particles.ParticleRegister;
 import net.michaeljackson23.mineademia.quirk.feature.QuirkFeatureRenderer;
+import net.minecraft.client.MinecraftClient;
 
 public class MineademiaClient implements ClientModInitializer {
 
     //Only client related elements go here. Such as actions on keybind press or entity rendering.
     @Override
     public void onInitializeClient() {
-        Server2Client.registerServerToClientPackets();
+        MinecraftClient client = MinecraftClient.getInstance();
+        Networking.registerClient();
+        Keybinds.keysRegister();
         CustomArmorModelRenderer.register();
         QuirkFeatureRenderer.register();
         BlockRegister.render();
@@ -26,6 +29,5 @@ public class MineademiaClient implements ClientModInitializer {
         DevQuirkDisplay.register();
         ParticleRegister.registerClient();
         AnimationRegister.register();
-        DevHudElements.UpdateHudElements();
     }
 }

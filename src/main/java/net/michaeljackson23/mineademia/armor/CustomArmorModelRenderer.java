@@ -3,11 +3,9 @@ package net.michaeljackson23.mineademia.armor;
 import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderer;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.michaeljackson23.mineademia.Mineademia;
-import net.michaeljackson23.mineademia.armor.deku.gamma.GammaMaterial;
 import net.michaeljackson23.mineademia.armor.deku.gamma.model.GammaSuitModel;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.model.ModelPart;
-import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
@@ -23,8 +21,8 @@ public class CustomArmorModelRenderer {
     }
 
     private static void registerArmorRenderers(String nameOfModel, Function<ModelPart, AbstractArmorModel<LivingEntity>> modelConstructor, ItemConvertible... items) {
-        Identifier modelTexture = new Identifier(Mineademia.Mod_id, "/textures/armor/" + nameOfModel + ".png");
-        Identifier model_id = new Identifier(Mineademia.Mod_id, nameOfModel);
+        Identifier modelTexture = new Identifier(Mineademia.MOD_ID, "/textures/armor/" + nameOfModel + ".png");
+        Identifier model_id = new Identifier(Mineademia.MOD_ID, nameOfModel);
         EntityModelLayer modelLayer = new EntityModelLayer(model_id, "main");
         EntityModelLayerRegistry.registerModelLayer(modelLayer, GammaSuitModel::getTexturedModelData);
 

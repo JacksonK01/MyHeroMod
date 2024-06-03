@@ -9,7 +9,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 public class AirForce extends AbilityBase {
 
     public AirForce() {
-        super(1, 10, 10, false, "Air Force", "The user flicks their fingers and creates intense wind pressure");
+        super(1, 100, 5, false, "Air Force", "The user flicks their fingers and creates intense wind pressure");
     }
 
     @Override

@@ -8,6 +8,7 @@ import net.michaeljackson23.mineademia.util.QuirkDamage;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.Vec3d;
 
@@ -22,6 +23,7 @@ public class FlameThrower extends AbilityBase {
     protected void activate(ServerPlayerEntity player, Quirk quirk) {
         if(!didPlaySound) {
             player.getServerWorld().playSound(null, player.getX(), player.getY(), player.getZ(), CustomSounds.MHA_FIRE_EVENT, SoundCategory.PLAYERS, 1f, 1f);
+            player.getServerWorld().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.BLOCK_FIRE_AMBIENT, SoundCategory.PLAYERS, 2f, 1f);
             didPlaySound = true;
         }
         player.swingHand(Hand.OFF_HAND, true);
@@ -50,8 +52,8 @@ public class FlameThrower extends AbilityBase {
     }
 
     @Override
-    protected void deactivate() {
-        super.deactivate();
+    protected void deactivate(ServerPlayerEntity player, Quirk quirk) {
+        super.deactivate(player, quirk);
         didPlaySound = false;
     }
 }

@@ -2,7 +2,6 @@ package net.michaeljackson23.mineademia.armor;
 
 import net.michaeljackson23.mineademia.Mineademia;
 import net.michaeljackson23.mineademia.armor.deku.gamma.GammaMaterial;
-import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
@@ -25,6 +24,6 @@ public class ArmorRegister {
     }
 
     private static void addToItemRegistry(String id, Item item) {
-        Registry.register(Registries.ITEM, new Identifier(Mineademia.Mod_id, id), item);
+        Registry.register(Registries.ITEM, new Identifier(Mineademia.MOD_ID, id), item);
     }
 }

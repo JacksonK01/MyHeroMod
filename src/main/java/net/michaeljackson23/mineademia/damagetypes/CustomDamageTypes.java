@@ -9,7 +9,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
 public class CustomDamageTypes {
-    public static final RegistryKey<DamageType> QUIRK_DAMAGE = RegistryKey.of(RegistryKeys.DAMAGE_TYPE, new Identifier(Mineademia.Mod_id, "quirk_damage_type"));
+    public static final RegistryKey<DamageType> QUIRK_DAMAGE = RegistryKey.of(RegistryKeys.DAMAGE_TYPE, new Identifier(Mineademia.MOD_ID, "quirk_damage_type"));
 
     public static DamageSource of(World world, RegistryKey<DamageType> key) {
         return new DamageSource(world.getRegistryManager().get(RegistryKeys.DAMAGE_TYPE).entryOf(key));

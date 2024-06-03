@@ -1,4 +1,14 @@
 {
+  "griddy": {
+    "category": "master",
+    "subtitle": "subtitles.griddy",
+    "sounds": [
+      {
+        "name": "mineademia:griddy",
+        "stream": false
+      }
+    ]
+  },
   "electricity_1": {
     "category": "master",
     "subtitle": "subtitles.electricity_1",

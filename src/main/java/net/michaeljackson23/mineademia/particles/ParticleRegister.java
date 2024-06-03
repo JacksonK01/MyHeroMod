@@ -3,7 +3,6 @@ package net.michaeljackson23.mineademia.particles;
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 import net.michaeljackson23.mineademia.Mineademia;
 import net.michaeljackson23.mineademia.particles.Custom.CowlingFactory;
-import net.minecraft.client.particle.GlowParticle;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.registry.Registries;
@@ -14,7 +13,7 @@ public class ParticleRegister{
     public static final DefaultParticleType COWLING_PARTICLES = FabricParticleTypes.simple();
 
     public static void register() {
-        Registry.register(Registries.PARTICLE_TYPE, new Identifier(Mineademia.Mod_id, "cowling_particles"), COWLING_PARTICLES);
+        Registry.register(Registries.PARTICLE_TYPE, new Identifier(Mineademia.MOD_ID, "cowling_particles"), COWLING_PARTICLES);
     }
 
     public static void registerClient() {

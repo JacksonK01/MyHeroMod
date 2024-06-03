@@ -2,12 +2,9 @@ package net.michaeljackson23.mineademia.quirk.feature;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
-import net.michaeljackson23.mineademia.Mineademia;
 import net.michaeljackson23.mineademia.hud.DevHudElements;
 import net.michaeljackson23.mineademia.quirk.feature.models.EnginesModel;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
@@ -15,43 +12,57 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.feature.FeatureRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
-import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.Identifier;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+@SuppressWarnings("unchecked")
 @Environment(value= EnvType.CLIENT)
 public class QuirkFeatureRenderer <T extends LivingEntity, M extends BipedEntityModel<T>>
         extends FeatureRenderer<T, M> {
-
-    EnginesModel<T> enginesModel;
     FeatureRendererContext<T, M> playerContext;
-    public static final Identifier ENGINE_TEXTURE = new Identifier(Mineademia.Mod_id, "textures/features/engines_model.png");
-    public static final Identifier ENGINES_ID = new Identifier(Mineademia.Mod_id, "engines");
-    public static final EntityModelLayer ENGINES_LAYER = new EntityModelLayer(ENGINES_ID, "main");
+    public static final HashMap<String, ModelData> modelList = new HashMap<>();
+    private static final ArrayList<ModelData> activeModels = new ArrayList<>();
 
     public QuirkFeatureRenderer(FeatureRendererContext<T, M> context) {
         super(context);
-        ModelPart modelPart = MinecraftClient.getInstance().getEntityModelLoader().getModelPart(ENGINES_LAYER);
-        enginesModel = new EnginesModel<>(modelPart);
-
         playerContext = context;
+        MinecraftClient client = MinecraftClient.getInstance();
+        //Registry isn't registered yet which is why modelData has a constructor and init method
+        modelList.forEach(((name, modelData) -> {
+            modelData.modelInit(client);
+        }));
     }
 
     @Override
     public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, T entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
-        enginesModel.setEnginesVisible(DevHudElements.quirk.equals("Electrification"));
-        enginesModel.setEnginesFireVisible(DevHudElements.cooldown > 0 && DevHudElements.quirk.equals("Electrification"));
-        VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityCutoutNoCull(ENGINE_TEXTURE));
-        playerContext.getModel().copyBipedStateTo(enginesModel);
-        enginesModel.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, 1.0f, 1.0f, 1.0f, 1.0f);
-    }
-
-    private void getTexture() {
-
-    }
+        if(!activeModels.isEmpty()) {
+            activeModels.forEach((modelData) -> {
+                if(modelData.getModel() instanceof EnginesModel<?> enginesModel) {
+                    enginesModel.setEnginesVisible(true);
+                }
+                VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityCutoutNoCull(modelData.getTexture()));
+                playerContext.getModel().copyBipedStateTo((BipedEntityModel<T>) modelData.getModel());
+                modelData.getModel().render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, 1.0f, 1.0f, 1.0f, 1.0f);
+            });
+        }
+   }
 
     public static void register() {
-        EntityModelLayerRegistry.registerModelLayer(ENGINES_LAYER, EnginesModel::getTexturedModelData);
+        modelList.put("Electrification", new ModelData("engines", "textures/features/engines_model.png", EnginesModel::new, EnginesModel::getTexturedModelData));
+
+    }
+
+    public static void activateModel(String modelName) {
+        activeModels.add(modelList.get(modelName));
+    }
+
+    public static void deActivateModel(String modelName) {
+        activeModels.remove(modelList.get(modelName));
+    }
+
+    public static void deActivateAllModels() {
+        activeModels.clear();
     }
 }

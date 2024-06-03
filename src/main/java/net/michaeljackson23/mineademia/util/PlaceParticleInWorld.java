@@ -17,7 +17,7 @@ public class PlaceParticleInWorld {
             double offsetY = random.nextGaussian() * dy;
             double offsetZ = random.nextGaussian() * dz;
 
-            world.addParticle(
+            world.addImportantParticle(
                     type, true,
                     x + offsetX,
                     y + offsetY,

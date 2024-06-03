@@ -35,7 +35,6 @@ public class StateSaverAndLoader extends PersistentState {
         NbtCompound playersNbt = tag.getCompound("players");
         playersNbt.getKeys().forEach(key -> {
             PlayerData playerData = new PlayerData();
-
             String quirk = playersNbt.getCompound(key).getString("playerQuirk");
             QuirkInitialize.setQuirkWithString(playerData, quirk);
 
@@ -54,7 +53,7 @@ public class StateSaverAndLoader extends PersistentState {
     public static StateSaverAndLoader getServerState(MinecraftServer server) {
         PersistentStateManager persistentStateManager = server.getWorld(World.OVERWORLD).getPersistentStateManager();
 
-        StateSaverAndLoader state = persistentStateManager.getOrCreate(type, Mineademia.Mod_id);
+        StateSaverAndLoader state = persistentStateManager.getOrCreate(type, Mineademia.MOD_ID);
 
         state.markDirty();
 

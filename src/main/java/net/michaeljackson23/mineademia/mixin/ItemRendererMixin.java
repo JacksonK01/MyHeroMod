@@ -19,7 +19,7 @@ public abstract class ItemRendererMixin {
     public BakedModel sharpShooterModel(BakedModel value, ItemStack itemStack, ModelTransformationMode renderMode,
                                         boolean leftHanded, MatrixStack matrices, int light, int overlay) {
         if (itemStack.isOf(ItemRegister.sharpShooter)) {
-            return ((ItemRendererAccessor) this).getModels().getModelManager().getModel(new ModelIdentifier(Mineademia.Mod_id, "sharpshooter_3d", "inventory"));
+            return ((ItemRendererAccessor) this).getModels().getModelManager().getModel(new ModelIdentifier(Mineademia.MOD_ID, "sharpshooter_3d", "inventory"));
         }
         return value;
     }

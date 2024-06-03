@@ -21,13 +21,13 @@ import net.minecraft.util.Identifier;
 public class EntityRegister {
     public static final EntityType<CubeEntity> CUBE = Registry.register(
             Registries.ENTITY_TYPE,
-            new Identifier(Mineademia.Mod_id, "cube"),
+            new Identifier(Mineademia.MOD_ID, "cube"),
             FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, CubeEntity::new).dimensions(
                     EntityDimensions.fixed(0.75f, 0.75f)).build());
 
     public static final EntityType<AirForceProjectile> AIR_FORCE_PROJECTILE = Registry.register(
             Registries.ENTITY_TYPE,
-            new Identifier(Mineademia.Mod_id, "air_force"),
+            new Identifier(Mineademia.MOD_ID, "air_force"),
             FabricEntityTypeBuilder.<AirForceProjectile>create(SpawnGroup.MISC, AirForceProjectile::new)
                     .dimensions(EntityDimensions.fixed(0.75f, 0.75f))
                     .build()
@@ -35,7 +35,7 @@ public class EntityRegister {
 
     public static final EntityType<WindBladeProjectile> WIND_BLADE_PROJECTILE = Registry.register(
             Registries.ENTITY_TYPE,
-            new Identifier(Mineademia.Mod_id, "wind_blade"),
+            new Identifier(Mineademia.MOD_ID, "wind_blade"),
             FabricEntityTypeBuilder.<WindBladeProjectile>create(SpawnGroup.MISC, WindBladeProjectile::new)
                     .dimensions(EntityDimensions.fixed(0.75f, 0.75f))
                     .build()

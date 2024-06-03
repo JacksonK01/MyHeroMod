@@ -5,10 +5,7 @@ import net.michaeljackson23.mineademia.quirk.abilities.PassiveAbility;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public abstract class Quirk {
     private String name;
@@ -18,11 +15,13 @@ public abstract class Quirk {
     private AbilityBase activeAbility;
     private int cooldown = 0;
     private double stamina = 1000;
+    private boolean hasInit = false;
+    private boolean deActivate = false;
     //This is for leveling up your quirk, I don't know what I'll use it for yet
     private ArrayList<Integer> quirkStats = new ArrayList<>();
     private LinkedList<PassiveAbility> passives = new LinkedList<>();
 
-    public Quirk(String name, AbilityBase one, AbilityBase two, AbilityBase three, AbilityBase four, AbilityBase five){
+    public Quirk(String name, AbilityBase one, AbilityBase two, AbilityBase three, AbilityBase four, AbilityBase five) {
         this.name = name;
         this.abilities[0] = one;
         this.abilities[1] = two;
@@ -32,29 +31,84 @@ public abstract class Quirk {
     }
 
     public void tick(ServerPlayerEntity player) {
+        processInit(player);
+        handleActiveAbility(player);
+        processPassives(player);
+        regenerateStamina();
+        reduceCooldown();
+    }
+
+    private void processInit(ServerPlayerEntity player) {
+        if(!hasInit) {
+            init(player);
+            hasInit = true;
+        }
+    }
+
+    //Meant to overwritten
+    protected void init(ServerPlayerEntity player) {}
+
+    private void handleActiveAbility(ServerPlayerEntity player) {
         if (activeAbility != null) {
-            activeAbility.execute(player, this);
-            if (!activeAbility.isActive()) {
+            if (!activeAbility.hasInit()) {
+                initializeAbility();
+            }
+
+            if (!activeAbility.isCancelled()) {
+                if (activeAbility.isHoldable()) {
+                    stamina -= activeAbility.getStaminaDrain();
+                }
+                activeAbility.execute(player, this);
+            } else {
+                activeAbility.refresh();
+            }
+
+            if (!activeAbility.isActive() || activeAbility.isCancelled()) {
                 activeAbility = null;
             }
         }
+    }
 
-        Iterator<PassiveAbility> passiveAbilityIterator = passives.iterator();
-        while (passiveAbilityIterator.hasNext()) {
-            PassiveAbility next = passiveAbilityIterator.next();
-            if(next.activate()) {
-                passiveAbilityIterator.remove();
+    private void initializeAbility() {
+        if (cooldown > 0 || stamina < activeAbility.getStaminaDrain()) {
+            activeAbility.cancel();
+        } else {
+            //This if is because holdable abilities process stamina differently
+            if (activeAbility.isHoldable()) {
+                cooldown += activeAbility.getCooldownAdd();
+            } else {
+                stamina -= activeAbility.getStaminaDrain();
+                cooldown += activeAbility.getCooldownAdd();
+            }
+        }
+        activeAbility.initDone();
+    }
+
+    private void processPassives(ServerPlayerEntity player) {
+        Iterator<PassiveAbility> passiveIterator = passives.iterator();
+        while (passiveIterator.hasNext()) {
+            PassiveAbility passive = passiveIterator.next();
+            if (passive.isDone(player, this)) {
+                passiveIterator.remove();
                 player.sendMessage(Text.literal("Removed Passive"));
             }
         }
+    }
 
+    private void regenerateStamina() {
         if (stamina < 1000) {
             stamina++;
         }
+    }
 
+    private void reduceCooldown() {
         if (cooldown > 0) {
             cooldown--;
         }
+    }
+
+    private void deActivate() {
+
     }
 
     public AbilityBase getActiveAbility() {
@@ -65,12 +119,25 @@ public abstract class Quirk {
         this.activeAbility = activeAbility;
     }
 
-    public LinkedList<PassiveAbility> getPassives() {
-        return this.passives;
-    }
-
     public void addPassive(PassiveAbility passive) {
-        this.passives.add(passive);
+        if(!this.passives.contains(passive)) {
+            this.passives.add(passive);
+        }
+    }
+    //TODO using this method creates a new instance in memory which then allows the passive to be added twice.
+    //TODO fix it
+    @Deprecated
+    public void addPassive(PassiveAbility passive, int staminaDrain) {
+        if(!this.passives.contains(passive)) {
+            this.passives.add((player, quirk) -> {
+                if(this.getStamina() < staminaDrain) {
+                    return true;
+                }
+                stamina -= staminaDrain;
+                passive.isDone(player, quirk);
+                return false;
+            });
+        }
     }
 
     public int getCooldown() {
@@ -97,10 +164,6 @@ public abstract class Quirk {
         return this.name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public AbilityBase[] getAbilities() {
         return abilities;
     }
@@ -118,8 +181,4 @@ public abstract class Quirk {
     public void setAbilities(AbilityBase[] abilities) {
         this.abilities = abilities;
     }
-
-//    public Queue<AbilityBase> getAbilityQueue() {
-//        return abilityQueue;
-//    }
 }

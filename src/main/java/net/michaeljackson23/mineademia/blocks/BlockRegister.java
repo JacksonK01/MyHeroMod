@@ -8,7 +8,6 @@ import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.MapColor;
 import net.minecraft.client.render.RenderLayer;
-import net.minecraft.entity.EntityType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -19,8 +18,8 @@ public class BlockRegister {
     public static final QuirkIceBlock QUIRK_ICE_BLOCK = new QuirkIceBlock(AbstractBlock.Settings.create().mapColor(MapColor.PALE_PURPLE).slipperiness(0.98f).ticksRandomly().strength(0.5f).sounds(BlockSoundGroup.GLASS).nonOpaque().solidBlock(Blocks::never));
 
     public static void register() {
-        Registry.register(Registries.BLOCK, new Identifier(Mineademia.Mod_id, "quirk_ice"), QUIRK_ICE_BLOCK);
-        Registry.register(Registries.ITEM, new Identifier(Mineademia.Mod_id, "quirk_ice"), new BlockItem(QUIRK_ICE_BLOCK, new FabricItemSettings()));
+        Registry.register(Registries.BLOCK, new Identifier(Mineademia.MOD_ID, "quirk_ice"), QUIRK_ICE_BLOCK);
+        Registry.register(Registries.ITEM, new Identifier(Mineademia.MOD_ID, "quirk_ice"), new BlockItem(QUIRK_ICE_BLOCK, new FabricItemSettings()));
     }
 
     public static void render() {

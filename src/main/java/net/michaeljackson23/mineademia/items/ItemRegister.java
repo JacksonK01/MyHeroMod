@@ -17,8 +17,8 @@ public class ItemRegister {
     public static QuirkTablet quirkTablet;
 
     public static void register() {
-        ItemRegister.quirkTablet = Registry.register(Registries.ITEM, new Identifier(Mineademia.Mod_id, "quirk_menu_selector"), new QuirkTablet(new FabricItemSettings().maxCount(1)));
-        ItemRegister.sharpShooter = Registry.register(Registries.ITEM, new Identifier(Mineademia.Mod_id, "sharp_shooter"), new Item(new FabricItemSettings().maxCount(1)));
+        ItemRegister.quirkTablet = Registry.register(Registries.ITEM, new Identifier(Mineademia.MOD_ID, "quirk_menu_selector"), new QuirkTablet(new FabricItemSettings().maxCount(1)));
+        ItemRegister.sharpShooter = Registry.register(Registries.ITEM, new Identifier(Mineademia.MOD_ID, "sharp_shooter"), new Item(new FabricItemSettings().maxCount(1)));
 
         ItemGroup MHA_GROUP = FabricItemGroup.builder()
                 .icon(() -> new ItemStack(quirkTablet))
@@ -33,6 +33,6 @@ public class ItemRegister {
                     entries.add(ArmorRegister.GAMMA_SUIT_BOOTS);
                 })
                 .build();
-        Registry.register(Registries.ITEM_GROUP, new Identifier(Mineademia.Mod_id, "mha_group"), MHA_GROUP);
+        Registry.register(Registries.ITEM_GROUP, new Identifier(Mineademia.MOD_ID, "mha_group"), MHA_GROUP);
     }
 }

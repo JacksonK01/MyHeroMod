@@ -9,10 +9,6 @@ import net.minecraft.client.util.InputUtil;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
 
-import java.util.Iterator;
-
-import static net.michaeljackson23.mineademia.networking.Client2Server.ABILITY_ONE;
-
 @Environment(EnvType.CLIENT)
 public class HoldableKeybind extends KeyBinding {
     private boolean sentPacket = false;

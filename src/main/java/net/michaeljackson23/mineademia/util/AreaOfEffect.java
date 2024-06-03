@@ -11,15 +11,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AreaOfEffect {
-    public static void execute(LivingEntity owner, int radiusInBlocks, double x, double y, double z, ActionOnEntity actionOnEntity) {
+    public static void execute(LivingEntity owner, double radiusInBlocks, double x, double y, double z, ActionOnEntity actionOnEntity) {
         execute(owner, radiusInBlocks, 0, x, y, z, actionOnEntity);
     }
 
-    public static void execute(World world, int radiusInBlocks, double x, double y, double z, ActionOnEntity actionOnEntity) {
+    public static void execute(World world, double radiusInBlocks, double x, double y, double z, ActionOnEntity actionOnEntity) {
         execute(world, radiusInBlocks, 0, x, y, z, actionOnEntity);
     }
 
-    public static void execute(LivingEntity owner, int radiusInBlocks, int yRadiusInBlocks, double x, double y, double z, ActionOnEntity actionOnEntity) {
+    public static void execute(LivingEntity owner, double radiusInBlocks, double yRadiusInBlocks, double x, double y, double z, ActionOnEntity actionOnEntity) {
         Box radiusBox = new Box(x - radiusInBlocks, y - yRadiusInBlocks, z - radiusInBlocks,
                 x + radiusInBlocks, y + yRadiusInBlocks, z + radiusInBlocks);
 
@@ -31,7 +31,7 @@ public class AreaOfEffect {
         }));
     }
 
-    public static void execute(World world, int radiusInBlocks, int yRadiusInBlocks, double x, double y, double z, ActionOnEntity actionOnEntity) {
+    public static void execute(World world, double radiusInBlocks, double yRadiusInBlocks, double x, double y, double z, ActionOnEntity actionOnEntity) {
         Box radiusBox = new Box(x - radiusInBlocks, y - yRadiusInBlocks, z - radiusInBlocks,
                 x + radiusInBlocks, y + yRadiusInBlocks, z + radiusInBlocks);
 
