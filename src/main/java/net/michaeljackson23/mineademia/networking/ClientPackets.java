@@ -70,7 +70,4 @@ public class ClientPackets {
     public static void removeAllQuirkFeature(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
         QuirkFeatureRenderer.deActivateAllModels();
     }
-    public static void quirkModelInit(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
-        ClientPlayNetworking.send(Networking.QUIRK_FEATURE_INIT, PacketByteBufs.empty());
-    }
 }
