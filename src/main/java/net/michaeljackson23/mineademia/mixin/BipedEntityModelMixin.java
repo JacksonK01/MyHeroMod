@@ -3,7 +3,7 @@ package net.michaeljackson23.mineademia.mixin;
 
 import net.michaeljackson23.mineademia.armor.ModelWithBoots;
 import net.michaeljackson23.mineademia.armor.deku.gamma.model.GammaSuitModel;
-import net.michaeljackson23.mineademia.quirk.feature.QuirkModelHelper;
+import net.michaeljackson23.mineademia.quirk.feature.QuirkModelStateHelper;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.entity.model.AnimalModel;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
@@ -37,7 +37,7 @@ public abstract class BipedEntityModelMixin<T extends LivingEntity>
     @Shadow @Final public ModelPart leftArm;
 
     @Inject(at = @At("TAIL"), method = "copyBipedStateTo")
-    public void copyBipedStateTo(BipedEntityModel<T> model, CallbackInfo ci) {
+    private void copyBipedStateTo(BipedEntityModel<T> model, CallbackInfo ci) {
         if(model instanceof ModelWithBoots customArmor) {
             customArmor.getLeftBoot().copyTransform(this.leftLeg);
             customArmor.getRightBoot().copyTransform(this.rightLeg);
@@ -47,8 +47,8 @@ public abstract class BipedEntityModelMixin<T extends LivingEntity>
             gamma.getHead().pitch = 0;
         }
 
-        if(model instanceof QuirkModelHelper quirkModelHelper) {
-            quirkModelHelper.copyModelState(this.leftArmPose,
+        if(model instanceof QuirkModelStateHelper quirkModelStateHelper) {
+            quirkModelStateHelper.copyModelState(this.leftArmPose,
                     this.rightArmPose,
                     this.head,
                     this.hat,

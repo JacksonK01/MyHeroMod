@@ -3,6 +3,7 @@ package net.michaeljackson23.mineademia.hud;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkDataHelper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.text.Text;
@@ -17,11 +18,16 @@ public class DevQuirkDisplay {
         HudRenderCallback.EVENT.register((draw, tick) -> {
             MinecraftClient client = MinecraftClient.getInstance();
             if(client != null) {
+                if(!(client.player instanceof QuirkDataHelper quirkPlayer)) {
+                    return;
+                }
                 int width = client.getWindow().getScaledWidth();
                 int height = client.getWindow().getScaledHeight();
 
                 int x = width/5;
                 int y = height/5;
+
+
 
 //                StateSaverAndLoader state = new StateSaverAndLoader();
 //                if(state.players.containsKey(client.player.getUuid())) {
@@ -29,13 +35,13 @@ public class DevQuirkDisplay {
 //                }
                 TextRenderer textRenderer = client.textRenderer;
                 draw.drawCenteredTextWithShadow(textRenderer,
-                        Text.literal("Quirk: " + DevHudElements.quirk),
+                        Text.literal("Quirk: " + quirkPlayer.myHeroMod$getQuirkData().getQuirkName()),
                         x, y, 0xff0000);
                 draw.drawCenteredTextWithShadow(textRenderer,
-                        Text.literal("Stamina: " + DevHudElements.stamina),
+                        Text.literal("Stamina: " + quirkPlayer.myHeroMod$getQuirkData().getStamina()),
                         x, y + 20, 0xff0000);
                 draw.drawCenteredTextWithShadow(textRenderer,
-                        Text.literal("Cooldown: " + DevHudElements.cooldown),
+                        Text.literal("Cooldown: " + quirkPlayer.myHeroMod$getQuirkData().getCooldown()),
                         x, y + 40, 0xff0000);
 //                y = y + 15;
 //

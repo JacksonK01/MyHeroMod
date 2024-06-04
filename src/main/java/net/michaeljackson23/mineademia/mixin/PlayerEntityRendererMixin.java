@@ -1,5 +1,6 @@
 package net.michaeljackson23.mineademia.mixin;
 
+import net.michaeljackson23.mineademia.Mineademia;
 import net.michaeljackson23.mineademia.quirk.feature.QuirkFeatureRenderer;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.entity.EntityRendererFactory;
@@ -20,7 +21,7 @@ public abstract class PlayerEntityRendererMixin extends LivingEntityRenderer<Abs
     }
 
     @Inject(at = @At("TAIL"), method = "<init>")
-    public void init(EntityRendererFactory.Context ctx, boolean slim, CallbackInfo ci) {
-        this.addFeature(new QuirkFeatureRenderer<AbstractClientPlayerEntity, PlayerEntityModel<AbstractClientPlayerEntity>>(this));
+    private void init(EntityRendererFactory.Context ctx, boolean slim, CallbackInfo ci) {
+        this.addFeature(new QuirkFeatureRenderer(this));
     }
 }

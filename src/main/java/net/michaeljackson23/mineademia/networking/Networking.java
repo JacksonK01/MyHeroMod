@@ -3,6 +3,7 @@ package net.michaeljackson23.mineademia.networking;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.michaeljackson23.mineademia.Mineademia;
+import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkDataPacket;
 import net.minecraft.util.Identifier;
 
 public class Networking {
@@ -18,13 +19,10 @@ public class Networking {
     //Client Identifiers sent from server
     public static final Identifier QUIRK_TABLET_GUI = new Identifier(Mineademia.MOD_ID, "quirk_tablet_gui");
     public static final Identifier ANIMATION = new Identifier(Mineademia.MOD_ID, "animation_proxy");
-    public static final Identifier QUIRK_DATA = new Identifier(Mineademia.MOD_ID, "quirk_data");
-    public static final Identifier LOAD_QUIRK_FEATURE = new Identifier(Mineademia.MOD_ID, "load_quirk_feature");
-    public static final Identifier REMOVE_QUIRK_FEATURE = new Identifier(Mineademia.MOD_ID, "remove_quirk_feature");
-    public static final Identifier REMOVE_ALL_QUIRK_FEATURE = new Identifier(Mineademia.MOD_ID, "remove_all_quirk_feature");
     public static final Identifier SET_YAW = new Identifier(Mineademia.MOD_ID, "set_yaw");
-
-
+    public static final Identifier FORCE_INTO_THIRD_PERSON_BACK = new Identifier(Mineademia.MOD_ID, "force_third_person_back");
+    public static final Identifier FORCE_INTO_THIRD_PERSON_FRONT = new Identifier(Mineademia.MOD_ID, "force_third_person_front");
+    public static final Identifier FORCE_INTO_FIRST_PERSON = new Identifier(Mineademia.MOD_ID, "force_first_person");
 
     public static void registerServer() {
         ServerPlayNetworking.registerGlobalReceiver(ABILITY_ONE, ServerPackets::abilityOne);
@@ -36,13 +34,12 @@ public class Networking {
     }
 
     public static void registerClient() {
+        ClientPlayNetworking.registerGlobalReceiver(QuirkDataPacket.QUIRK_DATA_SYNC, ClientPackets::quirkDataSync);
         ClientPlayNetworking.registerGlobalReceiver(QUIRK_TABLET_GUI, ClientPackets::quirkTablet);
         ClientPlayNetworking.registerGlobalReceiver(ANIMATION, ClientPackets::animationProxy);
-        ClientPlayNetworking.registerGlobalReceiver(QUIRK_DATA, ClientPackets::quirkData);
         ClientPlayNetworking.registerGlobalReceiver(SET_YAW, ClientPackets::setYaw);
-        ClientPlayNetworking.registerGlobalReceiver(LOAD_QUIRK_FEATURE, ClientPackets::loadQuirkFeature);
-        ClientPlayNetworking.registerGlobalReceiver(REMOVE_QUIRK_FEATURE, ClientPackets::removeQuirkFeature);
-        ClientPlayNetworking.registerGlobalReceiver(REMOVE_ALL_QUIRK_FEATURE, ClientPackets::removeAllQuirkFeature);
-
+        ClientPlayNetworking.registerGlobalReceiver(FORCE_INTO_THIRD_PERSON_BACK, ClientPackets::forceThirdPersonBack);
+        ClientPlayNetworking.registerGlobalReceiver(FORCE_INTO_THIRD_PERSON_FRONT, ClientPackets::forceThirdPersonFront);
+        ClientPlayNetworking.registerGlobalReceiver(FORCE_INTO_FIRST_PERSON, ClientPackets::forceFirstPerson);
     }
 }

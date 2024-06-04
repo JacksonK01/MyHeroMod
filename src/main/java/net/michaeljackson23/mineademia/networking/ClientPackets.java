@@ -5,16 +5,16 @@ import dev.kosmx.playerAnim.api.layered.KeyframeAnimationPlayer;
 import dev.kosmx.playerAnim.core.data.KeyframeAnimation;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationAccess;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationRegistry;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.michaeljackson23.mineademia.Mineademia;
 import net.michaeljackson23.mineademia.gui.quirktablet.QuirkTabletGui;
-import net.michaeljackson23.mineademia.hud.DevHudElements;
 import net.michaeljackson23.mineademia.quirk.feature.QuirkFeatureRenderer;
+import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkDataHelper;
+import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkDataPacket;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
+import net.minecraft.client.option.Perspective;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -22,6 +22,12 @@ import net.minecraft.util.Identifier;
 import java.util.UUID;
 
 public class ClientPackets {
+    public static void quirkDataSync(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
+        if(!(client.player instanceof QuirkDataHelper quirkPlayer)) {
+            return;
+        }
+        quirkPlayer.myHeroMod$setQuirkData(QuirkDataPacket.decode(buf));
+    }
     public static void quirkTablet(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
         client.execute(() -> {
             QuirkTabletGui quirkTabletGui = new QuirkTabletGui(Text.literal("Quirk Tablet"));
@@ -51,23 +57,18 @@ public class ClientPackets {
             }
         });
     }
-    public static void quirkData(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
-        DevHudElements.quirk = buf.readString();
-        DevHudElements.stamina = buf.readDouble();
-        DevHudElements.cooldown = buf.readInt();
-    }
     public static void setYaw(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
         if(client.player != null) {
             client.player.setYaw(buf.readFloat());
         }
     }
-    public static void loadQuirkFeature(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
-        QuirkFeatureRenderer.activateModel(buf.readString());
+    public static void forceThirdPersonBack(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
+        client.options.setPerspective(Perspective.THIRD_PERSON_BACK);
     }
-    public static void removeQuirkFeature(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
-        QuirkFeatureRenderer.deActivateModel(buf.readString());
+    public static void forceThirdPersonFront(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
+        client.options.setPerspective(Perspective.THIRD_PERSON_FRONT);
     }
-    public static void removeAllQuirkFeature(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
-        QuirkFeatureRenderer.deActivateAllModels();
+    public static void forceFirstPerson(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
+        client.options.setPerspective(Perspective.FIRST_PERSON);
     }
 }

@@ -1,18 +1,16 @@
 package net.michaeljackson23.mineademia.quirk;
 
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.michaeljackson23.mineademia.init.PlayerData;
-import net.michaeljackson23.mineademia.init.StateSaverAndLoader;
+import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkData;
+import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkDataHelper;
 import net.michaeljackson23.mineademia.quirk.quirks.Electrification;
 import net.michaeljackson23.mineademia.quirk.quirks.Explosion;
 import net.michaeljackson23.mineademia.quirk.quirks.HalfColdHalfHot;
 import net.michaeljackson23.mineademia.quirk.quirks.OneForAll;
 import net.michaeljackson23.mineademia.quirk.quirks.Whirlwind;
+import net.michaeljackson23.mineademia.util.AnimationProxy;
 import net.michaeljackson23.mineademia.util.IndexMap;
-import net.minecraft.network.PacketByteBuf;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 
@@ -32,28 +30,42 @@ public class QuirkInitialize {
     public static void InitializeEvent() {
         ServerPlayConnectionEvents.JOIN.register(((handler, sender, server) -> {
             ServerPlayerEntity player = handler.getPlayer();
-            PlayerData playerData = StateSaverAndLoader.getPlayerState(player);
-
-            if(playerData.getQuirk() == null) {
-                quirkRandom(playerData);
-                player.sendMessage(Text.literal("Set quirk to " + playerData.getQuirk().getName()));
-            } else {
-                player.sendMessage(Text.literal("Picked up " + playerData.getQuirk().getName() + " quirk"));
+            if(!(player instanceof QuirkDataHelper quirkPlayer)) {
+                return;
             }
-
+            QuirkData quirkData = quirkPlayer.myHeroMod$getQuirkData();
+            String storedName = quirkData.getQuirkName();
+            buildQuirk(player, quirkPlayer.myHeroMod$getQuirkData().getQuirkName());
+            if(storedName.isEmpty()) {
+                player.sendMessage(Text.literal("Set quirk to " + quirkData.getQuirkName()));
+            } else {
+                player.sendMessage(Text.literal("Picked up " + quirkData.getQuirkName() + " quirk"));
+            }
+            AnimationProxy.sendStopAnimation(player);
         }));
     }
 
-    public static void quirkRandom(PlayerData playerData) {
+    public static void buildQuirk(ServerPlayerEntity player, String quirk) {
+        if(!(player instanceof QuirkDataHelper quirkPlayer)) {
+            return;
+        }
+        if(quirk.isEmpty()) {
+            quirkRandom(player.getServer(), quirkPlayer);
+        } else {
+            setQuirkWithString(player.getServer(), quirkPlayer, quirk);
+        }
+        quirkPlayer.myHeroMod$getQuirkData().buildFromQuirk(quirkPlayer.myHeroMod$getQuirk(player.getServer()));
+    }
+
+    private static void quirkRandom(MinecraftServer server, QuirkDataHelper player) {
         int randomInt = rand.nextInt(allQuirks.getSize());
-        playerData.setQuirk(allQuirks.getValue(randomInt).construct());
+        player.myHeroMod$setQuirk(server, allQuirks.getValue(randomInt).construct());
     }
 
-    public static void setQuirkWithString(PlayerData playerData, String quirk) {
+    private static void setQuirkWithString(MinecraftServer server, QuirkDataHelper player, String quirk) {
         Quirk quirkToSet = allQuirks.getValue(quirk).construct();
-        playerData.setQuirk(quirkToSet);
+        player.myHeroMod$setQuirk(server, quirkToSet);
     }
-
 
     private interface QuirkConstructor<T> {
         T construct();

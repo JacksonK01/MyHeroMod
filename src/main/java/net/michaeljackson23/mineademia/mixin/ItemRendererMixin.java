@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 @Mixin(ItemRenderer.class)
 public abstract class ItemRendererMixin {
     @ModifyVariable(method = "renderItem", at = @At(value = "HEAD"), argsOnly = true)
-    public BakedModel sharpShooterModel(BakedModel value, ItemStack itemStack, ModelTransformationMode renderMode,
+    private BakedModel sharpShooterModel(BakedModel value, ItemStack itemStack, ModelTransformationMode renderMode,
                                         boolean leftHanded, MatrixStack matrices, int light, int overlay) {
         if (itemStack.isOf(ItemRegister.sharpShooter)) {
             return ((ItemRendererAccessor) this).getModels().getModelManager().getModel(new ModelIdentifier(Mineademia.MOD_ID, "sharpshooter_3d", "inventory"));

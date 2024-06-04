@@ -1,7 +1,12 @@
 package net.michaeljackson23.mineademia.quirk;
 
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.michaeljackson23.mineademia.networking.Networking;
 import net.michaeljackson23.mineademia.quirk.abilities.AbilityBase;
 import net.michaeljackson23.mineademia.quirk.abilities.PassiveAbility;
+import net.minecraft.entity.EntityType;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 
@@ -16,10 +21,10 @@ public abstract class Quirk {
     private int cooldown = 0;
     private double stamina = 1000;
     private boolean hasInit = false;
-    private boolean deActivate = false;
     //This is for leveling up your quirk, I don't know what I'll use it for yet
     private ArrayList<Integer> quirkStats = new ArrayList<>();
     private LinkedList<PassiveAbility> passives = new LinkedList<>();
+    private String[] modelsForQuirk;
 
     public Quirk(String name, AbilityBase one, AbilityBase two, AbilityBase three, AbilityBase four, AbilityBase five) {
         this.name = name;
@@ -31,7 +36,6 @@ public abstract class Quirk {
     }
 
     public void tick(ServerPlayerEntity player) {
-        processInit(player);
         handleActiveAbility(player);
         processPassives(player);
         regenerateStamina();
@@ -44,9 +48,10 @@ public abstract class Quirk {
             hasInit = true;
         }
     }
-
-    //Meant to overwritten
-    protected void init(ServerPlayerEntity player) {}
+    //TODO if you load in with a quirk that has a model, it doesn't load
+    //Meant to be overwritten. This is a basic implementation, which loads de-loads previous models and loads in any relevant models
+    protected void init(ServerPlayerEntity player) {
+    }
 
     private void handleActiveAbility(ServerPlayerEntity player) {
         if (activeAbility != null) {
@@ -98,6 +103,8 @@ public abstract class Quirk {
     private void regenerateStamina() {
         if (stamina < 1000) {
             stamina++;
+        } else {
+            stamina = 1000;
         }
     }
 
@@ -105,10 +112,6 @@ public abstract class Quirk {
         if (cooldown > 0) {
             cooldown--;
         }
-    }
-
-    private void deActivate() {
-
     }
 
     public AbilityBase getActiveAbility() {
@@ -180,5 +183,13 @@ public abstract class Quirk {
 
     public void setAbilities(AbilityBase[] abilities) {
         this.abilities = abilities;
+    }
+
+    public void setModelsForQuirk(String... models) {
+        this.modelsForQuirk = models;
+    }
+
+    public String[] getModelsForQuirk() {
+        return this.modelsForQuirk == null ? new String[0] : modelsForQuirk;
     }
 }

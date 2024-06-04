@@ -8,7 +8,7 @@ import net.michaeljackson23.mineademia.quirk.abilities.AbilityBase;
 import net.michaeljackson23.mineademia.sound.CustomSounds;
 import net.michaeljackson23.mineademia.util.AnimationProxy;
 import net.michaeljackson23.mineademia.util.AreaOfEffect;
-import net.michaeljackson23.mineademia.util.StopSound;
+import net.michaeljackson23.mineademia.util.StopSoundProxy;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
@@ -33,9 +33,11 @@ public class Griddy extends AbilityBase {
             AnimationProxy.sendAnimationToClients(player, "griddy");
             player.getWorld().playSound(null, player.getX(), player.getY(), player.getZ(), CustomSounds.GRIDDY_EVENT, SoundCategory.PLAYERS, 1f, 1f);
         }
+        ServerPlayNetworking.send(player, Networking.FORCE_INTO_THIRD_PERSON_BACK, PacketByteBufs.empty());
         PacketByteBuf data = PacketByteBufs.create();
         data.writeFloat(this.yaw);
         ServerPlayNetworking.send(player, Networking.SET_YAW, data);
+
         player.setVelocity(storedVec.x, player.getVelocity().y, storedVec.z);
         player.velocityModified = true;
         AreaOfEffect.execute(player, 4, 0.5, player.getX(), player.getY(), player.getZ(), (entityToAffect -> {
@@ -52,10 +54,11 @@ public class Griddy extends AbilityBase {
             entityToAffect.setVelocity(storedVec.x, 1, storedVec.z);
             entityToAffect.velocityModified = true;
         }));
-        StopSound.execute(player, CustomSounds.GRIDDY_ID, SoundCategory.PLAYERS);
+        StopSoundProxy.execute(player, CustomSounds.GRIDDY_ID, SoundCategory.PLAYERS);
         init = false;
         yaw = 0;
         storedVec = null;
         AnimationProxy.sendStopAnimation(player);
+        ServerPlayNetworking.send(player, Networking.FORCE_INTO_FIRST_PERSON, PacketByteBufs.empty());
     }
 }

@@ -4,14 +4,17 @@
 
 package net.michaeljackson23.mineademia.quirk.feature.models;
 
-import net.michaeljackson23.mineademia.quirk.feature.QuirkModelHelper;
+import net.michaeljackson23.mineademia.quirk.feature.QuirkModelLogicHelper;
+import net.michaeljackson23.mineademia.quirk.feature.QuirkModelStateHelper;
+import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkDataHelper;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 
-public class EnginesModel<T extends LivingEntity> extends BipedEntityModel<T> implements QuirkModelHelper {
+public class EnginesModelState<T extends LivingEntity> extends BipedEntityModel<T> implements QuirkModelStateHelper, QuirkModelLogicHelper {
     private final ModelPart hat;
     private final ModelPart head;
     private final ModelPart body;
@@ -25,7 +28,7 @@ public class EnginesModel<T extends LivingEntity> extends BipedEntityModel<T> im
     private final ModelPart right_engines_fire;
 
 
-    public EnginesModel(ModelPart root) {
+    public EnginesModelState(ModelPart root) {
         super(root);
         this.hat = root.getChild("hat");
         this.head = root.getChild("head");
@@ -157,5 +160,13 @@ public class EnginesModel<T extends LivingEntity> extends BipedEntityModel<T> im
         this.left_engines_fire.copyTransform(leftLeg);
         this.right_engines.copyTransform(rightLeg);
         this.right_engines_fire.copyTransform(rightLeg);
+    }
+
+    @Override
+    public void process(PlayerEntity player) {
+        setEnginesVisible(true);
+        if(player instanceof QuirkDataHelper quirkPlayer) {
+            setEnginesFireVisible(quirkPlayer.myHeroMod$getQuirkData().getCooldown() > 0);
+        }
     }
 }

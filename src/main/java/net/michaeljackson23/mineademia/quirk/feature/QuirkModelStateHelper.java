@@ -3,7 +3,7 @@ package net.michaeljackson23.mineademia.quirk.feature;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 
-public interface QuirkModelHelper {
+public interface QuirkModelStateHelper {
     void copyModelState(BipedEntityModel.ArmPose leftArmPose,
                         BipedEntityModel.ArmPose rightArmPose,
                         ModelPart head,

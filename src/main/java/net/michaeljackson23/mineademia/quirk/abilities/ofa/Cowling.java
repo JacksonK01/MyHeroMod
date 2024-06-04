@@ -5,10 +5,9 @@ import net.michaeljackson23.mineademia.quirk.abilities.AbilityBase;
 import net.michaeljackson23.mineademia.quirk.abilities.PassiveAbility;
 import net.michaeljackson23.mineademia.particles.ParticleRegister;
 import net.michaeljackson23.mineademia.sound.CustomSounds;
-import net.michaeljackson23.mineademia.util.StopSound;
+import net.michaeljackson23.mineademia.util.StopSoundProxy;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.network.packet.s2c.play.StopSoundS2CPacket;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.text.Text;
@@ -78,7 +77,7 @@ public class Cowling extends AbilityBase {
 
     private void resetSound(ServerPlayerEntity player) {
         player.getWorld().playSound(null, player.getX(), player.getY(), player.getZ(), CustomSounds.COWLING_END_EVENT, SoundCategory.PLAYERS, 1f, 1f);
-        StopSound.execute(player, CustomSounds.COWLING_REPEAT_ID);
+        StopSoundProxy.execute(player, CustomSounds.COWLING_REPEAT_ID);
         soundCounter = 0;
     }
 }

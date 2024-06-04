@@ -71,7 +71,7 @@ public class WindBladeProjectile extends ThrownItemEntity {
         return (LivingEntity) getOwner();
     }
 
-    //TODO this method doesn't activate properly. Clearly the tick method activates right after overriding the effects im creating here. Fix this with a boolean or sm
+
     @Override
     protected void onCollision(HitResult hitResult) {
         if(getOwner() == null) {
