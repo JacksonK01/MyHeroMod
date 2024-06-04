@@ -40,6 +40,7 @@ public class QuirkFeatureRenderer extends FeatureRenderer<AbstractClientPlayerEn
         if(player instanceof QuirkDataHelper quirkPlayer) {
             QuirkData quirkData = quirkPlayer.myHeroMod$getQuirkData();
             player.sendMessage(Text.literal(player.getName().getString() + ": " + quirkData));
+
             for(int i = 0; i < quirkData.getModelsArrayLength(); i++) {
                 String model = quirkData.getModel(i);
                 player.sendMessage(Text.literal("Processing Model -> " + model));

@@ -38,8 +38,12 @@ public class QuirkDataPacket {
         if(!(player instanceof QuirkDataHelper quirkPlayer)) {
             return;
         }
+
         quirkPlayer.myHeroMod$getQuirkData().syncStaminaAndCooldown(quirkPlayer.myHeroMod$getQuirk(player.getServer()));
         PacketByteBuf data = encode(quirkPlayer.myHeroMod$getQuirkData());
-        ServerPlayNetworking.send(player, QUIRK_DATA_SYNC, data);
+
+        for (ServerPlayerEntity otherPlayer : player.getServer().getPlayerManager().getPlayerList()) {
+            ServerPlayNetworking.send(otherPlayer, QUIRK_DATA_SYNC, data);
+        }
     }
 }
