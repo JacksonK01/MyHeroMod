@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.michaeljackson23.mineademia.networking.Networking;
 import net.michaeljackson23.mineademia.quirk.abilities.AbilityBase;
 import net.michaeljackson23.mineademia.quirk.abilities.PassiveAbility;
+import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkDataPacket;
 import net.minecraft.entity.EntityType;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -57,6 +58,7 @@ public abstract class Quirk {
         if (activeAbility != null) {
             if (!activeAbility.hasInit()) {
                 initializeAbility();
+                QuirkDataPacket.send(player);
             }
 
             if (!activeAbility.isCancelled()) {

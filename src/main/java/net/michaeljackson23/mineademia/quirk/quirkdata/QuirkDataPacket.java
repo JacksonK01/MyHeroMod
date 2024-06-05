@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.michaeljackson23.mineademia.Mineademia;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 public class QuirkDataPacket {
@@ -38,10 +39,18 @@ public class QuirkDataPacket {
         if(!(player instanceof QuirkDataHelper quirkPlayer)) {
             return;
         }
-
         quirkPlayer.myHeroMod$getQuirkData().syncStaminaAndCooldown(quirkPlayer.myHeroMod$getQuirk(player.getServer()));
         PacketByteBuf data = encode(quirkPlayer.myHeroMod$getQuirkData());
+        player.sendMessage(Text.literal("Sent packet to your client"));
+        ServerPlayNetworking.send(player, QUIRK_DATA_SYNC, data);
+    }
 
+    public static void sendToAll(ServerPlayerEntity player) {
+        if(!(player instanceof QuirkDataHelper quirkPlayer)) {
+            return;
+        }
+        player.sendMessage(Text.literal("Sent packet to all clients"));
+        PacketByteBuf data = encode(quirkPlayer.myHeroMod$getQuirkData());
         for (ServerPlayerEntity otherPlayer : player.getServer().getPlayerManager().getPlayerList()) {
             ServerPlayNetworking.send(otherPlayer, QUIRK_DATA_SYNC, data);
         }

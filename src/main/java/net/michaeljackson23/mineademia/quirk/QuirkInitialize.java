@@ -3,6 +3,7 @@ package net.michaeljackson23.mineademia.quirk;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkData;
 import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkDataHelper;
+import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkDataPacket;
 import net.michaeljackson23.mineademia.quirk.quirks.Electrification;
 import net.michaeljackson23.mineademia.quirk.quirks.Explosion;
 import net.michaeljackson23.mineademia.quirk.quirks.HalfColdHalfHot;

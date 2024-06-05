@@ -7,7 +7,7 @@ import net.michaeljackson23.mineademia.blocks.BlockRegister;
 import net.michaeljackson23.mineademia.quirk.QuirkInitialize;
 import net.michaeljackson23.mineademia.items.ItemRegister;
 import net.michaeljackson23.mineademia.networking.Networking;
-import net.michaeljackson23.mineademia.quirk.QuirkServerTicks;
+import net.michaeljackson23.mineademia.quirk.ServerQuirkTicks;
 import net.michaeljackson23.mineademia.entity.EntityRegister;
 import net.michaeljackson23.mineademia.particles.ParticleRegister;
 import net.michaeljackson23.mineademia.sound.CustomSounds;
@@ -23,7 +23,7 @@ public class Mineademia implements ModInitializer {
 	public void onInitialize() {
 		Networking.registerServer();
 		QuirkInitialize.InitializeEvent();
-		QuirkServerTicks.serverTickRegister();
+		ServerQuirkTicks.serverTickRegister();
 		EntityRegister.register();
 		BlockRegister.register();
 		ArmorRegister.register();
