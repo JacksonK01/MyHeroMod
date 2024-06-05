@@ -14,6 +14,19 @@ import net.michaeljackson23.mineademia.sound.CustomSounds;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
+/**
+ * Additional credit:
+ * <ul>
+ *   <li>Shroom - Helped develop the following:</li>
+ *   <ul>
+ *     <li>Explosion Dash</li>
+ *     <li>Blackwhip</li>
+ *     <li>Windblade projectile</li>
+ *   </ul>
+ * </ul>
+ */
+
 public class Mineademia implements ModInitializer {
 	public static final String MOD_ID = "mineademia";
     public static final Logger LOGGER = LoggerFactory.getLogger("mineademia");

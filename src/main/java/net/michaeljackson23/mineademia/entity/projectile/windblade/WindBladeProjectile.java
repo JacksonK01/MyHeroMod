@@ -17,6 +17,7 @@ import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
+import net.minecraft.text.Text;
 public class WindBladeProjectile extends ThrownItemEntity {
     int timer = 0;
     Vec3d storedDirection;
@@ -41,11 +42,11 @@ public class WindBladeProjectile extends ThrownItemEntity {
 
     public void tick() {
         super.tick();
-        if(getOwner() == null) {
+        if (getOwner() == null) {
             kill();
             return;
         }
-        if(hasCollision) {
+        if (hasCollision) {
             kill();
             return;
         }
@@ -62,7 +63,7 @@ public class WindBladeProjectile extends ThrownItemEntity {
         });
 
         timer++;
-        if(timer > 45) {
+        if (timer > 45) {
             this.kill();
         }
     }
@@ -74,19 +75,62 @@ public class WindBladeProjectile extends ThrownItemEntity {
 
     @Override
     protected void onCollision(HitResult hitResult) {
-        if(getOwner() == null) {
+        if (getOwner() == null) {
             kill();
             return;
         }
-        if(hitResult.getType() == HitResult.Type.BLOCK) {
+        if (hitResult.getType() == HitResult.Type.BLOCK) {
             getWorld().playSound(null, getX(), getY(), getZ(), SoundEvents.ENTITY_ZOMBIE_BREAK_WOODEN_DOOR, SoundCategory.PLAYERS, 3f, 2f);
-            Vec3d ownerVec = getLivingEntityOwner().getRotationVec(1.0f).multiply(-1, 1, -1);
-            AreaOfEffect.execute(getLivingEntityOwner(), 4, 2, getX(), getY(), getZ(), (entityToAffect) -> {
-                PlaceParticleInWorld.spawn(getWorld(), ParticleTypes.EXPLOSION, entityToAffect.getX(), entityToAffect.getY(), entityToAffect.getZ(), 0.3, 0.3, 0.3, 3);
-                entityToAffect.setVelocity(ownerVec);
-                entityToAffect.velocityModified = true;
-                QuirkDamage.doDamage(getLivingEntityOwner(), entityToAffect, 5f);
-            });
+            Vec3d ownerVec = getLivingEntityOwner().getRotationVec(1.0f).multiply(Math.PI / 180, 1, Math.PI / 180);
+            Vec3d V = new Vec3d((ownerVec.z * -1), (ownerVec.y), (ownerVec.x * -1 ));
+            double Yaw = getLivingEntityOwner().getYaw() * (Math.PI / 180);
+            if (Yaw >= 0 && Yaw <= (Math.PI / 6) || Yaw >= Math.PI / 3 && Yaw <= (2 * Math.PI) / 3 || Yaw >= (5 * Math.PI) / 6 && Yaw <= (7 * Math.PI) / 6 || Yaw >= (4 * Math.PI) / 3 && Yaw <= (5 * Math.PI) / 3 || Yaw >= (11 * Math.PI) / 6 && Yaw <= (2 * Math.PI)) {
+                AreaOfEffect.execute(getLivingEntityOwner(), 4, 2, getX(), getY(), getZ(), (entityToAffect) -> {
+                    PlaceParticleInWorld.spawn(getWorld(), ParticleTypes.EXPLOSION, entityToAffect.getX(), entityToAffect.getY(), entityToAffect.getZ(), 0.3, 0.3, 0.3, 3);
+                    Vec3d OV2 = new Vec3d((ownerVec.x * -1 +.5 ), ownerVec.y, (ownerVec.z * -1+.5));
+                    entityToAffect.setVelocity(OV2);
+                    entityToAffect.velocityModified = true;
+                    QuirkDamage.doDamage(getLivingEntityOwner(), entityToAffect, 5f);
+                });
+            } else {
+                if (V.x > 0 && V.z > 0) {
+                    AreaOfEffect.execute(getLivingEntityOwner(), 4, 2, getX(), getY(), getZ(), (entityToAffect) -> {
+                        Vec3d Ve = new Vec3d((ownerVec.z * -1 - 1), (ownerVec.y), (ownerVec.x * -1 - 1));
+                        PlaceParticleInWorld.spawn(getWorld(), ParticleTypes.EXPLOSION, entityToAffect.getX(), entityToAffect.getY(), entityToAffect.getZ(), 0.3, 0.3, 0.3, 3);
+                        entityToAffect.setVelocity(Ve);
+                        entityToAffect.velocityModified = true;
+                        QuirkDamage.doDamage(getLivingEntityOwner(), entityToAffect, 5f);
+                    });
+                }
+                if (V.x < 0 && V.z < 0) {
+
+                    AreaOfEffect.execute(getLivingEntityOwner(), 4, 2, getX(), getY(), getZ(), (entityToAffect) -> {
+                        Vec3d Ve = new Vec3d((ownerVec.z * -1 + 1), (ownerVec.y), (ownerVec.x * -1 + 1));
+                        PlaceParticleInWorld.spawn(getWorld(), ParticleTypes.EXPLOSION, entityToAffect.getX(), entityToAffect.getY(), entityToAffect.getZ(), 0.3, 0.3, 0.3, 3);
+                        entityToAffect.setVelocity(Ve);
+                        entityToAffect.velocityModified = true;
+                        QuirkDamage.doDamage(getLivingEntityOwner(), entityToAffect, 5f);
+                    });
+                }
+                if(V.x > 0 && V.z < 0){
+                    AreaOfEffect.execute(getLivingEntityOwner(), 4, 2, getX(), getY(), getZ(), (entityToAffect) -> {
+                        Vec3d Ve = new Vec3d((ownerVec.z * -1 + 1), (ownerVec.y), (ownerVec.x * -1 - 1));
+                        PlaceParticleInWorld.spawn(getWorld(), ParticleTypes.EXPLOSION, entityToAffect.getX(), entityToAffect.getY(), entityToAffect.getZ(), 0.3, 0.3, 0.3, 3);
+                        entityToAffect.setVelocity(Ve);
+                        entityToAffect.velocityModified = true;
+                        QuirkDamage.doDamage(getLivingEntityOwner(), entityToAffect, 5f);
+                    });
+                }
+                if(V.x < 0 && V.z > 0){
+                    AreaOfEffect.execute(getLivingEntityOwner(), 4, 2, getX(), getY(), getZ(), (entityToAffect) -> {
+                        Vec3d Ve = new Vec3d((ownerVec.z * -1 - 1), (ownerVec.y), (ownerVec.x * -1 + 1));
+                        PlaceParticleInWorld.spawn(getWorld(), ParticleTypes.EXPLOSION, entityToAffect.getX(), entityToAffect.getY(), entityToAffect.getZ(), 0.3, 0.3, 0.3, 3);
+                        entityToAffect.setVelocity(Ve);
+                        entityToAffect.velocityModified = true;
+                        QuirkDamage.doDamage(getLivingEntityOwner(), entityToAffect, 5f);
+                    });
+                }
+            }
             hasCollision = true;
             kill();
         }
