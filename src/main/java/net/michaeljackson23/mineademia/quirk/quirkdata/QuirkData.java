@@ -6,6 +6,7 @@ import net.minecraft.nbt.NbtCompound;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.UUID;
 
 public class QuirkData {
     private String quirkName = "";
@@ -89,7 +90,7 @@ public class QuirkData {
     public void setCooldown(int cooldown) {
         this.cooldown = cooldown;
     }
-    //TODO make this printable
+
     @Override
     public String toString() {
         return "Quirk: {" + quirkName + "} Models: {" + Arrays.toString(models) + "} Stamina: {" + stamina + "} Cooldown: {" + cooldown + "}";

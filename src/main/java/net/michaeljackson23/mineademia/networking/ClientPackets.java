@@ -9,16 +9,19 @@ import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.michaeljackson23.mineademia.Mineademia;
 import net.michaeljackson23.mineademia.gui.quirktablet.QuirkTabletGui;
 import net.michaeljackson23.mineademia.quirk.feature.QuirkFeatureRenderer;
+import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkData;
 import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkDataHelper;
 import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkDataPacket;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.option.Perspective;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class ClientPackets {
@@ -26,7 +29,18 @@ public class ClientPackets {
         if(!(client.player instanceof QuirkDataHelper quirkPlayer)) {
             return;
         }
+
         quirkPlayer.myHeroMod$setQuirkData(QuirkDataPacket.decode(buf));
+    }
+    //To sync player's QuirkData with every player
+    public static void quirkDataSyncProxy(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
+        if(client.world != null) {
+            QuirkData quirkData = QuirkDataPacket.decode(buf);
+            PlayerEntity player = client.world.getPlayerByUuid(buf.readUuid());
+            if(player instanceof QuirkDataHelper quirkPlayer) {
+                quirkPlayer.myHeroMod$setQuirkData(quirkData);
+            }
+        }
     }
     public static void quirkTablet(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
         client.execute(() -> {

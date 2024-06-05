@@ -35,6 +35,7 @@ public class Networking {
 
     public static void registerClient() {
         ClientPlayNetworking.registerGlobalReceiver(QuirkDataPacket.QUIRK_DATA_SYNC, ClientPackets::quirkDataSync);
+        ClientPlayNetworking.registerGlobalReceiver(QuirkDataPacket.QUIRK_DATA_SYNC_PROXY, ClientPackets::quirkDataSyncProxy);
         ClientPlayNetworking.registerGlobalReceiver(QUIRK_TABLET_GUI, ClientPackets::quirkTablet);
         ClientPlayNetworking.registerGlobalReceiver(ANIMATION, ClientPackets::animationProxy);
         ClientPlayNetworking.registerGlobalReceiver(SET_YAW, ClientPackets::setYaw);

@@ -26,6 +26,9 @@ public abstract class Quirk {
     private ArrayList<Integer> quirkStats = new ArrayList<>();
     private LinkedList<PassiveAbility> passives = new LinkedList<>();
     private String[] modelsForQuirk;
+    //This where the server event checks if the player has an ability active, and whether they need to regenerate stamina, and whether to decrease the cooldown
+    //Every 40 ticks it sends your quirkdata to every client. I was lazy, that's why I put it here.
+    public int tickCounter = 0;
 
     public Quirk(String name, AbilityBase one, AbilityBase two, AbilityBase three, AbilityBase four, AbilityBase five) {
         this.name = name;
@@ -41,17 +44,6 @@ public abstract class Quirk {
         processPassives(player);
         regenerateStamina();
         reduceCooldown();
-    }
-
-    private void processInit(ServerPlayerEntity player) {
-        if(!hasInit) {
-            init(player);
-            hasInit = true;
-        }
-    }
-    //TODO if you load in with a quirk that has a model, it doesn't load
-    //Meant to be overwritten. This is a basic implementation, which loads de-loads previous models and loads in any relevant models
-    protected void init(ServerPlayerEntity player) {
     }
 
     private void handleActiveAbility(ServerPlayerEntity player) {
@@ -127,21 +119,6 @@ public abstract class Quirk {
     public void addPassive(PassiveAbility passive) {
         if(!this.passives.contains(passive)) {
             this.passives.add(passive);
-        }
-    }
-    //TODO using this method creates a new instance in memory which then allows the passive to be added twice.
-    //TODO fix it
-    @Deprecated
-    public void addPassive(PassiveAbility passive, int staminaDrain) {
-        if(!this.passives.contains(passive)) {
-            this.passives.add((player, quirk) -> {
-                if(this.getStamina() < staminaDrain) {
-                    return true;
-                }
-                stamina -= staminaDrain;
-                passive.isDone(player, quirk);
-                return false;
-            });
         }
     }
 

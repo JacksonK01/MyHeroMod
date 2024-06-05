@@ -101,7 +101,6 @@ public abstract class AbilityBase {
 
     public void execute(ServerPlayerEntity player, Quirk quirk) {
         timer++;
-        System.out.println("Ability timer = " + timer);
         if(executeCondition() && !cancel) {
             activate(player, quirk);
         } else {

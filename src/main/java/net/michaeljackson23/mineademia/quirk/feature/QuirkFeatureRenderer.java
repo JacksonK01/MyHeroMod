@@ -39,23 +39,19 @@ public class QuirkFeatureRenderer extends FeatureRenderer<AbstractClientPlayerEn
         matrices.push();
         if(player instanceof QuirkDataHelper quirkPlayer) {
             QuirkData quirkData = quirkPlayer.myHeroMod$getQuirkData();
-            player.sendMessage(Text.literal(player.getName().getString() + ": " + quirkData));
+            //player.sendMessage(Text.literal("[" + player.getName().getString() + "] " + quirkData));
 
             for(int i = 0; i < quirkData.getModelsArrayLength(); i++) {
                 String model = quirkData.getModel(i);
-                player.sendMessage(Text.literal("Processing Model -> " + model));
+                //player.sendMessage(Text.literal("Processing Model -> " + model));
                 if(modelMap.containsKey(model)) {
                     ModelData modelData =  modelMap.get(model);
                     modelData.process(player);
                     VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityCutoutNoCull(modelData.getTexture()));
                     this.getContextModel().copyBipedStateTo(modelData.getModel());
                     modelData.getModel().render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, 1.0f, 1.0f, 1.0f, 1.0f);
-                } else {
-                    player.sendMessage(Text.literal(player.getName().getString() + ": Could not find a key"));
                 }
             }
-        } else {
-            player.sendMessage(Text.literal(player.getName().getString() + " is not a QuirkDataHelper"));
         }
         matrices.pop();
     }

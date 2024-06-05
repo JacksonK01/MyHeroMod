@@ -8,8 +8,11 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
+import java.util.Objects;
+
 public class QuirkDataPacket {
     public static final Identifier QUIRK_DATA_SYNC = new Identifier(Mineademia.MOD_ID, "quirk_data_sync");
+    public static final Identifier QUIRK_DATA_SYNC_PROXY = new Identifier(Mineademia.MOD_ID, "quirk_data_sync_all");
 
     public static PacketByteBuf encode(QuirkData quirkData) {
         PacketByteBuf data = PacketByteBufs.create();
@@ -41,18 +44,18 @@ public class QuirkDataPacket {
         }
         quirkPlayer.myHeroMod$getQuirkData().syncStaminaAndCooldown(quirkPlayer.myHeroMod$getQuirk(player.getServer()));
         PacketByteBuf data = encode(quirkPlayer.myHeroMod$getQuirkData());
-        player.sendMessage(Text.literal("Sent packet to your client"));
         ServerPlayNetworking.send(player, QUIRK_DATA_SYNC, data);
     }
 
-    public static void sendToAll(ServerPlayerEntity player) {
+    public static void sendProxy(ServerPlayerEntity player) {
         if(!(player instanceof QuirkDataHelper quirkPlayer)) {
             return;
         }
-        player.sendMessage(Text.literal("Sent packet to all clients"));
+        //player.sendMessage(Text.literal("[" + player.getName().getString() + "] " + quirkPlayer.myHeroMod$getQuirkData()));
         PacketByteBuf data = encode(quirkPlayer.myHeroMod$getQuirkData());
-        for (ServerPlayerEntity otherPlayer : player.getServer().getPlayerManager().getPlayerList()) {
-            ServerPlayNetworking.send(otherPlayer, QUIRK_DATA_SYNC, data);
+        data.writeUuid(player.getUuid());
+        for (ServerPlayerEntity otherPlayer : Objects.requireNonNull(player.getServer()).getPlayerManager().getPlayerList()) {
+            ServerPlayNetworking.send(otherPlayer, QUIRK_DATA_SYNC_PROXY, data);
         }
     }
 }
