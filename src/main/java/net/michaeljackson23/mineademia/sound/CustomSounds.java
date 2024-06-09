@@ -22,11 +22,15 @@ public class CustomSounds {
     public static final Identifier GRIDDY_ID = new Identifier(Mineademia.MOD_ID, "griddy");
     public static SoundEvent GRIDDY_EVENT = SoundEvent.of(GRIDDY_ID);
 
+    public static final Identifier SLIDE_ID = new Identifier(Mineademia.MOD_ID, "slide");
+    public static SoundEvent SLIDE_EVENT = SoundEvent.of(SLIDE_ID);
+
     public static void register() {
         Registry.register(Registries.SOUND_EVENT, COWLING_START_ID, COWLING_START_EVENT);
         Registry.register(Registries.SOUND_EVENT, COWLING_END_ID, COWLING_END_EVENT);
         Registry.register(Registries.SOUND_EVENT, COWLING_REPEAT_ID, COWLING_REPEAT_EVENT);
         Registry.register(Registries.SOUND_EVENT, MHA_FIRE_ID, MHA_FIRE_EVENT);
         Registry.register(Registries.SOUND_EVENT, GRIDDY_ID, GRIDDY_EVENT);
+        Registry.register(Registries.SOUND_EVENT, SLIDE_ID, SLIDE_EVENT);
     }
 }

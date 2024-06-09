@@ -59,7 +59,7 @@ public class WindBladeProjectile extends ThrownItemEntity {
             entityToAffect.setVelocity(ownerVec);
             entityToAffect.velocityModified = true;
             PlaceParticleInWorld.spawn(getWorld(), ParticleTypes.SWEEP_ATTACK, entityToAffect.getX(), entityToAffect.getY(), entityToAffect.getZ(), 0.3, 0.3, 0.3, 3);
-            QuirkDamage.doDamage(getLivingEntityOwner(), entityToAffect, 1f);
+            QuirkDamage.doEmitterDamage(getLivingEntityOwner(), entityToAffect, 1f);
         });
 
         timer++;
@@ -90,7 +90,7 @@ public class WindBladeProjectile extends ThrownItemEntity {
                     Vec3d OV2 = new Vec3d((ownerVec.x * -1 +.5 ), ownerVec.y, (ownerVec.z * -1+.5));
                     entityToAffect.setVelocity(OV2);
                     entityToAffect.velocityModified = true;
-                    QuirkDamage.doDamage(getLivingEntityOwner(), entityToAffect, 5f);
+                    QuirkDamage.doEmitterDamage(getLivingEntityOwner(), entityToAffect, 5f);
                 });
             } else {
                 if (V.x > 0 && V.z > 0) {
@@ -99,17 +99,16 @@ public class WindBladeProjectile extends ThrownItemEntity {
                         PlaceParticleInWorld.spawn(getWorld(), ParticleTypes.EXPLOSION, entityToAffect.getX(), entityToAffect.getY(), entityToAffect.getZ(), 0.3, 0.3, 0.3, 3);
                         entityToAffect.setVelocity(Ve);
                         entityToAffect.velocityModified = true;
-                        QuirkDamage.doDamage(getLivingEntityOwner(), entityToAffect, 5f);
+                        QuirkDamage.doEmitterDamage(getLivingEntityOwner(), entityToAffect, 5f);
                     });
                 }
                 if (V.x < 0 && V.z < 0) {
-
                     AreaOfEffect.execute(getLivingEntityOwner(), 4, 2, getX(), getY(), getZ(), (entityToAffect) -> {
                         Vec3d Ve = new Vec3d((ownerVec.z * -1 + 1), (ownerVec.y), (ownerVec.x * -1 + 1));
                         PlaceParticleInWorld.spawn(getWorld(), ParticleTypes.EXPLOSION, entityToAffect.getX(), entityToAffect.getY(), entityToAffect.getZ(), 0.3, 0.3, 0.3, 3);
                         entityToAffect.setVelocity(Ve);
                         entityToAffect.velocityModified = true;
-                        QuirkDamage.doDamage(getLivingEntityOwner(), entityToAffect, 5f);
+                        QuirkDamage.doEmitterDamage(getLivingEntityOwner(), entityToAffect, 5f);
                     });
                 }
                 if(V.x > 0 && V.z < 0){
@@ -118,7 +117,7 @@ public class WindBladeProjectile extends ThrownItemEntity {
                         PlaceParticleInWorld.spawn(getWorld(), ParticleTypes.EXPLOSION, entityToAffect.getX(), entityToAffect.getY(), entityToAffect.getZ(), 0.3, 0.3, 0.3, 3);
                         entityToAffect.setVelocity(Ve);
                         entityToAffect.velocityModified = true;
-                        QuirkDamage.doDamage(getLivingEntityOwner(), entityToAffect, 5f);
+                        QuirkDamage.doEmitterDamage(getLivingEntityOwner(), entityToAffect, 5f);
                     });
                 }
                 if(V.x < 0 && V.z > 0){
@@ -127,7 +126,7 @@ public class WindBladeProjectile extends ThrownItemEntity {
                         PlaceParticleInWorld.spawn(getWorld(), ParticleTypes.EXPLOSION, entityToAffect.getX(), entityToAffect.getY(), entityToAffect.getZ(), 0.3, 0.3, 0.3, 3);
                         entityToAffect.setVelocity(Ve);
                         entityToAffect.velocityModified = true;
-                        QuirkDamage.doDamage(getLivingEntityOwner(), entityToAffect, 5f);
+                        QuirkDamage.doEmitterDamage(getLivingEntityOwner(), entityToAffect, 5f);
                     });
                 }
             }

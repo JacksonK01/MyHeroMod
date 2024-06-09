@@ -3,14 +3,17 @@
   "package": "net.michaeljackson23.mineademia.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "LivingEntityMixin",
     "MineademiaMixin",
-    "PlayerEntityMixin"
+    "PlayerManagerMixin",
+    "ServerPlayerEntityMixin"
   ],
   "client": [
-    "BipedEntityModelMixin",
-    "ItemRendererAccessor",
-    "ModelLoaderMixin",
-    "PlayerEntityRendererMixin"
+    "client.AbstractClientPlayerEntityMixin",
+    "client.BipedEntityModelMixin",
+    "client.ItemRendererAccessor",
+    "client.ModelLoaderMixin",
+    "client.PlayerEntityRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

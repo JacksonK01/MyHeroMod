@@ -1,13 +1,14 @@
 package net.michaeljackson23.mineademia.quirk.quirkdata;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.michaeljackson23.mineademia.Mineademia;
 import net.michaeljackson23.mineademia.quirk.Quirk;
 import net.minecraft.nbt.NbtCompound;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.UUID;
-
+@Environment(value= EnvType.CLIENT)
 public class QuirkData {
     private String quirkName = "";
     private double stamina = 1000;
@@ -21,35 +22,6 @@ public class QuirkData {
         this.models = models;
         this.stamina = stamina;
         this.cooldown = cooldown;
-    }
-
-    public void readNbt(NbtCompound nbt) {
-        if(nbt.contains(Mineademia.MOD_ID + ".quirkName")) {
-            setQuirkName(nbt.getString(Mineademia.MOD_ID + ".quirkName"));
-            ArrayList<String> modelsList = new ArrayList<>();
-            for(int i = 0; i < nbt.getInt(Mineademia.MOD_ID + ".modelsCount"); i++) {
-                modelsList.add(nbt.getString(Mineademia.MOD_ID + ".quirkModel." + i));
-            }
-            setModels(modelsList.toArray(new String[0]));
-        }
-    }
-
-    public void writeNbt(NbtCompound nbt) {
-        nbt.putString(Mineademia.MOD_ID + ".quirkName", quirkName);
-        nbt.putInt(Mineademia.MOD_ID + ".modelsCount", getModelsArrayLength());
-        for(int i = 0; i < getModelsArrayLength(); i++) {
-            nbt.putString(Mineademia.MOD_ID + ".quirkModel." + i, getModel(i));
-        }
-    }
-
-    public void buildFromQuirk(Quirk quirk) {
-        this.quirkName = quirk.getName();
-        this.models = quirk.getModelsForQuirk();
-    }
-
-    public void syncStaminaAndCooldown(Quirk quirk) {
-        this.stamina = quirk.getStamina();
-        this.cooldown = quirk.getCooldown();
     }
 
     public String getQuirkName() {

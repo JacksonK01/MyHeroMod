@@ -39,7 +39,7 @@ public class FlameThrower extends AbilityBase {
                     5, 2, 2, 2, 0.001f);
 
             AreaOfEffect.execute(player, 4, 2, x, y, z, (entityToAffect) -> {
-                QuirkDamage.doDamage(player, entityToAffect, 6);
+                QuirkDamage.doEmitterDamage(player, entityToAffect, 6);
                 entityToAffect.setOnFireFor(4);
                 player.getServerWorld().spawnParticles(ParticleTypes.FLAME,
                         entityToAffect.getX(), entityToAffect.getY(), entityToAffect.getZ(),

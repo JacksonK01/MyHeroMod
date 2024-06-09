@@ -12,4 +12,14 @@ public class QuirkDamage {
     public static void selfDamage(LivingEntity attacked, float amount) {
         attacked.damage(CustomDamageTypes.of(attacked.getWorld(), CustomDamageTypes.QUIRK_DAMAGE), amount);
     }
+
+    public static void doEmitterDamage(LivingEntity attacker, LivingEntity attacked, float amount) {
+        attacked.setAttacker(attacker);
+        attacked.damage(CustomDamageTypes.of(attacker.getWorld(), CustomDamageTypes.EMITTER_QUIRK_DAMAGE), amount);
+    }
+
+    public static void doPhysicalDamage(LivingEntity attacker, LivingEntity attacked, float amount) {
+        attacked.setAttacker(attacker);
+        attacked.damage(CustomDamageTypes.of(attacker.getWorld(), CustomDamageTypes.PHYSICAL_QUIRK_DAMAGE), amount);
+    }
 }

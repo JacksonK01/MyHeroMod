@@ -2,11 +2,13 @@ package net.michaeljackson23.mineademia.quirk;
 
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.michaeljackson23.mineademia.Mineademia;
 import net.michaeljackson23.mineademia.networking.Networking;
 import net.michaeljackson23.mineademia.quirk.abilities.AbilityBase;
 import net.michaeljackson23.mineademia.quirk.abilities.PassiveAbility;
 import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkDataPacket;
 import net.minecraft.entity.EntityType;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
@@ -28,7 +30,7 @@ public abstract class Quirk {
     private String[] modelsForQuirk;
     //This where the server event checks if the player has an ability active, and whether they need to regenerate stamina, and whether to decrease the cooldown
     //Every 40 ticks it sends your quirkdata to every client. I was lazy, that's why I put it here.
-    public int tickCounter = 0;
+    public int tickCounter = 10;
 
     public Quirk(String name, AbilityBase one, AbilityBase two, AbilityBase three, AbilityBase four, AbilityBase five) {
         this.name = name;
@@ -170,5 +172,10 @@ public abstract class Quirk {
 
     public String[] getModelsForQuirk() {
         return this.modelsForQuirk == null ? new String[0] : modelsForQuirk;
+    }
+
+    @Override
+    public String toString() {
+        return this.name +": " + Arrays.toString(this.abilities);
     }
 }

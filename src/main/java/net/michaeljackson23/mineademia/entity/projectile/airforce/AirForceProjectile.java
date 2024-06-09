@@ -1,6 +1,7 @@
 package net.michaeljackson23.mineademia.entity.projectile.airforce;
 
 import net.michaeljackson23.mineademia.entity.EntityRegister;
+import net.michaeljackson23.mineademia.sound.CustomSounds;
 import net.michaeljackson23.mineademia.util.PlaceParticleInWorld;
 import net.minecraft.command.argument.ParticleEffectArgumentType;
 import net.minecraft.entity.Entity;
@@ -16,6 +17,7 @@ import net.minecraft.item.Items;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
@@ -64,11 +66,9 @@ public class AirForceProjectile extends ThrownItemEntity {
 
     protected void onCollision(HitResult hitResult) { // called on collision with a block
         super.onCollision(hitResult);
-        if (!this.getWorld().isClient) { // checks if the world is client
-            this.getWorld().createExplosion(this.getOwner(), this.getX(), this.getY(), this.getZ(), 3, World.ExplosionSourceType.TNT);
-            this.kill(); // kills the projectile
-        }
-
+        getWorld().playSound(null, hitResult.getPos().getX(), hitResult.getPos().getY(), hitResult.getPos().getZ(), SoundEvents.BLOCK_ANVIL_HIT, SoundCategory.PLAYERS, 1f, 1f);
+        this.getWorld().createExplosion(this.getOwner(), this.getX(), this.getY(), this.getZ(), 3, World.ExplosionSourceType.TNT);
+        this.kill();
     }
 
 

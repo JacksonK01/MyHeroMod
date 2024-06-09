@@ -10,6 +10,9 @@ import net.minecraft.world.World;
 
 public class CustomDamageTypes {
     public static final RegistryKey<DamageType> QUIRK_DAMAGE = RegistryKey.of(RegistryKeys.DAMAGE_TYPE, new Identifier(Mineademia.MOD_ID, "quirk_damage_type"));
+    public static final RegistryKey<DamageType> EMITTER_QUIRK_DAMAGE = RegistryKey.of(RegistryKeys.DAMAGE_TYPE, new Identifier(Mineademia.MOD_ID, "quirk_emitter_damage_type"));
+    public static final RegistryKey<DamageType> PHYSICAL_QUIRK_DAMAGE = RegistryKey.of(RegistryKeys.DAMAGE_TYPE, new Identifier(Mineademia.MOD_ID, "quirk_physical_damage_type"));
+
 
     public static DamageSource of(World world, RegistryKey<DamageType> key) {
         return new DamageSource(world.getRegistryManager().get(RegistryKeys.DAMAGE_TYPE).entryOf(key));

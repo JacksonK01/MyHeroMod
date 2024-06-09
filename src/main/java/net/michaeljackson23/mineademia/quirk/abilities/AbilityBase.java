@@ -117,4 +117,9 @@ public abstract class AbilityBase {
         this.hasInit = false;
         this.cancel = false;
     }
+
+    @Override
+    public String toString() {
+        return "[" + title + " - " + description + "]";
+    }
 }

@@ -20,5 +20,13 @@
 
   "death.attack.quirk.player": "%1$s was killed by %2$s using their quirk",
   "death.attack.quirk": "%1$s died by a quirk",
-  "death.quirk": "%1$s could not handle their quirk"
+  "death.quirk": "%1$s could not handle their quirk",
+
+  "death.attack.quirk.emitter.player": "%1$s was killed by %2$s using emitter quirk damage",
+  "death.attack.quirk.emitter": "%1$s died by emitter quirk damage",
+
+  "death.attack.quirk.physical.player": "%1$s was killed by %2$s using physical quirk damage",
+  "death.attack.quirk.physical": "%1$s died by physical quirk damage"
+
+
 }

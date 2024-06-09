@@ -10,6 +10,8 @@ import net.michaeljackson23.mineademia.networking.Networking;
 import net.michaeljackson23.mineademia.quirk.ServerQuirkTicks;
 import net.michaeljackson23.mineademia.entity.EntityRegister;
 import net.michaeljackson23.mineademia.particles.ParticleRegister;
+import net.michaeljackson23.mineademia.quirk.events.BeforeDamageEvent;
+import net.michaeljackson23.mineademia.savedata.OnPlayerRespawn;
 import net.michaeljackson23.mineademia.sound.CustomSounds;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +27,10 @@ import org.slf4j.LoggerFactory;
  *     <li>Windblade projectile</li>
  *   </ul>
  * </ul>
+ *
+ * <ul>
+ *   <li>Cookiebug - Has drawn all the assets for the mod</li>
+ * </ul>
  */
 
 public class Mineademia implements ModInitializer {
@@ -32,6 +38,8 @@ public class Mineademia implements ModInitializer {
     public static final Logger LOGGER = LoggerFactory.getLogger("mineademia");
 
 	//Registers elements for server + client. Stuff like items, blocks and any logic you want serverside goes here.
+	//TODO hook into before player taking damage
+	//TODO hook into before the player respawns
 	@Override
 	public void onInitialize() {
 		Networking.registerServer();
@@ -43,5 +51,7 @@ public class Mineademia implements ModInitializer {
 		ItemRegister.register();
 		ParticleRegister.register();
 		CustomSounds.register();
+		OnPlayerRespawn.register();
+		BeforeDamageEvent.register();
 	}
 }

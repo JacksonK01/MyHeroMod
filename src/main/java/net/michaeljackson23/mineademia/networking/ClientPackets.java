@@ -8,7 +8,6 @@ import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationRegistry;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.michaeljackson23.mineademia.Mineademia;
 import net.michaeljackson23.mineademia.gui.quirktablet.QuirkTabletGui;
-import net.michaeljackson23.mineademia.quirk.feature.QuirkFeatureRenderer;
 import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkData;
 import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkDataHelper;
 import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkDataPacket;
@@ -21,7 +20,6 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
-import java.util.Objects;
 import java.util.UUID;
 
 public class ClientPackets {
@@ -61,8 +59,8 @@ public class ClientPackets {
             }
             if (player != null) {
                 AnimationStack animationStack = PlayerAnimationAccess.getPlayerAnimLayer(player);
-                if(animationStack.isActive()) {
-                    animationStack.removeLayer(0);
+                for(int i = 0; animationStack.isActive(); i++) {
+                    animationStack.removeLayer(i);
                 }
                 KeyframeAnimation keyframeAnimation = PlayerAnimationRegistry.getAnimation(id);
                 if(keyframeAnimation != null) {

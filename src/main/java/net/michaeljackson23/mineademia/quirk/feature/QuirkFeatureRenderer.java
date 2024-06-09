@@ -15,25 +15,21 @@ import net.minecraft.client.render.entity.feature.FeatureRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 import net.minecraft.client.render.entity.model.PlayerEntityModel;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.Text;
 
 import java.util.HashMap;
-import java.util.UUID;
 
 @Environment(value= EnvType.CLIENT)
 public class QuirkFeatureRenderer extends FeatureRenderer<AbstractClientPlayerEntity, PlayerEntityModel<AbstractClientPlayerEntity>> {
-    public static final HashMap<String, ModelData> modelMap = new HashMap<>();
+    public static final HashMap<String, ModelDataHolder> modelMap = new HashMap<>();
 
     public QuirkFeatureRenderer(FeatureRendererContext<AbstractClientPlayerEntity, PlayerEntityModel<AbstractClientPlayerEntity>> featureRendererContext) {
         super(featureRendererContext);
         MinecraftClient client = MinecraftClient.getInstance();
         //Registry isn't registered yet which is why modelData has a constructor and init method
-        modelMap.forEach(((name, modelData) -> {
-            modelData.modelInit(client);
+        modelMap.forEach(((name, modelDataHolder) -> {
+            modelDataHolder.modelInit(client);
         }));
     }
-
-    //TODO when a render is active, it's active for everyone in multiplayer. Find player's uuid and register the model based on that?
     @Override
     public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, AbstractClientPlayerEntity player, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
         matrices.push();
@@ -45,18 +41,18 @@ public class QuirkFeatureRenderer extends FeatureRenderer<AbstractClientPlayerEn
                 String model = quirkData.getModel(i);
                 //player.sendMessage(Text.literal("Processing Model -> " + model));
                 if(modelMap.containsKey(model)) {
-                    ModelData modelData =  modelMap.get(model);
-                    modelData.process(player);
-                    VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityCutoutNoCull(modelData.getTexture()));
-                    this.getContextModel().copyBipedStateTo(modelData.getModel());
-                    modelData.getModel().render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, 1.0f, 1.0f, 1.0f, 1.0f);
+                    ModelDataHolder modelDataHolder =  modelMap.get(model);
+                    modelDataHolder.process(player);
+                    VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityCutoutNoCull(modelDataHolder.getTexture()));
+                    this.getContextModel().copyBipedStateTo(modelDataHolder.getModel());
+                    modelDataHolder.getModel().render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, 1.0f, 1.0f, 1.0f, 1.0f);
                 }
             }
         }
         matrices.pop();
     }
     public static void register() {
-        modelMap.put("EnginesAndEngineFire", new ModelData("engines", "textures/features/engines_model.png", EnginesModelState::new, EnginesModelState::getTexturedModelData));
+        modelMap.put("EnginesAndEngineFire", new ModelDataHolder("engines", "textures/features/engines_model.png", EnginesModelState::new, EnginesModelState::getTexturedModelData));
 
     }
 }

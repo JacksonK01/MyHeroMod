@@ -1,4 +1,14 @@
 {
+  "slide": {
+    "category": "master",
+    "subtitle": "subtitles.slide",
+    "sounds": [
+      {
+        "name": "mineademia:slide_sound",
+        "stream": false
+      }
+    ]
+  },
   "griddy": {
     "category": "master",
     "subtitle": "subtitles.griddy",
