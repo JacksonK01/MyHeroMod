@@ -15,6 +15,7 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -85,6 +86,7 @@ public class SlideAndKicks extends AbilityBase {
         } else {
             if(!hasAirAnimationPlayed) {
                 AnimationProxy.sendAnimationToClients(player, "air_kick_down");
+                player.getWorld().playSound(null, player.getBlockPos(), SoundEvents.ENTITY_WITCH_THROW, SoundCategory.PLAYERS, 1f, 2f);
                 hasAirAnimationPlayed = true;
             }
         }
@@ -151,6 +153,7 @@ public class SlideAndKicks extends AbilityBase {
             player.velocityModified = true;
         }
         if(!hasHitUp && kickTimer > 10) {
+            player.getWorld().playSound(null, player.getBlockPos(), SoundEvents.ENTITY_WITCH_THROW, SoundCategory.PLAYERS, 1f, 1f);
             AreaOfEffect.execute(player, 3, 0.5, player.getX(), player.getY(), player.getZ(), (entity) -> {
                 entity.setVelocity(storedVec.x, 1, storedVec.z);
                 entity.velocityModified = true;

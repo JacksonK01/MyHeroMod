@@ -136,6 +136,7 @@ public abstract class Quirk {
      *     valid to use and run.
      * </p>
      */
+    //TODO fix holdable abilities going into negative stamina
     private void handleActiveAbility(ServerPlayerEntity player) {
         if (activeAbility != null) {
             if (!activeAbility.hasInit()) {

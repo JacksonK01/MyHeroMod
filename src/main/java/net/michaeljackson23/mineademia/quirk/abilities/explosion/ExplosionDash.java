@@ -14,7 +14,9 @@ public class ExplosionDash extends AbilityBase {
 
     int velocityCounter = 0;
     PassiveAbility particlesPassive = (player, quirk) -> {
-        if(interval <= 0) {
+        if(getStaminaDrain() > quirk.getStamina()) {
+            return true;
+        }else if(interval <= 0) {
             interval = 0;
             return true;
         }
