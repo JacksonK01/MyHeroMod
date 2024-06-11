@@ -6,6 +6,10 @@ import net.michaeljackson23.mineademia.Mineademia;
 import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkDataPacket;
 import net.minecraft.util.Identifier;
 
+/**
+ * For any confusion:
+ * <a href="https://fabricmc.net/wiki/tutorial:networking">Click Me</a>
+ */
 public class Networking {
     //Server Identifiers sent from client
     public static final Identifier ABILITY_ONE = new Identifier(Mineademia.MOD_ID, "ability_one");

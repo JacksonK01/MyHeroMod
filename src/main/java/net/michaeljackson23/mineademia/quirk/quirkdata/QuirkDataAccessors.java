@@ -5,7 +5,7 @@ import net.fabricmc.api.Environment;
 
 //This is purely for the mixin to have methods I can call. Ignore this interface
 @Environment(value= EnvType.CLIENT)
-public interface QuirkDataHelper {
+public interface QuirkDataAccessors {
     QuirkData myHeroMod$getQuirkData();
     void myHeroMod$setQuirkData(QuirkData quirkData);
 }

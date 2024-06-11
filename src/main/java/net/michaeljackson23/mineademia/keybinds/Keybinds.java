@@ -7,6 +7,10 @@ import org.lwjgl.glfw.GLFW;
 
 import static net.michaeljackson23.mineademia.networking.Networking.*;
 
+/**
+ * For any confusion:
+ * <a href="https://fabricmc.net/wiki/tutorial:keybinds">Click Me</a>
+ */
 public class Keybinds {
     private static HoldableKeybind keyAbilityOne;
     private static HoldableKeybind keyAbilityTwo;

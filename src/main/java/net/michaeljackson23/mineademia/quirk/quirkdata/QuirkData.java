@@ -14,14 +14,16 @@ public class QuirkData {
     private double stamina = 1000;
     private int cooldown = 0;
     private String[] models = new String[0];
+    private String activeAbility = "";
 
     public QuirkData() {}
 
-    public QuirkData(String quirkName, String[] models, double stamina, int cooldown) {
+    public QuirkData(String quirkName, String[] models, double stamina, int cooldown, String activeAbility) {
         this.quirkName = quirkName;
         this.models = models;
         this.stamina = stamina;
         this.cooldown = cooldown;
+        this.activeAbility = activeAbility;
     }
 
     public String getQuirkName() {
@@ -61,6 +63,10 @@ public class QuirkData {
 
     public void setCooldown(int cooldown) {
         this.cooldown = cooldown;
+    }
+
+    public String getActiveAbility() {
+        return this.activeAbility;
     }
 
     @Override

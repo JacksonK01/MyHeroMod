@@ -21,13 +21,15 @@ public class ModelDataHolder implements QuirkModelLogicHelper {
     private final EntityModelLayer layer;
     private BipedEntityModel<AbstractClientPlayerEntity> model;
     private final Function<ModelPart, BipedEntityModel<AbstractClientPlayerEntity>> modelConstructor;
+    private final boolean isTranslucent;
 
-    public ModelDataHolder(String modelName, String texture, Function<ModelPart, BipedEntityModel<AbstractClientPlayerEntity>> constructor, EntityModelLayerRegistry.TexturedModelDataProvider texturedModelData) {
+    public ModelDataHolder(String modelName, String texture, boolean isTranslucent, Function<ModelPart, BipedEntityModel<AbstractClientPlayerEntity>> constructor, EntityModelLayerRegistry.TexturedModelDataProvider texturedModelData) {
         this.id = new Identifier(Mineademia.MOD_ID, modelName);
         this.texture = new Identifier(Mineademia.MOD_ID, texture);
         this.layer = new EntityModelLayer(id, "main");
         EntityModelLayerRegistry.registerModelLayer(layer, texturedModelData);
         modelConstructor = constructor;
+        this.isTranslucent = isTranslucent;
     }
     //Registry isn't registered yet which is why modelData has a constructor and init method
     public void modelInit(MinecraftClient client) {
@@ -68,5 +70,9 @@ public class ModelDataHolder implements QuirkModelLogicHelper {
         if(model instanceof QuirkModelLogicHelper entityModel) {
             entityModel.process(player);
         }
+    }
+
+    public boolean isTranslucent() {
+        return this.isTranslucent;
     }
 }

@@ -2,11 +2,11 @@
 // Exported for Minecraft version 1.17+ for Yarn
 // Paste this class into your mod and generate all required imports
 
-package net.michaeljackson23.mineademia.quirk.feature.models;
+package net.michaeljackson23.mineademia.quirk.feature.models.engine;
 
 import net.michaeljackson23.mineademia.quirk.feature.QuirkModelLogicHelper;
 import net.michaeljackson23.mineademia.quirk.feature.QuirkModelStateHelper;
-import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkDataHelper;
+import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkDataAccessors;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
@@ -165,7 +165,7 @@ public class EnginesModelState<T extends LivingEntity> extends BipedEntityModel<
     @Override
     public void process(PlayerEntity player) {
         setEnginesVisible(true);
-        if(player instanceof QuirkDataHelper quirkPlayer) {
+        if(player instanceof QuirkDataAccessors quirkPlayer) {
             setEnginesFireVisible(quirkPlayer.myHeroMod$getQuirkData().getCooldown() > 0);
         }
     }

@@ -1,5 +1,8 @@
 package net.michaeljackson23.mineademia.util;
 
+/**
+ * WARNING: do not use this for anything except the intended use.
+ */
 public class IndexMap<K, V> {
     private Node<K, V> root;
     private int size = 0;

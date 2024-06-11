@@ -2,8 +2,8 @@ package net.michaeljackson23.mineademia.networking;
 
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.michaeljackson23.mineademia.quirk.Quirk;
-import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkDataHelper;
 import net.michaeljackson23.mineademia.quirk.QuirkInitialize;
+import net.michaeljackson23.mineademia.quirk.abilities.AbilityBase;
 import net.michaeljackson23.mineademia.savedata.StateSaverAndLoader;
 import net.michaeljackson23.mineademia.util.QuirkAccessor;
 import net.minecraft.network.PacketByteBuf;
@@ -45,6 +45,8 @@ public class ServerPackets {
         boolean isHeld = buf.readBoolean();
         if (isHeld) {
             quirk.setActiveAbility(quirk.getAbilities()[i]);
+            AbilityBase activeAbility = quirk.getActiveAbility();
+            activeAbility.setAmountOfTimesActivated(activeAbility.getAmountOfTimesActivated() + 1);
         }
         if(quirk.getActiveAbility() != null) {
             quirk.getActiveAbility().setIsCurrentlyHeld(isHeld);

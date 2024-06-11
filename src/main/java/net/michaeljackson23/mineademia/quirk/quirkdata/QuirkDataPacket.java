@@ -24,6 +24,7 @@ public class QuirkDataPacket {
         }
         data.writeDouble(quirk.getStamina());
         data.writeInt(quirk.getCooldown());
+        data.writeString(quirk.getActiveAbility() == null ? "" : quirk.getActiveAbility().getTitle());
         return data;
     }
 
@@ -36,7 +37,8 @@ public class QuirkDataPacket {
         }
         double stamina = data.readDouble();
         int cooldown = data.readInt();
-        return new QuirkData(quirk, models, stamina, cooldown);
+        String activeAbility = data.readString();
+        return new QuirkData(quirk, models, stamina, cooldown, activeAbility);
     }
 
     public static void send(ServerPlayerEntity player) {

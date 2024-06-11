@@ -9,7 +9,7 @@ import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.michaeljackson23.mineademia.Mineademia;
 import net.michaeljackson23.mineademia.gui.quirktablet.QuirkTabletGui;
 import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkData;
-import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkDataHelper;
+import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkDataAccessors;
 import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkDataPacket;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
@@ -24,7 +24,7 @@ import java.util.UUID;
 
 public class ClientPackets {
     public static void quirkDataSync(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
-        if(!(client.player instanceof QuirkDataHelper quirkPlayer)) {
+        if(!(client.player instanceof QuirkDataAccessors quirkPlayer)) {
             return;
         }
 
@@ -35,7 +35,7 @@ public class ClientPackets {
         if(client.world != null) {
             QuirkData quirkData = QuirkDataPacket.decode(buf);
             PlayerEntity player = client.world.getPlayerByUuid(buf.readUuid());
-            if(player instanceof QuirkDataHelper quirkPlayer) {
+            if(player instanceof QuirkDataAccessors quirkPlayer) {
                 quirkPlayer.myHeroMod$setQuirkData(quirkData);
             }
         }

@@ -3,7 +3,7 @@ package net.michaeljackson23.mineademia.hud;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
-import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkDataHelper;
+import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkDataAccessors;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.text.Text;
@@ -18,7 +18,7 @@ public class DevQuirkDisplay {
         HudRenderCallback.EVENT.register((draw, tick) -> {
             MinecraftClient client = MinecraftClient.getInstance();
             if(client != null) {
-                if(!(client.player instanceof QuirkDataHelper quirkPlayer)) {
+                if(!(client.player instanceof QuirkDataAccessors quirkPlayer)) {
                     return;
                 }
                 int width = client.getWindow().getScaledWidth();

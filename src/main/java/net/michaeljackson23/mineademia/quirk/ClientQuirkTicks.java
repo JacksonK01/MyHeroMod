@@ -4,13 +4,13 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkData;
-import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkDataHelper;
+import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkDataAccessors;
 
 @Environment(value= EnvType.CLIENT)
 public class ClientQuirkTicks {
     public static void registerClientTicks() {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            if(client.player instanceof QuirkDataHelper quirkPlayer) {
+            if(client.player instanceof QuirkDataAccessors quirkPlayer) {
                 QuirkData quirkData = quirkPlayer.myHeroMod$getQuirkData();
                 if(quirkData.getStamina() < 1000) {
                     quirkData.setStamina(quirkData.getStamina() + 1);

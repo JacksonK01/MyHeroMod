@@ -1,15 +1,14 @@
-package net.michaeljackson23.mineademia.quirk.feature.ofa;
+package net.michaeljackson23.mineademia.quirk.feature.models.ofa;
 
 import net.michaeljackson23.mineademia.quirk.feature.QuirkModelLogicHelper;
 import net.michaeljackson23.mineademia.quirk.feature.QuirkModelStateHelper;
+import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkDataAccessors;
 import net.minecraft.client.model.*;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.VertexConsumer;
+import net.minecraft.client.render.VertexConsumers;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
-import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 
 // Made with Blockbench 4.10.3
@@ -17,20 +16,15 @@ import net.minecraft.entity.player.PlayerEntity;
 // Paste this class into your mod and generate all required imports
 public class SlideEffectModel extends BipedEntityModel<AbstractClientPlayerEntity> implements QuirkModelStateHelper, QuirkModelLogicHelper {
 	private final ModelPart model;
-	private final ModelPart middle;
-	private final ModelPart left;
-	private final ModelPart right;
 
 	public SlideEffectModel(ModelPart root) {
         super(root);
         this.model = root.getChild("model");
-		this.middle = root.getChild("middle");
-		this.left = root.getChild("left");
-		this.right = root.getChild("right");
 	}
 	public static TexturedModelData getTexturedModelData() {
 		ModelData modelData = new ModelData();
 		ModelPartData modelPartData = modelData.getRoot();
+		baseModelCreator(modelPartData);
 		ModelPartData model = modelPartData.addChild("model", ModelPartBuilder.create(), ModelTransform.of(2.0F, 15.5F, -20.0F, 0.0F, 0.0F, -0.1745F));
 
 		ModelPartData middle = model.addChild("middle", ModelPartBuilder.create(), ModelTransform.pivot(0.0F, 0.5F, 0.0F));
@@ -53,16 +47,24 @@ public class SlideEffectModel extends BipedEntityModel<AbstractClientPlayerEntit
 		return TexturedModelData.of(modelData, 64, 64);
 	}
 
+	private static void baseModelCreator(ModelPartData modelPartData) {
+		modelPartData.addChild("hat", ModelPartBuilder.create(), ModelTransform.pivot(0.0F, 0.0f, 0.0F));
+		modelPartData.addChild("head", ModelPartBuilder.create(), ModelTransform.pivot(0.0F, 0.0f, 0.0F));
+		modelPartData.addChild("body", ModelPartBuilder.create(), ModelTransform.pivot(0.0F, 0.0f, 0.0F));
+		modelPartData.addChild("right_arm", ModelPartBuilder.create(), ModelTransform.pivot(0.0F, 0.0f, 0.0F));
+		modelPartData.addChild("left_arm", ModelPartBuilder.create(), ModelTransform.pivot(0.0F, 0.0f, 0.0F));
+		modelPartData.addChild("right_leg", ModelPartBuilder.create(), ModelTransform.pivot(0.0F, 0.0f, 0.0F));
+		modelPartData.addChild("left_leg", ModelPartBuilder.create(), ModelTransform.pivot(0.0F, 0.0f, 0.0F));
+	}
+
 	@Override
 	public void render(MatrixStack matrices, VertexConsumer vertexConsumer, int light, int overlay, float red, float green, float blue, float alpha) {
-		model.render(matrices, vertexConsumer, light, overlay, red, green, blue, alpha);
+		model.render(matrices, vertexConsumer, 0xF00000, overlay, red, green, blue, alpha);
 	}
 
 	@Override
 	public void process(PlayerEntity player) {
-		middle.visible = true;
-		left.visible = true;
-		right.visible = true;
+		this.model.visible = true;
 	}
 
 	@Override
