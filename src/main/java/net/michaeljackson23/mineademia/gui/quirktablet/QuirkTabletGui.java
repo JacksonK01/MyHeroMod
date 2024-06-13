@@ -14,6 +14,7 @@ public class QuirkTabletGui extends Screen {
     public QuirkTabletGui(Text title) {
         super(title);
     }
+
     private ButtonWidget ofa;
     private ButtonWidget explosion;
     private ButtonWidget hchh;
@@ -72,6 +73,7 @@ public class QuirkTabletGui extends Screen {
         addDrawableChild(elect);
     }
 
+    @Override
     public boolean shouldPause() {
         return false;
     }

@@ -17,7 +17,7 @@ public class ExplosionFactory extends SpriteBillboardParticle {
         this.x = x;
         this.y = y;
         this.z = z;
-        this.scale = 0.14f;
+        this.scale = 0.45f;
         this.maxAge = 6;
         this.spriteProvider = spriteProvider;
         this.setSprite(spriteProvider);

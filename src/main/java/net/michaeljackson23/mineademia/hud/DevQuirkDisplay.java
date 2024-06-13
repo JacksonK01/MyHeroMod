@@ -10,10 +10,6 @@ import net.minecraft.text.Text;
 
 @Environment(EnvType.CLIENT)
 public class DevQuirkDisplay {
-    //AbilitiesTick is constantly sending this info to this class, and this class is constantly run every tick indiividialy for each client.
-//    public static String playerQuirk;
-//    public static int abilityOne;
-//    public static int abilityTwo;
     public static void register() {
         HudRenderCallback.EVENT.register((draw, tick) -> {
             MinecraftClient client = MinecraftClient.getInstance();
@@ -27,12 +23,6 @@ public class DevQuirkDisplay {
                 int x = width/5;
                 int y = height/5;
 
-
-
-//                StateSaverAndLoader state = new StateSaverAndLoader();
-//                if(state.players.containsKey(client.player.getUuid())) {
-//                    playerQuirk = state.players.get(client.player.getUuid()).playerQuirk;
-//                }
                 TextRenderer textRenderer = client.textRenderer;
                 draw.drawCenteredTextWithShadow(textRenderer,
                         Text.literal("Quirk: " + quirkPlayer.myHeroMod$getQuirkData().getQuirkName()),
@@ -43,16 +33,6 @@ public class DevQuirkDisplay {
                 draw.drawCenteredTextWithShadow(textRenderer,
                         Text.literal("Cooldown: " + quirkPlayer.myHeroMod$getQuirkData().getCooldown()),
                         x, y + 40, 0xff0000);
-//                y = y + 15;
-//
-//                draw.drawCenteredTextWithShadow(textRenderer,
-//                        Text.literal("Ability 1: " + playerData.quirkAbilityTimers[0]),
-//                        x, y, 0xff0000);
-//                y = y + 15;
-//
-//                draw.drawCenteredTextWithShadow(textRenderer,
-//                        Text.literal("Ability 2: " + playerData.quirkAbilityTimers[1]),
-//                        x, y, 0xff0000);
             }
         });
     }

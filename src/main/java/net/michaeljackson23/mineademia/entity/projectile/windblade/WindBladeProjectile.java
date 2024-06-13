@@ -30,14 +30,17 @@ public class WindBladeProjectile extends ThrownItemEntity {
 
     public WindBladeProjectile(EntityType<? extends ThrownItemEntity> entityType, World world) {
         super(entityType, world);
+        setNoGravity(true);
     }
 
     public WindBladeProjectile(World world, LivingEntity owner) {
         super(EntityRegister.WIND_BLADE_PROJECTILE, owner, world);
+        setNoGravity(true);
     }
 
     public WindBladeProjectile(World world, double x, double y, double z) {
         super(EntityRegister.WIND_BLADE_PROJECTILE, x, y, z, world);
+        setNoGravity(true);
     }
 
     public void tick() {
@@ -52,7 +55,6 @@ public class WindBladeProjectile extends ThrownItemEntity {
         }
         PlaceParticleInWorld.spawn(getWorld(), ParticleTypes.SWEEP_ATTACK, getX(), getY(), getZ(), 0.3, 0.3, 0.3, 3);
         PlaceParticleInWorld.spawn(getWorld(), ParticleTypes.CLOUD, getX(), getY(), getZ(), 0.4, 0.4, 0.4, 2);
-        this.setNoGravity(true);
         Vec3d ownerVec = getLivingEntityOwner().getRotationVec(1.0f).multiply(1.2);
         this.setVelocity(ownerVec);
         AreaOfEffect.execute(getLivingEntityOwner(), 4, 2, getX(), getY(), getZ(), (entityToAffect) -> {

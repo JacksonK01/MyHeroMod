@@ -27,7 +27,7 @@ public class Griddy extends AbilityBase {
     protected void activate(ServerPlayerEntity player, Quirk quirk) {
         if(!init) {
             this.yaw = player.getYaw();
-            this.storedVec = getVec3d(player);
+            this.storedVec = getVec3d(player).multiply(0.6);
             init = true;
             AnimationProxy.sendAnimationToClients(player, "griddy");
             player.getWorld().playSound(null, player.getX(), player.getY(), player.getZ(), CustomSounds.GRIDDY_EVENT, SoundCategory.PLAYERS, 1f, 1f);
@@ -56,6 +56,6 @@ public class Griddy extends AbilityBase {
         double yawRad = Math.toRadians(player.getYaw());
         double x = -Math.sin(yawRad);
         double z = Math.cos(yawRad);
-        return new Vec3d(x, 0, z).normalize().multiply(0.25);
+        return new Vec3d(x, 0, z).normalize();
     }
 }

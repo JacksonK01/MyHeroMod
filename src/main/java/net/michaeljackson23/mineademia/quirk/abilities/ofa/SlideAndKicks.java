@@ -11,6 +11,7 @@ import net.michaeljackson23.mineademia.util.AnimationProxy;
 import net.michaeljackson23.mineademia.util.AreaOfEffect;
 import net.michaeljackson23.mineademia.util.QuirkDamage;
 import net.michaeljackson23.mineademia.util.StopSoundProxy;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -21,6 +22,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
+
+import java.util.ArrayList;
 
 public class SlideAndKicks extends AbilityBase {
     private boolean init = false;
@@ -36,8 +39,12 @@ public class SlideAndKicks extends AbilityBase {
     private boolean secondInit = false;
     private boolean hasHitUp = false;
 
+    private boolean teleportCancel = false;
+
+    private ArrayList<LivingEntity> entityList = new ArrayList<>();
+
     public SlideAndKicks() {
-        super(40, 80, 45, false, "Slide", "test");
+        super(40, 80, 41, false, "Slide", "test");
     }
 
     @Override
@@ -69,7 +76,9 @@ public class SlideAndKicks extends AbilityBase {
         isAir = false;
         hasAirStarted = false;
         hasAirAnimationPlayed = false;
+        teleportCancel = false;
         airTimer = 0;
+        entityList.clear();
     }
 
     private void init(ServerPlayerEntity player, Quirk quirk) {
@@ -142,7 +151,16 @@ public class SlideAndKicks extends AbilityBase {
     }
 
     private void kickFlip(ServerPlayerEntity player, Quirk quirk) {
+        if(player.getServerWorld().getBlockState(player.getBlockPos().down()).isAir()) {
+            deactivate(player, quirk);
+            return;
+        }
         if(!secondInit) {
+            AreaOfEffect.execute(player, 4, 1, player.getX() - storedVec.x, player.getY(), player.getZ() - storedVec.z, (entity) -> {
+                entity.setVelocity(storedVec.x, 0.5, storedVec.z);
+                entity.velocityModified = true;
+            });
+            StopSoundProxy.execute(player, CustomSounds.SLIDE_ID, SoundCategory.PLAYERS);
             quirk.removeModel("Slide");
             QuirkDataPacket.sendProxy(player);
             AnimationProxy.sendAnimationToClients(player, "from_slide_to_flipkick");
@@ -154,7 +172,7 @@ public class SlideAndKicks extends AbilityBase {
         }
         if(!hasHitUp && kickTimer > 10) {
             player.getWorld().playSound(null, player.getBlockPos(), SoundEvents.ENTITY_WITCH_THROW, SoundCategory.PLAYERS, 1f, 1f);
-            AreaOfEffect.execute(player, 3, 0.5, player.getX(), player.getY(), player.getZ(), (entity) -> {
+            AreaOfEffect.execute(player, 4, 2, player.getX(), player.getY() + 1, player.getZ(), (entity) -> {
                 entity.setVelocity(storedVec.x, 1, storedVec.z);
                 entity.velocityModified = true;
                 player.getServerWorld().spawnParticles(ParticleTypes.EXPLOSION,
@@ -170,12 +188,29 @@ public class SlideAndKicks extends AbilityBase {
     public void slide(ServerPlayerEntity player, Quirk quirk) {
         player.setVelocity(storedVec.x, player.getVelocity().y, storedVec.z);
         player.velocityModified = true;
-        AreaOfEffect.execute(player, 2.5, 0.5, player.getX(), player.getY(), player.getZ(), (entity) -> {
-            entity.setVelocity(new Vec3d(storedVec.x, player.getVelocity().y, storedVec.z).multiply(1.4));
-            entity.velocityModified = true;
-            QuirkDamage.doPhysicalDamage(player, entity, 1.0f);
+
+        Vec3d playerVec = getVec3d(player).multiply(2);
+        double futureX = player.getX() + playerVec.x;
+        double futureZ = player.getZ() + playerVec.z;
+
+        AreaOfEffect.execute(player, 4, 1, futureX, player.getY() + 0.5, futureZ, (entity) -> {
+            if (!entityList.contains(entity)) {
+                entityList.add(entity);
+            }
         });
-        if(didCollideWithBlock(player)) {
+
+        if (!entityList.isEmpty()) {
+            Vec3d playerVec2 = getVec3d(player).multiply(2);
+            double targetX = player.getX() + playerVec2.x;
+            double targetZ = player.getZ() + playerVec2.z;
+
+            entityList.forEach((livingEntity) -> {
+                livingEntity.teleport(targetX, player.getY(), targetZ);
+                QuirkDamage.doPhysicalDamage(player, livingEntity, 1.0f);
+            });
+        }
+
+        if (didCollideWithBlock(player)) {
             deactivate(player, quirk);
         }
     }
@@ -184,7 +219,7 @@ public class SlideAndKicks extends AbilityBase {
         double yawRad = Math.toRadians(player.getYaw());
         double x = -Math.sin(yawRad);
         double z = Math.cos(yawRad);
-        return new Vec3d(x, 0, z).normalize().multiply(0.6);
+        return new Vec3d(x, 0, z).normalize();
     }
 
     private void sendYawPackage(ServerPlayerEntity player) {
@@ -195,9 +230,9 @@ public class SlideAndKicks extends AbilityBase {
 
     private boolean didCollideWithBlock(ServerPlayerEntity player) {
         World world = player.getWorld();
-        int DISTANCE = 1;
+        double DISTANCE = 2;
         Vec3d start = player.getCameraPosVec(1.0f);
-        Vec3d v = player.getRotationVec(1.0f);
+        Vec3d v = getVec3d(player).normalize().multiply(DISTANCE);
         Vec3d end = start.add(v.x * DISTANCE, v.y * DISTANCE, v.z * DISTANCE);
         HitResult result = world.raycast(new RaycastContext(start, end, RaycastContext.ShapeType.OUTLINE, RaycastContext.FluidHandling.NONE, player));
         return result.getType() == HitResult.Type.BLOCK;

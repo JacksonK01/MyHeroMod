@@ -4,9 +4,11 @@ import net.michaeljackson23.mineademia.quirk.Quirk;
 import net.michaeljackson23.mineademia.quirk.abilities.AbilityBase;
 import net.michaeljackson23.mineademia.quirk.abilities.PassiveAbility;
 import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkDataPacket;
+import net.michaeljackson23.mineademia.sound.CustomSounds;
 import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.math.Vec3d;
 
 public class ExplosionDash extends AbilityBase {
@@ -39,11 +41,13 @@ public class ExplosionDash extends AbilityBase {
         velocityCounter++;
         if(velocityCounter >= 5) {
             spawnParticlesUnderHands(player, ParticleTypes.EXPLOSION);
+            player.getServerWorld().playSound(null, player.getX(), player.getY(), player.getZ(), CustomSounds.MHA_EXPLOSION_EVENT, SoundCategory.PLAYERS, 1f, 2f);
             player.setVelocity(player.getRotationVec(1.0f).multiply(2.5));
             player.velocityModified = true;
             velocityCounter = 0;
             quirk.setCooldown(quirk.getCooldown() + cooldownAdd);
             QuirkDataPacket.sendProxy(player);
+            player.fallDistance = 0f;
         }
     }
 

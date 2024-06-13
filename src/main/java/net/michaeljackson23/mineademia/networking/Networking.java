@@ -28,6 +28,8 @@ public class Networking {
     public static final Identifier FORCE_INTO_THIRD_PERSON_FRONT = new Identifier(Mineademia.MOD_ID, "force_third_person_front");
     public static final Identifier FORCE_INTO_FIRST_PERSON = new Identifier(Mineademia.MOD_ID, "force_first_person");
 
+    public static final Identifier VESTIGE_GUI = new Identifier(Mineademia.MOD_ID, "vestige_gui");
+
     public static void registerServer() {
         ServerPlayNetworking.registerGlobalReceiver(ABILITY_ONE, ServerPackets::abilityOne);
         ServerPlayNetworking.registerGlobalReceiver(ABILITY_TWO, ServerPackets::abilityTwo);
@@ -46,5 +48,6 @@ public class Networking {
         ClientPlayNetworking.registerGlobalReceiver(FORCE_INTO_THIRD_PERSON_BACK, ClientPackets::forceThirdPersonBack);
         ClientPlayNetworking.registerGlobalReceiver(FORCE_INTO_THIRD_PERSON_FRONT, ClientPackets::forceThirdPersonFront);
         ClientPlayNetworking.registerGlobalReceiver(FORCE_INTO_FIRST_PERSON, ClientPackets::forceFirstPerson);
+        ClientPlayNetworking.registerGlobalReceiver(VESTIGE_GUI, ClientPackets::openVestigeGui);
     }
 }

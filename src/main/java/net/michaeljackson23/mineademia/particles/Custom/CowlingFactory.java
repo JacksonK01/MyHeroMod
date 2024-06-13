@@ -14,32 +14,24 @@ public class CowlingFactory extends SpriteBillboardParticle {
     public CowlingFactory(ClientWorld clientWorld, double x, double y, double z, double dx, double dy, double dz, SpriteProvider spriteSet) {
         super(clientWorld, x, y, z, dx, dy, dz);
         this.spriteSet = spriteSet;
-        this.velocityMultiplier = 0f;
+        this.velocityMultiplier = 1f;
         this.x = x;
         this.y = y;
         this.z = z;
-        this.scale = 0.14f;
-        this.maxAge = 2;
-        this.setSprite(spriteSet);
+        this.scale = 0.2f;
+        this.maxAge = 3;
+        this.setSprite(spriteSet.getSprite(Random.create()));
     }
 
     @Override
     public void tick() {
-        this.alpha = Random.create().nextBetween(0, 1);
+        this.setSprite(spriteSet.getSprite(Random.create()));
         super.tick();
     }
 
     @Override
     public int getBrightness(float tint) {
-        float f = ((float)this.age + tint) / (float)this.maxAge;
-        f = MathHelper.clamp(f, 0.0f, 1.0f);
-        int i = super.getBrightness(tint);
-        int j = i & 0xFF;
-        int k = i >> 16 & 0xFF;
-        if ((j += (int)(f * 15.0f * 16.0f)) > 240) {
-            j = 240;
-        }
-        return j | k << 16;
+        return 0xF000F0;
     }
 
     @Override
@@ -58,6 +50,5 @@ public class CowlingFactory extends SpriteBillboardParticle {
         public Particle createParticle(DefaultParticleType parameters, ClientWorld world, double x, double y, double z, double velocityX, double velocityY, double velocityZ) {
             return new CowlingFactory(world, x, y, z, velocityX, velocityY, velocityZ, this.sprites);
         }
-
     }
 }

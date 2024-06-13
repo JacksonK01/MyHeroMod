@@ -19,7 +19,7 @@ public abstract class AbilityBase {
     protected int cooldownAdd;
     protected String title;
     protected String description;
-
+    boolean isInfinite = false;
     /**
      * <p>
      *     If you set isHoldable to true, the Quirk processing the ability created will know
@@ -65,6 +65,17 @@ public abstract class AbilityBase {
         this.isHoldable = isHoldable;
         this.title = title;
         this.description = description;
+        this.isInfinite = abilityDuration == -1;
+    }
+
+    protected AbilityBase(boolean isInfinite, int staminaDrain, int cooldownAdd, boolean isHoldable, String title, String description) {
+        this.abilityDuration = timer + 1;
+        this.staminaDrain = staminaDrain;
+        this.cooldownAdd = cooldownAdd;
+        this.isHoldable = isHoldable;
+        this.title = title;
+        this.description = description;
+        this.isInfinite = isInfinite;
     }
 
     /**
@@ -103,6 +114,7 @@ public abstract class AbilityBase {
     public void refresh() {
         this.hasInit = false;
         this.cancel = false;
+        this.amountOfTimesActivated = 0;
     }
 
     public void cancel() {
@@ -155,7 +167,9 @@ public abstract class AbilityBase {
      * </p>
      */
     public void execute(ServerPlayerEntity player, Quirk quirk) {
-        timer++;
+        if(!isInfinite) {
+            timer++;
+        }
         if(executeCondition(quirk) && !cancel) {
             activate(player, quirk);
         } else {

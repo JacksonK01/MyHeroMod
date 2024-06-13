@@ -2,7 +2,7 @@ package net.michaeljackson23.mineademia.mixin.client;
 
 
 import net.michaeljackson23.mineademia.armor.ModelWithBoots;
-import net.michaeljackson23.mineademia.armor.deku.gamma.model.GammaSuitModel;
+import net.michaeljackson23.mineademia.armor.deku.gamma.model.DekuGammaCostume;
 import net.michaeljackson23.mineademia.quirk.feature.QuirkModelStateHelper;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.entity.model.AnimalModel;
@@ -43,7 +43,7 @@ public abstract class BipedEntityModelMixin<T extends LivingEntity>
             customArmor.getRightBoot().copyTransform(this.rightLeg);
         }
 
-        if(model instanceof GammaSuitModel<T> gamma) {
+        if(model instanceof DekuGammaCostume<T> gamma) {
             gamma.getHead().pitch = 0;
         }
 

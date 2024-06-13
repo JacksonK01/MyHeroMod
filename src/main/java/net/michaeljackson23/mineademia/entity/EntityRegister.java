@@ -9,6 +9,8 @@ import net.michaeljackson23.mineademia.entity.cube.CubeEntity;
 import net.michaeljackson23.mineademia.entity.cube.CubeEntityModel;
 import net.michaeljackson23.mineademia.entity.cube.CubeEntityRenderer;
 import net.michaeljackson23.mineademia.entity.projectile.airforce.AirForceProjectile;
+import net.michaeljackson23.mineademia.entity.projectile.apshot.APShotProjectile;
+import net.michaeljackson23.mineademia.entity.projectile.stungrenade.StunGrenadeProjectile;
 import net.michaeljackson23.mineademia.entity.projectile.windblade.WindBladeProjectile;
 import net.minecraft.client.render.entity.FlyingItemEntityRenderer;
 import net.minecraft.entity.EntityDimensions;
@@ -41,6 +43,22 @@ public class EntityRegister {
                     .build()
     );
 
+    public static final EntityType<APShotProjectile> AP_SHOT_PROJECTILE = Registry.register(
+            Registries.ENTITY_TYPE,
+            new Identifier(Mineademia.MOD_ID, "ap_shot"),
+            FabricEntityTypeBuilder.<APShotProjectile>create(SpawnGroup.MISC, APShotProjectile::new)
+                    .dimensions(EntityDimensions.fixed(0.75f, 0.75f))
+                    .build()
+    );
+
+    public static final EntityType<StunGrenadeProjectile> STUN_GRENADE_PROJECTILE = Registry.register(
+            Registries.ENTITY_TYPE,
+            new Identifier(Mineademia.MOD_ID, "stun_grenade"),
+            FabricEntityTypeBuilder.<StunGrenadeProjectile>create(SpawnGroup.MISC, StunGrenadeProjectile::new)
+                    .dimensions(EntityDimensions.fixed(0.75f, 0.75f))
+                    .build()
+    );
+
     public static void register() {
         FabricDefaultAttributeRegistry.register(CUBE, CubeEntity.createMobAttributes());
 
@@ -52,5 +70,7 @@ public class EntityRegister {
 
         EntityRendererRegistry.register(EntityRegister.AIR_FORCE_PROJECTILE, FlyingItemEntityRenderer::new);
         EntityRendererRegistry.register(EntityRegister.WIND_BLADE_PROJECTILE, FlyingItemEntityRenderer::new);
+        EntityRendererRegistry.register(EntityRegister.AP_SHOT_PROJECTILE, FlyingItemEntityRenderer::new);
+        EntityRendererRegistry.register(EntityRegister.STUN_GRENADE_PROJECTILE, FlyingItemEntityRenderer::new);
     }
 }

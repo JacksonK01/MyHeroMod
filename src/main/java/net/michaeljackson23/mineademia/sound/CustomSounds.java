@@ -28,6 +28,15 @@ public class CustomSounds {
     public static final Identifier PHYSICAL_DAMAGE_ID = new Identifier(Mineademia.MOD_ID, "punch_impact");
     public static SoundEvent PHYSICAL_DAMAGE_EVENT = SoundEvent.of(PHYSICAL_DAMAGE_ID);
 
+    public static final Identifier MHA_EXPLOSION_ID = new Identifier(Mineademia.MOD_ID, "explosion");
+    public static SoundEvent MHA_EXPLOSION_EVENT = SoundEvent.of(MHA_EXPLOSION_ID);
+
+    public static final Identifier OFA_CHARGE_ID = new Identifier(Mineademia.MOD_ID, "ofa_charge_up");
+    public static SoundEvent OFA_CHARGE_EVENT = SoundEvent.of(OFA_CHARGE_ID);
+
+    public static final Identifier OFA_RELEASE_ID = new Identifier(Mineademia.MOD_ID, "ofa_charge_release");
+    public static SoundEvent OFA_RELEASE_EVENT = SoundEvent.of(OFA_RELEASE_ID);
+
     public static void register() {
         Registry.register(Registries.SOUND_EVENT, COWLING_START_ID, COWLING_START_EVENT);
         Registry.register(Registries.SOUND_EVENT, COWLING_END_ID, COWLING_END_EVENT);
@@ -36,5 +45,8 @@ public class CustomSounds {
         Registry.register(Registries.SOUND_EVENT, GRIDDY_ID, GRIDDY_EVENT);
         Registry.register(Registries.SOUND_EVENT, SLIDE_ID, SLIDE_EVENT);
         Registry.register(Registries.SOUND_EVENT, PHYSICAL_DAMAGE_ID, PHYSICAL_DAMAGE_EVENT);
+        Registry.register(Registries.SOUND_EVENT, MHA_EXPLOSION_ID, MHA_EXPLOSION_EVENT);
+        Registry.register(Registries.SOUND_EVENT, OFA_CHARGE_ID, OFA_CHARGE_EVENT);
+        Registry.register(Registries.SOUND_EVENT, OFA_RELEASE_ID, OFA_RELEASE_EVENT);
     }
 }

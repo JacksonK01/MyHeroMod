@@ -44,12 +44,17 @@ public class ServerPackets {
         Quirk quirk = StateSaverAndLoader.getPlayerState(player).getQuirk();
         boolean isHeld = buf.readBoolean();
         if (isHeld) {
-            quirk.setActiveAbility(quirk.getAbilities()[i]);
-            AbilityBase activeAbility = quirk.getActiveAbility();
-            activeAbility.setAmountOfTimesActivated(activeAbility.getAmountOfTimesActivated() + 1);
+            if(quirk.getActiveAbility() == null) {
+                quirk.setActiveAbility(quirk.getAbilities()[i]);
+            }
+            if(quirk.getActiveAbility() == quirk.getAbilities()[i]) {
+                AbilityBase activeAbility = quirk.getActiveAbility();
+                activeAbility.setAmountOfTimesActivated(activeAbility.getAmountOfTimesActivated() + 1);
+            }
         }
         if(quirk.getActiveAbility() != null) {
-            quirk.getActiveAbility().setIsCurrentlyHeld(isHeld);
+            AbilityBase activeAbility = quirk.getActiveAbility();
+            activeAbility.setIsCurrentlyHeld(isHeld);
         }
     }
 }

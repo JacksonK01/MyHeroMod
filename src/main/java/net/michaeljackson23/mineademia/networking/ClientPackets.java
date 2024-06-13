@@ -1,5 +1,7 @@
 package net.michaeljackson23.mineademia.networking;
 
+import dev.kosmx.playerAnim.api.firstPerson.FirstPersonConfiguration;
+import dev.kosmx.playerAnim.api.firstPerson.FirstPersonMode;
 import dev.kosmx.playerAnim.api.layered.AnimationStack;
 import dev.kosmx.playerAnim.api.layered.KeyframeAnimationPlayer;
 import dev.kosmx.playerAnim.core.data.KeyframeAnimation;
@@ -8,6 +10,7 @@ import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationRegistry;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.michaeljackson23.mineademia.Mineademia;
 import net.michaeljackson23.mineademia.gui.quirktablet.QuirkTabletGui;
+import net.michaeljackson23.mineademia.gui.vestige.VestigeGUI;
 import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkData;
 import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkDataAccessors;
 import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkDataPacket;
@@ -62,9 +65,17 @@ public class ClientPackets {
                 for(int i = 0; animationStack.isActive(); i++) {
                     animationStack.removeLayer(i);
                 }
-                KeyframeAnimation keyframeAnimation = PlayerAnimationRegistry.getAnimation(id);
-                if(keyframeAnimation != null) {
-                    animationStack.addAnimLayer(0, new KeyframeAnimationPlayer(keyframeAnimation));
+                if(!animationName.equals("reset")) {
+                    KeyframeAnimation keyframeAnimation = PlayerAnimationRegistry.getAnimation(id);
+                    if(keyframeAnimation != null) {
+                        animationStack.addAnimLayer(0, new KeyframeAnimationPlayer(keyframeAnimation)
+                                .setFirstPersonMode(FirstPersonMode.THIRD_PERSON_MODEL)
+                                .setFirstPersonConfiguration(new FirstPersonConfiguration()
+                                .setShowRightArm(true)
+                                .setShowLeftArm(true)
+                                .setShowRightItem(false)
+                                .setShowLeftItem(false)));
+                    }
                 }
             }
         });
@@ -82,5 +93,14 @@ public class ClientPackets {
     }
     public static void forceFirstPerson(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
         client.options.setPerspective(Perspective.FIRST_PERSON);
+    }
+
+    public static void openVestigeGui(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
+        client.execute(() -> {
+            VestigeGUI vestigeGUI = new VestigeGUI(Text.literal("Quirk Tablet"));
+            vestigeGUI.init(client, client.getWindow().getScaledWidth(), client.getWindow().getScaledHeight());
+            vestigeGUI.shouldPause();
+            client.setScreenAndRender(vestigeGUI);
+        });
     }
 }

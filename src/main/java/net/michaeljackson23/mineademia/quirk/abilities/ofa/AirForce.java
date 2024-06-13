@@ -15,7 +15,7 @@ public class AirForce extends AbilityBase {
     @Override
     public void activate(ServerPlayerEntity player, Quirk quirk) {
         AirForceProjectile airForceProjectile = new AirForceProjectile(player.getWorld(), player);
-        airForceProjectile.setVelocity(player, player.getPitch(), player.getYaw(), 0f, 2f, 0);
+        airForceProjectile.setVelocity(player, player.getPitch(), player.getYaw(), 0f, 1f, 0);
         player.getWorld().spawnEntity(airForceProjectile);
 
         player.swingHand(player.getActiveHand(), true);
