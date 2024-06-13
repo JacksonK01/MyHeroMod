@@ -133,10 +133,10 @@ public abstract class Quirk {
      * <p>
      *     The logic of this part is hard to explain and just not super important
      *     to understand. Just know this is how the quirk determines if activeAbility is
-     *     valid to use and run.
+     *     valid to use and run. A part of the logic for abilities is processes in
+     *     {@link AbilityBase#executeCondition(Quirk)}
      * </p>
      */
-    //TODO fix holdable abilities going into negative stamina
     private void handleActiveAbility(ServerPlayerEntity player) {
         if (activeAbility != null) {
             if (!activeAbility.hasInit()) {

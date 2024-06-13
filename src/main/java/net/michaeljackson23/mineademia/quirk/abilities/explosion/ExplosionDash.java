@@ -3,6 +3,7 @@ package net.michaeljackson23.mineademia.quirk.abilities.explosion;
 import net.michaeljackson23.mineademia.quirk.Quirk;
 import net.michaeljackson23.mineademia.quirk.abilities.AbilityBase;
 import net.michaeljackson23.mineademia.quirk.abilities.PassiveAbility;
+import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkDataPacket;
 import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -41,6 +42,8 @@ public class ExplosionDash extends AbilityBase {
             player.setVelocity(player.getRotationVec(1.0f).multiply(2.5));
             player.velocityModified = true;
             velocityCounter = 0;
+            quirk.setCooldown(quirk.getCooldown() + cooldownAdd);
+            QuirkDataPacket.sendProxy(player);
         }
     }
 

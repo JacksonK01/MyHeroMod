@@ -122,8 +122,11 @@ public abstract class AbilityBase {
     }
 
     //override for custom logic
-    private boolean executeCondition() {
+    private boolean executeCondition(Quirk quirk) {
         if(isHoldable) {
+            if(getStaminaDrain() > quirk.getStamina()) {
+                return false;
+            }
             return isCurrentlyHeld;
         } else {
             return timer <= abilityDuration;
@@ -153,7 +156,7 @@ public abstract class AbilityBase {
      */
     public void execute(ServerPlayerEntity player, Quirk quirk) {
         timer++;
-        if(executeCondition() && !cancel) {
+        if(executeCondition(quirk) && !cancel) {
             activate(player, quirk);
         } else {
             deactivate(player, quirk);
