@@ -70,5 +70,6 @@ public class VestigeGUI extends Screen {
 
     @Override
     public void renderBackground(DrawContext context, int mouseX, int mouseY, float delta) {
+
     }
 }
