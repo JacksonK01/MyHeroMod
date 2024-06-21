@@ -4,14 +4,15 @@ import net.michaeljackson23.mineademia.entity.projectile.apshot.APShotProjectile
 import net.michaeljackson23.mineademia.entity.projectile.stungrenade.StunGrenadeProjectile;
 import net.michaeljackson23.mineademia.quirk.Quirk;
 import net.michaeljackson23.mineademia.quirk.abilities.AbilityBase;
+import net.michaeljackson23.mineademia.quirk.abilities.BasicAbility;
 import net.michaeljackson23.mineademia.sound.CustomSounds;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 
-public class StunGrenade extends AbilityBase {
+public class StunGrenade extends BasicAbility {
 
     public StunGrenade() {
-        super(1, 30, 10, false, "Stun-Grenade", "null");
+        super(1, 30, 10, "Stun-Grenade", "null");
     }
 
     @Override

@@ -84,9 +84,6 @@ public abstract class Quirk {
     //Will detail later
     private ArrayList<String> modelsForQuirk = new ArrayList<>();
 
-    //This is not important
-    public int tickCounter = 10;
-
     /**
      * <p>
      *     When creating a new quirk, you don't create a constructor that matches this one.
@@ -259,6 +256,8 @@ public abstract class Quirk {
     public void addPassive(PassiveAbility passive) {
         if(!this.passives.contains(passive)) {
             this.passives.add(passive);
+        } else {
+            Mineademia.LOGGER.warn("Passive Already Exists");
         }
     }
 

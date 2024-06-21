@@ -3,13 +3,14 @@ package net.michaeljackson23.mineademia.quirk.abilities.ofa;
 import net.michaeljackson23.mineademia.quirk.Quirk;
 import net.michaeljackson23.mineademia.quirk.abilities.AbilityBase;
 import net.michaeljackson23.mineademia.entity.projectile.airforce.AirForceProjectile;
+import net.michaeljackson23.mineademia.quirk.abilities.BasicAbility;
 import net.michaeljackson23.mineademia.util.PlayerAngleVector;
 import net.minecraft.server.network.ServerPlayerEntity;
 
-public class AirForce extends AbilityBase {
+public class AirForce extends BasicAbility {
 
     public AirForce() {
-        super(1, 100, 5, false, "Air Force", "The user flicks their fingers and creates intense wind pressure");
+        super(1, 100, 5, "Air Force", "The user flicks their fingers and creates intense wind pressure");
     }
 
     @Override

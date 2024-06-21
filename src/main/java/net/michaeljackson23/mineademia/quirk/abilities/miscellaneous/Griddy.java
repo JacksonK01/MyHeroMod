@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.michaeljackson23.mineademia.networking.Networking;
 import net.michaeljackson23.mineademia.quirk.Quirk;
 import net.michaeljackson23.mineademia.quirk.abilities.AbilityBase;
+import net.michaeljackson23.mineademia.quirk.abilities.BasicAbility;
 import net.michaeljackson23.mineademia.sound.CustomSounds;
 import net.michaeljackson23.mineademia.util.AnimationProxy;
 import net.michaeljackson23.mineademia.util.StopSoundProxy;
@@ -13,14 +14,14 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.math.Vec3d;
 
-public class Griddy extends AbilityBase {
+public class Griddy extends BasicAbility {
     boolean init = false;
     //Yaw is horizontal
     float yaw = 0;
     Vec3d storedVec;
 
     public Griddy() {
-        super(80, 0, 45, false, "Griddy", "Witerally hitting da griddy");
+        super(80, 0, 45, "Griddy", "Witerally hitting da griddy");
     }
 
     @Override

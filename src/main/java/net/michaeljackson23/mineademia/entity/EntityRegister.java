@@ -11,7 +11,9 @@ import net.michaeljackson23.mineademia.entity.cube.CubeEntityRenderer;
 import net.michaeljackson23.mineademia.entity.projectile.airforce.AirForceProjectile;
 import net.michaeljackson23.mineademia.entity.projectile.apshot.APShotProjectile;
 import net.michaeljackson23.mineademia.entity.projectile.stungrenade.StunGrenadeProjectile;
+import net.michaeljackson23.mineademia.entity.projectile.tornado.TornadoProjectile;
 import net.michaeljackson23.mineademia.entity.projectile.windblade.WindBladeProjectile;
+import net.michaeljackson23.mineademia.quirk.abilities.whirlwind.Tornado;
 import net.minecraft.client.render.entity.FlyingItemEntityRenderer;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
@@ -59,6 +61,14 @@ public class EntityRegister {
                     .build()
     );
 
+    public static final EntityType<TornadoProjectile> TORNADO_PROJECTILE = Registry.register(
+            Registries.ENTITY_TYPE,
+            new Identifier(Mineademia.MOD_ID, "tornado_projectile"),
+            FabricEntityTypeBuilder.<TornadoProjectile>create(SpawnGroup.MISC, TornadoProjectile::new)
+                    .dimensions(EntityDimensions.fixed(0.75f, 0.75f))
+                    .build()
+    );
+
     public static void register() {
         FabricDefaultAttributeRegistry.register(CUBE, CubeEntity.createMobAttributes());
 
@@ -72,5 +82,6 @@ public class EntityRegister {
         EntityRendererRegistry.register(EntityRegister.WIND_BLADE_PROJECTILE, FlyingItemEntityRenderer::new);
         EntityRendererRegistry.register(EntityRegister.AP_SHOT_PROJECTILE, FlyingItemEntityRenderer::new);
         EntityRendererRegistry.register(EntityRegister.STUN_GRENADE_PROJECTILE, FlyingItemEntityRenderer::new);
+        EntityRendererRegistry.register(EntityRegister.TORNADO_PROJECTILE, FlyingItemEntityRenderer::new);
     }
 }

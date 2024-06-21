@@ -3,6 +3,7 @@ package net.michaeljackson23.mineademia.quirk.abilities.explosion;
 import net.michaeljackson23.mineademia.particles.ParticleRegister;
 import net.michaeljackson23.mineademia.quirk.Quirk;
 import net.michaeljackson23.mineademia.quirk.abilities.AbilityBase;
+import net.michaeljackson23.mineademia.quirk.abilities.BasicAbility;
 import net.michaeljackson23.mineademia.sound.CustomSounds;
 import net.michaeljackson23.mineademia.util.AreaOfEffect;
 import net.michaeljackson23.mineademia.util.QuirkDamage;
@@ -14,7 +15,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-public class HowitzerImpact extends AbilityBase {
+public class HowitzerImpact extends BasicAbility {
     private boolean init = false;
     private boolean phase1 = false;
     private boolean phase2 = false;
@@ -22,7 +23,7 @@ public class HowitzerImpact extends AbilityBase {
     private int phaseTimer = 0;
 
     public HowitzerImpact() {
-        super(80, 350, 100, false, "Howitzer Impact", "null");
+        super(80, 350, 100, "Howitzer Impact", "null");
     }
 
     @Override

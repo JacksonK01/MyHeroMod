@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.michaeljackson23.mineademia.networking.Networking;
 import net.michaeljackson23.mineademia.quirk.Quirk;
 import net.michaeljackson23.mineademia.quirk.abilities.AbilityBase;
+import net.michaeljackson23.mineademia.quirk.abilities.BasicAbility;
 import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkDataPacket;
 import net.michaeljackson23.mineademia.sound.CustomSounds;
 import net.michaeljackson23.mineademia.util.AnimationProxy;
@@ -25,7 +26,7 @@ import net.minecraft.world.World;
 
 import java.util.ArrayList;
 
-public class SlideAndKicks extends AbilityBase {
+public class SlideAndKicks extends BasicAbility {
     private boolean init = false;
     //Yaw is horizontal
     private float yaw = 0;
@@ -44,7 +45,7 @@ public class SlideAndKicks extends AbilityBase {
     private ArrayList<LivingEntity> entityList = new ArrayList<>();
 
     public SlideAndKicks() {
-        super(40, 80, 41, false, "Slide", "test");
+        super(40, 80, 41, "Slide", "test");
     }
 
     @Override

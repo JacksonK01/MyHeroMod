@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.michaeljackson23.mineademia.networking.Networking;
 import net.michaeljackson23.mineademia.quirk.Quirk;
 import net.michaeljackson23.mineademia.quirk.abilities.AbilityBase;
+import net.michaeljackson23.mineademia.quirk.abilities.BasicAbility;
 import net.michaeljackson23.mineademia.sound.CustomSounds;
 import net.michaeljackson23.mineademia.util.AnimationProxy;
 import net.michaeljackson23.mineademia.util.AreaOfEffect;
@@ -17,7 +18,7 @@ import net.minecraft.sound.SoundCategory;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class StLouisSmash extends AbilityBase {
+public class StLouisSmash extends BasicAbility {
     private boolean init = false;
     private int timer = 0;
     private boolean hasHit = false;
@@ -25,7 +26,7 @@ public class StLouisSmash extends AbilityBase {
     private Random random = new Random();
 
     public StLouisSmash() {
-        super(40, 150, 45, false, "St. Louis Smash", "null");
+        super(40, 150, 45, "St. Louis Smash", "null");
     }
 
     @Override

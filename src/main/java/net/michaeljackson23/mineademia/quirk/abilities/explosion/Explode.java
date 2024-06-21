@@ -3,6 +3,7 @@ package net.michaeljackson23.mineademia.quirk.abilities.explosion;
 import net.michaeljackson23.mineademia.particles.ParticleRegister;
 import net.michaeljackson23.mineademia.quirk.Quirk;
 import net.michaeljackson23.mineademia.quirk.abilities.AbilityBase;
+import net.michaeljackson23.mineademia.quirk.abilities.BasicAbility;
 import net.michaeljackson23.mineademia.sound.CustomSounds;
 import net.michaeljackson23.mineademia.util.AnimationProxy;
 import net.minecraft.particle.DefaultParticleType;
@@ -15,13 +16,13 @@ import net.minecraft.text.Text;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-public class Explode extends AbilityBase {
+public class Explode extends BasicAbility {
     private boolean init = false;
     private boolean isAir = false;
     private boolean init2 = false;
 
     public Explode() {
-        super(11, 75, 5, false, "Explode", "null");
+        super(11, 75, 5, "Explode", "null");
     }
 
     @Override

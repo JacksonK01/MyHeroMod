@@ -2,6 +2,7 @@ package net.michaeljackson23.mineademia.quirk.abilities.ofa;
 
 import net.michaeljackson23.mineademia.quirk.Quirk;
 import net.michaeljackson23.mineademia.quirk.abilities.AbilityBase;
+import net.michaeljackson23.mineademia.quirk.abilities.BasicAbility;
 import net.michaeljackson23.mineademia.quirk.abilities.PassiveAbility;
 import net.michaeljackson23.mineademia.particles.ParticleRegister;
 import net.michaeljackson23.mineademia.sound.CustomSounds;
@@ -15,7 +16,7 @@ import org.w3c.dom.css.RGBColor;
 
 import java.awt.*;
 
-public class Cowling extends AbilityBase {
+public class Cowling extends BasicAbility {
     //1 = 10%
     //2 = 20%
     //etc etc
@@ -34,7 +35,7 @@ public class Cowling extends AbilityBase {
     });
 
     public Cowling() {
-        super(1, 3, 5, false, "Cowling", "Add Description");
+        super(1, 3, 5, "Full Cowling", "null");
     }
 
     @Override

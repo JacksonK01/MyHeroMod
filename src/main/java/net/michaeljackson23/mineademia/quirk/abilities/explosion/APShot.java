@@ -4,19 +4,20 @@ import net.michaeljackson23.mineademia.entity.projectile.airforce.AirForceProjec
 import net.michaeljackson23.mineademia.entity.projectile.apshot.APShotProjectile;
 import net.michaeljackson23.mineademia.quirk.Quirk;
 import net.michaeljackson23.mineademia.quirk.abilities.AbilityBase;
+import net.michaeljackson23.mineademia.quirk.abilities.BasicAbility;
 import net.michaeljackson23.mineademia.sound.CustomSounds;
 import net.michaeljackson23.mineademia.util.AnimationProxy;
 import net.michaeljackson23.mineademia.util.PlayerAngleVector;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 
-public class APShot extends AbilityBase {
+public class APShot extends BasicAbility {
     int timer = 0;
     boolean hasAnimationPlayed = false;
     boolean hasFiredProjectile = false;
 
     public APShot() {
-        super(10, 30, 10, false, "AP-Shot", "null");
+        super(10, 30, 10, "AP-Shot", "null");
     }
 
     @Override

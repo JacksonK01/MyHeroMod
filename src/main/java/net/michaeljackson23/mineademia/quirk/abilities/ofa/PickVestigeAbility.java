@@ -5,17 +5,21 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.michaeljackson23.mineademia.networking.Networking;
 import net.michaeljackson23.mineademia.quirk.Quirk;
 import net.michaeljackson23.mineademia.quirk.abilities.AbilityBase;
+import net.michaeljackson23.mineademia.quirk.abilities.BasicAbility;
+import net.michaeljackson23.mineademia.quirk.abilities.InfiniteAbility;
 import net.michaeljackson23.mineademia.quirk.abilities.ofa.vestiges.Blackwhip;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 
-public class PickVestigeAbility extends AbilityBase {
-    Blackwhip blackwhip = new Blackwhip();
+import java.util.Optional;
 
-    AbilityBase selectedAbility = null;
+public class PickVestigeAbility extends InfiniteAbility {
+    private final Blackwhip blackwhip = new Blackwhip();
+
+    private Optional<AbilityBase> activeAbility = Optional.empty();
 
     public PickVestigeAbility() {
-        super(true, 0, 0, false, "Vestiges", "Hold shift while using this ability");
+        super(0, 0, "Vestiges", "Hold shift while using this ability");
     }
 
     @Override

@@ -2,6 +2,7 @@ package net.michaeljackson23.mineademia.quirk.abilities.explosion;
 
 import net.michaeljackson23.mineademia.quirk.Quirk;
 import net.michaeljackson23.mineademia.quirk.abilities.AbilityBase;
+import net.michaeljackson23.mineademia.quirk.abilities.HoldableAbility;
 import net.michaeljackson23.mineademia.quirk.abilities.PassiveAbility;
 import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkDataPacket;
 import net.michaeljackson23.mineademia.sound.CustomSounds;
@@ -11,7 +12,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.math.Vec3d;
 
-public class ExplosionDash extends AbilityBase {
+public class ExplosionDash extends HoldableAbility {
     int interval = 0;
     final int MAX_INTERVAL = 20;
 
@@ -31,7 +32,7 @@ public class ExplosionDash extends AbilityBase {
     };
 
     public ExplosionDash() {
-        super(0, 5, 5, true, "Explosion Dash", "Insert desc");
+        super(5, 5, "Explosion Dash", "null");
     }
 
     @Override

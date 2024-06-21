@@ -22,12 +22,9 @@ public class ServerQuirkTicks {
                 Quirk quirk = ((QuirkAccessor) player).myHeroMod$getQuirk();
                 //The tick method sends a packet to the client using the ability as well for a polish sync
                 quirk.tick(player);
-                if(quirk.tickCounter <= 0) {
-                    //Ignore this for now
+                if(player.age % 20 == 0) {
                     QuirkDataPacket.sendProxy(player);
-                    quirk.tickCounter = 40;
                 }
-                quirk.tickCounter--;
             });
         });
     }

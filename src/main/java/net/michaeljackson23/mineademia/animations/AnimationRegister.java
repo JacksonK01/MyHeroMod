@@ -1,17 +1,8 @@
 package net.michaeljackson23.mineademia.animations;
 
-import dev.kosmx.playerAnim.api.firstPerson.FirstPersonConfiguration;
-import dev.kosmx.playerAnim.api.firstPerson.FirstPersonMode;
-import dev.kosmx.playerAnim.api.layered.IAnimation;
-import dev.kosmx.playerAnim.api.layered.KeyframeAnimationPlayer;
 import dev.kosmx.playerAnim.api.layered.ModifierLayer;
-import dev.kosmx.playerAnim.api.layered.modifier.AbstractFadeModifier;
-import dev.kosmx.playerAnim.api.layered.modifier.SpeedModifier;
-import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationAccess;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationFactory;
-import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationRegistry;
 import net.michaeljackson23.mineademia.Mineademia;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.util.Identifier;
 

@@ -12,6 +12,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
  *     After reading this, try adding your own custom quirk
  * </p>
  */
+//TODO abstract into holdable abilities, infinite, and base abilities
 public abstract class AbilityBase {
     protected int timer = 0;
     protected int abilityDuration;
@@ -58,18 +59,8 @@ public abstract class AbilityBase {
      *     see {@link AirForce#AirForce()}
      * </p>
      */
-    protected AbilityBase(int abilityDuration, int staminaDrain, int cooldownAdd, boolean isHoldable, String title, String description) {
+    protected AbilityBase(int abilityDuration, int staminaDrain, int cooldownAdd, boolean isHoldable, boolean isInfinite, String title, String description) {
         this.abilityDuration = abilityDuration;
-        this.staminaDrain = staminaDrain;
-        this.cooldownAdd = cooldownAdd;
-        this.isHoldable = isHoldable;
-        this.title = title;
-        this.description = description;
-        this.isInfinite = abilityDuration == -1;
-    }
-
-    protected AbilityBase(boolean isInfinite, int staminaDrain, int cooldownAdd, boolean isHoldable, String title, String description) {
-        this.abilityDuration = timer + 1;
         this.staminaDrain = staminaDrain;
         this.cooldownAdd = cooldownAdd;
         this.isHoldable = isHoldable;
@@ -134,16 +125,7 @@ public abstract class AbilityBase {
     }
 
     //override for custom logic
-    private boolean executeCondition(Quirk quirk) {
-        if(isHoldable) {
-            if(getStaminaDrain() > quirk.getStamina()) {
-                return false;
-            }
-            return isCurrentlyHeld;
-        } else {
-            return timer <= abilityDuration;
-        }
-    }
+    protected abstract boolean executeCondition(Quirk quirk);
 
     public boolean isActive() {
         return isActive;

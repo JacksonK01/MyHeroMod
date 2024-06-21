@@ -2,6 +2,7 @@ package net.michaeljackson23.mineademia.quirk.abilities.hchh.fire;
 
 import net.michaeljackson23.mineademia.quirk.Quirk;
 import net.michaeljackson23.mineademia.quirk.abilities.AbilityBase;
+import net.michaeljackson23.mineademia.quirk.abilities.BasicAbility;
 import net.michaeljackson23.mineademia.sound.CustomSounds;
 import net.michaeljackson23.mineademia.util.AreaOfEffect;
 import net.michaeljackson23.mineademia.util.QuirkDamage;
@@ -12,11 +13,11 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.Vec3d;
 
-public class FlameThrower extends AbilityBase {
+public class FlameThrower extends BasicAbility {
     private boolean didPlaySound = false;
 
     public FlameThrower() {
-        super(100, 10, 110, false, "Flame Thrower", "Insert title");
+        super(100, 10, 110, "Flame Thrower", "null");
     }
 
     @Override

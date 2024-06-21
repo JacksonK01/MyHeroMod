@@ -2,6 +2,7 @@ package net.michaeljackson23.mineademia.quirk.abilities.ofa.vestiges;
 
 import net.michaeljackson23.mineademia.quirk.Quirk;
 import net.michaeljackson23.mineademia.quirk.abilities.AbilityBase;
+import net.michaeljackson23.mineademia.quirk.abilities.BasicAbility;
 import net.michaeljackson23.mineademia.quirk.abilities.PassiveAbility;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -9,7 +10,7 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.Vec3d;
 
-public class Blackwhip extends AbilityBase {
+public class Blackwhip extends BasicAbility {
     private EntityHitResult entityHit;
     private BlockHitResult blockHit;
     private final int DISTANCE = 20;
@@ -101,7 +102,7 @@ public class Blackwhip extends AbilityBase {
     private boolean reset = false;
 
     public Blackwhip() {
-        super(1, 10, 10, false, "Blackwhip", "Insert title");
+        super(1, 10, 10, "Blackwhip", "Insert title");
     }
 
     @Override

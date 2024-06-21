@@ -3,14 +3,15 @@ package net.michaeljackson23.mineademia.quirk.abilities.whirlwind;
 import net.michaeljackson23.mineademia.entity.projectile.windblade.WindBladeProjectile;
 import net.michaeljackson23.mineademia.quirk.Quirk;
 import net.michaeljackson23.mineademia.quirk.abilities.AbilityBase;
+import net.michaeljackson23.mineademia.quirk.abilities.BasicAbility;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 
-public class WindBlade extends AbilityBase {
+public class WindBlade extends BasicAbility {
 
     public WindBlade() {
-        super(1, 20, 45, false, "Wind Blade", "Insert title");
+        super(1, 20, 45, "Wind Blade", "Insert title");
     }
 
     @Override
