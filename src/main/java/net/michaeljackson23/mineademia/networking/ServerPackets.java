@@ -4,6 +4,7 @@ import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.michaeljackson23.mineademia.quirk.Quirk;
 import net.michaeljackson23.mineademia.quirk.QuirkInitialize;
 import net.michaeljackson23.mineademia.quirk.abilities.AbilityBase;
+import net.michaeljackson23.mineademia.quirk.abilities.ofa.PickVestigeAbility;
 import net.michaeljackson23.mineademia.savedata.StateSaverAndLoader;
 import net.michaeljackson23.mineademia.util.QuirkAccessor;
 import net.minecraft.network.PacketByteBuf;
@@ -55,6 +56,18 @@ public class ServerPackets {
         if(quirk.getActiveAbility() != null) {
             AbilityBase activeAbility = quirk.getActiveAbility();
             activeAbility.setIsCurrentlyHeld(isHeld);
+        }
+    }
+
+    public static void vestigeAbility(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
+        String abilityString = buf.readString();
+        Quirk quirk = ((QuirkAccessor) player).myHeroMod$getQuirk();
+        AbilityBase[] abilities = quirk.getAbilities();
+        for(int i = 0; i < abilities.length; i++) {
+            if(abilities[i] instanceof PickVestigeAbility vestigeAbility) {
+                vestigeAbility.setVestigeAbility(abilityString);
+                break;
+            }
         }
     }
 }

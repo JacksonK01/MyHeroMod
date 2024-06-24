@@ -19,6 +19,7 @@ public class Networking {
     public static final Identifier ABILITY_FIVE = new Identifier(Mineademia.MOD_ID, "ability_five");
     public static final Identifier DODGE = new Identifier(Mineademia.MOD_ID, "dodge");
     public static final Identifier OPEN_QUIRK_GUI = new Identifier(Mineademia.MOD_ID, "open_quirk_tablet_gui");
+    public static final Identifier SELECT_VESTIGE_GUI = new Identifier(Mineademia.MOD_ID, "vestige_gui");
 
     //Client Identifiers sent from server
     public static final Identifier QUIRK_TABLET_GUI = new Identifier(Mineademia.MOD_ID, "quirk_tablet_gui");
@@ -28,7 +29,9 @@ public class Networking {
     public static final Identifier FORCE_INTO_THIRD_PERSON_FRONT = new Identifier(Mineademia.MOD_ID, "force_third_person_front");
     public static final Identifier FORCE_INTO_FIRST_PERSON = new Identifier(Mineademia.MOD_ID, "force_first_person");
 
-    public static final Identifier VESTIGE_GUI = new Identifier(Mineademia.MOD_ID, "vestige_gui");
+    public static final Identifier OPEN_VESTIGE_GUI = new Identifier(Mineademia.MOD_ID, "vestige_gui");
+
+
 
     public static void registerServer() {
         ServerPlayNetworking.registerGlobalReceiver(ABILITY_ONE, ServerPackets::abilityOne);
@@ -37,6 +40,7 @@ public class Networking {
         ServerPlayNetworking.registerGlobalReceiver(ABILITY_FOUR, ServerPackets::abilityFour);
         ServerPlayNetworking.registerGlobalReceiver(ABILITY_FIVE, ServerPackets::abilityFive);
         ServerPlayNetworking.registerGlobalReceiver(OPEN_QUIRK_GUI, ServerPackets::openQuirkTabletGUI);
+        ServerPlayNetworking.registerGlobalReceiver(SELECT_VESTIGE_GUI, ServerPackets::vestigeAbility);
     }
 
     public static void registerClient() {
@@ -48,6 +52,6 @@ public class Networking {
         ClientPlayNetworking.registerGlobalReceiver(FORCE_INTO_THIRD_PERSON_BACK, ClientPackets::forceThirdPersonBack);
         ClientPlayNetworking.registerGlobalReceiver(FORCE_INTO_THIRD_PERSON_FRONT, ClientPackets::forceThirdPersonFront);
         ClientPlayNetworking.registerGlobalReceiver(FORCE_INTO_FIRST_PERSON, ClientPackets::forceFirstPerson);
-        ClientPlayNetworking.registerGlobalReceiver(VESTIGE_GUI, ClientPackets::openVestigeGui);
+        ClientPlayNetworking.registerGlobalReceiver(OPEN_VESTIGE_GUI, ClientPackets::openVestigeGui);
     }
 }

@@ -42,6 +42,9 @@ public class AnimationRegister {
         PlayerAnimationFactory.ANIMATION_DATA_FACTORY.registerFactory(new Identifier(Mineademia.MOD_ID, "st_louis_smash_left_leg"), 0, (player) -> {
             return player instanceof ClientPlayerEntity ? new ModifierLayer<>() : null;
         });
+        PlayerAnimationFactory.ANIMATION_DATA_FACTORY.registerFactory(new Identifier(Mineademia.MOD_ID, "manchester_smash_shoot_style"), 0, (player) -> {
+            return player instanceof ClientPlayerEntity ? new ModifierLayer<>() : null;
+        });
     }
 
 //    private static ModifierLayer generateModifierLayer() {

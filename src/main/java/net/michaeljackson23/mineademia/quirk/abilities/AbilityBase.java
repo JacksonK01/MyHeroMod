@@ -1,6 +1,7 @@
 package net.michaeljackson23.mineademia.quirk.abilities;
 
 import net.michaeljackson23.mineademia.quirk.Quirk;
+import net.michaeljackson23.mineademia.quirk.abilities.engine.SlideAndKicks;
 import net.michaeljackson23.mineademia.quirk.abilities.ofa.AirForce;
 import net.minecraft.server.network.ServerPlayerEntity;
 
@@ -46,7 +47,7 @@ public abstract class AbilityBase {
     /**
      * <p>
      *     Abilities can track the amount of times a player has tried activating it. This is useful
-     *     for special cases like {@link net.michaeljackson23.mineademia.quirk.abilities.ofa.SlideAndKicks}
+     *     for special cases like {@link SlideAndKicks}
      * </p>
      */
     private int amountOfTimesActivated = 0;
@@ -172,7 +173,7 @@ public abstract class AbilityBase {
     /**
      * <p>
      *     This method sets the ability back to the state it started at. This method
-     *     can be called prematurely to end an ability. For example in {@link net.michaeljackson23.mineademia.quirk.abilities.ofa.SlideAndKicks}
+     *     can be called prematurely to end an ability. For example in {@link SlideAndKicks}
      *     when certain conditions aren't met, it'll turn the ability off. IMPORTANT: Some abilities require this method to be overwritten,
      *     make sure to call super.deactivate() if you do. See {@link net.michaeljackson23.mineademia.quirk.abilities.miscellaneous.Griddy#deactivate(ServerPlayerEntity, Quirk)}
      * </p>

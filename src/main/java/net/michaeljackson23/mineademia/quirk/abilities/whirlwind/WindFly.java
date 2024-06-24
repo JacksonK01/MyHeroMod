@@ -28,7 +28,7 @@ public class WindFly extends BasicAbility {
                     0.1);
         } else {
             Vec3d velocity = player.getVelocity();
-            player.travel(velocity.multiply(1, 1.5, 1));
+            player.travel(velocity.multiply(1, 0.5, 1));
             player.getServerWorld().spawnParticles(ParticleTypes.CLOUD,
                     player.getX(), player.getY(), player.getZ(),
                     10,

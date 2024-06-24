@@ -3,6 +3,7 @@ package net.michaeljackson23.mineademia.gui.vestige;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.michaeljackson23.mineademia.Mineademia;
+import net.michaeljackson23.mineademia.networking.Networking;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.screen.Screen;
@@ -29,9 +30,11 @@ public class VestigeGUI extends Screen {
         // Center the button within the GUI
         int buttonX = (BACKGROUND_WIDTH - BUTTON_WIDTH) / 2;
         int buttonY = (BACKGROUND_HEIGHT - BUTTON_HEIGHT) / 2;
-
         blackwhip = ButtonWidget.builder(Text.literal("Blackwhip"), button -> {
-                    // Insert Function Here
+                    PacketByteBuf data = PacketByteBufs.create();
+                    data.writeString("Blackwhip");
+                    ClientPlayNetworking.send(Networking.SELECT_VESTIGE_GUI, data);
+                    close();
                 })
                 .dimensions(buttonX, buttonY, BUTTON_WIDTH, BUTTON_HEIGHT)
                 .tooltip(Tooltip.of(Text.literal("Select Blackwhip as your vestige quirk")))
