@@ -59,8 +59,8 @@ public class SlideAndKicks extends BasicAbility {
     }
 
     @Override
-    protected void deactivate(ServerPlayerEntity player, Quirk quirk) {
-        super.deactivate(player, quirk);
+    protected void deActivate(ServerPlayerEntity player, Quirk quirk) {
+        super.deActivate(player, quirk);
         StopSoundProxy.execute(player, CustomSounds.SLIDE_ID, SoundCategory.PLAYERS);
         init = false;
         yaw = 0;
@@ -119,7 +119,7 @@ public class SlideAndKicks extends BasicAbility {
             });
         }
         if(airTimer >= 14) {
-            deactivate(player, quirk);
+            deActivate(player, quirk);
         }
         airTimer++;
     }
@@ -131,7 +131,7 @@ public class SlideAndKicks extends BasicAbility {
         if(wasPressedAgain()) {
             kickFlip(player, quirk);
             if(kickTimer > 25) {
-                deactivate(player, quirk);
+                deActivate(player, quirk);
                 return;
             }
             timer--;
@@ -151,7 +151,7 @@ public class SlideAndKicks extends BasicAbility {
 
     private void kickFlip(ServerPlayerEntity player, Quirk quirk) {
         if(player.getServerWorld().getBlockState(player.getBlockPos().down()).isAir()) {
-            deactivate(player, quirk);
+            deActivate(player, quirk);
             return;
         }
         if(!secondInit) {
@@ -210,7 +210,7 @@ public class SlideAndKicks extends BasicAbility {
         }
 
         if (didCollideWithBlock(player)) {
-            deactivate(player, quirk);
+            deActivate(player, quirk);
         }
     }
 

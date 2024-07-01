@@ -99,22 +99,16 @@
       }
     ]
   },
-  "punch_impact_crunch": {
-    "category": "master",
-    "subtitle": "subtitles.punch_impact_crunch",
-    "sounds": [
-      {
-        "name": "mineademia:punch_impact_crunch",
-        "stream": false
-      }
-    ]
-  },
   "punch_impact": {
     "category": "master",
     "subtitle": "subtitles.punch_impact",
     "sounds": [
       {
         "name": "mineademia:punch_sound",
+        "stream": false
+      },
+      {
+        "name": "mineademia:punch_impact_crunch",
         "stream": false
       }
     ]

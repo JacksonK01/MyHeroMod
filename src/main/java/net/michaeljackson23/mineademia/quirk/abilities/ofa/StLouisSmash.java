@@ -4,7 +4,6 @@ import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.michaeljackson23.mineademia.networking.Networking;
 import net.michaeljackson23.mineademia.quirk.Quirk;
-import net.michaeljackson23.mineademia.quirk.abilities.AbilityBase;
 import net.michaeljackson23.mineademia.quirk.abilities.BasicAbility;
 import net.michaeljackson23.mineademia.sound.CustomSounds;
 import net.michaeljackson23.mineademia.util.AnimationProxy;
@@ -71,8 +70,8 @@ public class StLouisSmash extends BasicAbility {
     }
 
     @Override
-    protected void deactivate(ServerPlayerEntity player, Quirk quirk) {
-        super.deactivate(player, quirk);
+    protected void deActivate(ServerPlayerEntity player, Quirk quirk) {
+        super.deActivate(player, quirk);
         hasHit = false;
         timer = 0;
         ServerPlayNetworking.send(player, Networking.FORCE_INTO_FIRST_PERSON, PacketByteBufs.empty());

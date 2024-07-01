@@ -2,7 +2,6 @@ package net.michaeljackson23.mineademia.quirk.abilities.explosion;
 
 import net.michaeljackson23.mineademia.particles.ParticleRegister;
 import net.michaeljackson23.mineademia.quirk.Quirk;
-import net.michaeljackson23.mineademia.quirk.abilities.AbilityBase;
 import net.michaeljackson23.mineademia.quirk.abilities.BasicAbility;
 import net.michaeljackson23.mineademia.sound.CustomSounds;
 import net.michaeljackson23.mineademia.util.AreaOfEffect;
@@ -52,8 +51,8 @@ public class HowitzerImpact extends BasicAbility {
     }
 
     @Override
-    protected void deactivate(ServerPlayerEntity player, Quirk quirk) {
-        super.deactivate(player, quirk);
+    protected void deActivate(ServerPlayerEntity player, Quirk quirk) {
+        super.deActivate(player, quirk);
         impact(player);
         phase1 = false;
         phase2 = false;

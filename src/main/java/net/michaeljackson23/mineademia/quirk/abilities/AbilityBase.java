@@ -26,7 +26,7 @@ public abstract class AbilityBase {
      * <p>
      *     If you set isHoldable to true, the Quirk processing the ability created will know
      *     when the player is no longer holding that keybind anymore and automatically call the
-     *     {@link #deactivate(ServerPlayerEntity, Quirk)} method.
+     *     {@link #deActivate(ServerPlayerEntity, Quirk)} method.
      * </p>
      */
     private final boolean isHoldable;
@@ -156,7 +156,7 @@ public abstract class AbilityBase {
         if(executeCondition(quirk) && !cancel) {
             activate(player, quirk);
         } else {
-            deactivate(player, quirk);
+            deActivate(player, quirk);
         }
     }
 
@@ -175,10 +175,18 @@ public abstract class AbilityBase {
      *     This method sets the ability back to the state it started at. This method
      *     can be called prematurely to end an ability. For example in {@link SlideAndKicks}
      *     when certain conditions aren't met, it'll turn the ability off. IMPORTANT: Some abilities require this method to be overwritten,
-     *     make sure to call super.deactivate() if you do. See {@link net.michaeljackson23.mineademia.quirk.abilities.miscellaneous.Griddy#deactivate(ServerPlayerEntity, Quirk)}
+     *     make sure to call super.deactivate() if you do. See {@link net.michaeljackson23.mineademia.quirk.abilities.miscellaneous.Griddy#deActivate(ServerPlayerEntity, Quirk)}
      * </p>
      */
-    protected void deactivate(ServerPlayerEntity player, Quirk quirk) {
+    protected void deActivate(ServerPlayerEntity player, Quirk quirk) {
+        this.timer = 0;
+        this.amountOfTimesActivated = 0;
+        this.isActive = false;
+        this.hasInit = false;
+        this.cancel = false;
+    }
+
+    protected void deActivate() {
         this.timer = 0;
         this.amountOfTimesActivated = 0;
         this.isActive = false;

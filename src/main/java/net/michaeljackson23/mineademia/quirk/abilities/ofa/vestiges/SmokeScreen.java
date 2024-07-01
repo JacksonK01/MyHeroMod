@@ -18,8 +18,8 @@ public class SmokeScreen extends BasicAbility {
     }
 
     @Override
-    protected void deactivate(ServerPlayerEntity player, Quirk quirk) {
-        super.deactivate(player, quirk);
+    protected void deActivate(ServerPlayerEntity player, Quirk quirk) {
+        super.deActivate(player, quirk);
         player.sendMessage(Text.literal("deActivate"));
     }
 }

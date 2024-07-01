@@ -1,7 +1,6 @@
 package net.michaeljackson23.mineademia.quirk.abilities.explosion;
 
 import net.michaeljackson23.mineademia.quirk.Quirk;
-import net.michaeljackson23.mineademia.quirk.abilities.AbilityBase;
 import net.michaeljackson23.mineademia.quirk.abilities.HoldableAbility;
 import net.michaeljackson23.mineademia.quirk.abilities.PassiveAbility;
 import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkDataPacket;
@@ -10,7 +9,6 @@ import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.util.math.Vec3d;
 
 public class ExplosionDash extends HoldableAbility {
     int interval = 0;
@@ -69,8 +67,8 @@ public class ExplosionDash extends HoldableAbility {
     }
 
     @Override
-    protected void deactivate(ServerPlayerEntity player, Quirk quirk) {
-        super.deactivate(player, quirk);
+    protected void deActivate(ServerPlayerEntity player, Quirk quirk) {
+        super.deActivate(player, quirk);
         velocityCounter = 0;
     }
 }

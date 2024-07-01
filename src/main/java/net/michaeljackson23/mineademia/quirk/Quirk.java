@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.michaeljackson23.mineademia.Mineademia;
 import net.michaeljackson23.mineademia.networking.Networking;
 import net.michaeljackson23.mineademia.quirk.abilities.AbilityBase;
+import net.michaeljackson23.mineademia.quirk.abilities.AbilityExtractor;
 import net.michaeljackson23.mineademia.quirk.abilities.PassiveAbility;
 import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkDataPacket;
 import net.michaeljackson23.mineademia.quirk.quirks.Explosion;
@@ -137,6 +138,9 @@ public abstract class Quirk {
     private void handleActiveAbility(ServerPlayerEntity player) {
         if (activeAbility != null) {
             if (!activeAbility.hasInit()) {
+                if(activeAbility instanceof AbilityExtractor extractor) {
+                    activeAbility = extractor.extract(player, this);
+                }
                 initializeAbility();
                 QuirkDataPacket.send(player);
             }

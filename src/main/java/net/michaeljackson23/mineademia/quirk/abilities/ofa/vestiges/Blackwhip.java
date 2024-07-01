@@ -1,7 +1,6 @@
 package net.michaeljackson23.mineademia.quirk.abilities.ofa.vestiges;
 
 import net.michaeljackson23.mineademia.quirk.Quirk;
-import net.michaeljackson23.mineademia.quirk.abilities.AbilityBase;
 import net.michaeljackson23.mineademia.quirk.abilities.BasicAbility;
 import net.michaeljackson23.mineademia.quirk.abilities.PassiveAbility;
 import net.minecraft.particle.ParticleTypes;
@@ -20,7 +19,7 @@ public class Blackwhip extends BasicAbility {
             return true;
         } else if (player.isSneaking()) {
             reset = true;
-            deactivate(player, quirk);
+            deActivate(player, quirk);
             return true;
         } else if (!isConnectedStage()) {
             return true;
@@ -69,7 +68,7 @@ public class Blackwhip extends BasicAbility {
                 }
             } else if (dy > 0) {
                 reset = true;
-                deactivate(player, quirk);
+                deActivate(player, quirk);
                 return true;
             }
             if (Math.abs(distanceY) >= 5) {
@@ -87,7 +86,7 @@ public class Blackwhip extends BasicAbility {
         }
         if (dy >= 0) {
             reset = true;
-            deactivate(player, quirk);
+            deActivate(player, quirk);
             return true;
         }
         if (velocityX != 0 || velocityY != 0 || velocityZ != 0) {
@@ -151,8 +150,8 @@ public class Blackwhip extends BasicAbility {
     }
 
     @Override
-    protected void deactivate(ServerPlayerEntity player, Quirk quirk) {
-        super.deactivate(player, quirk);
+    protected void deActivate(ServerPlayerEntity player, Quirk quirk) {
+        super.deActivate(player, quirk);
         if (this.reset) {
             this.stage = Stages.INIT;
             this.entityHit = null;

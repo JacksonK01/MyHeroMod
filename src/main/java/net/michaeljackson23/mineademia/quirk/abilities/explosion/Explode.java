@@ -2,18 +2,13 @@ package net.michaeljackson23.mineademia.quirk.abilities.explosion;
 
 import net.michaeljackson23.mineademia.particles.ParticleRegister;
 import net.michaeljackson23.mineademia.quirk.Quirk;
-import net.michaeljackson23.mineademia.quirk.abilities.AbilityBase;
 import net.michaeljackson23.mineademia.quirk.abilities.BasicAbility;
-import net.michaeljackson23.mineademia.sound.CustomSounds;
 import net.michaeljackson23.mineademia.util.AnimationProxy;
 import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.Text;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class Explode extends BasicAbility {
@@ -42,7 +37,7 @@ public class Explode extends BasicAbility {
             player.getWorld().createExplosion(player, player.getX(), player.getY(), player.getZ(), 1.5f, true, World.ExplosionSourceType.TNT);
             player.setVelocity(player.getVelocity().x, 1, player.getVelocity().z);
             player.velocityModified = true;
-            deactivate(player, quirk);
+            deActivate(player, quirk);
             return;
         }
         if(isAir) {
@@ -52,8 +47,8 @@ public class Explode extends BasicAbility {
     }
 
     @Override
-    protected void deactivate(ServerPlayerEntity player, Quirk quirk) {
-        super.deactivate(player, quirk);
+    protected void deActivate(ServerPlayerEntity player, Quirk quirk) {
+        super.deActivate(player, quirk);
         if(isAir) {
             AnimationProxy.sendStopAnimation(player);
         }

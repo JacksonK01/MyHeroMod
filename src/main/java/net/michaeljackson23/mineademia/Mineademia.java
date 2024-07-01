@@ -33,9 +33,6 @@ import org.slf4j.LoggerFactory;
  * <ul>
  *   <li>Cookiebug - Has drawn all the assets for the mod</li>
  * </ul>
- * <ul>
- *     <li>Dillehbar - Programmer</li>
- * </ul>
  * <p>
  * For understand this mod, start looking in {@link QuirkInitialize}.
  * For anything that might still be confusing, I reckon reading the Fabric wiki. <a href="https://fabricmc.net/wiki/start">Click Here</a>

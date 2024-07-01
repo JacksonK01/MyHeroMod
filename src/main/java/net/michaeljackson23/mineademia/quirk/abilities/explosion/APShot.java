@@ -1,13 +1,10 @@
 package net.michaeljackson23.mineademia.quirk.abilities.explosion;
 
-import net.michaeljackson23.mineademia.entity.projectile.airforce.AirForceProjectile;
 import net.michaeljackson23.mineademia.entity.projectile.apshot.APShotProjectile;
 import net.michaeljackson23.mineademia.quirk.Quirk;
-import net.michaeljackson23.mineademia.quirk.abilities.AbilityBase;
 import net.michaeljackson23.mineademia.quirk.abilities.BasicAbility;
 import net.michaeljackson23.mineademia.sound.CustomSounds;
 import net.michaeljackson23.mineademia.util.AnimationProxy;
-import net.michaeljackson23.mineademia.util.PlayerAngleVector;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 
@@ -40,8 +37,8 @@ public class APShot extends BasicAbility {
     }
 
     @Override
-    protected void deactivate(ServerPlayerEntity player, Quirk quirk) {
-        super.deactivate(player, quirk);
+    protected void deActivate(ServerPlayerEntity player, Quirk quirk) {
+        super.deActivate(player, quirk);
         timer = 0;
         hasFiredProjectile = false;
         hasAnimationPlayed = false;
