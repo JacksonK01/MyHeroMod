@@ -14,10 +14,15 @@ import net.michaeljackson23.mineademia.gui.vestige.VestigeGUI;
 import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkData;
 import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkDataAccessors;
 import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkDataPacket;
+import net.michaeljackson23.mineademia.util.AreaOfEffect;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
+import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.option.Perspective;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.Text;
@@ -102,5 +107,11 @@ public class ClientPackets {
             vestigeGUI.shouldPause();
             client.setScreenAndRender(vestigeGUI);
         });
+    }
+    public static void makeAnEntityGlow(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
+        ClientPlayerEntity player = client.player;
+        if(player != null) {
+
+        }
     }
 }

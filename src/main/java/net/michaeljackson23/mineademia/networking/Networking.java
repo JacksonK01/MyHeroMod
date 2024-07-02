@@ -30,7 +30,7 @@ public class Networking {
     public static final Identifier FORCE_INTO_FIRST_PERSON = new Identifier(Mineademia.MOD_ID, "force_first_person");
 
     public static final Identifier OPEN_VESTIGE_GUI = new Identifier(Mineademia.MOD_ID, "vestige_gui");
-
+    public static final Identifier DANGER_SENSE = new Identifier(Mineademia.MOD_ID, "danger_sense");
 
 
     public static void registerServer() {
@@ -53,5 +53,6 @@ public class Networking {
         ClientPlayNetworking.registerGlobalReceiver(FORCE_INTO_THIRD_PERSON_FRONT, ClientPackets::forceThirdPersonFront);
         ClientPlayNetworking.registerGlobalReceiver(FORCE_INTO_FIRST_PERSON, ClientPackets::forceFirstPerson);
         ClientPlayNetworking.registerGlobalReceiver(OPEN_VESTIGE_GUI, ClientPackets::openVestigeGui);
+        ClientPlayNetworking.registerGlobalReceiver(DANGER_SENSE, ClientPackets::makeAnEntityGlow);
     }
 }

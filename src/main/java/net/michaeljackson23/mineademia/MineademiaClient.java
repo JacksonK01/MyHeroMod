@@ -4,7 +4,7 @@ import net.fabricmc.api.ClientModInitializer;
 import net.michaeljackson23.mineademia.animations.AnimationRegister;
 import net.michaeljackson23.mineademia.armor.CustomArmorModelRenderer;
 import net.michaeljackson23.mineademia.blocks.BlockRegister;
-import net.michaeljackson23.mineademia.hud.DevQuirkDisplay;
+import net.michaeljackson23.mineademia.hud.QuirkHud;
 import net.michaeljackson23.mineademia.entity.EntityRegister;
 import net.michaeljackson23.mineademia.keybinds.Keybinds;
 import net.michaeljackson23.mineademia.networking.Networking;
@@ -27,7 +27,7 @@ public class MineademiaClient implements ClientModInitializer {
         BlockRegister.render();
         Keybinds.keybindActions();
         EntityRegister.registerModels();
-        DevQuirkDisplay.register();
+        QuirkHud.register();
         ParticleRegister.registerClient();
         AnimationRegister.register();
     }

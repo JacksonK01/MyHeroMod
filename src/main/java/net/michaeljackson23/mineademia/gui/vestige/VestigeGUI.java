@@ -24,6 +24,10 @@ public class VestigeGUI extends Screen {
 
     // These variables need to be initialized in the constructor because they use the screen dimensions
     private final ButtonWidget blackwhip;
+    private final ButtonWidget smokescreen;
+    private final ButtonWidget faJin;
+    private final ButtonWidget floatB;
+    private final ButtonWidget gearShift;
 
     public VestigeGUI(Text title) {
         super(title);
@@ -39,6 +43,42 @@ public class VestigeGUI extends Screen {
                 .dimensions(buttonX, buttonY, BUTTON_WIDTH, BUTTON_HEIGHT)
                 .tooltip(Tooltip.of(Text.literal("Select Blackwhip as your vestige quirk")))
                 .build();
+        smokescreen = ButtonWidget.builder(Text.literal("Smokescreen"), button -> {
+                    PacketByteBuf data = PacketByteBufs.create();
+                    data.writeString("Smokescreen");
+                    ClientPlayNetworking.send(Networking.SELECT_VESTIGE_GUI, data);
+                    close();
+                })
+                .dimensions(buttonX, buttonY, BUTTON_WIDTH, BUTTON_HEIGHT)
+                .tooltip(Tooltip.of(Text.literal("Select Smokescreen as your vestige quirk")))
+                .build();
+        faJin = ButtonWidget.builder(Text.literal("FaJin"), button -> {
+                    PacketByteBuf data = PacketByteBufs.create();
+                    data.writeString("FaJin");
+                    ClientPlayNetworking.send(Networking.SELECT_VESTIGE_GUI, data);
+                    close();
+                })
+                .dimensions(buttonX, buttonY, BUTTON_WIDTH, BUTTON_HEIGHT)
+                .tooltip(Tooltip.of(Text.literal("Select FaJin as your vestige quirk")))
+                .build();
+        floatB = ButtonWidget.builder(Text.literal("Float"), button -> {
+                    PacketByteBuf data = PacketByteBufs.create();
+                    data.writeString("Float");
+                    ClientPlayNetworking.send(Networking.SELECT_VESTIGE_GUI, data);
+                    close();
+                })
+                .dimensions(buttonX, buttonY, BUTTON_WIDTH, BUTTON_HEIGHT)
+                .tooltip(Tooltip.of(Text.literal("Select Float as your vestige quirk")))
+                .build();
+        gearShift = ButtonWidget.builder(Text.literal("Gearshift"), button -> {
+                    PacketByteBuf data = PacketByteBufs.create();
+                    data.writeString("Gearshift");
+                    ClientPlayNetworking.send(Networking.SELECT_VESTIGE_GUI, data);
+                    close();
+                })
+                .dimensions(buttonX, buttonY, BUTTON_WIDTH, BUTTON_HEIGHT)
+                .tooltip(Tooltip.of(Text.literal("Select Gearshift as your vestige quirk")))
+                .build();
     }
 
     @Override
@@ -50,7 +90,20 @@ public class VestigeGUI extends Screen {
         blackwhip.setX(guiLeft + (BACKGROUND_WIDTH - BUTTON_WIDTH) / 2);
         blackwhip.setY(guiTop + (BACKGROUND_HEIGHT - BUTTON_HEIGHT) / 2);
 
+        smokescreen.setX(guiLeft + (BACKGROUND_WIDTH - BUTTON_WIDTH) / 2);
+        smokescreen.setY((guiTop + (BACKGROUND_HEIGHT - BUTTON_HEIGHT) / 2) + BUTTON_HEIGHT);
+
+        floatB.setX(guiLeft + (BACKGROUND_WIDTH - BUTTON_WIDTH) / 2);
+        floatB.setY((guiTop + (BACKGROUND_HEIGHT - BUTTON_HEIGHT) / 2) + (BUTTON_HEIGHT * 2));
+
+        faJin.setX(guiLeft + (BACKGROUND_WIDTH - BUTTON_WIDTH) / 2);
+        faJin.setY((guiTop + (BACKGROUND_HEIGHT - BUTTON_HEIGHT) / 2) + (BUTTON_HEIGHT * 3));
+
         addDrawableChild(blackwhip);
+        addDrawableChild(smokescreen);
+        addDrawableChild(faJin);
+        addDrawableChild(floatB);
+//        addDrawableChild(gearShift);
     }
 
     @Override

@@ -10,6 +10,7 @@ import net.minecraft.util.math.Vec3d;
 //Toggle
 public class WindFly extends BasicAbility {
     private boolean isToggleActive = false;
+    //TODO use packets for velocity
     PassiveAbility windFly = ((player, quirk) -> {
         if(!isToggleActive) {
             return true;

@@ -25,7 +25,6 @@ public class ExplosionDash extends HoldableAbility {
         interval--;
         spawnParticlesUnderHands(player, ParticleTypes.SMOKE);
 
-
         return false;
     };
 

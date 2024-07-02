@@ -1,4 +1,14 @@
 {
+  "danger_sense": {
+    "category": "master",
+    "subtitle": "subtitles.danger.sense",
+    "sounds": [
+      {
+        "name": "mineademia:danger_sense",
+        "stream": false
+      }
+    ]
+  },
   "slide": {
     "category": "master",
     "subtitle": "subtitles.slide",

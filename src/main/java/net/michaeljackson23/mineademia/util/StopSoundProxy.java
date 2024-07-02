@@ -13,7 +13,7 @@ import net.minecraft.util.Identifier;
 public class StopSoundProxy {
     public static void execute(ServerPlayerEntity stopSoundFor, Identifier soundToStop, SoundCategory category) {
         StopSoundS2CPacket stopSoundS2CPacket = new StopSoundS2CPacket(soundToStop, category);
-        AreaOfEffect.execute(stopSoundFor.getWorld(), 50, 25, stopSoundFor.getX(), stopSoundFor.getY(), stopSoundFor.getZ(), (entityToAffect -> {
+        AreaOfEffect.execute(stopSoundFor.getWorld(), 32, 32, stopSoundFor.getX(), stopSoundFor.getY(), stopSoundFor.getZ(), (entityToAffect -> {
             if(entityToAffect instanceof ServerPlayerEntity player) {
                 player.networkHandler.sendPacket(stopSoundS2CPacket);
             }

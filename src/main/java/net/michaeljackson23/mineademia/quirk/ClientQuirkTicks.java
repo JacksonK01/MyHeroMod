@@ -10,18 +10,19 @@ import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkDataAccessors;
 public class ClientQuirkTicks {
     public static void registerClientTicks() {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            if(client.player instanceof QuirkDataAccessors quirkPlayer) {
-                QuirkData quirkData = quirkPlayer.myHeroMod$getQuirkData();
-                if(quirkData.getStamina() < 1000) {
-                    quirkData.setStamina(quirkData.getStamina() + 1);
-                } else {
-                    quirkData.setStamina(1000);
-                }
-
-                if(quirkData.getCooldown() > 0) {
-                    quirkData.setCooldown(quirkData.getCooldown() - 1);
-                }
-            }
+            //TODO make this code smart and know if it's dealing with a holdable ability or a toggle etc etc
+//            if(client.player instanceof QuirkDataAccessors quirkPlayer) {
+//                QuirkData quirkData = quirkPlayer.myHeroMod$getQuirkData();
+//                if(quirkData.getStamina() < 1000) {
+//                    quirkData.setStamina(quirkData.getStamina() + 1);
+//                } else {
+//                    quirkData.setStamina(1000);
+//                }
+//
+//                if(quirkData.getCooldown() > 0) {
+//                    quirkData.setCooldown(quirkData.getCooldown() - 1);
+//                }
+//            }
         });
     }
 }

@@ -17,13 +17,25 @@ import java.util.function.BooleanSupplier;
  */
 public class ServerQuirkTicks {
     public static void serverTickRegister() {
-        ServerTickEvents.START_SERVER_TICK.register((server) -> {
-            server.getPlayerManager().getPlayerList().forEach((player) -> {
+//        ServerTickEvents.START_SERVER_TICK.register((server) -> {
+//            server.getPlayerManager().getPlayerList().forEach((player) -> {
+//                Quirk quirk = ((QuirkAccessor) player).myHeroMod$getQuirk();
+//                //The tick method sends a packet to the client using the ability as well for a polish sync
+//                quirk.tick(player);
+//                if(player.age % 20 == 0) {
+//                    QuirkDataPacket.sendProxy(player);
+//                }
+//            });
+//        });
+        ServerTickEvents.START_WORLD_TICK.register((serverWorld) -> {
+            serverWorld.getPlayers().forEach((player) -> {
                 Quirk quirk = ((QuirkAccessor) player).myHeroMod$getQuirk();
                 //The tick method sends a packet to the client using the ability as well for a polish sync
                 quirk.tick(player);
                 if(player.age % 20 == 0) {
                     QuirkDataPacket.sendProxy(player);
+                } else {
+                    QuirkDataPacket.send(player);
                 }
             });
         });

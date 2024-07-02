@@ -139,7 +139,10 @@ public abstract class Quirk {
         if (activeAbility != null) {
             if (!activeAbility.hasInit()) {
                 if(activeAbility instanceof AbilityExtractor extractor) {
-                    activeAbility = extractor.extract(player, this);
+                    AbilityBase extractedAbility = extractor.extract(player, this);
+                    activeAbility.mirrorCurrentStateTo(extractedAbility);
+                    activeAbility.refresh();
+                    activeAbility = extractedAbility;
                 }
                 initializeAbility();
                 QuirkDataPacket.send(player);

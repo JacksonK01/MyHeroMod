@@ -144,6 +144,11 @@ public abstract class AbilityBase {
         this.isCurrentlyHeld = isHeld;
     }
 
+    public void mirrorCurrentStateTo(AbilityBase mirrorTo) {
+        mirrorTo.setIsCurrentlyHeld(isCurrentlyHeld);
+        mirrorTo.setAmountOfTimesActivated(amountOfTimesActivated);
+    }
+
     /**
      * <p>
      *     This method is called by the quirk that owns this ability. It handles the logic and processing for the ability.
