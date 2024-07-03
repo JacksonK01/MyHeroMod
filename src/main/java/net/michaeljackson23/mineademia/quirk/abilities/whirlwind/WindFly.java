@@ -1,5 +1,8 @@
 package net.michaeljackson23.mineademia.quirk.abilities.whirlwind;
 
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.michaeljackson23.mineademia.networking.Networking;
 import net.michaeljackson23.mineademia.quirk.Quirk;
 import net.michaeljackson23.mineademia.quirk.abilities.*;
 import net.minecraft.entity.MovementType;
@@ -27,16 +30,15 @@ public class WindFly extends BasicAbility {
                     3,
                     0.4, 0.5, 0.4,
                     0.1);
+            player.velocityModified = true;
         } else {
-            Vec3d velocity = player.getVelocity();
-            player.travel(velocity.multiply(1, 0.5, 1));
+            ServerPlayNetworking.send(player, Networking.WIND_FLY_DESCENT_VELOCITY, PacketByteBufs.empty());
             player.getServerWorld().spawnParticles(ParticleTypes.CLOUD,
                     player.getX(), player.getY(), player.getZ(),
                     10,
                     1, 0, 1,
                     0.1);
         }
-        player.velocityModified = true;
         return false;
     });
 

@@ -27,6 +27,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Vec3d;
 
 import java.util.UUID;
 
@@ -112,6 +113,13 @@ public class ClientPackets {
         ClientPlayerEntity player = client.player;
         if(player != null) {
 
+        }
+    }
+    public static void windFlyDescentVelocity(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
+        ClientPlayerEntity player = client.player;
+        if(player != null) {
+            Vec3d velocity = player.getVelocity();
+            player.setVelocity(velocity.x, velocity.y/2, velocity.z);
         }
     }
 }

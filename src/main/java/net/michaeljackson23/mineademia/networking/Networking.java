@@ -32,6 +32,8 @@ public class Networking {
     public static final Identifier OPEN_VESTIGE_GUI = new Identifier(Mineademia.MOD_ID, "vestige_gui");
     public static final Identifier DANGER_SENSE = new Identifier(Mineademia.MOD_ID, "danger_sense");
 
+    public static final Identifier WIND_FLY_DESCENT_VELOCITY = new Identifier(Mineademia.MOD_ID, "wind_fly_descent_velocity");
+
 
     public static void registerServer() {
         ServerPlayNetworking.registerGlobalReceiver(ABILITY_ONE, ServerPackets::abilityOne);
@@ -54,5 +56,6 @@ public class Networking {
         ClientPlayNetworking.registerGlobalReceiver(FORCE_INTO_FIRST_PERSON, ClientPackets::forceFirstPerson);
         ClientPlayNetworking.registerGlobalReceiver(OPEN_VESTIGE_GUI, ClientPackets::openVestigeGui);
         ClientPlayNetworking.registerGlobalReceiver(DANGER_SENSE, ClientPackets::makeAnEntityGlow);
+        ClientPlayNetworking.registerGlobalReceiver(WIND_FLY_DESCENT_VELOCITY, ClientPackets::windFlyDescentVelocity);
     }
 }
