@@ -5,6 +5,7 @@
   "mixins": [
     "LivingEntityMixin",
     "MineademiaMixin",
+    "PlayerEntityMixin",
     "PlayerManagerMixin",
     "ServerPlayerEntityMixin"
   ],

@@ -8,6 +8,11 @@
   "item.mineademia.gamma_suit_leggings": "Gamma Suit Leggings",
   "item.mineademia.gamma_suit_boots": "Gamma Suit Boots",
 
+  "item.mineademia.beta_suit_helmet": "Beta Suit Mask",
+  "item.mineademia.beta_suit_chestplate": "Beta Suit Chestplate",
+  "item.mineademia.beta_suit_leggings": "Beta Suit Leggings",
+  "item.mineademia.beta_suit_boots": "Beta Suit Boots",
+
   "block.mineademia.quirk_ice": "Quirk Ice",
 
   "key.mineademia.mineademia": "Mineademia",
@@ -17,6 +22,8 @@
   "key.mineademia.ability_four": "Ability 4",
   "key.mineademia.ability_five": "Ability 5",
   "key.mineademia.dodge": "Dodge",
+  "key.mineademia.kick": "Kick Combo",
+  "key.mineademia.aerial": "Aerial Combo",
 
   "death.attack.quirk.player": "%1$s was killed by %2$s using their quirk",
   "death.attack.quirk": "%1$s died by a quirk",

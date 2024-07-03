@@ -4,6 +4,7 @@ import net.fabricmc.api.ModInitializer;
 
 import net.michaeljackson23.mineademia.armor.ArmorRegister;
 import net.michaeljackson23.mineademia.blocks.BlockRegister;
+import net.michaeljackson23.mineademia.combo.ComboEvent;
 import net.michaeljackson23.mineademia.quirk.QuirkInitialize;
 import net.michaeljackson23.mineademia.items.ItemRegister;
 import net.michaeljackson23.mineademia.networking.Networking;
@@ -59,5 +60,6 @@ public class Mineademia implements ModInitializer {
 		CustomSounds.register();
 		OnPlayerRespawn.register();
 		BeforeDamageEvent.register();
+		ComboEvent.register();
 	}
 }

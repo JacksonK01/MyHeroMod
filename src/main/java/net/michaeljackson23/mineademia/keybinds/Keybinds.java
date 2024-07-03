@@ -2,7 +2,14 @@ package net.michaeljackson23.mineademia.keybinds;
 
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.michaeljackson23.mineademia.networking.Networking;
+import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
+import net.minecraft.network.PacketByteBuf;
+import net.minecraft.text.Text;
+import net.minecraft.util.hit.EntityHitResult;
 import org.lwjgl.glfw.GLFW;
 
 import static net.michaeljackson23.mineademia.networking.Networking.*;
@@ -18,6 +25,9 @@ public class Keybinds {
     private static HoldableKeybind keyAbilityFour;
     private static HoldableKeybind keyAbilityFive;
     private static HoldableKeybind keyDodge;
+
+    private static KeyBinding keyKickCombo;
+    private static KeyBinding keyAerialCombo;
 
     public static void keysRegister() {
         keyAbilityOne = (HoldableKeybind) KeyBindingHelper.registerKeyBinding(new HoldableKeybind(
@@ -56,6 +66,20 @@ public class Keybinds {
                 GLFW.GLFW_KEY_LEFT_ALT,
                 "key.mineademia.mineademia"
         ));
+
+        keyKickCombo = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+                "key.mineademia.kick",
+                InputUtil.Type.MOUSE,
+                GLFW.GLFW_MOUSE_BUTTON_4,
+                "key.mineademia.mineademia"
+        ));
+
+        keyAerialCombo = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+                "key.mineademia.aerial",
+                InputUtil.Type.MOUSE,
+                GLFW.GLFW_MOUSE_BUTTON_5,
+                "key.mineademia.mineademia"
+        ));
     }
     public static void keybindActions() {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
@@ -68,6 +92,30 @@ public class Keybinds {
                 keyAbilityFive.holdAndReleaseAction(ABILITY_FIVE);
 
                 keyDodge.holdAndReleaseAction(DODGE);
+
+                if(keyKickCombo.isPressed()) {
+                    if(client.crosshairTarget instanceof EntityHitResult hitResult) {
+                        PacketByteBuf buf = PacketByteBufs.create();
+                        buf.writeInt(hitResult.getEntity().getId());
+                        ClientPlayNetworking.send(KICK_COMBO, buf);
+                    }
+                }
+
+                if(keyAerialCombo.isPressed()) {
+                    if(client.crosshairTarget instanceof EntityHitResult hitResult) {
+                        PacketByteBuf buf = PacketByteBufs.create();
+                        buf.writeInt(hitResult.getEntity().getId());
+                        ClientPlayNetworking.send(AERIAL_COMBO, buf);
+                    }
+                }
+
+//                if (keyKickCombo.wasPressed() || keyAerialCombo.wasPressed()) {
+//                    if(client.player != null && client.interactionManager != null && client.crosshairTarget != null) {
+//                        if(client.crosshairTarget instanceof EntityHitResult hitResult) {
+//                            client.interactionManager.attackEntity(client.player, hitResult.getEntity());
+//                        }
+//                    }
+//                }
             });
         });
     }

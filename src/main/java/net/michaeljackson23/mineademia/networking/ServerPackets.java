@@ -6,7 +6,9 @@ import net.michaeljackson23.mineademia.quirk.QuirkInitialize;
 import net.michaeljackson23.mineademia.quirk.abilities.AbilityBase;
 import net.michaeljackson23.mineademia.quirk.abilities.ofa.PickVestigeAbility;
 import net.michaeljackson23.mineademia.savedata.StateSaverAndLoader;
+import net.michaeljackson23.mineademia.util.PlayerDataAccessor;
 import net.michaeljackson23.mineademia.util.QuirkAccessor;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
@@ -33,6 +35,18 @@ public class ServerPackets {
 
     public static void abilityFive(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
         activateAbility(player, buf, 4);
+    }
+
+    public static void kickCombo(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
+        if(player.getServerWorld().getEntityById(buf.readInt()) instanceof LivingEntity livingEntity) {
+            ((PlayerDataAccessor) player).myHeroMod$getPlayerData().getComboManager().notifyKick(livingEntity);
+        }
+    }
+
+    public static void aerialCombo(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
+        if(player.getServerWorld().getEntityById(buf.readInt()) instanceof LivingEntity livingEntity) {
+            ((PlayerDataAccessor) player).myHeroMod$getPlayerData().getComboManager().notifyAerial(livingEntity);
+        }
     }
 
     public static void openQuirkTabletGUI(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {

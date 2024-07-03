@@ -2,6 +2,7 @@ package net.michaeljackson23.mineademia.quirk;
 
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkDataPacket;
+import net.michaeljackson23.mineademia.util.PlayerDataAccessor;
 import net.michaeljackson23.mineademia.util.QuirkAccessor;
 import net.minecraft.server.network.ServerPlayerEntity;
 
@@ -17,21 +18,9 @@ import java.util.function.BooleanSupplier;
  */
 public class ServerQuirkTicks {
     public static void serverTickRegister() {
-//        ServerTickEvents.START_SERVER_TICK.register((server) -> {
-//            server.getPlayerManager().getPlayerList().forEach((player) -> {
-//                Quirk quirk = ((QuirkAccessor) player).myHeroMod$getQuirk();
-//                //The tick method sends a packet to the client using the ability as well for a polish sync
-//                quirk.tick(player);
-//                if(player.age % 20 == 0) {
-//                    QuirkDataPacket.sendProxy(player);
-//                }
-//            });
-//        });
         ServerTickEvents.START_WORLD_TICK.register((serverWorld) -> {
             serverWorld.getPlayers().forEach((player) -> {
-                Quirk quirk = ((QuirkAccessor) player).myHeroMod$getQuirk();
-                //The tick method sends a packet to the client using the ability as well for a polish sync
-                quirk.tick(player);
+                ((PlayerDataAccessor) player).myHeroMod$getPlayerData().tick(player);
                 if(player.age % 20 == 0) {
                     QuirkDataPacket.sendProxy(player);
                 } else {

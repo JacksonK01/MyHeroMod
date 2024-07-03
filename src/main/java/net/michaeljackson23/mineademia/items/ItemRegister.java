@@ -31,6 +31,10 @@ public class ItemRegister {
                     entries.add(ArmorRegister.GAMMA_SUIT_CHESTPLATE);
                     entries.add(ArmorRegister.GAMMA_SUIT_LEGGINGS);
                     entries.add(ArmorRegister.GAMMA_SUIT_BOOTS);
+                    entries.add(ArmorRegister.BETA_SUIT_HELMET);
+                    entries.add(ArmorRegister.BETA_SUIT_CHESTPLATE);
+                    entries.add(ArmorRegister.BETA_SUIT_LEGGINGS);
+                    entries.add(ArmorRegister.BETA_SUIT_BOOTS);
                 })
                 .build();
         Registry.register(Registries.ITEM_GROUP, new Identifier(Mineademia.MOD_ID, "mha_group"), MHA_GROUP);

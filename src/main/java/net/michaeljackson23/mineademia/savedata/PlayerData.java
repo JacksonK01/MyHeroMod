@@ -1,5 +1,6 @@
 package net.michaeljackson23.mineademia.savedata;
 import net.michaeljackson23.mineademia.Mineademia;
+import net.michaeljackson23.mineademia.combo.ComboManager;
 import net.michaeljackson23.mineademia.quirk.Quirk;
 import net.michaeljackson23.mineademia.quirk.quirks.NullQuirk;
 import net.michaeljackson23.mineademia.quirk.quirks.Quirkless;
@@ -37,6 +38,8 @@ public class PlayerData {
      */
     private Quirk quirk = new NullQuirk();
 
+    private ComboManager comboManager = new ComboManager();
+
     /**
      * <p>
      *     Ignore this
@@ -57,6 +60,11 @@ public class PlayerData {
      * </p>
      */
     private ArrayList<String> obtainedQuirks = new ArrayList<>();
+
+    public void tick(ServerPlayerEntity player) {
+        comboManager.tick(player);
+        quirk.tick(player);
+    }
 
     /**
      * <p>
@@ -132,5 +140,9 @@ public class PlayerData {
      */
     public QuirkBuilder getQuirkBuilder() {
         return this.builder;
+    }
+
+    public ComboManager getComboManager() {
+        return this.comboManager;
     }
 }

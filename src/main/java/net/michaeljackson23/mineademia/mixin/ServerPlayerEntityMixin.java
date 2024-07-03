@@ -1,14 +1,21 @@
 package net.michaeljackson23.mineademia.mixin;
 
 import com.mojang.authlib.GameProfile;
+import net.michaeljackson23.mineademia.callbacks.BeforeEntityDamageCallback;
+import net.michaeljackson23.mineademia.callbacks.OnPlayerAttackEntity;
 import net.michaeljackson23.mineademia.callbacks.OnServerPlayerCreationCallback;
 import net.michaeljackson23.mineademia.quirk.Quirk;
 import net.michaeljackson23.mineademia.quirk.feature.QuirkFeatureRenderer;
 import net.michaeljackson23.mineademia.quirk.quirks.NullQuirk;
 import net.michaeljackson23.mineademia.savedata.PlayerData;
+import net.michaeljackson23.mineademia.util.MutableObject;
 import net.michaeljackson23.mineademia.util.PlayerDataAccessor;
 import net.michaeljackson23.mineademia.util.QuirkAccessor;
 import net.minecraft.client.render.entity.EntityRendererFactory;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.packet.c2s.common.SyncedClientOptions;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -18,7 +25,9 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ServerPlayerEntity.class)
 public class ServerPlayerEntityMixin implements QuirkAccessor, PlayerDataAccessor {

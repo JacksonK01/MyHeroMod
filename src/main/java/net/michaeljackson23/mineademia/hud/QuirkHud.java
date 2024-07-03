@@ -77,12 +77,12 @@ public class QuirkHud {
                 context.drawCenteredTextWithShadow(textRenderer,
                         Text.literal("Quirk: " + quirkPlayer.myHeroMod$getQuirkData().getQuirkName()),
                         x, y, 0xff0000);
-                context.drawCenteredTextWithShadow(textRenderer,
-                        Text.literal("Stamina: " + quirkPlayer.myHeroMod$getQuirkData().getStamina()),
-                        x, y + 20, 0xff0000);
-                context.drawCenteredTextWithShadow(textRenderer,
-                        Text.literal("Cooldown: " + quirkPlayer.myHeroMod$getQuirkData().getCooldown()),
-                        x, y + 40, 0xff0000);
+//                context.drawCenteredTextWithShadow(textRenderer,
+//                        Text.literal("Stamina: " + quirkPlayer.myHeroMod$getQuirkData().getStamina()),
+//                        x, y + 20, 0xff0000);
+//                context.drawCenteredTextWithShadow(textRenderer,
+//                        Text.literal("Cooldown: " + quirkPlayer.myHeroMod$getQuirkData().getCooldown()),
+//                        x, y + 40, 0xff0000);
             }
         });
     }
