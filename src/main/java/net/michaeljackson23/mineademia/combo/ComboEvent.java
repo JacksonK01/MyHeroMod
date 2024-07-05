@@ -10,9 +10,10 @@ import net.minecraft.util.ActionResult;
 public class ComboEvent {
     public static void register() {
         OnPlayerAttackEntity.EVENT.register(((attacker, target, damage) -> {
-            PlayerData playerData = ((PlayerDataAccessor) attacker).myHeroMod$getPlayerData();
-            playerData.getComboManager().notifyPunch(target);
-            attacker.sendMessage(Text.literal("[Attacker = " + attacker.getName().getString() + "] [Target = " + target.getName().getString() + "] Damage = " + damage.getData()));
+            if(attacker.getMainHandStack().isEmpty()) {
+                PlayerData playerData = ((PlayerDataAccessor) attacker).myHeroMod$getPlayerData();
+                playerData.getComboManager().notifyPunch(attacker, target);
+            }
             return ActionResult.SUCCESS;
         }));
     }

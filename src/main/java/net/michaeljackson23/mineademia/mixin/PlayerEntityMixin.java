@@ -38,7 +38,6 @@ public class PlayerEntityMixin {
     private float modifyDamageAmount(float damage) {
         PlayerEntity player = (PlayerEntity) (Object) this;
         if(player instanceof ServerPlayerEntity serverPlayer) {
-            serverPlayer.sendMessage(Text.literal("Amount of damage = " + damage));
             if (damageWrapperOnAttack != null) {
                 damage = damageWrapperOnAttack.getData();
                 damageWrapperOnAttack = null;
@@ -46,5 +45,4 @@ public class PlayerEntityMixin {
         }
         return damage;
     }
-
 }

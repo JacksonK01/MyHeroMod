@@ -39,13 +39,13 @@ public class ServerPackets {
 
     public static void kickCombo(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
         if(player.getServerWorld().getEntityById(buf.readInt()) instanceof LivingEntity livingEntity) {
-            ((PlayerDataAccessor) player).myHeroMod$getPlayerData().getComboManager().notifyKick(livingEntity);
+            ((PlayerDataAccessor) player).myHeroMod$getPlayerData().getComboManager().notifyKick(player, livingEntity);
         }
     }
 
     public static void aerialCombo(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
         if(player.getServerWorld().getEntityById(buf.readInt()) instanceof LivingEntity livingEntity) {
-            ((PlayerDataAccessor) player).myHeroMod$getPlayerData().getComboManager().notifyAerial(livingEntity);
+            ((PlayerDataAccessor) player).myHeroMod$getPlayerData().getComboManager().notifyAerial(player, livingEntity);
         }
     }
 
