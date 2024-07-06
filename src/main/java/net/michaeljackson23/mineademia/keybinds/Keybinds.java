@@ -93,7 +93,7 @@ public class Keybinds {
 
                 keyDodge.holdAndReleaseAction(DODGE);
 
-                if(keyKickCombo.isPressed()) {
+                if(keyKickCombo.wasPressed()) {
                     if(client.crosshairTarget instanceof EntityHitResult hitResult) {
                         PacketByteBuf buf = PacketByteBufs.create();
                         buf.writeInt(hitResult.getEntity().getId());
@@ -101,7 +101,7 @@ public class Keybinds {
                     }
                 }
 
-                if(keyAerialCombo.isPressed()) {
+                if(keyAerialCombo.wasPressed()) {
                     if(client.crosshairTarget instanceof EntityHitResult hitResult) {
                         PacketByteBuf buf = PacketByteBufs.create();
                         buf.writeInt(hitResult.getEntity().getId());

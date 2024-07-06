@@ -134,7 +134,7 @@ public class ManchesterSmash extends BasicAbility {
             }
         }
     }
-
+    //TODO add particles from the blocks under the spot of smash, and add block break noise
     private void onHitGround(ServerPlayerEntity player) {
         player.setVelocity(player.getVelocity().x, 1, player.getVelocity().z);
         player.velocityModified = true;

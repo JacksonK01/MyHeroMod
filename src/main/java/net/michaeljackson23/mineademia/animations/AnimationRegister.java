@@ -69,6 +69,15 @@ public class AnimationRegister {
         PlayerAnimationFactory.ANIMATION_DATA_FACTORY.registerFactory(new Identifier(Mineademia.MOD_ID, "combo_kick_2"), 0, (player) -> {
             return player instanceof ClientPlayerEntity ? new ModifierLayer<>() : null;
         });
+        PlayerAnimationFactory.ANIMATION_DATA_FACTORY.registerFactory(new Identifier(Mineademia.MOD_ID, "combo_kick_3"), 0, (player) -> {
+            return player instanceof ClientPlayerEntity ? new ModifierLayer<>() : null;
+        });
+        PlayerAnimationFactory.ANIMATION_DATA_FACTORY.registerFactory(new Identifier(Mineademia.MOD_ID, "combo_aerial_ground_1"), 0, (player) -> {
+            return player instanceof ClientPlayerEntity ? new ModifierLayer<>() : null;
+        });
+        PlayerAnimationFactory.ANIMATION_DATA_FACTORY.registerFactory(new Identifier(Mineademia.MOD_ID, "combo_aerial_air_1"), 0, (player) -> {
+            return player instanceof ClientPlayerEntity ? new ModifierLayer<>() : null;
+        });
     }
 
 //    private static ModifierLayer generateModifierLayer() {

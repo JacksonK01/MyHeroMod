@@ -10,6 +10,7 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 
 public class ComboManager {
@@ -17,16 +18,19 @@ public class ComboManager {
     private int timer = 0;
     private boolean isInCombo = false;
     private LivingEntity target;
+    private BlockPos targetPos;
     private ComboType previousComboType = ComboType.NONE;
     private boolean freshHit = false;
 
     private final int MAX_AMOUNT_OF_HITS = 3;
     private final float DAMAGE = 5f;
-
+    private int particle_timer = 0;
+    //TODO add cloud particles after hit
     public void tick(ServerPlayerEntity player) {
         if(isInCombo && target != null) {
             target.setAttacker(player);
             findWhichComboType(player);
+            targetPos = target.getBlockPos();
             if(amountOfHits >= MAX_AMOUNT_OF_HITS) {
                 resetCombo();
             }
@@ -34,8 +38,16 @@ public class ComboManager {
             if(timer <= 0) {
                 resetCombo();
             }
-//            player.sendMessage(Text.literal(this.toString()));
         }
+//        if(particle_timer > 0 && targetPos != null) {
+//            player.getServerWorld().spawnParticles(ParticleTypes.CLOUD,
+//                    targetPos.getX(), targetPos.getY() + 1, targetPos.getZ(),
+//                    5, 0.3, 0.5, 0.3, 0);
+//            if(particle_timer <= 0) {
+//                targetPos = null;
+//            }
+//        }
+//        particle_timer--;
     }
 
     public void notifyPunch(ServerPlayerEntity attacker, LivingEntity target) {
@@ -76,6 +88,7 @@ public class ComboManager {
         this.target = target;
         amountOfHits++;
         timer = 20;
+        particle_timer = 20;
         isInCombo = true;
         freshHit = true;
     }
@@ -134,22 +147,25 @@ public class ComboManager {
         Vec3d playerVec = getVec3d(player);
         switch (amountOfHits) {
             case 1 -> {
-                Vec3d kickVel = new Vec3d(playerVec.x, 0.75, playerVec.z);
-                target.setVelocity(kickVel.multiply(0.05, 1, 0.05));
+                Vec3d kickVel = new Vec3d(playerVec.x * 0.05, 0.75, playerVec.z * 0.05);
+                target.setVelocity(kickVel);
                 player.setVelocity(target.getVelocity().multiply(0.9));
                 AnimationProxy.sendAnimationToClients(player, "combo_kick_1");
                 target.getWorld().playSound(null, target.getBlockPos(), CustomSounds.LEG_MOVEMENT_EVENT, SoundCategory.PLAYERS, 1f, 1.2f);
             }
             case 2 -> {
-                Vec3d kickVel = new Vec3d(playerVec.x, 0.75, playerVec.z);
-                target.setVelocity(kickVel.multiply(0.2, 1, 0.2));
-                player.setVelocity(-playerVec.x, 0.75, -playerVec.z);
+                //TODO fix the velocity the player moves at, its hard to control
+                target.setVelocity(playerVec.x, 1, playerVec.z);
+                player.setVelocity(target.getVelocity().multiply(0.8));
                 AnimationProxy.sendAnimationToClients(player, "combo_kick_2");
                 target.getWorld().playSound(null, target.getBlockPos(), CustomSounds.LEG_MOVEMENT_EVENT, SoundCategory.PLAYERS, 1f, 2f);
             }
             case 3 -> {
-                target.setVelocity(playerVec.multiply(1, 2, 1));
-                player.setVelocity(target.getVelocity());
+                Vec3d kickVel = new Vec3d(playerVec.x, 0.75, playerVec.z);
+                target.setVelocity(kickVel.multiply(0.2, 1, 0.2));
+                player.setVelocity(-playerVec.x, 0.75, -playerVec.z);
+                AnimationProxy.sendAnimationToClients(player, "combo_kick_3");
+                target.getWorld().playSound(null, target.getBlockPos(), CustomSounds.LEG_MOVEMENT_EVENT, SoundCategory.PLAYERS, 1f, 2f);
             }
         }
         player.getServerWorld().spawnParticles(ParticleTypes.EXPLOSION,
@@ -160,31 +176,29 @@ public class ComboManager {
     }
 
     private void doAerialOnGroundCombo(ServerPlayerEntity player) {
-        switch (amountOfHits) {
-            case 1 -> {
-
-            }
-            case 2 -> {
-
-            }
-            case 3 -> {
-
-            }
-        }
+        Vec3d playerVec = getVec3d(player);
+        target.setVelocity(0, 1.5, 0);
+        player.setVelocity(target.getVelocity().multiply(0.9));
+        AnimationProxy.sendAnimationToClients(player, "combo_aerial_ground_1");
+        target.getWorld().playSound(null, target.getBlockPos(), SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.PLAYERS, 1f, 1f);
+        player.getServerWorld().spawnParticles(ParticleTypes.EXPLOSION,
+                target.getX(), target.getY() + 1, target.getZ(),
+                1, 0.1, 0.1, 0.1, 1);
+        player.velocityModified = true;
+        target.velocityModified = true;
     }
 
     private void doAerialInAirCombo(ServerPlayerEntity player) {
-        switch (amountOfHits) {
-            case 1 -> {
-
-            }
-            case 2 -> {
-
-            }
-            case 3 -> {
-
-            }
-        }
+        Vec3d playerVec = getVec3d(player);
+        target.setVelocity(0, -0.6, 0);
+        player.setVelocity(0, 0.3, 0);
+        AnimationProxy.sendAnimationToClients(player, "combo_aerial_air_1");
+        target.getWorld().playSound(null, target.getBlockPos(), SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.PLAYERS, 1f, 1f);
+        player.getServerWorld().spawnParticles(ParticleTypes.EXPLOSION,
+                target.getX(), target.getY()+ 0.5, target.getZ(),
+                1, 0.1, 0.1, 0.1, 1);
+        player.velocityModified = true;
+        target.velocityModified = true;
     }
 
     private Vec3d getVec3d(ServerPlayerEntity player) {
