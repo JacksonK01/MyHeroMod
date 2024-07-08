@@ -38,16 +38,8 @@ public class ComboManager {
             if(timer <= 0) {
                 resetCombo();
             }
+//            player.sendMessage(Text.literal("Cooldown: " + player.getAttackCooldownProgress(0.5f)));
         }
-//        if(particle_timer > 0 && targetPos != null) {
-//            player.getServerWorld().spawnParticles(ParticleTypes.CLOUD,
-//                    targetPos.getX(), targetPos.getY() + 1, targetPos.getZ(),
-//                    5, 0.3, 0.5, 0.3, 0);
-//            if(particle_timer <= 0) {
-//                targetPos = null;
-//            }
-//        }
-//        particle_timer--;
     }
 
     public void notifyPunch(ServerPlayerEntity attacker, LivingEntity target) {
@@ -71,8 +63,9 @@ public class ComboManager {
         }
     }
 
-    private float findDamage() {
-        return amountOfHits * DAMAGE;
+    private float findDamage(ServerPlayerEntity player) {
+        float cooldown = player.getAttackCooldownProgress(0.5f);
+        return amountOfHits * DAMAGE * cooldown;
     }
 
     private void resetCombo() {
@@ -94,7 +87,7 @@ public class ComboManager {
     }
 
     private boolean canIncrementCombo(ServerPlayerEntity attacker, LivingEntity target) {
-        return attacker.getMainHandStack().isEmpty() && target.hurtTime <= 0 && target.damage(attacker.getDamageSources().playerAttack(attacker), findDamage());
+        return attacker.getMainHandStack().isEmpty() && target.hurtTime <= 0 && target.damage(attacker.getDamageSources().playerAttack(attacker), findDamage(attacker));
     }
 
     private void findWhichComboType(ServerPlayerEntity player) {
@@ -110,6 +103,7 @@ public class ComboManager {
                     }
                 }
             }
+            player.resetLastAttackedTicks();
             freshHit = false;
         }
     }

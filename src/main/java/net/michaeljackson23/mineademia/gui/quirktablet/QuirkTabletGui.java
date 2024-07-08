@@ -20,6 +20,7 @@ public class QuirkTabletGui extends Screen {
     private ButtonWidget hchh;
     private ButtonWidget whirlwind;
     private ButtonWidget elect;
+    private ButtonWidget engine;
 
     @Override
     protected void init() {
@@ -66,11 +67,21 @@ public class QuirkTabletGui extends Screen {
                 .tooltip(Tooltip.of(Text.literal("changes quirk")))
                 .build();
 
+        engine = ButtonWidget.builder(Text.literal("Engine"), button -> {
+                    PacketByteBuf data = PacketByteBufs.create();
+                    data.writeString("Engine");
+                    ClientPlayNetworking.send(Networking.OPEN_QUIRK_GUI, data);
+                })
+                .dimensions(width / 2 + 5, 60, 200, 20)
+                .tooltip(Tooltip.of(Text.literal("changes quirk")))
+                .build();
+
         addDrawableChild(ofa);
         addDrawableChild(explosion);
         addDrawableChild(hchh);
         addDrawableChild(whirlwind);
         addDrawableChild(elect);
+        addDrawableChild(engine);
     }
 
     @Override

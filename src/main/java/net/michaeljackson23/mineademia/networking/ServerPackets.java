@@ -9,11 +9,14 @@ import net.michaeljackson23.mineademia.savedata.StateSaverAndLoader;
 import net.michaeljackson23.mineademia.util.PlayerDataAccessor;
 import net.michaeljackson23.mineademia.util.QuirkAccessor;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
+
+import java.util.UUID;
 
 public class ServerPackets {
 
