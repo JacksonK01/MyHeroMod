@@ -122,4 +122,13 @@ public class ClientPackets {
             player.setVelocity(velocity.x, velocity.y/2, velocity.z);
         }
     }
+    public static void comboDamage(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
+        UUID attackerUuid = buf.readUuid();
+        float amount = buf.readFloat();
+        ClientPlayerEntity target = client.player;
+        if(target != null && target.getWorld() != null) {
+            PlayerEntity attacker = target.getWorld().getPlayerByUuid(attackerUuid);
+            target.damage(target.getDamageSources().playerAttack(attacker), amount);
+        }
+    }
 }

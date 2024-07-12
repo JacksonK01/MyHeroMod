@@ -100,7 +100,6 @@ public class Keybinds {
                         ClientPlayNetworking.send(KICK_COMBO, buf);
                     }
                 }
-
                 if(keyAerialCombo.wasPressed()) {
                     if(client.crosshairTarget instanceof EntityHitResult hitResult) {
                         PacketByteBuf buf = PacketByteBufs.create();

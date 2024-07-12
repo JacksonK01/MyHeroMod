@@ -1,9 +1,14 @@
 package net.michaeljackson23.mineademia.combo;
 
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.michaeljackson23.mineademia.networking.Networking;
 import net.michaeljackson23.mineademia.sound.CustomSounds;
 import net.michaeljackson23.mineademia.util.AnimationProxy;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSources;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
@@ -45,21 +50,21 @@ public class ComboManager {
     public void notifyPunch(ServerPlayerEntity attacker, LivingEntity target) {
         if(canIncrementCombo(attacker, target)) {
             previousComboType = ComboType.PUNCH;
-            increment(target);
+            increment(attacker, target);
         }
     }
 
     public void notifyKick(ServerPlayerEntity attacker, LivingEntity target) {
         if(canIncrementCombo(attacker, target)) {
             previousComboType = ComboType.KICK;
-            increment(target);
+            increment(attacker, target);
         }
     }
 
     public void notifyAerial(ServerPlayerEntity attacker, LivingEntity target) {
         if(canIncrementCombo(attacker, target)) {
             previousComboType = ComboType.AERIAL;
-            increment(target);
+            increment(attacker, target);
         }
     }
 
@@ -77,17 +82,22 @@ public class ComboManager {
         previousComboType = ComboType.NONE;
     }
 
-    private void increment(LivingEntity target) {
+    private void increment(ServerPlayerEntity attacker, LivingEntity target) {
         this.target = target;
         amountOfHits++;
         timer = 20;
         particle_timer = 20;
         isInCombo = true;
         freshHit = true;
+        doDamage(attacker, target, findDamage(attacker));
     }
 
     private boolean canIncrementCombo(ServerPlayerEntity attacker, LivingEntity target) {
-        return attacker.getMainHandStack().isEmpty() && target.hurtTime <= 0 && target.damage(attacker.getDamageSources().playerAttack(attacker), findDamage(attacker));
+        return attacker.getMainHandStack().isEmpty() && target.hurtTime <= 0;
+    }
+
+    private void doDamage(ServerPlayerEntity attacker, LivingEntity target, float amount) {
+        target.damage(attacker.getDamageSources().playerAttack(attacker), amount);
     }
 
     private void findWhichComboType(ServerPlayerEntity player) {
