@@ -1,21 +1,13 @@
 package net.michaeljackson23.mineademia.combo;
 
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.michaeljackson23.mineademia.networking.Networking;
 import net.michaeljackson23.mineademia.sound.CustomSounds;
 import net.michaeljackson23.mineademia.util.AnimationProxy;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.damage.DamageSources;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.Text;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 
 public class ComboManager {
@@ -23,53 +15,36 @@ public class ComboManager {
     private int timer = 0;
     private boolean isInCombo = false;
     private LivingEntity target;
-    private BlockPos targetPos;
     private ComboType previousComboType = ComboType.NONE;
     private boolean freshHit = false;
-
     private final int MAX_AMOUNT_OF_HITS = 3;
     private final float DAMAGE = 5f;
-    private int particle_timer = 0;
-    //TODO add cloud particles after hit
+
     public void tick(ServerPlayerEntity player) {
         if(isInCombo && target != null) {
-            target.setAttacker(player);
-            findWhichComboType(player);
-            targetPos = target.getBlockPos();
-            if(amountOfHits >= MAX_AMOUNT_OF_HITS) {
-                resetCombo();
-            }
-            timer--;
-            if(timer <= 0) {
-                resetCombo();
-            }
-//            player.sendMessage(Text.literal("Cooldown: " + player.getAttackCooldownProgress(0.5f)));
+            handleCombo(player);
         }
     }
 
-    public void notifyPunch(ServerPlayerEntity attacker, LivingEntity target) {
-        if(canIncrementCombo(attacker, target)) {
-            previousComboType = ComboType.PUNCH;
-            increment(attacker, target);
-        }
+    private void handleCombo(ServerPlayerEntity player) {
+        target.setAttacker(player);
+        doComboAction(player);
+        handleReset();
     }
 
-    public void notifyKick(ServerPlayerEntity attacker, LivingEntity target) {
-        if(canIncrementCombo(attacker, target)) {
-            previousComboType = ComboType.KICK;
-            increment(attacker, target);
+    private void handleReset() {
+        if(amountOfHits >= MAX_AMOUNT_OF_HITS) {
+            resetCombo();
         }
-    }
-
-    public void notifyAerial(ServerPlayerEntity attacker, LivingEntity target) {
-        if(canIncrementCombo(attacker, target)) {
-            previousComboType = ComboType.AERIAL;
-            increment(attacker, target);
+        timer--;
+        if(timer <= 0) {
+            resetCombo();
         }
     }
 
     private float findDamage(ServerPlayerEntity player) {
         float cooldown = player.getAttackCooldownProgress(0.5f);
+        player.resetLastAttackedTicks();
         return amountOfHits * DAMAGE * cooldown;
     }
 
@@ -82,14 +57,16 @@ public class ComboManager {
         previousComboType = ComboType.NONE;
     }
 
-    private void increment(ServerPlayerEntity attacker, LivingEntity target) {
-        this.target = target;
-        amountOfHits++;
-        timer = 20;
-        particle_timer = 20;
-        isInCombo = true;
-        freshHit = true;
-        doDamage(attacker, target, findDamage(attacker));
+    private void incrementHandler(ServerPlayerEntity attacker, LivingEntity target, ComboType type) {
+        if(canIncrementCombo(attacker, target)) {
+            previousComboType = type;
+            this.target = target;
+            amountOfHits++;
+            timer = 20;
+            isInCombo = true;
+            freshHit = true;
+            doDamage(attacker, target, findDamage(attacker));
+        }
     }
 
     private boolean canIncrementCombo(ServerPlayerEntity attacker, LivingEntity target) {
@@ -100,7 +77,7 @@ public class ComboManager {
         target.damage(attacker.getDamageSources().playerAttack(attacker), amount);
     }
 
-    private void findWhichComboType(ServerPlayerEntity player) {
+    private void doComboAction(ServerPlayerEntity player) {
         if(freshHit) {
             switch (previousComboType) {
                 case PUNCH -> doPunchCombo(player);
@@ -113,70 +90,55 @@ public class ComboManager {
                     }
                 }
             }
-            player.resetLastAttackedTicks();
             freshHit = false;
         }
     }
 
     private void doPunchCombo(ServerPlayerEntity player) {
-        Vec3d playerVec = getVec3d(player);
         switch (amountOfHits) {
-            case 1 -> {
-                target.setVelocity(playerVec.multiply(0.5));
-                player.setVelocity(target.getVelocity().multiply(0.9));
-                AnimationProxy.sendAnimationToClients(player, "combo_punch_1");
-                target.getWorld().playSound(null, target.getBlockPos(), CustomSounds.PHYSICAL_DAMAGE_EVENT, SoundCategory.PLAYERS, 1f, 1.2f);
-            }
-            case 2 -> {
-                target.setVelocity(playerVec);
-                player.setVelocity(target.getVelocity().multiply(0.9));
-                AnimationProxy.sendAnimationToClients(player, "combo_punch_2");
-                target.getWorld().playSound(null, target.getBlockPos(), CustomSounds.PHYSICAL_DAMAGE_EVENT, SoundCategory.PLAYERS, 1f, 0.75f);
-            }
-            case 3 -> {
-                target.setVelocity(playerVec.multiply(3));
-                player.setVelocity(playerVec);
-                AnimationProxy.sendAnimationToClients(player, "combo_punch_3");
-                target.getWorld().playSound(null, target.getBlockPos(), SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.PLAYERS, 1f, 2f);
-            }
+            case 1 -> punchStep(player, 0.5, 0.3, "combo_punch_1", CustomSounds.PHYSICAL_DAMAGE_EVENT, 1.2f);
+            case 2 -> punchStep(player, 1, 0.8, "combo_punch_2", CustomSounds.PHYSICAL_DAMAGE_EVENT, 0.75f);
+            case 3 -> punchStep(player, 3, 2.75, "combo_punch_3", SoundEvents.ENTITY_GENERIC_EXPLODE, 2f);
         }
-        player.getServerWorld().spawnParticles(ParticleTypes.EXPLOSION,
-                target.getX(), target.getY() + 1, target.getZ(),
-                1, 0.1, 0.1, 0.1, 1);
         player.velocityModified = true;
         target.velocityModified = true;
     }
 
     private void doKickCombo(ServerPlayerEntity player) {
-        Vec3d playerVec = getVec3d(player);
         switch (amountOfHits) {
-            case 1 -> {
-                Vec3d kickVel = new Vec3d(playerVec.x * 0.05, 0.75, playerVec.z * 0.05);
-                target.setVelocity(kickVel);
-                player.setVelocity(target.getVelocity().multiply(0.9));
-                AnimationProxy.sendAnimationToClients(player, "combo_kick_1");
-                target.getWorld().playSound(null, target.getBlockPos(), CustomSounds.LEG_MOVEMENT_EVENT, SoundCategory.PLAYERS, 1f, 1.2f);
-            }
-            case 2 -> {
-                //TODO fix the velocity the player moves at, its hard to control
-                target.setVelocity(playerVec.x, 1, playerVec.z);
-                player.setVelocity(target.getVelocity().multiply(0.8));
-                AnimationProxy.sendAnimationToClients(player, "combo_kick_2");
-                target.getWorld().playSound(null, target.getBlockPos(), CustomSounds.LEG_MOVEMENT_EVENT, SoundCategory.PLAYERS, 1f, 2f);
-            }
-            case 3 -> {
-                Vec3d kickVel = new Vec3d(playerVec.x, 0.75, playerVec.z);
-                target.setVelocity(kickVel.multiply(0.2, 1, 0.2));
-                player.setVelocity(-playerVec.x, 0.75, -playerVec.z);
-                AnimationProxy.sendAnimationToClients(player, "combo_kick_3");
-                target.getWorld().playSound(null, target.getBlockPos(), CustomSounds.LEG_MOVEMENT_EVENT, SoundCategory.PLAYERS, 1f, 2f);
-            }
+            case 1 -> kickStep(player, 0.05, 0.75, 0.9, "combo_kick_1", 1.2f, false);
+            case 2 -> kickStep(player, 1, 1, 0.8, "combo_kick_2", 2f, false);
+            case 3 -> kickStep(player, 1, 0.75, 1, "combo_kick_3", 2f, true);
         }
+        player.velocityModified = true;
+        target.velocityModified = true;
+    }
+
+    private void punchStep(ServerPlayerEntity player, double targetVelocityMultiplier, double playerVelocityMultiplier, String animation, SoundEvent soundEvent, float pitch) {
+        Vec3d playerVec = getVec3d(player);
+        target.setVelocity(playerVec.multiply(targetVelocityMultiplier));
+        player.setVelocity(playerVec.multiply(playerVelocityMultiplier));
+        AnimationProxy.sendAnimationToClients(player, animation);
+        target.getWorld().playSound(null, target.getBlockPos(), soundEvent, SoundCategory.PLAYERS, 1f, pitch);
+        player.getServerWorld().spawnParticles(ParticleTypes.EXPLOSION,
+                target.getX(), target.getY() + 1, target.getZ(),
+                1, 0.1, 0.1, 0.1, 1);
+    }
+
+    private void kickStep(ServerPlayerEntity player, double targetVelocityMultiplier, double yVelocity, double playerVelocityMultiplier, String animation, float pitch, boolean isBackwards) {
+        Vec3d playerVec = getVec3d(player);
+        Vec3d kickVel = new Vec3d(playerVec.x * targetVelocityMultiplier, yVelocity, playerVec.z * targetVelocityMultiplier);
+        target.setVelocity(kickVel);
+        if(isBackwards) {
+            player.setVelocity(new Vec3d(-kickVel.x, kickVel.y, -kickVel.z));
+        } else {
+            player.setVelocity(kickVel.multiply(playerVelocityMultiplier));
+        }
+        AnimationProxy.sendAnimationToClients(player, animation);
+        target.getWorld().playSound(null, target.getBlockPos(), CustomSounds.LEG_MOVEMENT_EVENT, SoundCategory.PLAYERS, 1f, pitch);
         player.getServerWorld().spawnParticles(ParticleTypes.EXPLOSION,
                 target.getX(), target.getY() + 0.1, target.getZ(),
                 1, 0.1, 0.1, 0.1, 0);
-        player.velocityModified = true;
-        target.velocityModified = true;
     }
 
     private void doAerialOnGroundCombo(ServerPlayerEntity player) {
@@ -210,6 +172,18 @@ public class ComboManager {
         double x = -Math.sin(yawRad);
         double z = Math.cos(yawRad);
         return new Vec3d(x, 0, z).normalize();
+    }
+
+    public void notifyPunch(ServerPlayerEntity attacker, LivingEntity target) {
+        incrementHandler(attacker, target, ComboType.PUNCH);
+    }
+
+    public void notifyKick(ServerPlayerEntity attacker, LivingEntity target) {
+        incrementHandler(attacker, target, ComboType.KICK);
+    }
+
+    public void notifyAerial(ServerPlayerEntity attacker, LivingEntity target) {
+        incrementHandler(attacker, target, ComboType.AERIAL);
     }
 
     @Override

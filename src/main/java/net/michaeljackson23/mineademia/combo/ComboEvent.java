@@ -14,8 +14,6 @@ public class ComboEvent {
                 PlayerData playerData = ((PlayerDataAccessor) attacker).myHeroMod$getPlayerData();
                 playerData.getComboManager().notifyPunch(attacker, target);
             }
-
-            attacker.sendMessage(Text.literal(target.getName().getString()));
             return ActionResult.SUCCESS;
         }));
     }
