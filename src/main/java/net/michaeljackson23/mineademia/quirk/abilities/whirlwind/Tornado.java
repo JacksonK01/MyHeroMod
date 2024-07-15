@@ -12,7 +12,7 @@ import net.minecraft.sound.SoundEvents;
 public class Tornado extends BasicAbility {
 
     public Tornado() {
-        super(1, 120, 30, "Tornado", "null");
+        super(1, 120, 30, "Magnitude 5", "null");
     }
 
     @Override

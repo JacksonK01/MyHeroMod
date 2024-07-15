@@ -10,6 +10,7 @@ import net.michaeljackson23.mineademia.entity.cube.CubeEntityModel;
 import net.michaeljackson23.mineademia.entity.cube.CubeEntityRenderer;
 import net.michaeljackson23.mineademia.entity.projectile.airforce.AirForceProjectile;
 import net.michaeljackson23.mineademia.entity.projectile.apshot.APShotProjectile;
+import net.michaeljackson23.mineademia.entity.projectile.hchh.FireProjectile;
 import net.michaeljackson23.mineademia.entity.projectile.stungrenade.StunGrenadeProjectile;
 import net.michaeljackson23.mineademia.entity.projectile.tornado.TornadoProjectile;
 import net.michaeljackson23.mineademia.entity.projectile.windblade.WindBladeProjectile;
@@ -69,6 +70,14 @@ public class EntityRegister {
                     .build()
     );
 
+    public static final EntityType<FireProjectile> FIRE_PROJECTILE = Registry.register(
+            Registries.ENTITY_TYPE,
+            new Identifier(Mineademia.MOD_ID, "fire_projectile"),
+            FabricEntityTypeBuilder.<FireProjectile>create(SpawnGroup.MISC, FireProjectile::new)
+                    .dimensions(EntityDimensions.fixed(0.75f, 0.75f))
+                    .build()
+    );
+
     public static void register() {
         FabricDefaultAttributeRegistry.register(CUBE, CubeEntity.createMobAttributes());
 
@@ -83,5 +92,6 @@ public class EntityRegister {
         EntityRendererRegistry.register(EntityRegister.AP_SHOT_PROJECTILE, FlyingItemEntityRenderer::new);
         EntityRendererRegistry.register(EntityRegister.STUN_GRENADE_PROJECTILE, FlyingItemEntityRenderer::new);
         EntityRendererRegistry.register(EntityRegister.TORNADO_PROJECTILE, FlyingItemEntityRenderer::new);
+        EntityRendererRegistry.register(EntityRegister.FIRE_PROJECTILE, FlyingItemEntityRenderer::new);
     }
 }

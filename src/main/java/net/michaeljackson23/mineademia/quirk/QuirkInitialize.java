@@ -45,6 +45,7 @@ public class QuirkInitialize {
         allQuirks.put("Whirlwind", Whirlwind::new);
         allQuirks.put("Electrification", Electrification::new);
         allQuirks.put("Engine", Engine::new);
+        allQuirks.put("Rifle", Rifle::new);
     }
     private static final Random rand = new Random();
     /**

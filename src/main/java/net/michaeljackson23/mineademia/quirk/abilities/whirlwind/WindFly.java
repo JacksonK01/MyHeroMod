@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.michaeljackson23.mineademia.networking.Networking;
 import net.michaeljackson23.mineademia.quirk.Quirk;
 import net.michaeljackson23.mineademia.quirk.abilities.*;
+import net.michaeljackson23.mineademia.util.AreaOfEffect;
 import net.minecraft.entity.MovementType;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -15,11 +16,13 @@ public class WindFly extends BasicAbility {
     private boolean isToggleActive = false;
     //TODO use packets for velocity
     PassiveAbility windFly = ((player, quirk) -> {
+        player.fallDistance = 0f;
         if(!isToggleActive) {
             return true;
         }
         if(player.isSprinting()) {
             player.setVelocity(player.getRotationVector());
+            player.velocityModified = true;
             player.getServerWorld().spawnParticles(ParticleTypes.CLOUD,
                     player.getX(), player.getY() + 1, player.getZ(),
                     4,
@@ -30,7 +33,10 @@ public class WindFly extends BasicAbility {
                     3,
                     0.4, 0.5, 0.4,
                     0.1);
-            player.velocityModified = true;
+            AreaOfEffect.execute(player, 3, 1, player.getX(), player.getY(), player.getZ(), (entityToAffect -> {
+                entityToAffect.setVelocity(player.getVelocity());
+                entityToAffect.velocityModified = true;
+            }));
         } else {
             ServerPlayNetworking.send(player, Networking.WIND_FLY_DESCENT_VELOCITY, PacketByteBufs.empty());
             player.getServerWorld().spawnParticles(ParticleTypes.CLOUD,

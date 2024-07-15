@@ -15,9 +15,12 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.world.World;
 
+import java.util.Random;
+
 public class TornadoProjectile extends ThrownItemEntity {
     private int timer = 0;
     private boolean tornadoMode = false;
+    private final Random random = new Random();
 
     public TornadoProjectile(EntityType<? extends ThrownItemEntity> entityType, World world) {
         super(entityType, world);
@@ -55,6 +58,7 @@ public class TornadoProjectile extends ThrownItemEntity {
         timer++;
         if(tornadoMode) {
             tornadoParticles(serverWorld);
+            aoe();
         } else {
             nonTornadoParticle(serverWorld);
         }
@@ -73,11 +77,10 @@ public class TornadoProjectile extends ThrownItemEntity {
     }
 
     private void aoe() {
-        AreaOfEffect.execute((LivingEntity) getOwner(), 4, 1, getX(), getY(), getZ(), (entityToEffect) -> {
-            entityToEffect.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 25, 2, true, false));
-            entityToEffect.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 25, 2, true, false));
-            entityToEffect.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 25, 2, true, false));
-            QuirkDamage.doEmitterDamage((LivingEntity) getOwner(), entityToEffect, 1f);
+        AreaOfEffect.execute((LivingEntity) getOwner(), 16, 8, getX(), getY() + 8, getZ(), (entityToEffect) -> {
+            QuirkDamage.doEmitterDamage((LivingEntity) getOwner(), entityToEffect, 4f);
+            entityToEffect.setVelocity(random.nextDouble(), random.nextDouble(), random.nextDouble());
+            entityToEffect.velocityModified = true;
         });
     }
 

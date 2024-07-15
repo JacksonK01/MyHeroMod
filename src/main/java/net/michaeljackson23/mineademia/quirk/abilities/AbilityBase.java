@@ -154,7 +154,7 @@ public abstract class AbilityBase {
      *     This method is called by the quirk that owns this ability. It handles the logic and processing for the ability.
      * </p>
      */
-    public void execute(ServerPlayerEntity player, Quirk quirk) {
+    public void tick(ServerPlayerEntity player, Quirk quirk) {
         if(!isInfinite) {
             timer++;
         }

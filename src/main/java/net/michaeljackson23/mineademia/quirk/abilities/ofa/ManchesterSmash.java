@@ -13,6 +13,7 @@ import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.Text;
 import net.minecraft.util.math.Vec3d;
 
 public class ManchesterSmash extends BasicAbility {
@@ -60,7 +61,7 @@ public class ManchesterSmash extends BasicAbility {
         hasGoneDown = false;
         this.currentPhase = Phases.START;
         impact = false;
-        quirk.setCooldown(0);
+        quirk.setCooldown(25);
     }
 
     private void init(ServerPlayerEntity player) {
@@ -130,6 +131,9 @@ public class ManchesterSmash extends BasicAbility {
            }
             if(!(player.getServerWorld().getBlockState(player.getBlockPos().down()).isAir())) {
                 impact = true;
+                deActivate(player, quirk);
+            }
+            if(player.getVelocity().y >= 0) {
                 deActivate(player, quirk);
             }
         }

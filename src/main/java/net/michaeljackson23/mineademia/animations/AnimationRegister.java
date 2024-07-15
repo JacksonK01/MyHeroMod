@@ -78,6 +78,12 @@ public class AnimationRegister {
         PlayerAnimationFactory.ANIMATION_DATA_FACTORY.registerFactory(new Identifier(Mineademia.MOD_ID, "combo_aerial_air_1"), 0, (player) -> {
             return player instanceof ClientPlayerEntity ? new ModifierLayer<>() : null;
         });
+        PlayerAnimationFactory.ANIMATION_DATA_FACTORY.registerFactory(new Identifier(Mineademia.MOD_ID, "whirlwind_up_down"), 0, (player) -> {
+            return player instanceof ClientPlayerEntity ? new ModifierLayer<>() : null;
+        });
+        PlayerAnimationFactory.ANIMATION_DATA_FACTORY.registerFactory(new Identifier(Mineademia.MOD_ID, "wind_ballista"), 0, (player) -> {
+            return player instanceof ClientPlayerEntity ? new ModifierLayer<>() : null;
+        });
     }
 
 //    private static ModifierLayer generateModifierLayer() {

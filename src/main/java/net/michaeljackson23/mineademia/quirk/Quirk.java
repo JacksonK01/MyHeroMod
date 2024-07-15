@@ -1,19 +1,13 @@
 package net.michaeljackson23.mineademia.quirk;
 
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.michaeljackson23.mineademia.Mineademia;
-import net.michaeljackson23.mineademia.networking.Networking;
 import net.michaeljackson23.mineademia.quirk.abilities.AbilityBase;
 import net.michaeljackson23.mineademia.quirk.abilities.AbilityExtractor;
 import net.michaeljackson23.mineademia.quirk.abilities.PassiveAbility;
 import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkDataPacket;
 import net.michaeljackson23.mineademia.quirk.quirks.Explosion;
-import net.minecraft.entity.EntityType;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.Text;
 
 import java.util.*;
 
@@ -152,7 +146,7 @@ public abstract class Quirk {
                 if (activeAbility.isHoldable()) {
                     stamina -= activeAbility.getStaminaDrain();
                 }
-                activeAbility.execute(player, this);
+                activeAbility.tick(player, this);
             } else {
                 activeAbility.refresh();
             }

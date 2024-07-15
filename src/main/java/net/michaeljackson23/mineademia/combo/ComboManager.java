@@ -3,6 +3,7 @@ package net.michaeljackson23.mineademia.combo;
 import net.michaeljackson23.mineademia.sound.CustomSounds;
 import net.michaeljackson23.mineademia.util.AnimationProxy;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
@@ -18,7 +19,7 @@ public class ComboManager {
     private ComboType previousComboType = ComboType.NONE;
     private boolean freshHit = false;
     private final int MAX_AMOUNT_OF_HITS = 3;
-    private final float DAMAGE = 5f;
+    private final float DAMAGE = 2.5f;
 
     public void tick(ServerPlayerEntity player) {
         if(isInCombo && target != null) {
@@ -45,7 +46,8 @@ public class ComboManager {
     private float findDamage(ServerPlayerEntity player) {
         float cooldown = player.getAttackCooldownProgress(0.5f);
         player.resetLastAttackedTicks();
-        return amountOfHits * DAMAGE * cooldown;
+        float playerDamageAttribute = (float) player.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE);
+        return ((amountOfHits * DAMAGE) + playerDamageAttribute) * cooldown;
     }
 
     private void resetCombo() {
@@ -70,7 +72,7 @@ public class ComboManager {
     }
 
     private boolean canIncrementCombo(ServerPlayerEntity attacker, LivingEntity target) {
-        return attacker.getMainHandStack().isEmpty() && target.hurtTime <= 0;
+        return attacker.getMainHandStack().isEmpty() && target.hurtTime <= 0 && !target.isDead();
     }
 
     private void doDamage(ServerPlayerEntity attacker, LivingEntity target, float amount) {
@@ -96,9 +98,9 @@ public class ComboManager {
 
     private void doPunchCombo(ServerPlayerEntity player) {
         switch (amountOfHits) {
-            case 1 -> punchStep(player, 0.5, 0.3, "combo_punch_1", CustomSounds.PHYSICAL_DAMAGE_EVENT, 1.2f);
+            case 1 -> punchStep(player, 0.5, 0.9, "combo_punch_1", CustomSounds.PHYSICAL_DAMAGE_EVENT, 1.2f);
             case 2 -> punchStep(player, 1, 0.8, "combo_punch_2", CustomSounds.PHYSICAL_DAMAGE_EVENT, 0.75f);
-            case 3 -> punchStep(player, 3, 2.75, "combo_punch_3", SoundEvents.ENTITY_GENERIC_EXPLODE, 2f);
+            case 3 -> punchStep(player, 3, 0.8, "combo_punch_3", SoundEvents.ENTITY_GENERIC_EXPLODE, 2f);
         }
         player.velocityModified = true;
         target.velocityModified = true;
@@ -107,6 +109,7 @@ public class ComboManager {
     private void doKickCombo(ServerPlayerEntity player) {
         switch (amountOfHits) {
             case 1 -> kickStep(player, 0.05, 0.75, 0.9, "combo_kick_1", 1.2f, false);
+            //TODO kick 2 is almost impossible to combo into kick 3
             case 2 -> kickStep(player, 1, 1, 0.8, "combo_kick_2", 2f, false);
             case 3 -> kickStep(player, 1, 0.75, 1, "combo_kick_3", 2f, true);
         }
@@ -117,7 +120,7 @@ public class ComboManager {
     private void punchStep(ServerPlayerEntity player, double targetVelocityMultiplier, double playerVelocityMultiplier, String animation, SoundEvent soundEvent, float pitch) {
         Vec3d playerVec = getVec3d(player);
         target.setVelocity(playerVec.multiply(targetVelocityMultiplier));
-        player.setVelocity(playerVec.multiply(playerVelocityMultiplier));
+        player.setVelocity(target.getVelocity().multiply(playerVelocityMultiplier));
         AnimationProxy.sendAnimationToClients(player, animation);
         target.getWorld().playSound(null, target.getBlockPos(), soundEvent, SoundCategory.PLAYERS, 1f, pitch);
         player.getServerWorld().spawnParticles(ParticleTypes.EXPLOSION,

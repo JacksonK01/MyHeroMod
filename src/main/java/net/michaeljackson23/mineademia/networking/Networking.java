@@ -31,10 +31,8 @@ public class Networking {
     public static final Identifier FORCE_INTO_THIRD_PERSON_FRONT = new Identifier(Mineademia.MOD_ID, "force_third_person_front");
     public static final Identifier FORCE_INTO_FIRST_PERSON = new Identifier(Mineademia.MOD_ID, "force_first_person");
     public static final Identifier COMBO_DAMAGE = new Identifier(Mineademia.MOD_ID, "combo_damage");
-
     public static final Identifier OPEN_VESTIGE_GUI = new Identifier(Mineademia.MOD_ID, "vestige_gui");
     public static final Identifier DANGER_SENSE = new Identifier(Mineademia.MOD_ID, "danger_sense");
-
     public static final Identifier WIND_FLY_DESCENT_VELOCITY = new Identifier(Mineademia.MOD_ID, "wind_fly_descent_velocity");
 
 

@@ -14,6 +14,7 @@ import net.michaeljackson23.mineademia.particles.ParticleRegister;
 import net.michaeljackson23.mineademia.quirk.events.BeforeDamageEvent;
 import net.michaeljackson23.mineademia.savedata.OnPlayerRespawn;
 import net.michaeljackson23.mineademia.sound.CustomSounds;
+import net.michaeljackson23.mineademia.statuseffects.StatusEffectsRegister;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -61,5 +62,6 @@ public class Mineademia implements ModInitializer {
 		OnPlayerRespawn.register();
 		BeforeDamageEvent.register();
 		ComboEvent.register();
+		StatusEffectsRegister.register();
 	}
 }

@@ -8,7 +8,7 @@ import net.michaeljackson23.mineademia.quirk.abilities.engine.SlideAndKicks;
 public class Engine extends Quirk {
 
     public Engine() {
-        super("Engine", new SlideAndKicks(), new Empty(), new Empty(), new Empty(), new Empty());
+        super("Engine", new Empty(), new Empty(), new SlideAndKicks(), new Empty(), new Empty());
         setModelsForQuirk("EnginesAndEngineFire");
     }
 }

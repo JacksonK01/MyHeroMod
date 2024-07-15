@@ -33,7 +33,7 @@
   "death.attack.quirk.emitter": "%1$s died by emitter quirk damage",
 
   "death.attack.quirk.physical.player": "%1$s was killed by %2$s using physical quirk damage",
-  "death.attack.quirk.physical": "%1$s died by physical quirk damage"
+  "death.attack.quirk.physical": "%1$s died by physical quirk damage",
 
-
+  "effect.mineademia.cowling": "Full Cowling"
 }
