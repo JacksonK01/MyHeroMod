@@ -47,6 +47,7 @@ public class Networking {
         ServerPlayNetworking.registerGlobalReceiver(AERIAL_COMBO, ServerPackets::aerialCombo);
         ServerPlayNetworking.registerGlobalReceiver(OPEN_QUIRK_GUI, ServerPackets::openQuirkTabletGUI);
         ServerPlayNetworking.registerGlobalReceiver(SELECT_VESTIGE_GUI, ServerPackets::vestigeAbility);
+        ServerPlayNetworking.registerGlobalReceiver(DODGE, ServerPackets::dodge);
     }
 
     public static void registerClient() {

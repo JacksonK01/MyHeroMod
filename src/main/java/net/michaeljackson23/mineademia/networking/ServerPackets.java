@@ -1,6 +1,7 @@
 package net.michaeljackson23.mineademia.networking;
 
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
+import net.michaeljackson23.mineademia.keybinds.Keybinds;
 import net.michaeljackson23.mineademia.quirk.Quirk;
 import net.michaeljackson23.mineademia.quirk.QuirkInitialize;
 import net.michaeljackson23.mineademia.quirk.abilities.AbilityBase;
@@ -9,14 +10,16 @@ import net.michaeljackson23.mineademia.savedata.StateSaverAndLoader;
 import net.michaeljackson23.mineademia.util.PlayerDataAccessor;
 import net.michaeljackson23.mineademia.util.QuirkAccessor;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
+import net.minecraft.util.math.Vec3d;
 
 import java.util.UUID;
+
+import static net.michaeljackson23.mineademia.keybinds.Keybinds.DASH_STRENGHT;
 
 public class ServerPackets {
 
@@ -86,5 +89,14 @@ public class ServerPackets {
                 break;
             }
         }
+    }
+    public static void dodge(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
+       Vec3d v = player.getVelocity();
+       if(v.x==0 && v.z==0) {
+       v = player.getRotationVecClient().multiply(0.25f);
+       }
+       if(!player.isFallFlying()) {
+           player.setVelocity(v.x * Keybinds.DASH_STRENGHT, 0.25f, v.z * DASH_STRENGHT);
+       }
     }
 }

@@ -19,12 +19,13 @@ import static net.michaeljackson23.mineademia.networking.Networking.*;
  * <a href="https://fabricmc.net/wiki/tutorial:keybinds">Click Me</a>
  */
 public class Keybinds {
+    public static final float DASH_STRENGHT = 10f;
     private static HoldableKeybind keyAbilityOne;
     private static HoldableKeybind keyAbilityTwo;
     private static HoldableKeybind keyAbilityThree;
     private static HoldableKeybind keyAbilityFour;
     private static HoldableKeybind keyAbilityFive;
-    private static HoldableKeybind keyDodge;
+    private static KeyBinding keyDodge;
 
     private static KeyBinding keyKickCombo;
     private static KeyBinding keyAerialCombo;
@@ -90,9 +91,20 @@ public class Keybinds {
                 keyAbilityThree.holdAndReleaseAction(ABILITY_THREE);
                 keyAbilityFour.holdAndReleaseAction(ABILITY_FOUR);
                 keyAbilityFive.holdAndReleaseAction(ABILITY_FIVE);
+                if(keyDodge.wasPressed()) {
+                        PacketByteBuf buf = PacketByteBufs.create();
+                        buf.writeInt(client.player.getId());
+                        var v = client.player.getVelocity();
 
-                keyDodge.holdAndReleaseAction(DODGE);
+                        if(v.y<0f&&v.y>-0.1f) {
+                            if(v.x==0 && v.z==0) {
+                                v = client.player.getRotationVecClient().multiply(0.25f);
+                            }
+                            client.player.setVelocity(v.x * DASH_STRENGHT, 0.25f, v.z * DASH_STRENGHT);
+                            ClientPlayNetworking.send(DODGE, buf);
+                        }
 
+                }
                 if(keyKickCombo.wasPressed()) {
                     if(client.crosshairTarget instanceof EntityHitResult hitResult) {
                         PacketByteBuf buf = PacketByteBufs.create();
