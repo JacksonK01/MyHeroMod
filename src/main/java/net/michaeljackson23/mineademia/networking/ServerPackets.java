@@ -92,11 +92,8 @@ public class ServerPackets {
     }
     public static void dodge(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
        Vec3d v = player.getVelocity();
-       if(v.x==0 && v.z==0) {
-       v = player.getRotationVecClient().multiply(0.25f);
-       }
-       if(!player.isFallFlying()) {
+       if(v.x==0 && v.z==0) v = player.getRotationVecClient().multiply(0.25f);
+       if(!player.isFallFlying())
            player.setVelocity(v.x * Keybinds.DASH_STRENGHT, 0.25f, v.z * DASH_STRENGHT);
-       }
     }
 }

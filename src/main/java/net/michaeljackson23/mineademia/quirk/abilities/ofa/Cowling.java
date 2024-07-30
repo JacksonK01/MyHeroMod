@@ -1,7 +1,6 @@
 package net.michaeljackson23.mineademia.quirk.abilities.ofa;
 
 import net.michaeljackson23.mineademia.quirk.Quirk;
-import net.michaeljackson23.mineademia.quirk.abilities.AbilityBase;
 import net.michaeljackson23.mineademia.quirk.abilities.BasicAbility;
 import net.michaeljackson23.mineademia.quirk.abilities.PassiveAbility;
 import net.michaeljackson23.mineademia.particles.ParticleRegister;
@@ -9,13 +8,9 @@ import net.michaeljackson23.mineademia.sound.CustomSounds;
 import net.michaeljackson23.mineademia.statuseffects.StatusEffectsRegister;
 import net.michaeljackson23.mineademia.util.StopSoundProxy;
 import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.text.Text;
-import org.w3c.dom.css.RGBColor;
-
-import java.awt.*;
 
 public class Cowling extends BasicAbility {
     //1 = 10%
@@ -85,7 +80,7 @@ public class Cowling extends BasicAbility {
     }
 
     private void applyStatusEffects(ServerPlayerEntity player) {
-        player.addStatusEffect(new StatusEffectInstance(StatusEffectsRegister.COWLING_STATUS_EFFECT, 2, cowlingPower - 1, true, false));
+        player.addStatusEffect(new StatusEffectInstance(StatusEffectsRegister.EFFECT_COWLING, 2, cowlingPower - 1, true, false));
     }
 
     private void decreaseCowlingPower(ServerPlayerEntity player) {

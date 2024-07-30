@@ -26,7 +26,7 @@ public class ItemRegister {
                 .entries((context, entries) -> {
                     entries.add(quirkTablet);
                     entries.add(ItemRegister.sharpShooter);
-                    entries.add(BlockRegister.QUIRK_ICE_BLOCK);
+                    entries.add(BlockRegister.QUIRK_ICE);
                     entries.add(ArmorRegister.GAMMA_SUIT_HELMET);
                     entries.add(ArmorRegister.GAMMA_SUIT_CHESTPLATE);
                     entries.add(ArmorRegister.GAMMA_SUIT_LEGGINGS);

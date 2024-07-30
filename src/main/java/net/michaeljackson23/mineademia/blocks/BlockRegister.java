@@ -15,14 +15,14 @@ import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
 
 public class BlockRegister {
-    public static final QuirkIceBlock QUIRK_ICE_BLOCK = new QuirkIceBlock(AbstractBlock.Settings.create().mapColor(MapColor.PALE_PURPLE).slipperiness(0.98f).ticksRandomly().strength(0.5f).sounds(BlockSoundGroup.GLASS).nonOpaque().solidBlock(Blocks::never));
+    public static final QuirkIceBlock QUIRK_ICE = new QuirkIceBlock(AbstractBlock.Settings.create().mapColor(MapColor.PALE_PURPLE).slipperiness(0.98f).ticksRandomly().strength(0.5f).sounds(BlockSoundGroup.GLASS).nonOpaque().solidBlock(Blocks::never));
 
     public static void register() {
-        Registry.register(Registries.BLOCK, new Identifier(Mineademia.MOD_ID, "quirk_ice"), QUIRK_ICE_BLOCK);
-        Registry.register(Registries.ITEM, new Identifier(Mineademia.MOD_ID, "quirk_ice"), new BlockItem(QUIRK_ICE_BLOCK, new FabricItemSettings()));
+        Registry.register(Registries.BLOCK, new Identifier(Mineademia.MOD_ID, "quirk_ice"), QUIRK_ICE);
+        Registry.register(Registries.ITEM, new Identifier(Mineademia.MOD_ID, "quirk_ice"), new BlockItem(QUIRK_ICE, new FabricItemSettings()));
     }
 
     public static void render() {
-        BlockRenderLayerMap.INSTANCE.putBlock(BlockRegister.QUIRK_ICE_BLOCK, RenderLayer.getTranslucent());
+        BlockRenderLayerMap.INSTANCE.putBlock(BlockRegister.QUIRK_ICE, RenderLayer.getTranslucent());
     }
 }
