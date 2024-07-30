@@ -12,7 +12,7 @@ public class Rifle extends Quirk {
 
     public void tick(ServerPlayerEntity player) {
         super.tick(player);
-        if(getActiveAbility().isActive()) {
+        if(getActiveAbility() != null) {
             addModel("Sniper");
         }
     }

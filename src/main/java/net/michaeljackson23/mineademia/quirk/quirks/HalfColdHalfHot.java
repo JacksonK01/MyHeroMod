@@ -2,12 +2,14 @@ package net.michaeljackson23.mineademia.quirk.quirks;
 
 import net.michaeljackson23.mineademia.quirk.Quirk;
 import net.michaeljackson23.mineademia.quirk.abilities.Empty;
+import net.michaeljackson23.mineademia.quirk.abilities.hchh.fire.FireShockwave;
 import net.michaeljackson23.mineademia.quirk.abilities.hchh.fire.FireShoot;
-import net.michaeljackson23.mineademia.quirk.abilities.hchh.fire.FlameThrower;
+import net.michaeljackson23.mineademia.quirk.abilities.hchh.fire.WallOfFlame;
+import net.michaeljackson23.mineademia.quirk.abilities.hchh.fire.Volcano;
 
 public class HalfColdHalfHot extends Quirk {
 
     public HalfColdHalfHot() {
-        super("Half-Cold Half-Hot", new FireShoot(), new FlameThrower(), new Empty(), new Empty(), new Empty());
+        super("Half-Cold Half-Hot", new FireShoot(), new WallOfFlame(), new Volcano(), new FireShockwave(), new Empty());
     }
 }

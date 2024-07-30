@@ -2,6 +2,7 @@ package net.michaeljackson23.mineademia.quirk.abilities;
 
 import net.michaeljackson23.mineademia.quirk.Quirk;
 import net.michaeljackson23.mineademia.quirk.abilities.engine.SlideAndKicks;
+import net.michaeljackson23.mineademia.quirk.abilities.hchh.fire.WallOfFlame;
 import net.michaeljackson23.mineademia.quirk.abilities.ofa.AirForce;
 import net.minecraft.server.network.ServerPlayerEntity;
 
@@ -170,7 +171,7 @@ public abstract class AbilityBase {
      *     This method will require custom implementation when creating an ability.
      *     This is where the code for any ability will go.
      *
-     *     See {@link net.michaeljackson23.mineademia.quirk.abilities.hchh.fire.FlameThrower#activate(ServerPlayerEntity, Quirk)}
+     *     See {@link WallOfFlame#activate(ServerPlayerEntity, Quirk)}
      * </p>
      */
     protected abstract void activate(ServerPlayerEntity player, Quirk quirk);
@@ -184,11 +185,7 @@ public abstract class AbilityBase {
      * </p>
      */
     protected void deActivate(ServerPlayerEntity player, Quirk quirk) {
-        this.timer = 0;
-        this.amountOfTimesActivated = 0;
-        this.isActive = false;
-        this.hasInit = false;
-        this.cancel = false;
+        this.deActivate();
     }
 
     protected void deActivate() {

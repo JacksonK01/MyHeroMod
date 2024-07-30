@@ -20,6 +20,11 @@ import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.option.Perspective;
+import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.VertexConsumer;
+import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.WorldRenderer;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.HostileEntity;
@@ -130,5 +135,28 @@ public class ClientPackets {
             PlayerEntity attacker = target.getWorld().getPlayerByUuid(attackerUuid);
             target.damage(target.getDamageSources().playerAttack(attacker), amount);
         }
+    }
+
+    public static void drawBox(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
+        double x1 = buf.readDouble();
+        double y1 = buf.readDouble();
+        double z1 = buf.readDouble();
+        double x2 = buf.readDouble();
+        double y2 = buf.readDouble();
+        double z2 = buf.readDouble();
+
+        client.execute(() -> {
+            VertexConsumerProvider.Immediate vertexConsumers = client.getBufferBuilders().getEntityVertexConsumers();
+            VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getLines());
+
+            drawBox(vertexConsumer, x1, y1, z1, x2, y2, z2, 1f, 1f, 1f, 1f);
+
+            vertexConsumers.draw();
+        });
+    }
+
+    public static void drawBox(VertexConsumer vertexConsumer, double x1, double y1, double z1, double x2, double y2, double z2, float red, float green, float blue, float alpha) {
+        MatrixStack matrixStack = new MatrixStack();
+        WorldRenderer.drawBox(matrixStack, vertexConsumer, x1, y1, z1, x2, y2, z2, red, green, blue, alpha, red, green, blue);
     }
 }

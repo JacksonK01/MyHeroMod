@@ -12,11 +12,11 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.Vec3d;
 
-public class FlameThrower extends BasicAbility {
+public class WallOfFlame extends BasicAbility {
     private boolean didPlaySound = false;
 
-    public FlameThrower() {
-        super(100, 10, 110, "Flame Thrower", "null");
+    public WallOfFlame() {
+        super(100, 10, 110, "Wall of Flame", "null");
     }
 
     @Override
