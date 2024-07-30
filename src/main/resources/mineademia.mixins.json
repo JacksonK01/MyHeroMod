@@ -12,6 +12,7 @@
   "client": [
     "client.AbstractClientPlayerEntityMixin",
     "client.BipedEntityModelMixin",
+    "client.InGameHudMixin",
     "client.ItemRendererAccessor",
     "client.ModelLoaderMixin",
     "client.PlayerEntityRendererMixin"

@@ -1,5 +1,8 @@
 package net.michaeljackson23.mineademia.statuseffects;
 
+import net.minecraft.block.Blocks;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.AttributeContainer;
 import net.minecraft.entity.attribute.AttributeModifierCreator;
@@ -8,7 +11,11 @@ import net.minecraft.entity.attribute.EntityAttributeInstance;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectCategory;
 import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.particle.BlockStateParticleEffect;
+import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
+import net.minecraft.util.math.MathHelper;
 
 import java.util.Map;
 
@@ -21,6 +28,8 @@ public class FrozenStatusEffect extends StatusEffect {
     @Override
     public void applyUpdateEffect(LivingEntity entity, int amplifier) {
         super.applyUpdateEffect(entity, amplifier);
+        if(entity.getWorld() instanceof ServerWorld serverWorld)
+            serverWorld.spawnParticles(new BlockStateParticleEffect(ParticleTypes.BLOCK, Blocks.BLUE_ICE.getDefaultState()), entity.getX(), entity.getY()+1, entity.getZ(), amplifier, 0, 0.5, 0, 0);
         var effect = entity.getStatusEffect(StatusEffectsRegister.EFFECT_FROZEN);
         if(effect.getDuration()==1 && amplifier >0){
             entity.removeStatusEffect(StatusEffectsRegister.EFFECT_FROZEN);
