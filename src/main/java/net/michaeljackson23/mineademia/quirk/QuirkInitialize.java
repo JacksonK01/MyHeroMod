@@ -9,7 +9,7 @@ import net.michaeljackson23.mineademia.savedata.PlayerData;
 import net.michaeljackson23.mineademia.savedata.QuirkBuilder;
 import net.michaeljackson23.mineademia.savedata.StateSaverAndLoader;
 import net.michaeljackson23.mineademia.util.AnimationProxy;
-import net.michaeljackson23.mineademia.util.IndexMap;
+import net.michaeljackson23.mineademia.datastructures.IndexMap;
 import net.michaeljackson23.mineademia.util.PlayerDataAccessor;
 import net.michaeljackson23.mineademia.util.QuirkAccessor;
 import net.minecraft.network.PacketByteBuf;

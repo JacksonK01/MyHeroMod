@@ -30,6 +30,10 @@ public class Keybinds {
     private static KeyBinding keyKickCombo;
     private static KeyBinding keyAerialCombo;
 
+
+
+    private static HoldableKeybind keyTest; // TODO REMOVE!!!
+
     public static void keysRegister() {
         keyAbilityOne = (HoldableKeybind) KeyBindingHelper.registerKeyBinding(new HoldableKeybind(
                 "key.mineademia.ability_one",
@@ -81,6 +85,15 @@ public class Keybinds {
                 GLFW.GLFW_MOUSE_BUTTON_5,
                 "key.mineademia.mineademia"
         ));
+
+
+        // TODO REMOVE
+        keyTest = (HoldableKeybind) KeyBindingHelper.registerKeyBinding(new HoldableKeybind(
+                "key.mineademia.test",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_M,
+                "key.mineademia.mineademia"
+        ));
     }
     public static void keybindActions() {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
@@ -91,6 +104,9 @@ public class Keybinds {
                 keyAbilityThree.holdAndReleaseAction(ABILITY_THREE);
                 keyAbilityFour.holdAndReleaseAction(ABILITY_FOUR);
                 keyAbilityFive.holdAndReleaseAction(ABILITY_FIVE);
+
+                keyTest.holdAndReleaseAction(ABILITY_TEST); // TODO REMOVE!!!
+
                 if(keyDodge.wasPressed()) {
                         PacketByteBuf buf = PacketByteBufs.create();
                         buf.writeInt(client.player.getId());

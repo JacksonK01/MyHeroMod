@@ -1,6 +1,10 @@
 package net.michaeljackson23.mineademia.networking;
 
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
+import net.michaeljackson23.mineademia.abilitiestest.impl.Abilities;
+import net.michaeljackson23.mineademia.abilitiestest.impl.abilityset.AbilitySet;
+import net.michaeljackson23.mineademia.abilitiestest.impl.abilityyser.PlayerAbilityUser;
+import net.michaeljackson23.mineademia.abilitiestest.usage.TestAbility;
 import net.michaeljackson23.mineademia.keybinds.Keybinds;
 import net.michaeljackson23.mineademia.quirk.Quirk;
 import net.michaeljackson23.mineademia.quirk.QuirkInitialize;
@@ -41,6 +45,13 @@ public class ServerPackets {
 
     public static void abilityFive(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
         activateAbility(player, buf, 4);
+    }
+
+    // TODO REMOVE!!!
+    public static void abilityTest(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
+        PlayerAbilityUser user = Abilities.getUser(player);
+        if (user != null)
+            user.execute(TestAbility.class);
     }
 
     public static void kickCombo(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {

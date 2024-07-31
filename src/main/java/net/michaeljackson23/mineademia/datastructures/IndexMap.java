@@ -1,4 +1,4 @@
-package net.michaeljackson23.mineademia.util;
+package net.michaeljackson23.mineademia.datastructures;
 
 /**
  * WARNING: do not use this for anything except the intended use.

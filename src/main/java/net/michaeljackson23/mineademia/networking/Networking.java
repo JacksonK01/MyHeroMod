@@ -23,6 +23,9 @@ public class Networking {
     public static final Identifier OPEN_QUIRK_GUI = new Identifier(Mineademia.MOD_ID, "open_quirk_tablet_gui");
     public static final Identifier SELECT_VESTIGE_GUI = new Identifier(Mineademia.MOD_ID, "vestige_gui");
 
+
+    public static final Identifier ABILITY_TEST = new Identifier(Mineademia.MOD_ID, "ability_test"); // TODO REMOVE!!!
+
     //Client Identifiers sent from server
     public static final Identifier QUIRK_TABLET_GUI = new Identifier(Mineademia.MOD_ID, "quirk_tablet_gui");
     public static final Identifier ANIMATION = new Identifier(Mineademia.MOD_ID, "animation_proxy");
@@ -48,6 +51,9 @@ public class Networking {
         ServerPlayNetworking.registerGlobalReceiver(OPEN_QUIRK_GUI, ServerPackets::openQuirkTabletGUI);
         ServerPlayNetworking.registerGlobalReceiver(SELECT_VESTIGE_GUI, ServerPackets::vestigeAbility);
         ServerPlayNetworking.registerGlobalReceiver(DODGE, ServerPackets::dodge);
+
+
+        ServerPlayNetworking.registerGlobalReceiver(ABILITY_TEST, ServerPackets::abilityTest); // TODO REMOVE!!!
     }
 
     public static void registerClient() {
