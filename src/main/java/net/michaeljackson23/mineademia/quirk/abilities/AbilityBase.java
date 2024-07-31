@@ -8,10 +8,10 @@ import net.minecraft.server.network.ServerPlayerEntity;
 
 /**
  * <p>
- *     The mother class for every ability. To see all the abilities go to the package {@link net.michaeljackson23.mineademia.quirk.abilities}
+ * The mother class for every ability. To see all the abilities go to the package {@link net.michaeljackson23.mineademia.quirk.abilities}
  * </p>
  * <p>
- *     After reading this, try adding your own custom quirk
+ * After reading this, try adding your own custom quirk
  * </p>
  */
 //TODO abstract into holdable abilities, infinite, and base abilities
@@ -25,17 +25,17 @@ public abstract class AbilityBase {
     boolean isInfinite = false;
     /**
      * <p>
-     *     If you set isHoldable to true, the Quirk processing the ability created will know
-     *     when the player is no longer holding that keybind anymore and automatically call the
-     *     {@link #deActivate(ServerPlayerEntity, Quirk)} method.
+     * If you set isHoldable to true, the Quirk processing the ability created will know
+     * when the player is no longer holding that keybind anymore and automatically call the
+     * {@link #deActivate(ServerPlayerEntity, Quirk)} method.
      * </p>
      */
     private final boolean isHoldable;
 
     /**
      * <p>
-     *     This is only useful for processing the logic of the ability in {@link Quirk}. Generally
-     *     speaking this isCurrentlyHeld can be ignored
+     * This is only useful for processing the logic of the ability in {@link Quirk}. Generally
+     * speaking this isCurrentlyHeld can be ignored
      * </p>
      */
     private boolean isCurrentlyHeld;
@@ -47,8 +47,8 @@ public abstract class AbilityBase {
 
     /**
      * <p>
-     *     Abilities can track the amount of times a player has tried activating it. This is useful
-     *     for special cases like {@link SlideAndKicks}
+     * Abilities can track the amount of times a player has tried activating it. This is useful
+     * for special cases like {@link SlideAndKicks}
      * </p>
      */
     private int amountOfTimesActivated = 0;
@@ -56,9 +56,9 @@ public abstract class AbilityBase {
 
     /**
      * <p>
-     *     When creating a new ability, you don't create a constructor that matches this one.
-     *     You fill in the parameters depending on the ability you want to create. For example,
-     *     see {@link AirForce#AirForce()}
+     * When creating a new ability, you don't create a constructor that matches this one.
+     * You fill in the parameters depending on the ability you want to create. For example,
+     * see {@link AirForce#AirForce()}
      * </p>
      */
     protected AbilityBase(int abilityDuration, int staminaDrain, int cooldownAdd, boolean isHoldable, boolean isInfinite, String title, String description) {
@@ -73,7 +73,7 @@ public abstract class AbilityBase {
 
     /**
      * <p>
-     *     These next methods are not important, skip to the {@link #activate(ServerPlayerEntity, Quirk)}
+     * These next methods are not important, skip to the {@link #activate(ServerPlayerEntity, Quirk)}
      * </p>
      */
 
@@ -91,7 +91,7 @@ public abstract class AbilityBase {
 
     public void initDone() {
         this.hasInit = true;
-        if(!cancel) {
+        if (!cancel) {
             this.isActive = true;
         }
     }
@@ -152,14 +152,14 @@ public abstract class AbilityBase {
 
     /**
      * <p>
-     *     This method is called by the quirk that owns this ability. It handles the logic and processing for the ability.
+     * This method is called by the quirk that owns this ability. It handles the logic and processing for the ability.
      * </p>
      */
     public void tick(ServerPlayerEntity player, Quirk quirk) {
-        if(!isInfinite) {
+        if (!isInfinite) {
             timer++;
         }
-        if(executeCondition(quirk) && !cancel) {
+        if (executeCondition(quirk) && !cancel) {
             activate(player, quirk);
         } else {
             deActivate(player, quirk);
@@ -168,20 +168,20 @@ public abstract class AbilityBase {
 
     /**
      * <p>
-     *     This method will require custom implementation when creating an ability.
-     *     This is where the code for any ability will go.
-     *
-     *     See {@link WallOfFlame#activate(ServerPlayerEntity, Quirk)}
+     * This method will require custom implementation when creating an ability.
+     * This is where the code for any ability will go.
+     * <p>
+     * See {@link WallOfFlame#activate(ServerPlayerEntity, Quirk)}
      * </p>
      */
     protected abstract void activate(ServerPlayerEntity player, Quirk quirk);
 
     /**
      * <p>
-     *     This method sets the ability back to the state it started at. This method
-     *     can be called prematurely to end an ability. For example in {@link SlideAndKicks}
-     *     when certain conditions aren't met, it'll turn the ability off. IMPORTANT: Some abilities require this method to be overwritten,
-     *     make sure to call super.deactivate() if you do. See {@link net.michaeljackson23.mineademia.quirk.abilities.miscellaneous.Griddy#deActivate(ServerPlayerEntity, Quirk)}
+     * This method sets the ability back to the state it started at. This method
+     * can be called prematurely to end an ability. For example in {@link SlideAndKicks}
+     * when certain conditions aren't met, it'll turn the ability off. IMPORTANT: Some abilities require this method to be overwritten,
+     * make sure to call super.deactivate() if you do. See {@link net.michaeljackson23.mineademia.quirk.abilities.miscellaneous.Griddy#deActivate(ServerPlayerEntity, Quirk)}
      * </p>
      */
     protected void deActivate(ServerPlayerEntity player, Quirk quirk) {
