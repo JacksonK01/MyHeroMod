@@ -14,10 +14,7 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.text.Text;
-import net.minecraft.util.math.MathHelper;
-
-import java.util.Map;
+import net.minecraft.sound.SoundEvents;
 
 public class FrozenStatusEffect extends StatusEffect {
 
@@ -31,9 +28,12 @@ public class FrozenStatusEffect extends StatusEffect {
         if(entity.getWorld() instanceof ServerWorld serverWorld)
             serverWorld.spawnParticles(new BlockStateParticleEffect(ParticleTypes.BLOCK, Blocks.BLUE_ICE.getDefaultState()), entity.getX(), entity.getY()+1, entity.getZ(), amplifier, 0, 0.5, 0, 0);
         var effect = entity.getStatusEffect(StatusEffectsRegister.EFFECT_FROZEN);
-        if(effect.getDuration()==1 && amplifier >0){
-            entity.removeStatusEffect(StatusEffectsRegister.EFFECT_FROZEN);
-            entity.addStatusEffect(new StatusEffectInstance(StatusEffectsRegister.EFFECT_FROZEN, 40, amplifier-1));
+        if(effect.getDuration()==1){
+            if(amplifier>0){
+                entity.removeStatusEffect(StatusEffectsRegister.EFFECT_FROZEN);
+                entity.addStatusEffect(new StatusEffectInstance(StatusEffectsRegister.EFFECT_FROZEN, 40, amplifier-1));
+            }
+            entity.playSound(SoundEvents.BLOCK_GLASS_BREAK, 0.5f, 0.4f / (entity.getWorld().getRandom().nextFloat() * 0.4f + 0.8f));
         }
 
     }
