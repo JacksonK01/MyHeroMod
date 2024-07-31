@@ -4,17 +4,18 @@ import net.michaeljackson23.mineademia.abilitiestest.impl.abilityset.AbilitySet;
 import net.michaeljackson23.mineademia.abilitiestest.intr.abilityset.IAbilitySet;
 import net.michaeljackson23.mineademia.abilitiestest.intr.abilityyser.IPlayerAbilityUser;
 import net.michaeljackson23.mineademia.abilitiestest.usage.TestAbility;
+import net.michaeljackson23.mineademia.abilitiestest.usage.abilities.Dodge;
 import net.minecraft.server.network.ServerPlayerEntity;
 import org.jetbrains.annotations.NotNull;
 
 public class PlayerAbilityUser extends AbilityUser implements IPlayerAbilityUser {
 
-    private TestAbility ability;
+    private Dodge ability;
 
     public PlayerAbilityUser(@NotNull ServerPlayerEntity entity) {
         super(entity);
 
-        ability = new TestAbility(this);
+        ability = new Dodge(this);
     }
 
     @Override

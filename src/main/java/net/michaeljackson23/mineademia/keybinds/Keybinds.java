@@ -114,7 +114,7 @@ public class Keybinds {
 
                         if(v.y<0f&&v.y>-0.1f) {
                             if(v.x==0 && v.z==0) {
-                                v = client.player.getRotationVecClient().multiply(0.25f);
+                                v = client.player.getRotationVecClient().multiply(0.1f);
                             }
                             client.player.setVelocity(v.x * DASH_STRENGHT, 0.25f, v.z * DASH_STRENGHT);
                             ClientPlayNetworking.send(DODGE, buf);
