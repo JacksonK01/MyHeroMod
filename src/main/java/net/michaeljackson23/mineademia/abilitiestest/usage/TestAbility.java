@@ -7,6 +7,8 @@ import net.michaeljackson23.mineademia.abilitiestest.intr.ability.extras.ICooldo
 import net.michaeljackson23.mineademia.abilitiestest.intr.ability.extras.IStaminaAbility;
 import net.michaeljackson23.mineademia.abilitiestest.intr.ability.extras.ITickAbility;
 import net.michaeljackson23.mineademia.abilitiestest.intr.abilityyser.IAbilityUser;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -70,8 +72,7 @@ public final class TestAbility extends ActiveAbility implements ITickAbility, IS
             timer = 0;
             phase++;
             System.out.println("PHASE 2 COMPLETE");
-        }
-    }
+        }}
 
     private void thirdPhase() {
         if (phase != 2)

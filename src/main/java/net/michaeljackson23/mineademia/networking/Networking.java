@@ -17,7 +17,7 @@ public class Networking {
     public static final Identifier ABILITY_THREE = new Identifier(Mineademia.MOD_ID, "ability_three");
     public static final Identifier ABILITY_FOUR = new Identifier(Mineademia.MOD_ID, "ability_four");
     public static final Identifier ABILITY_FIVE = new Identifier(Mineademia.MOD_ID, "ability_five");
-    public static final Identifier DODGE = new Identifier(Mineademia.MOD_ID, "dodge");
+    public static final Identifier ABILITY_DODGE = new Identifier(Mineademia.MOD_ID, "ability_dodge");
     public static final Identifier KICK_COMBO = new Identifier(Mineademia.MOD_ID, "kick_combo");
     public static final Identifier AERIAL_COMBO = new Identifier(Mineademia.MOD_ID, "aerial_combo");
     public static final Identifier OPEN_QUIRK_GUI = new Identifier(Mineademia.MOD_ID, "open_quirk_tablet_gui");
@@ -50,7 +50,7 @@ public class Networking {
         ServerPlayNetworking.registerGlobalReceiver(AERIAL_COMBO, ServerPackets::aerialCombo);
         ServerPlayNetworking.registerGlobalReceiver(OPEN_QUIRK_GUI, ServerPackets::openQuirkTabletGUI);
         ServerPlayNetworking.registerGlobalReceiver(SELECT_VESTIGE_GUI, ServerPackets::vestigeAbility);
-        ServerPlayNetworking.registerGlobalReceiver(DODGE, ServerPackets::dodge);
+        ServerPlayNetworking.registerGlobalReceiver(ABILITY_DODGE, ServerPackets::abilityDodge);
 
 
         ServerPlayNetworking.registerGlobalReceiver(ABILITY_TEST, ServerPackets::abilityTest); // TODO REMOVE!!!

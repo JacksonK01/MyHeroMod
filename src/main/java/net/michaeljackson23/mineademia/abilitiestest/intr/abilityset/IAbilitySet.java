@@ -5,7 +5,6 @@ import net.michaeljackson23.mineademia.abilitiestest.intr.ability.IActiveAbility
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Optional;
 import java.util.Set;
 
 /**

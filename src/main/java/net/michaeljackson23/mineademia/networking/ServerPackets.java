@@ -2,10 +2,8 @@ package net.michaeljackson23.mineademia.networking;
 
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.michaeljackson23.mineademia.abilitiestest.impl.Abilities;
-import net.michaeljackson23.mineademia.abilitiestest.impl.abilityset.AbilitySet;
 import net.michaeljackson23.mineademia.abilitiestest.impl.abilityyser.PlayerAbilityUser;
-import net.michaeljackson23.mineademia.abilitiestest.usage.TestAbility;
-import net.michaeljackson23.mineademia.abilitiestest.usage.abilities.Dodge;
+import net.michaeljackson23.mineademia.abilitiestest.usage.abilities.DodgeAbility;
 import net.michaeljackson23.mineademia.keybinds.Keybinds;
 import net.michaeljackson23.mineademia.quirk.Quirk;
 import net.michaeljackson23.mineademia.quirk.QuirkInitialize;
@@ -21,8 +19,6 @@ import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.Vec3d;
-
-import java.util.UUID;
 
 import static net.michaeljackson23.mineademia.keybinds.Keybinds.DASH_STRENGHT;
 
@@ -48,11 +44,18 @@ public class ServerPackets {
         activateAbility(player, buf, 4);
     }
 
-    // TODO REMOVE!!!
-    public static void abilityTest(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
+    public static void abilityDodge(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
         PlayerAbilityUser user = Abilities.getUser(player);
         if (user != null)
-            user.execute(Dodge.class);
+            user.execute(DodgeAbility.class);
+    }
+
+    // TODO REMOVE!!!
+    public static void abilityTest(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
+        player.sendMessage(Text.literal(buf.readBoolean() + ""));
+        PlayerAbilityUser user = Abilities.getUser(player);
+        if (user != null)
+            user.execute(DodgeAbility.class);
     }
 
     public static void kickCombo(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
@@ -102,10 +105,5 @@ public class ServerPackets {
             }
         }
     }
-    public static void dodge(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
-       Vec3d v = player.getVelocity();
-       if(v.x==0 && v.z==0) v = player.getRotationVecClient().multiply(0.25f);
-       if(!player.isFallFlying())
-           player.setVelocity(v.x * Keybinds.DASH_STRENGHT, 0.25f, v.z * DASH_STRENGHT);
-    }
+
 }
