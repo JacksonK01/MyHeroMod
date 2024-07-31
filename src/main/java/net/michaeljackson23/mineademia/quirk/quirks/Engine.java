@@ -5,6 +5,7 @@ import net.michaeljackson23.mineademia.quirk.abilities.AbilityBase;
 import net.michaeljackson23.mineademia.quirk.abilities.Empty;
 import net.michaeljackson23.mineademia.quirk.abilities.engine.PlummetJump;
 import net.michaeljackson23.mineademia.quirk.abilities.engine.SlideAndKicks;
+import net.michaeljackson23.mineademia.util.AnimationProxy;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -19,6 +20,13 @@ public class Engine extends Quirk {
 
     private final int MAX_EFFECT_TIMER = 5;
     private int effectTimer = MAX_EFFECT_TIMER;
+
+    private int animationCounter = 0;
+    private int MAX_ANIMATION_COUNTER = 25;
+
+    private int inAirTimer = 0;
+    private int MAX_IN_AIR = 4;
+    private boolean cancelAnimation = false;
 
     public Engine() {
         super("Engine", new PlummetJump(), new Empty(), new SlideAndKicks(), new Empty(), new Empty());
@@ -47,6 +55,9 @@ public class Engine extends Quirk {
             player.setVelocity(velocity.x, player.getVelocity().y, velocity.z);
             player.velocityModified = true;
             spawnParticles(player);
+            handleAnimation(player);
+            handleAnimationCancelInAir(player);
+            animationCounter++;
             if(player.age % 10 == 0) {
                 player.getServerWorld().spawnParticles(ParticleTypes.EXPLOSION,
                         player.getX(), player.getY(), player.getZ(),
@@ -71,5 +82,27 @@ public class Engine extends Quirk {
         world.spawnParticles(ParticleTypes.CLOUD,
                 player.getX(), player.getY(), player.getZ(),
                 1, 0, 0.2, 0, 0.01);
+    }
+
+    private void handleAnimation(ServerPlayerEntity player) {
+        if(animationCounter > MAX_ANIMATION_COUNTER && !cancelAnimation) {
+            AnimationProxy.sendAnimationToClients(player, "engine_dash");
+            animationCounter = 0;
+        } else {
+            animationCounter++;
+        }
+    }
+
+    private void handleAnimationCancelInAir(ServerPlayerEntity player) {
+        if(player.getServerWorld().getBlockState(player.getBlockPos().down()).isAir()) {
+            if(inAirTimer >= MAX_IN_AIR) {
+                AnimationProxy.sendStopAnimation(player);
+                cancelAnimation = true;
+            }
+            inAirTimer++;
+        } else {
+            inAirTimer = 0;
+            cancelAnimation = false;
+        }
     }
 }
