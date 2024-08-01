@@ -22,17 +22,17 @@ public final class Cooldown {
         this(cooldownTicks, null);
     }
 
-    int getCooldownTicks() {
+    public int getCooldownTicks() {
         return cooldownTicks;
     }
-    void setCooldownTicks(int cooldownTicks) {
+    public void setCooldownTicks(int cooldownTicks) {
         this.cooldownTicks = Math.max(0, cooldownTicks);
     }
 
-    int getTicksRemaining() {
+    public int getTicksRemaining() {
         return ticksRemaining;
     }
-    void setTicksRemaining(int ticksRemaining) {
+    public void setTicksRemaining(int ticksRemaining) {
         this.ticksRemaining = Math.max(0, ticksRemaining);
 
         if (this.ticksRemaining == 0 && onReady != null)

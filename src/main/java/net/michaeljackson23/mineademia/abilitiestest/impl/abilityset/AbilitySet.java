@@ -1,4 +1,4 @@
-package net.michaeljackson23.mineademia.abilitiestest.impl.abilityset;
+ package net.michaeljackson23.mineademia.abilitiestest.impl.abilityset;
 
 import net.michaeljackson23.mineademia.abilitiestest.intr.ability.IAbility;
 import net.michaeljackson23.mineademia.abilitiestest.intr.ability.IActiveAbility;
@@ -18,6 +18,20 @@ public class AbilitySet implements IAbilitySet {
 
     public AbilitySet(IAbility... abilities) {
         this.innerSet = new HashSet<>(List.of(abilities));
+    }
+
+    public AbilitySet(IAbilitySet set) {
+        this.innerSet = new HashSet<>(set);
+    }
+
+    public AbilitySet(Collection<IAbilitySet> sets) {
+        this.innerSet = new HashSet<>();
+
+        for (IAbilitySet set : sets)
+            this.innerSet.addAll(set);
+    }
+    public AbilitySet(IAbilitySet... sets) {
+        this(List.of(sets));
     }
 
     @Override
