@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.michaeljackson23.mineademia.Mineademia;
+import net.michaeljackson23.mineademia.abilitiestest.usage.abilities.IceSnowflakeAbility;
 import net.michaeljackson23.mineademia.entity.cube.CubeEntity;
 import net.michaeljackson23.mineademia.entity.cube.CubeEntityModel;
 import net.michaeljackson23.mineademia.entity.cube.CubeEntityRenderer;
@@ -12,6 +13,7 @@ import net.michaeljackson23.mineademia.entity.projectile.airforce.AirForceProjec
 import net.michaeljackson23.mineademia.entity.projectile.apshot.APShotProjectile;
 import net.michaeljackson23.mineademia.entity.projectile.hchh.FireProjectile;
 import net.michaeljackson23.mineademia.entity.projectile.hchh.IceProjectile;
+import net.michaeljackson23.mineademia.entity.projectile.hchh.IceSnowflakeProjectile;
 import net.michaeljackson23.mineademia.entity.projectile.stungrenade.StunGrenadeProjectile;
 import net.michaeljackson23.mineademia.entity.projectile.tornado.TornadoProjectile;
 import net.michaeljackson23.mineademia.entity.projectile.windblade.WindBladeProjectile;
@@ -85,6 +87,13 @@ public class EntityRegister {
                     .dimensions(EntityDimensions.fixed(2f, 2f))
                     .build()
     );
+    public static final EntityType<IceSnowflakeProjectile> ICE_SNOWFLAKE_PROJECTILE = Registry.register(
+            Registries.ENTITY_TYPE,
+            new Identifier(Mineademia.MOD_ID, "ice_snowflake_projectile"),
+            FabricEntityTypeBuilder.<IceSnowflakeProjectile>create(SpawnGroup.MISC, IceSnowflakeProjectile::new)
+                    .dimensions(EntityDimensions.fixed(2f, 2f))
+                    .build()
+    );
 
     public static void register() {
         FabricDefaultAttributeRegistry.register(CUBE, CubeEntity.createMobAttributes());
@@ -102,5 +111,6 @@ public class EntityRegister {
         EntityRendererRegistry.register(EntityRegister.TORNADO_PROJECTILE, FlyingItemEntityRenderer::new);
         EntityRendererRegistry.register(EntityRegister.FIRE_PROJECTILE, FlyingItemEntityRenderer::new);
         EntityRendererRegistry.register(EntityRegister.ICE_PROJECTILE, FlyingItemEntityRenderer::new);
+        EntityRendererRegistry.register(EntityRegister.ICE_SNOWFLAKE_PROJECTILE, FlyingItemEntityRenderer::new);
     }
 }
