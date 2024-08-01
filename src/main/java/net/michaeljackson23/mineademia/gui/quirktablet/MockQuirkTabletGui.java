@@ -30,7 +30,7 @@ public class MockQuirkTabletGui extends Screen {
                 .build();
         hchh_ice = ButtonWidget.builder(Text.literal("HCHH ICE"), button -> {
                     PacketByteBuf data = PacketByteBufs.create();
-                    data.writeString("hchh_ice");
+                    data.writeString("hchh_cold");
                     ClientPlayNetworking.send(Networking.MOCK_CHANGE_QUIRK_WITH_TABLET, data);
                 })
                 .dimensions(width / 2 + 5, 20, 200, 20)

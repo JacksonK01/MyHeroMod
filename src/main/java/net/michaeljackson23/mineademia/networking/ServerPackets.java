@@ -101,14 +101,9 @@ public class ServerPackets {
         String abilitySet = buf.readString();
         if (user != null) {
             user.getAbilities().clear();
-            user.setAbilities(AbilitySets.GENERAL, findAbilitySetBasedOnString(abilitySet));
-        }
-    }
-
-    private static Function<IAbilityUser, IAbilitySet> findAbilitySetBasedOnString(String abilitySetToFind) {
-        switch(abilitySetToFind) {
-            case "hchh_ice": return AbilitySets.HCHH_COLD;
-            default: return (u) -> new AbilitySet();
+            user.setAbilities(AbilitySets.GENERAL, AbilitySets.getAbilitySetMap().getOrDefault(abilitySet, (u) -> {
+                return new AbilitySet();
+            }));
         }
     }
 
