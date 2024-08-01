@@ -25,6 +25,7 @@ public class Networking {
 
 
     public static final Identifier ABILITY_TEST = new Identifier(Mineademia.MOD_ID, "ability_test"); // TODO REMOVE!!!
+    public static final Identifier ABILITY_TEST_SWAP = new Identifier(Mineademia.MOD_ID, "ability_test_swap"); // TODO REMOVE!!!
 
     //Client Identifiers sent from server
     public static final Identifier QUIRK_TABLET_GUI = new Identifier(Mineademia.MOD_ID, "quirk_tablet_gui");
@@ -54,6 +55,7 @@ public class Networking {
 
 
         ServerPlayNetworking.registerGlobalReceiver(ABILITY_TEST, ServerPackets::abilityTest); // TODO REMOVE!!!
+        ServerPlayNetworking.registerGlobalReceiver(ABILITY_TEST_SWAP, ServerPackets::abilityTestSwap); // TODO REMOVE!!!
     }
 
     public static void registerClient() {

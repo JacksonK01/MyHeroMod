@@ -65,7 +65,7 @@ public final class Abilities {
 
         playerUsers.putIfAbsent(player.getUuid(), user);
 
-        user.setAbilities(AbilitySets.GENERAL);
+        user.setAbilities(AbilitySets.GENERAL, AbilitySets.HCHH_COLD);
     }
 
     @Nullable

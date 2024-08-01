@@ -31,6 +31,7 @@ public class Keybinds {
 
 
     private static HoldableKeybind keyTest; // TODO REMOVE!!!
+    private static KeyBinding keyTestSwap; // TODO REMOVE!!!
 
     public static void keysRegister() {
         keyAbilityOne = (HoldableKeybind) KeyBindingHelper.registerKeyBinding(new HoldableKeybind(
@@ -92,6 +93,14 @@ public class Keybinds {
                 GLFW.GLFW_KEY_M,
                 "key.mineademia.mineademia"
         ));
+
+        // TODO REMOVE
+        keyTestSwap = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+                "key.mineademia.test_swap",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_N,
+                "key.mineademia.mineademia"
+        ));
     }
     public static void keybindActions() {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
@@ -106,6 +115,11 @@ public class Keybinds {
                 keyDodge.holdAndReleaseAction(ABILITY_DODGE);
 
                 keyTest.holdAndReleaseAction(ABILITY_TEST); // TODO REMOVE!!!
+                // TODO REMOVE!!!
+                if (keyTestSwap.wasPressed()) {
+                    PacketByteBuf buf = PacketByteBufs.create();
+                    ClientPlayNetworking.send(ABILITY_TEST_SWAP, buf);
+                }
 
                 if(keyKickCombo.wasPressed()) {
                     if(client.crosshairTarget instanceof EntityHitResult hitResult) {
