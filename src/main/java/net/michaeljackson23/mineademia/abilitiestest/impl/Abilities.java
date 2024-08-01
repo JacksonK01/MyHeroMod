@@ -38,7 +38,7 @@ public final class Abilities {
     }
 
     public static void registerAbilities(@NotNull IAbilityUser user) {
-        for (IAbility ability : user.getAbilities())
+        for (IAbility ability : user.getAbilities().values())
             registerAbility(ability);
     }
 

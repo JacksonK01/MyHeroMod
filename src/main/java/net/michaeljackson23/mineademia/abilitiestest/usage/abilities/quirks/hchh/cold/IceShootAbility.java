@@ -44,7 +44,7 @@ public class IceShootAbility extends ActiveAbility implements ICooldownAbility, 
 
                 world.playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.BLOCK_GLASS_PLACE, SoundCategory.PLAYERS, 2f, 2f);
 
-                IceProjectile iceProjectile = new IceProjectile(entity.getWorld(), entity);
+                IceProjectile iceProjectile = new IceProjectile(world, entity);
                 iceProjectile.setVelocity(entity, entity.getPitch(), entity.getYaw(), 0f, 0.5f, 1);
                 iceProjectile.setPosition(iceProjectile.getX(), iceProjectile.getY() - 1, iceProjectile.getZ());
 

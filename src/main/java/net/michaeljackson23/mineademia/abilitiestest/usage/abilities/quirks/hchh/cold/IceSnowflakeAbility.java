@@ -30,7 +30,7 @@ public class IceSnowflakeAbility extends ActiveAbility implements ICooldownAbili
 
             world.playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.BLOCK_GLASS_PLACE, SoundCategory.PLAYERS, 2f, 2f);
 
-            IceSnowflakeProjectile iceProjectile = new IceSnowflakeProjectile(entity.getWorld(), entity);
+            IceSnowflakeProjectile iceProjectile = new IceSnowflakeProjectile(world, entity);
             iceProjectile.setVelocity(entity, entity.getPitch(), entity.getYaw(), 0f, 0.5f, 1);
             iceProjectile.setPosition(iceProjectile.getX(), iceProjectile.getY() - 1, iceProjectile.getZ());
 

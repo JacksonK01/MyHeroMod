@@ -2,6 +2,7 @@ package net.michaeljackson23.mineademia.abilitiestest.intr.abilityyser;
 
 import net.michaeljackson23.mineademia.abilitiestest.impl.abilityset.AbilitySet;
 import net.michaeljackson23.mineademia.abilitiestest.intr.ability.IActiveAbility;
+import net.michaeljackson23.mineademia.abilitiestest.intr.abilityset.IAbilityMap;
 import net.michaeljackson23.mineademia.abilitiestest.intr.abilityset.IAbilitySet;
 import net.minecraft.entity.LivingEntity;
 import org.jetbrains.annotations.NotNull;
@@ -19,9 +20,10 @@ public interface IAbilityUser {
     LivingEntity getEntity();
 
     @NotNull
-    IAbilitySet getAbilities();
+    IAbilityMap getAbilities();
     void setAbilities(@NotNull IAbilitySet abilities);
 
+    @SuppressWarnings("unchecked")
     default void setAbilities(@NotNull Function<IAbilityUser, IAbilitySet>... abilityCreators) {
         List<IAbilitySet> sets = Stream.of(abilityCreators).map((a) -> a.apply(this)).toList();
         setAbilities(new AbilitySet(sets));
