@@ -2,9 +2,13 @@ package net.michaeljackson23.mineademia.networking;
 
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.michaeljackson23.mineademia.abilitiestest.impl.Abilities;
+import net.michaeljackson23.mineademia.abilitiestest.impl.abilityset.AbilitySet;
 import net.michaeljackson23.mineademia.abilitiestest.impl.abilityyser.PlayerAbilityUser;
 import net.michaeljackson23.mineademia.abilitiestest.intr.ability.IAbility;
 import net.michaeljackson23.mineademia.abilitiestest.intr.ability.IActiveAbility;
+import net.michaeljackson23.mineademia.abilitiestest.intr.abilityset.IAbilitySet;
+import net.michaeljackson23.mineademia.abilitiestest.intr.abilityyser.IAbilityUser;
+import net.michaeljackson23.mineademia.abilitiestest.usage.AbilitySets;
 import net.michaeljackson23.mineademia.abilitiestest.usage.abilities.DodgeAbility;
 import net.michaeljackson23.mineademia.abilitiestest.usage.abilities.quirks.hchh.cold.IceShootAbility;
 import net.michaeljackson23.mineademia.keybinds.Keybinds;
@@ -22,6 +26,8 @@ import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.Vec3d;
+
+import java.util.function.Function;
 
 import static net.michaeljackson23.mineademia.keybinds.Keybinds.DASH_STRENGHT;
 
@@ -87,6 +93,23 @@ public class ServerPackets {
         String quirk = buf.readString();
         player.sendMessage(Text.literal("Changed quirk to " + quirk));
         ((QuirkAccessor) player).myHeroMod$setQuirk(QuirkInitialize.setQuirkWithString(quirk));
+    }
+
+    @SuppressWarnings("unchecked")
+    public static void mockQuirkTabletQuirkChange(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
+        PlayerAbilityUser user = Abilities.getUser(player);
+        String abilitySet = buf.readString();
+        if (user != null) {
+            user.getAbilities().clear();
+            user.setAbilities(AbilitySets.GENERAL, findAbilitySetBasedOnString(abilitySet));
+        }
+    }
+
+    private static Function<IAbilityUser, IAbilitySet> findAbilitySetBasedOnString(String abilitySetToFind) {
+        switch(abilitySetToFind) {
+            case "hchh_ice": return AbilitySets.HCHH_COLD;
+            default: return (u) -> new AbilitySet();
+        }
     }
 
     private static void activateAbility(ServerPlayerEntity player, PacketByteBuf buf, int i) {
