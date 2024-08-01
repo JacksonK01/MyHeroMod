@@ -13,10 +13,12 @@ import net.minecraft.world.World;
 
 public class QuirkIceBlock extends IceBlock {
     public static final IntProperty AGE = Properties.AGE_2;
+    private final int DELAY;
 
 
-    public QuirkIceBlock(Settings settings) {
+    public QuirkIceBlock(Settings settings, int delay) {
         super(settings);
+        this.DELAY = delay;
         this.setDefaultState((this.stateManager.getDefaultState()).with(AGE, 0));
     }
 
@@ -32,7 +34,7 @@ public class QuirkIceBlock extends IceBlock {
 
     @Override
     public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean notify) {
-        world.scheduleBlockTick(pos, this, 80);
+        world.scheduleBlockTick(pos, this, DELAY);
         super.onBlockAdded(state, world, pos, oldState, notify);
     }
     @Override

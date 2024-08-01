@@ -17,22 +17,22 @@ import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class IceSnowflakeProjectile extends ThrownItemEntity {
+public class IceBeamProjectile extends ThrownItemEntity {
     int timer = 0;
     int stage = 0;
-    public IceSnowflakeProjectile(EntityType<? extends ThrownItemEntity> entityType, World world) {
+    public IceBeamProjectile(EntityType<? extends ThrownItemEntity> entityType, World world) {
         super(entityType, world);
     }
-    public IceSnowflakeProjectile(World world, LivingEntity owner) {
+    public IceBeamProjectile(World world, LivingEntity owner) {
         super(EntityRegister.ICE_SNOWFLAKE_PROJECTILE, owner, world);
         setNoGravity(true);
     }
 
-    public IceSnowflakeProjectile(EntityType<? extends ThrownItemEntity> entityType, double d, double e, double f, World world) {
+    public IceBeamProjectile(EntityType<? extends ThrownItemEntity> entityType, double d, double e, double f, World world) {
         super(entityType, d, e, f, world);
     }
 
-    public IceSnowflakeProjectile(EntityType<? extends ThrownItemEntity> entityType, LivingEntity livingEntity, World world) {
+    public IceBeamProjectile(EntityType<? extends ThrownItemEntity> entityType, LivingEntity livingEntity, World world) {
         super(entityType, livingEntity, world);
     }
 
@@ -44,18 +44,31 @@ public class IceSnowflakeProjectile extends ThrownItemEntity {
     protected Item getDefaultItem() {
         return Blocks.AIR.asItem();
     }
+    private IceBeamProjectile createNewProjectile(int currentStage){
+        IceBeamProjectile iceProjectile = new IceBeamProjectile(getWorld(), (LivingEntity)getOwner());
+        iceProjectile.setVelocity(getVelocity());
+        iceProjectile.stage=currentStage;
+        return iceProjectile;
+    }
     @Override
     public void tick() {
         super.tick();
-        if(timer >= 20 || (timer>=5 && stage == 0)) {
-            if(stage < 5){
-                for(int i = 0; i<(stage+1)*2; i++){
-                    IceSnowflakeProjectile iceProjectile = new IceSnowflakeProjectile(getWorld(), (LivingEntity)getOwner());
-                    iceProjectile.setVelocity(this, getPitch(), getYaw(), 0f, 0.25f, random.nextBetween(10,150)*(stage+1));
-                    iceProjectile.setPosition(getX(), getY(), getZ());
-                    iceProjectile.stage=stage+1;
-                    getWorld().spawnEntity(iceProjectile);
-                }
+        if(timer >= 5) {
+            if(stage < 3){
+                    double pitch = ((getPitch() + 90) * Math.PI) / 180;
+                    double yaw = ((getYaw() + 90) * Math.PI)/ 180;
+                    double x = Math.cos(yaw) ;
+                    double y = Math.sin(pitch);
+                    double z = Math.sin(yaw);
+                    for(int i = -1 ; i<=1; i+=2)
+                        for(int j = -1; j<=1 ; j+=2)
+                            for(int k = -1; k<=1; k+=2) {
+                                IceBeamProjectile projectile = createNewProjectile(stage + 1);
+                                projectile.setPosition(getX() + z * 0.5 * i, getY() + y * 0.5 * j, getZ() - x * 0.5 * k);
+                                getWorld().spawnEntity(projectile);
+                            }
+
+
             }
             kill();
             return;
@@ -66,8 +79,8 @@ public class IceSnowflakeProjectile extends ThrownItemEntity {
         timer++;
         var pos = new BlockPos((int) prevX, (int) prevY, (int) prevZ);
         var state = serverWorld.getBlockState(pos);
-        if(state.isAir()|| state.isLiquid()){
-                serverWorld.setBlockState(pos, BlockRegister.LASTING_QUIRK_ICE.getDefaultState());
+        if((state.isAir()|| state.isLiquid()) && !(stage==0 && age<3)){
+            serverWorld.setBlockState(pos, BlockRegister.QUIRK_ICE.getDefaultState());
         }
 
     }
@@ -77,8 +90,7 @@ public class IceSnowflakeProjectile extends ThrownItemEntity {
         super.onEntityHit(entityHitResult);
         if(getOwner() != entityHitResult.getEntity()) {
             if (getOwner() instanceof LivingEntity owner && entityHitResult.getEntity() instanceof LivingEntity hitEntity) {
-                QuirkDamage.doEmitterDamage(owner, hitEntity, 8f);
-                QuirkEffectUtil.applyFrozen(hitEntity, 20);
+                QuirkDamage.doEmitterDamage(owner, hitEntity, 2f);
                 QuirkEffectUtil.applyFrozen(hitEntity, 20);
             }
             kill();
@@ -92,7 +104,7 @@ public class IceSnowflakeProjectile extends ThrownItemEntity {
         if(getWorld() instanceof ServerWorld serverWorld) {
             BlockPos hitSpot = new BlockPos((int) hitResult.getPos().getX() - 1, (int) hitResult.getPos().getY(), (int) hitResult.getPos().getZ());
             if(serverWorld.isWater(hitSpot))
-                serverWorld.setBlockState(hitSpot, BlockRegister.LASTING_QUIRK_ICE.getDefaultState());
+                serverWorld.setBlockState(hitSpot, BlockRegister.QUIRK_ICE.getDefaultState());
             if(hitResult.getType() == HitResult.Type.ENTITY){
                 EntityHitResult entityHitResult = (EntityHitResult)hitResult;
                 if(entityHitResult.getEntity() == getOwner())
@@ -100,11 +112,11 @@ public class IceSnowflakeProjectile extends ThrownItemEntity {
             }
             if(hitResult.getType() == HitResult.Type.BLOCK){
                 BlockHitResult blockHitResult = (BlockHitResult) hitResult;
-                if(getWorld().getBlockState(blockHitResult.getBlockPos()).isOf(BlockRegister.LASTING_QUIRK_ICE))
+                if(getWorld().getBlockState(blockHitResult.getBlockPos()).isOf(BlockRegister.QUIRK_ICE))
                     return;
-                else
-                    this.kill();
             }
         }
+        this.kill();
+
     }
 }
