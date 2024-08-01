@@ -7,7 +7,6 @@ import net.michaeljackson23.mineademia.abilitiestest.intr.ability.extras.ICooldo
 import net.michaeljackson23.mineademia.abilitiestest.intr.ability.extras.ITickAbility;
 import net.michaeljackson23.mineademia.abilitiestest.intr.abilityyser.IAbilityUser;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.text.Text;
 import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.NotNull;
 
@@ -17,7 +16,7 @@ public class DodgeAbility extends ActiveAbility implements ICooldownAbility, ITi
     public static final float Y_OFFSET = 0.15f;
 
 
-    private Cooldown cooldown;
+    private final Cooldown cooldown;
 
     private Vec3d oldPos;
 
@@ -26,12 +25,7 @@ public class DodgeAbility extends ActiveAbility implements ICooldownAbility, ITi
 
     public DodgeAbility(@NotNull IAbilityUser user) {
         super(user, "dodge", "dah dodge", AbilityCategory.MOBILITY);
-    }
-
-    @Override
-    protected void init() {
-        super.init();
-        cooldown = new Cooldown(40);
+        this.cooldown = new Cooldown(40);
     }
 
     @Override

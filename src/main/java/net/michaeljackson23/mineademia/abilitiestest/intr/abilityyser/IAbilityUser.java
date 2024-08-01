@@ -1,8 +1,6 @@
 package net.michaeljackson23.mineademia.abilitiestest.intr.abilityyser;
 
-import net.michaeljackson23.mineademia.abilitiestest.impl.AbilitySets;
 import net.michaeljackson23.mineademia.abilitiestest.impl.abilityset.AbilitySet;
-import net.michaeljackson23.mineademia.abilitiestest.intr.ability.IAbility;
 import net.michaeljackson23.mineademia.abilitiestest.intr.ability.IActiveAbility;
 import net.michaeljackson23.mineademia.abilitiestest.intr.abilityset.IAbilitySet;
 import net.minecraft.entity.LivingEntity;

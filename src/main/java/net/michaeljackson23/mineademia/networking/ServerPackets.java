@@ -2,10 +2,9 @@ package net.michaeljackson23.mineademia.networking;
 
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.michaeljackson23.mineademia.abilitiestest.impl.Abilities;
-import net.michaeljackson23.mineademia.abilitiestest.impl.abilityset.AbilitySet;
 import net.michaeljackson23.mineademia.abilitiestest.impl.abilityyser.PlayerAbilityUser;
-import net.michaeljackson23.mineademia.abilitiestest.usage.TestAbility;
-import net.michaeljackson23.mineademia.abilitiestest.usage.abilities.Dodge;
+import net.michaeljackson23.mineademia.abilitiestest.usage.abilities.DodgeAbility;
+import net.michaeljackson23.mineademia.abilitiestest.usage.abilities.quirks.hchh.cold.IceShootAbility;
 import net.michaeljackson23.mineademia.keybinds.Keybinds;
 import net.michaeljackson23.mineademia.quirk.Quirk;
 import net.michaeljackson23.mineademia.quirk.QuirkInitialize;
@@ -21,8 +20,6 @@ import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.Vec3d;
-
-import java.util.UUID;
 
 import static net.michaeljackson23.mineademia.keybinds.Keybinds.DASH_STRENGHT;
 
@@ -48,11 +45,17 @@ public class ServerPackets {
         activateAbility(player, buf, 4);
     }
 
+    public static void abilityDodge(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
+        PlayerAbilityUser user = Abilities.getUser(player);
+        if (user != null)
+            user.execute(DodgeAbility.class);
+    }
+
     // TODO REMOVE!!!
     public static void abilityTest(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
         PlayerAbilityUser user = Abilities.getUser(player);
         if (user != null)
-            user.execute(Dodge.class);
+            user.execute(IceShootAbility.class);
     }
 
     public static void kickCombo(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {

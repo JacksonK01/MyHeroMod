@@ -6,6 +6,7 @@ import net.michaeljackson23.mineademia.abilitiestest.intr.ability.IAbility;
 import net.michaeljackson23.mineademia.abilitiestest.intr.ability.extras.ICooldownAbility;
 import net.michaeljackson23.mineademia.abilitiestest.intr.ability.extras.ITickAbility;
 import net.michaeljackson23.mineademia.abilitiestest.intr.abilityyser.IAbilityUser;
+import net.michaeljackson23.mineademia.abilitiestest.usage.AbilitySets;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -36,12 +37,14 @@ public final class Abilities {
             cooldownAbilities.add(cooldownAbility);
     }
 
-    public static void unregisterAbilities(@NotNull IAbilityUser user, boolean onlyContains) {
-        tickAbilities.removeIf((a) -> a.getUser().equals(user) && (!onlyContains || user.getAbilities().contains(a)));
-        cooldownAbilities.removeIf((a) -> a.getUser().equals(user) && (!onlyContains || user.getAbilities().contains(a)));
+    public static void registerAbilities(@NotNull IAbilityUser user) {
+        for (IAbility ability : user.getAbilities())
+            registerAbility(ability);
     }
+
     public static void unregisterAbilities(@NotNull IAbilityUser user) {
-        unregisterAbilities(user, true);
+        tickAbilities.removeIf((a) -> a.getUser().equals(user));
+        cooldownAbilities.removeIf((a) -> a.getUser().equals(user));
     }
 
     public static void tickAbilities(MinecraftServer minecraftServer) {

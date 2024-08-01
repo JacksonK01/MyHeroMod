@@ -7,8 +7,6 @@ import net.michaeljackson23.mineademia.abilitiestest.intr.ability.extras.ICooldo
 import net.michaeljackson23.mineademia.abilitiestest.intr.ability.extras.IStaminaAbility;
 import net.michaeljackson23.mineademia.abilitiestest.intr.ability.extras.ITickAbility;
 import net.michaeljackson23.mineademia.abilitiestest.intr.abilityyser.IAbilityUser;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -21,14 +19,10 @@ public final class TestAbility extends ActiveAbility implements ITickAbility, IS
 
     private int timer;
 
-    private Cooldown cooldown;
+    private final Cooldown cooldown;
 
     public TestAbility(@NotNull IAbilityUser user) {
         super(user, "Test Ability", "My Test Ability", AbilityCategory.OTHER);
-    }
-
-    @Override
-    protected void init() {
         this.cooldown = new Cooldown(140);
     }
 

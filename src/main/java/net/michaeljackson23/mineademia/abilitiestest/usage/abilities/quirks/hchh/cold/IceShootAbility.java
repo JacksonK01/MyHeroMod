@@ -1,4 +1,4 @@
-package net.michaeljackson23.mineademia.abilitiestest.usage.abilities;
+package net.michaeljackson23.mineademia.abilitiestest.usage.abilities.quirks.hchh.cold;
 
 import net.michaeljackson23.mineademia.abilitiestest.impl.ability.ActiveAbility;
 import net.michaeljackson23.mineademia.abilitiestest.intr.AbilityCategory;
@@ -7,23 +7,23 @@ import net.michaeljackson23.mineademia.abilitiestest.intr.ability.extras.ICooldo
 import net.michaeljackson23.mineademia.abilitiestest.intr.ability.extras.ITickAbility;
 import net.michaeljackson23.mineademia.abilitiestest.intr.abilityyser.IAbilityUser;
 import net.michaeljackson23.mineademia.entity.projectile.hchh.IceProjectile;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
+import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 
 public class IceShootAbility extends ActiveAbility implements ICooldownAbility, ITickAbility {
-    private Cooldown cooldown;
+
+    private final Cooldown cooldown;
     private int ticks;
+
     public IceShootAbility(@NotNull IAbilityUser user) {
         super(user, "Ice Shoot", "Shoots several beams of ice from the user", AbilityCategory.ATTACK);
-    }
-    @Override
-    protected void init() {
-        super.init();
         cooldown = new Cooldown(20);
     }
+
     @Override
     public void execute() {
         if(isReadyAndReset())
@@ -37,16 +37,21 @@ public class IceShootAbility extends ActiveAbility implements ICooldownAbility, 
 
     @Override
     public void onTick() {
-        if(ticks<=10) {
-            if(ticks % 2 ==0) {
-                var entity = getUser().getEntity();
-                entity.getWorld().playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.BLOCK_GLASS_PLACE, SoundCategory.PLAYERS, 2f, 2f);
+        if (ticks <= 10) {
+            if (ticks % 2 == 0) {
+                LivingEntity entity = getUser().getEntity();
+                World world = entity.getWorld();
+
+                world.playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.BLOCK_GLASS_PLACE, SoundCategory.PLAYERS, 2f, 2f);
+
                 IceProjectile iceProjectile = new IceProjectile(entity.getWorld(), entity);
                 iceProjectile.setVelocity(entity, entity.getPitch(), entity.getYaw(), 0f, 0.5f, 1);
                 iceProjectile.setPosition(iceProjectile.getX(), iceProjectile.getY() - 1, iceProjectile.getZ());
-                entity.getWorld().spawnEntity(iceProjectile);
+
+                world.spawnEntity(iceProjectile);
                 entity.swingHand(Hand.OFF_HAND, true);
             }
+
             ticks++;
         }
     }

@@ -21,9 +21,6 @@ public abstract class Ability implements IAbility {
         this.description = description;
 
         this.active = true;
-
-        init();
-        Abilities.registerAbility(this);
     }
 
     @Override
@@ -50,7 +47,5 @@ public abstract class Ability implements IAbility {
     public void setActive(boolean active) {
         this.active = active;
     }
-
-    protected void init() { }
 
 }

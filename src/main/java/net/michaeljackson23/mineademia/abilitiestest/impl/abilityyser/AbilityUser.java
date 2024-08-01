@@ -44,6 +44,7 @@ public abstract class AbilityUser implements IAbilityUser {
     public void setAbilities(@NotNull IAbilitySet abilities) {
         Abilities.unregisterAbilities(this);
         this.abilities = abilities;
+        Abilities.registerAbilities(this);
     }
 
     @Override

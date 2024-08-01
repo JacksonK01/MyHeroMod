@@ -5,7 +5,6 @@ import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.michaeljackson23.mineademia.Mineademia;
-import net.michaeljackson23.mineademia.abilitiestest.usage.abilities.IceSnowflakeAbility;
 import net.michaeljackson23.mineademia.entity.cube.CubeEntity;
 import net.michaeljackson23.mineademia.entity.cube.CubeEntityModel;
 import net.michaeljackson23.mineademia.entity.cube.CubeEntityRenderer;
@@ -17,7 +16,6 @@ import net.michaeljackson23.mineademia.entity.projectile.hchh.IceSnowflakeProjec
 import net.michaeljackson23.mineademia.entity.projectile.stungrenade.StunGrenadeProjectile;
 import net.michaeljackson23.mineademia.entity.projectile.tornado.TornadoProjectile;
 import net.michaeljackson23.mineademia.entity.projectile.windblade.WindBladeProjectile;
-import net.michaeljackson23.mineademia.quirk.abilities.whirlwind.Tornado;
 import net.minecraft.client.render.entity.FlyingItemEntityRenderer;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
