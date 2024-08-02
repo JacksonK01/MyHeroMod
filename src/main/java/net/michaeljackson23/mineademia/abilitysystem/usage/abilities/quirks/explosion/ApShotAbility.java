@@ -183,18 +183,15 @@ public class ApShotAbility extends HoldAbility implements ICooldownAbility, ISta
             long posLong = pos.asLong();
             if (affectedBlocks.containsKey(posLong)) {
                 int ticksAffected = affectedBlocks.get(posLong);
-                getEntity().sendMessage(Text.literal(pos + " - " + ticksAffected));
+
                 if (ticksAffected >= state.getBlock().getHardness() * HARDNESS_MULTIPLIER) {
                     world.breakBlock(pos, true);
                     affectedBlocks.remove(posLong);
                 } else
                     affectedBlocks.put(posLong, ticksAffected + 1);
-            } else {
-                getEntity().sendMessage(Text.literal("Adds: " + pos));
+            } else
                 affectedBlocks.put(posLong, 0);
-            }
         }
-        getEntity().sendMessage(Text.literal("--"));
 
     }
 
