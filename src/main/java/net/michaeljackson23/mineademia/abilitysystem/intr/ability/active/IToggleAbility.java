@@ -22,7 +22,7 @@ public interface IToggleAbility extends IActiveAbility, ITickAbility {
         if (isToggled() && isKeyDown) {
             executeEnd();
             setToggle(false);
-        } else if (executeStart() && isKeyDown) {
+        } else if (isKeyDown && executeStart()) {
             setToggle(true);
         }
     }

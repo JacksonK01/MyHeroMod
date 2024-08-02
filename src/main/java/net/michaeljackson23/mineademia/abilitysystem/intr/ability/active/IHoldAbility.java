@@ -23,7 +23,7 @@ public interface IHoldAbility extends IActiveAbility, ITickAbility {
         if (isHeld() && !isKeyDown) {
             executeEnd();
             setHeld(false);
-        } else if (executeStart() && isKeyDown) {
+        } else if (isKeyDown && executeStart()) {
             setHeld(true);
         }
     }
