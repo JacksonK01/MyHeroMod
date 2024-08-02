@@ -145,7 +145,7 @@ public class ApShotAbility extends HoldAbility implements ICooldownAbility, ISta
             float alpha = ((steps++ * PARTICLE_SPACING) / MAX_DISTANCE);
             float delta = Mathf.lerp(MIN_SIZE, maxSize, alpha);
 
-            // world.spawnParticles(ParticleRegister.EXPLOSION_QUIRK_PARTICLES, current.x, current.y, current.z , 100, delta, delta, delta, 0);
+            world.spawnParticles(ParticleRegister.EXPLOSION_QUIRK_PARTICLES, current.x, current.y, current.z , 100, delta, delta, delta, 0);
 
             Vec3d minBox = current.subtract(delta, delta, delta);
             Vec3d maxBox = current.add(delta, delta, delta);
@@ -163,8 +163,6 @@ public class ApShotAbility extends HoldAbility implements ICooldownAbility, ISta
     }
 
     private void tickAffectedBlocks(World world, Vec3d hitPos) {
-//        Entity entity = getEntity();
-
         Vec3d minPos = hitPos.subtract(MAX_SIZE, MAX_SIZE, MAX_SIZE);
         Vec3d maxPos = hitPos.add(MAX_SIZE, MAX_SIZE, MAX_SIZE);
 
@@ -179,7 +177,6 @@ public class ApShotAbility extends HoldAbility implements ICooldownAbility, ISta
             if (state.isAir())
                 continue;
 
-//             world.breakBlock(pos, true);
             long posLong = pos.asLong();
             if (affectedBlocks.containsKey(posLong)) {
                 int ticksAffected = affectedBlocks.get(posLong);
