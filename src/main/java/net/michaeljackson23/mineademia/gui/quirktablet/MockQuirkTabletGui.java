@@ -17,6 +17,7 @@ public class MockQuirkTabletGui extends Screen {
 
     private ButtonWidget none;
     private ButtonWidget hchh_ice;
+    private ButtonWidget explosion;
 
     @Override
     protected void init() {
@@ -28,6 +29,7 @@ public class MockQuirkTabletGui extends Screen {
                 .dimensions(width / 2 - 205, 20, 200, 20)
                 .tooltip(Tooltip.of(Text.literal("changes quirk")))
                 .build();
+
         hchh_ice = ButtonWidget.builder(Text.literal("HCHH ICE"), button -> {
                     PacketByteBuf data = PacketByteBufs.create();
                     data.writeString("hchh_cold");
@@ -37,8 +39,29 @@ public class MockQuirkTabletGui extends Screen {
                 .tooltip(Tooltip.of(Text.literal("changes quirk")))
                 .build();
 
+        explosion = ButtonWidget.builder(Text.literal("Explosion"), button -> {
+                    PacketByteBuf data = PacketByteBufs.create();
+                    data.writeString("explosion");
+                    ClientPlayNetworking.send(Networking.MOCK_CHANGE_QUIRK_WITH_TABLET, data);
+                })
+                .dimensions(width / 2 - 205, 40, 200, 20)
+                .tooltip(Tooltip.of(Text.literal("changes quirk")))
+                .build();
+
         addDrawableChild(none);
         addDrawableChild(hchh_ice);
+        addDrawableChild(explosion);
+    }
+
+    private ButtonWidget createButton(String name, String value) {
+        return ButtonWidget.builder(Text.literal(name), button -> {
+                    PacketByteBuf data = PacketByteBufs.create();
+                    data.writeString(value);
+                    ClientPlayNetworking.send(Networking.MOCK_CHANGE_QUIRK_WITH_TABLET, data);
+                })
+                .dimensions(width / 2 - 205, 40, 200, 20)
+                .tooltip(Tooltip.of(Text.literal("changes quirk")))
+                .build();
     }
 
     @Override

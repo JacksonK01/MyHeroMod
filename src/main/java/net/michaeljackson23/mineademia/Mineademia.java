@@ -4,7 +4,7 @@ import net.fabricmc.api.ModInitializer;
 
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
-import net.michaeljackson23.mineademia.abilitiestest.impl.Abilities;
+import net.michaeljackson23.mineademia.abilitysystem.impl.Abilities;
 import net.michaeljackson23.mineademia.armor.ArmorRegister;
 import net.michaeljackson23.mineademia.blocks.BlockRegister;
 import net.michaeljackson23.mineademia.combo.ComboEvent;
