@@ -60,12 +60,12 @@ public final class Abilities {
         ServerPlayerEntity player = serverPlayNetworkHandler.getPlayer();
 
         PlayerAbilityUser user = getUser(player);
-        if (user == null)
+        if (user == null) {
             user = new PlayerAbilityUser(player);
+            user.setAbilities(AbilitySets.GENERAL);
+        }
 
         playerUsers.putIfAbsent(player.getUuid(), user);
-
-        user.setAbilities(AbilitySets.GENERAL, AbilitySets.HCHH_COLD);
     }
 
     @Nullable

@@ -4,6 +4,7 @@ import net.michaeljackson23.mineademia.abilitysystem.impl.ability.ActiveAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.AbilityCategory;
 import net.michaeljackson23.mineademia.abilitysystem.intr.ability.active.ISegmentedAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IAbilityUser;
+import net.michaeljackson23.mineademia.util.Mathf;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class SegmentedAbility extends ActiveAbility implements ISegmentedAbility {
@@ -32,7 +33,7 @@ public abstract class SegmentedAbility extends ActiveAbility implements ISegment
 
     @Override
     public void setCharges(int charges) {
-        this.charges = Math.max(0, Math.min(maxCharges, charges));
+        this.charges = Mathf.clamp(0, maxCharges, charges);
     }
 
 }

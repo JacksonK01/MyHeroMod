@@ -1,7 +1,6 @@
 package net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.explosion;
 
 import net.michaeljackson23.mineademia.abilitysystem.impl.ability.active.HoldAbility;
-import net.michaeljackson23.mineademia.abilitysystem.impl.ability.active.ToggleAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.AbilityCategory;
 import net.michaeljackson23.mineademia.abilitysystem.intr.Cooldown;
 import net.michaeljackson23.mineademia.abilitysystem.intr.ability.extras.ICooldownAbility;

@@ -6,6 +6,7 @@ import net.michaeljackson23.mineademia.abilitysystem.intr.ability.IActiveAbility
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityset.IAbilityMap;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityset.IAbilitySet;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IAbilityUser;
+import net.michaeljackson23.mineademia.util.Mathf;
 import net.minecraft.entity.LivingEntity;
 import org.jetbrains.annotations.NotNull;
 
@@ -56,7 +57,7 @@ public abstract class AbilityUser implements IAbilityUser {
 
     @Override
     public void setStamina(int amount) {
-        this.stamina = Math.max(0, Math.min(getMaxStamina(), amount));
+        this.stamina = Mathf.clamp(0, getMaxStamina(), amount);
     }
 
     @Override

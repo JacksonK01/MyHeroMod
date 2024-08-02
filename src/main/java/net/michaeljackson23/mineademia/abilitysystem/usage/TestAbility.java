@@ -22,7 +22,7 @@ public final class TestAbility extends ActiveAbility implements ITickAbility, IS
     private final Cooldown cooldown;
 
     public TestAbility(@NotNull IAbilityUser user) {
-        super(user, "Test Ability", "My Test Ability", AbilityCategory.OTHER);
+        super(user, "Test Ability", "My Test Ability");
         this.cooldown = new Cooldown(140);
     }
 

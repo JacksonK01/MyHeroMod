@@ -3,14 +3,10 @@ package net.michaeljackson23.mineademia.abilitysystem.impl.ability.passive;
 import net.michaeljackson23.mineademia.abilitysystem.impl.ability.PassiveAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.ability.passive.IScheduledPassiveAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IAbilityUser;
+import net.michaeljackson23.mineademia.util.Mathf;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
-
 public abstract class ScheduledPassiveAbility extends PassiveAbility implements IScheduledPassiveAbility {
-
-    private static final HashMap<IAbilityUser, Integer> scheduleMap = new HashMap<>();
-
 
     private final int scheduleTime;
     private int currentTime;
@@ -34,7 +30,7 @@ public abstract class ScheduledPassiveAbility extends PassiveAbility implements 
 
     @Override
     public void setCurrentTime(int currentTime) {
-        this.currentTime = Math.max(0, Math.min(getScheduleTime(), currentTime));
+        this.currentTime = Mathf.clamp(0, getScheduleTime(), currentTime);
     }
 
 }

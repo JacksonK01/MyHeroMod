@@ -6,7 +6,6 @@ package net.michaeljackson23.mineademia.abilitysystem.intr;
 public enum AbilityCategory {
 
     MOBILITY,
-    ATTACK,
-    OTHER;
+    ATTACK;
 
 }
