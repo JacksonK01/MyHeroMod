@@ -8,8 +8,6 @@ import net.michaeljackson23.mineademia.abilitysystem.intr.ability.extras.IStamin
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IAbilityUser;
 import net.michaeljackson23.mineademia.particles.ParticleRegister;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.hit.HitResult;
@@ -17,10 +15,11 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 
 public class ApShotAbility extends HoldAbility implements ICooldownAbility, IStaminaAbility {
+
+    public static final int MAX_COOLDOWN_TIME = 200;
 
     public static final int MAX_DURATION = 40;
 
@@ -48,7 +47,7 @@ public class ApShotAbility extends HoldAbility implements ICooldownAbility, ISta
     public ApShotAbility(@NotNull IAbilityUser user) {
         super(user, "AP Shot", "The user stretches out one of their hands and uses their other hand to form a circle on the palm of their outstretched hand. By focusing the path of their explosions into a single point instead of around their whole palm, The user creates a concentrated blast with reduced area of impact.", AbilityCategory.ATTACK);
 
-        this.cooldown = new Cooldown(100);
+        this.cooldown = new Cooldown(MAX_COOLDOWN_TIME);
         this.endTicks = MAX_DURATION + 1;
     }
 
@@ -74,7 +73,9 @@ public class ApShotAbility extends HoldAbility implements ICooldownAbility, ISta
         maxSize = MIN_SIZE + ((float) ticks / MAX_TICKS) * (MAX_SIZE - MIN_SIZE);
         duration = ((float) ticks / MAX_TICKS) * MAX_DURATION;
 
-        getCooldown().setCooldownTicks(ticks);
+        int cooldown = (int) (((float) ticks / MAX_TICKS) * MAX_COOLDOWN_TIME);
+
+        getCooldown().setCooldownTicks(cooldown);
         reset();
 
         endTicks = 0;
