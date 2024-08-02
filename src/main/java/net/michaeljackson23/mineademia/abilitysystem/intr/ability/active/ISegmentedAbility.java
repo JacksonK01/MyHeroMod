@@ -16,7 +16,7 @@ public interface ISegmentedAbility extends IActiveAbility, ICooldownAbility {
     void onExecuteCharge(int charge);
 
     @Override
-    default void execute() {
+    default void execute(boolean isKeyDown) {
         int charges = getCharges();
 
         if (charges > 0) {

@@ -30,11 +30,11 @@ public abstract class AbilityUser implements IAbilityUser {
     }
 
     @Override
-    public <T extends IActiveAbility> void execute(@NotNull Class<T> type) {
+    public <T extends IActiveAbility> void execute(@NotNull Class<T> type, boolean isKeyDown) {
         IActiveAbility ability = abilityMap.get(type);
 
         if (ability != null && canExecute(ability))
-            ability.execute();
+            ability.execute(isKeyDown);
     }
 
     @Override
@@ -65,7 +65,7 @@ public abstract class AbilityUser implements IAbilityUser {
     }
 
     @Override
-    public boolean isActive() {
+    public boolean isEnabled() {
         return active;
     }
 
@@ -75,8 +75,8 @@ public abstract class AbilityUser implements IAbilityUser {
     }
 
     @Override
-    public void setActive(boolean active) {
-        this.active = active;
+    public void setEnabled(boolean enabled) {
+        this.active = enabled;
     }
 
     @Override

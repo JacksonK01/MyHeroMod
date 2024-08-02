@@ -11,6 +11,10 @@ import net.minecraft.text.Text;
 
 public class MockQuirkTabletGui extends Screen {
 
+    public static final int MAX_X = 2;
+    public static final int SPACING_Y = 10;
+
+
     public MockQuirkTabletGui(Text title) {
         super(title);
     }
@@ -21,45 +25,55 @@ public class MockQuirkTabletGui extends Screen {
 
     @Override
     protected void init() {
-        none = ButtonWidget.builder(Text.literal("none"), button -> {
-                    PacketByteBuf data = PacketByteBufs.create();
-                    data.writeString("");
-                    ClientPlayNetworking.send(Networking.MOCK_CHANGE_QUIRK_WITH_TABLET, data);
-                })
-                .dimensions(width / 2 - 205, 20, 200, 20)
-                .tooltip(Tooltip.of(Text.literal("changes quirk")))
-                .build();
+//        none = ButtonWidget.builder(Text.literal("none"), button -> {
+//                    PacketByteBuf data = PacketByteBufs.create();
+//                    data.writeString("");
+//                    ClientPlayNetworking.send(Networking.MOCK_CHANGE_QUIRK_WITH_TABLET, data);
+//                })
+//                .dimensions(width / 2 - 205, 20, 200, 20)
+//                .tooltip(Tooltip.of(Text.literal("changes quirk")))
+//                .build();
+//
+//        hchh_ice = ButtonWidget.builder(Text.literal("HCHH ICE"), button -> {
+//                    PacketByteBuf data = PacketByteBufs.create();
+//                    data.writeString("hchh_cold");
+//                    ClientPlayNetworking.send(Networking.MOCK_CHANGE_QUIRK_WITH_TABLET, data);
+//                })
+//                .dimensions(width / 2 + 5, 20, 200, 20)
+//                .tooltip(Tooltip.of(Text.literal("changes quirk")))
+//                .build();
 
-        hchh_ice = ButtonWidget.builder(Text.literal("HCHH ICE"), button -> {
-                    PacketByteBuf data = PacketByteBufs.create();
-                    data.writeString("hchh_cold");
-                    ClientPlayNetworking.send(Networking.MOCK_CHANGE_QUIRK_WITH_TABLET, data);
-                })
-                .dimensions(width / 2 + 5, 20, 200, 20)
-                .tooltip(Tooltip.of(Text.literal("changes quirk")))
-                .build();
+//        explosion = ButtonWidget.builder(Text.literal("Explosion"), button -> {
+//                    PacketByteBuf data = PacketByteBufs.create();
+//                    data.writeString("explosion");
+//                    ClientPlayNetworking.send(Networking.MOCK_CHANGE_QUIRK_WITH_TABLET, data);
+//                })
+//                .dimensions(width / 2 - 205, 40, 200, 20)
+//                .tooltip(Tooltip.of(Text.literal("changes quirk")))
+//                .build();
 
-        explosion = ButtonWidget.builder(Text.literal("Explosion"), button -> {
-                    PacketByteBuf data = PacketByteBufs.create();
-                    data.writeString("explosion");
-                    ClientPlayNetworking.send(Networking.MOCK_CHANGE_QUIRK_WITH_TABLET, data);
-                })
-                .dimensions(width / 2 - 205, 40, 200, 20)
-                .tooltip(Tooltip.of(Text.literal("changes quirk")))
-                .build();
+        none = createButton("Quirkless", "", 0);
+        hchh_ice = createButton("Half Cold Half Hot - Ice", "hchh_cold", 1);
+        explosion = createButton("Explosion", "explosion", 2);
 
         addDrawableChild(none);
         addDrawableChild(hchh_ice);
         addDrawableChild(explosion);
     }
 
-    private ButtonWidget createButton(String name, String value) {
+    private ButtonWidget createButton(String name, String value, int index) {
+        int x = index % MAX_X;
+        int y = index / MAX_X;
+
+        int xCoord = width / 2 + (x == 1 ? 5 : -205);
+        int yCoord = 20 + (20 + SPACING_Y) * y;
+
         return ButtonWidget.builder(Text.literal(name), button -> {
                     PacketByteBuf data = PacketByteBufs.create();
                     data.writeString(value);
                     ClientPlayNetworking.send(Networking.MOCK_CHANGE_QUIRK_WITH_TABLET, data);
                 })
-                .dimensions(width / 2 - 205, 40, 200, 20)
+                .dimensions(xCoord, yCoord, 200, 20)
                 .tooltip(Tooltip.of(Text.literal("changes quirk")))
                 .build();
     }

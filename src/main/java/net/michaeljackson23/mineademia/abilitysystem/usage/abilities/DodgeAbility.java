@@ -29,7 +29,7 @@ public class DodgeAbility extends ActiveAbility implements ICooldownAbility, ITi
     }
 
     @Override
-    public void execute() {
+    public void execute(boolean isKeyDown) {
         if (!isReadyAndReset())
             return;
 

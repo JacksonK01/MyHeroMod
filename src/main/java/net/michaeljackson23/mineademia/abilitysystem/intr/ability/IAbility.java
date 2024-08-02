@@ -18,13 +18,21 @@ public interface IAbility {
     @NotNull
     String getDescription();
 
-    void execute();
+    void execute(boolean isKeyDown);
 
     boolean isActive();
     void setActive(boolean active);
 
     default LivingEntity getEntity() {
         return getUser().getEntity();
+    }
+
+    default void offsetStamina(int stamina) {
+        getUser().offsetStamina(stamina);
+    }
+
+    default int getStamina() {
+        return getUser().getStamina();
     }
 
 }

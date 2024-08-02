@@ -4,12 +4,13 @@ import net.michaeljackson23.mineademia.abilitysystem.intr.ability.IActiveAbility
 import net.michaeljackson23.mineademia.abilitysystem.intr.ability.extras.ITickAbility;
 
 /**
- * Base class of all toggleable abilities, uses the {@link ITickAbility} class to tick while active or inactive
+ * Base class of all hoold abilities, uses the {@link ITickAbility} class to tick while active or inactive
  */
-public interface IToggleAbility extends IActiveAbility, ITickAbility {
+public interface IHoldAbility extends IActiveAbility, ITickAbility {
 
-    boolean isToggled();
-    void setToggle(boolean toggled);
+
+    boolean isHeld();
+    void setHeld(boolean toggled);
 
     boolean executeStart();
     void executeEnd();
@@ -19,23 +20,24 @@ public interface IToggleAbility extends IActiveAbility, ITickAbility {
 
     @Override
     default void execute(boolean isKeyDown) {
-        if (isToggled() && isKeyDown) {
+        if (isHeld() && !isKeyDown) {
             executeEnd();
-            setToggle(false);
+            setHeld(false);
         } else if (executeStart() && isKeyDown) {
-            setToggle(true);
+            setHeld(true);
         }
     }
 
     @Override
     default void onTick() {
-        if (isToggled()) {
+        if (isHeld()) {
             if (!onTickActive()) {
                 executeEnd();
-                setToggle(false);
+                setHeld(false);
             }
         } else
             onTickInactive();
     }
+
 
 }

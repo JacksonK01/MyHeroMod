@@ -29,10 +29,10 @@ public interface IAbilityUser {
         setAbilities(new AbilitySet(sets));
     }
 
-    <T extends IActiveAbility> void execute(@NotNull Class<T> type);
+    <T extends IActiveAbility> void execute(@NotNull Class<T> type, boolean isDown);
 
     default boolean canExecute(@NotNull IActiveAbility ability) {
-        return !isForcedOff() && isActive() && ability.isActive();
+        return !isForcedOff() && isEnabled() && ability.isActive();
     }
 
     int getMaxStamina();
@@ -43,10 +43,10 @@ public interface IAbilityUser {
         setStamina(getStamina() + offset);
     }
 
-    boolean isActive();
+    boolean isEnabled();
     boolean isForcedOff();
 
-    void setActive(boolean active);
+    void setEnabled(boolean enabled);
     void setForcedOff(boolean forcedOff);
 
 }

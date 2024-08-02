@@ -23,7 +23,7 @@ public class Keybinds {
     private static HoldableKeybind keyAbilityThree;
     private static HoldableKeybind keyAbilityFour;
     private static HoldableKeybind keyAbilityFive;
-    private static HoldableKeybind keyDodge;
+    private static KeyBinding keyDodge;
 
     private static KeyBinding keyKickCombo;
     private static KeyBinding keyAerialCombo;
@@ -64,7 +64,7 @@ public class Keybinds {
                 GLFW.GLFW_KEY_C,
                 "key.mineademia.mineademia"
         ));
-        keyDodge = (HoldableKeybind) KeyBindingHelper.registerKeyBinding(new HoldableKeybind(
+        keyDodge = KeyBindingHelper.registerKeyBinding(new KeyBinding(
                 "key.mineademia.dodge",
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_LEFT_ALT,
@@ -112,7 +112,10 @@ public class Keybinds {
                 keyAbilityFour.holdAndReleaseAction(ABILITY_FOUR);
                 keyAbilityFive.holdAndReleaseAction(ABILITY_FIVE);
 
-                keyDodge.holdAndReleaseAction(ABILITY_DODGE);
+                if (keyDodge.wasPressed()) {
+                    PacketByteBuf buf = PacketByteBufs.create();
+                    ClientPlayNetworking.send(ABILITY_DODGE, buf);
+                }
 
                 keyTest.holdAndReleaseAction(ABILITY_TEST); // TODO REMOVE!!!
                 // TODO REMOVE!!!

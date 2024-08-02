@@ -25,7 +25,7 @@ public class ExplosiveSpeedAbility extends ActiveAbility implements ICooldownAbi
     }
 
     @Override
-    public void execute() {
+    public void execute(boolean isKeyDown) {
         if (!isReadyAndReset())
             return;
 

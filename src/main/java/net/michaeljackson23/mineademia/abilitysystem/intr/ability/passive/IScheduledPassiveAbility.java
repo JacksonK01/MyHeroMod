@@ -19,7 +19,7 @@ public interface IScheduledPassiveAbility extends IPassiveAbility, ITickAbility 
 
         if (currentTime <= 0) {
             setCurrentTime(getScheduleTime());
-            execute();
+            execute(true);
         } else
             setCurrentTime(currentTime - 1);
     }

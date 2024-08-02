@@ -50,16 +50,18 @@ public class ServerPackets {
     public static void abilityDodge(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
         PlayerAbilityUser user = Abilities.getUser(player);
         if (user != null)
-            user.execute(DodgeAbility.class);
+            user.execute(DodgeAbility.class, true);
     }
 
     // TODO REMOVE!!!
     public static void abilityTest(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
+        boolean isKeyDown = buf.readBoolean();
+
         PlayerAbilityUser user = Abilities.getUser(player);
         if (user != null) {
             Class<? extends IAbility> type = user.getCurrentAbility();
             if (user.getAbilities().get(type) instanceof IActiveAbility ability) {
-                user.execute(ability.getClass());
+                user.execute(ability.getClass(), isKeyDown);
             }
         }
     }
