@@ -32,7 +32,7 @@ public interface IAbilityUser {
     <T extends IActiveAbility> void execute(@NotNull Class<T> type, boolean isDown);
 
     default boolean canExecute(@NotNull IActiveAbility ability) {
-        return !isForcedOff() && isEnabled() && ability.isActive();
+        return !isBlocked() && isEnabled() && ability.isActive();
     }
 
     int getMaxStamina();
@@ -44,9 +44,9 @@ public interface IAbilityUser {
     }
 
     boolean isEnabled();
-    boolean isForcedOff();
+    boolean isBlocked();
 
     void setEnabled(boolean enabled);
-    void setForcedOff(boolean forcedOff);
+    void setBlocked(boolean blocked);
 
 }

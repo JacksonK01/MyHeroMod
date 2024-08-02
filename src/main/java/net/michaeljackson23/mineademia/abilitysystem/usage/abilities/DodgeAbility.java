@@ -20,7 +20,7 @@ public class DodgeAbility extends ActiveAbility implements ICooldownAbility, ITi
 
     private Vec3d oldPos;
 
-    private boolean isDashing;
+    private boolean dashing;
     private int ticks;
 
     public DodgeAbility(@NotNull IAbilityUser user) {
@@ -35,7 +35,7 @@ public class DodgeAbility extends ActiveAbility implements ICooldownAbility, ITi
 
         oldPos = getEntity().getPos();
 
-        isDashing = true;
+        dashing = true;
         ticks = 0;
     }
 
@@ -46,26 +46,25 @@ public class DodgeAbility extends ActiveAbility implements ICooldownAbility, ITi
 
     @Override
     public void onTick() {
+        if(dashing) {
+            if (ticks++ >= 2) {
+                LivingEntity entity = getEntity();
 
-        if(isDashing && ticks >= 2) {
-            LivingEntity entity = getEntity();
+                Vec3d newPos = entity.getPos();
 
-            Vec3d newPos = entity.getPos();
+                Vec3d velocity = newPos.subtract(oldPos);
+                if (velocity.length() == 0)
+                    velocity = entity.getRotationVecClient();
 
-            Vec3d velocity = newPos.subtract(oldPos); // new Vec3d(newPos.getX() - oldPos.getX() , 0, newPos.getZ() - oldPos.getZ());
-            if(velocity.length() == 0)
-                velocity = entity.getRotationVecClient();
+                velocity = velocity.normalize().multiply(DASH_STRENGTH);
+                velocity = new Vec3d(velocity.x, Y_OFFSET, velocity.z);
 
-            velocity = velocity.normalize().multiply(DASH_STRENGTH);
-            velocity = new Vec3d(velocity.x, Y_OFFSET, velocity.z);
+                entity.setVelocity(velocity);
+                entity.velocityModified = true;
 
-            entity.setVelocity(velocity);
-            entity.velocityModified = true;
-
-            isDashing = false;
-            ticks = 0;
+                dashing = false;
+                ticks = 0;
+            }
         }
-
-        ticks++;
     }
 }

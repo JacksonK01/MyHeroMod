@@ -8,11 +8,17 @@ import net.michaeljackson23.mineademia.abilitysystem.intr.ability.extras.IStamin
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IAbilityUser;
 import net.michaeljackson23.mineademia.particles.ParticleRegister;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.HashSet;
 
 public class ApShotAbility extends HoldAbility implements ICooldownAbility, IStaminaAbility {
 
@@ -26,6 +32,8 @@ public class ApShotAbility extends HoldAbility implements ICooldownAbility, ISta
 
     public static final float Y_OFFSET = 1f;
     public static final float PARTICLE_SPACING = 0.25f;
+
+    public static final float DAMAGE = 15;
 
 
     private final Cooldown cooldown;
@@ -79,10 +87,8 @@ public class ApShotAbility extends HoldAbility implements ICooldownAbility, ISta
 
     @Override
     public void onTickInactive() {
-        if (endTicks <= duration) {
+        if (endTicks++ <= duration)
             drawBeam();
-            endTicks++;
-        }
     }
 
     @Override
@@ -105,16 +111,25 @@ public class ApShotAbility extends HoldAbility implements ICooldownAbility, ISta
         Vec3d current = entity.getPos().add(0, Y_OFFSET, 0);
         Vec3d direction = hitPos.subtract(current).normalize().multiply(PARTICLE_SPACING);
 
+        HashSet<LivingEntity> affectedEntities = new HashSet<>();
+
         float steps = 0;
 
         while (current.squaredDistanceTo(hitPos) > 1) {
-            float delta = MIN_SIZE + (steps / distance) * (maxSize - MIN_SIZE);
+            float delta = MIN_SIZE + (steps++ / distance) * (maxSize - MIN_SIZE);
 
             world.spawnParticles(ParticleRegister.EXPLOSION_QUIRK_PARTICLES, current.x, current.y, current.z , 100, delta, delta, delta, 0);
-            current = current.add(direction);
 
-            steps++;
+            Vec3d minBox = current.subtract(delta, delta, delta);
+            Vec3d maxBox = current.add(delta, delta, delta);
+
+            affectedEntities.addAll(world.getEntitiesByClass(LivingEntity.class, new Box(minBox, maxBox), (e) -> !e.equals(entity)));
+
+            current = current.add(direction);
         }
+
+        for (LivingEntity affected : affectedEntities)
+            affected.damage(world.getDamageSources().mobAttack(entity), DAMAGE);
     }
 
 }

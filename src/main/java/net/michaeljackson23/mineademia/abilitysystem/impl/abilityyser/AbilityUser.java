@@ -15,16 +15,16 @@ public abstract class AbilityUser implements IAbilityUser {
 
     private int stamina;
 
-    private boolean active;
-    private boolean forcedOff;
+    private boolean enabled;
+    private boolean blocked;
 
     private final AbilityMap abilityMap;
 
     public AbilityUser(LivingEntity entity) {
         this.entity = entity;
 
-        this.active = true;
-        this.forcedOff = false;
+        this.enabled = true;
+        this.blocked = false;
 
         this.abilityMap = new AbilityMap();
     }
@@ -66,22 +66,22 @@ public abstract class AbilityUser implements IAbilityUser {
 
     @Override
     public boolean isEnabled() {
-        return active;
+        return enabled;
     }
 
     @Override
-    public boolean isForcedOff() {
-        return forcedOff;
+    public boolean isBlocked() {
+        return blocked;
     }
 
     @Override
     public void setEnabled(boolean enabled) {
-        this.active = enabled;
+        this.enabled = enabled;
     }
 
     @Override
-    public void setForcedOff(boolean forcedOff) {
-        this.forcedOff = forcedOff;
+    public void setBlocked(boolean blocked) {
+        this.blocked = blocked;
     }
 
 }
