@@ -8,6 +8,7 @@ import net.michaeljackson23.mineademia.abilitysystem.intr.Cooldown;
 import net.michaeljackson23.mineademia.abilitysystem.intr.ability.extras.ICooldownAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IAbilityUser;
 import net.michaeljackson23.mineademia.networking.Networking;
+import net.michaeljackson23.mineademia.util.AffectAll;
 import net.michaeljackson23.mineademia.util.AreaOfEffect;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -67,10 +68,13 @@ public class WindFlyAbility extends ToggleAbility implements ICooldownAbility {
             serverWorld.spawnParticles(ParticleTypes.CLOUD, entity.getX(), entity.getY() + 1, entity.getZ(), 4, 0.4, 0.5, 0.4, 0.1);
             serverWorld.spawnParticles(ParticleTypes.SWEEP_ATTACK, entity.getX(), entity.getY() + 1, entity.getZ(), 3, 0.4, 0.5, 0.4, 0.1);
 
-            AreaOfEffect.execute(entity, 3, 1, entity.getX(), entity.getY(), entity.getZ(), (target -> {
-                target.setVelocity(entity.getVelocity());
-                target.velocityModified = true;
-            }));
+//            AreaOfEffect.execute(entity, 3, 1, entity.getX(), entity.getY(), entity.getZ(), (target -> {
+//                target.setVelocity(entity.getVelocity());
+//                target.velocityModified = true;
+//            }));
+
+            AffectAll.withinRadius(LivingEntity.class, entity.getWorld(), entity.getPos(), 3, 1, 3).exclude(entity).withVelocity(entity.getVelocity(), true);
+
         } else {
             if (entity instanceof ServerPlayerEntity player)
                 sendDescentPacket(player);

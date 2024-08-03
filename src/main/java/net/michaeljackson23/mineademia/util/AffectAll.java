@@ -218,6 +218,7 @@ public final class AffectAll<T extends Entity> {
             entity.setVelocity(velocity);
         else
             entity.addVelocity(velocity);
+        entity.velocityModified = true;
     }
 
 }
