@@ -37,5 +37,4 @@ public interface IToggleAbility extends IActiveAbility, ITickAbility {
         } else
             onTickInactive();
     }
-
 }
