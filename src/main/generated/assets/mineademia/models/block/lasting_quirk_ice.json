@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "mineademia:block/lasting_quirk_ice"
+  }
+}

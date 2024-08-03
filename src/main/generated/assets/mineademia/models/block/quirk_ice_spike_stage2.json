@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "mineademia:block/quirk_ice_spike_stage2"
+  }
+}

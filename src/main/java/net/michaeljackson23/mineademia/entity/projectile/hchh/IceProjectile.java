@@ -61,7 +61,7 @@ public class IceProjectile extends ThrownItemEntity {
         var pos = new BlockPos((int) prevX, (int) prevY, (int) prevZ);
         var state = serverWorld.getBlockState(pos);
         if(state.isAir()|| state.isLiquid()){
-            if(this.age>2)
+            if(this.age>3)
                 serverWorld.setBlockState(pos, BlockRegister.QUIRK_ICE.getDefaultState());
         }
 

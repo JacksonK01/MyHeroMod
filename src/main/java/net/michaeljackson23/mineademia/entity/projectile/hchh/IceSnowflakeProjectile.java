@@ -47,11 +47,14 @@ public class IceSnowflakeProjectile extends ThrownItemEntity {
     @Override
     public void tick() {
         super.tick();
-        if(timer >= 20 || (timer>=5 && stage == 0)) {
-            if(stage < 5){
-                for(int i = 0; i<(stage+1)*2; i++){
+        if(getOwner() == null){
+            kill();
+        }
+        if(timer >= 20 || (timer>=2 && stage == 0)) {
+            if(stage < 4){
+                for(int i = 0; i<(stage+1)*3; i++){
                     IceSnowflakeProjectile iceProjectile = new IceSnowflakeProjectile(getWorld(), (LivingEntity)getOwner());
-                    iceProjectile.setVelocity(this, getPitch(), getYaw(), 0f, 0.25f, random.nextBetween(10,150)*(stage+1));
+                    iceProjectile.setVelocity(this, getPitch(), getYaw(), 0f, 0.25f, random.nextBetween(10,100)*(stage+1));
                     iceProjectile.setPosition(getX(), getY(), getZ());
                     iceProjectile.stage=stage+1;
                     getWorld().spawnEntity(iceProjectile);
@@ -81,8 +84,8 @@ public class IceSnowflakeProjectile extends ThrownItemEntity {
                 QuirkEffectUtil.applyFrozen(hitEntity, 20);
                 QuirkEffectUtil.applyFrozen(hitEntity, 20);
             }
-            kill();
         }
+
     }
 
 
