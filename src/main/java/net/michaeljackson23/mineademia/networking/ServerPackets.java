@@ -69,7 +69,7 @@ public class ServerPackets {
 
     // TODO REMOVE!!!
     public static void abilityTestSwap(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
-        PlayerAbilityUser user = (PlayerAbilityUser) AbilityManager.getUser(player);
+         PlayerAbilityUser user = (PlayerAbilityUser) AbilityManager.getUser(player);
         if (user != null)
             user.incrementIndex();
     }

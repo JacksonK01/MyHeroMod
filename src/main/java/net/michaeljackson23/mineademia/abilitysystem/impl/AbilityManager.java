@@ -75,16 +75,18 @@ public final class AbilityManager {
     @SuppressWarnings("unchecked")
     public static void onPlayerJoin(ServerPlayNetworkHandler serverPlayNetworkHandler, PacketSender packetSender, MinecraftServer minecraftServer) {
         ServerPlayerEntity player = serverPlayNetworkHandler.getPlayer();
+        UUID uuid = player.getUuid();
 
-        IPlayerAbilityUser user = getUser(player);
+        PlayerAbilityUser user = (PlayerAbilityUser) getUser(player);
         if (user == null) {
             user = new PlayerAbilityUser(player);
             user.setAbilities(AbilitySets.GENERAL);
-        }
 
-        users.putIfAbsent(player.getUuid(), user);
-        playerUsers.putIfAbsent(player.getUuid(), user);
-        userStaminaRegen.put(user, 0); // not absent cause if you rejoin that SHOULD reset
+            users.put(uuid, user);
+            playerUsers.put(uuid, user);
+            userStaminaRegen.put(user, 0); // not absent cause if you rejoin that SHOULD reset
+        } else
+            user.setEntity(player);
 
         triggerEvents(ServerPlayConnectionEvents.Join.class);
     }

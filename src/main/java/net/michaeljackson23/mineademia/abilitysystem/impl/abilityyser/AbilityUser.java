@@ -8,20 +8,21 @@ import net.michaeljackson23.mineademia.abilitysystem.intr.abilityset.IAbilitySet
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IAbilityUser;
 import net.michaeljackson23.mineademia.util.Mathf;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class AbilityUser implements IAbilityUser {
 
-    private final LivingEntity entity;
+    private LivingEntity entity;
 
     private int stamina;
 
     private boolean enabled;
     private boolean blocked;
 
-    private final AbilityMap abilityMap;
+    private final IAbilityMap abilityMap;
 
-    public AbilityUser(LivingEntity entity) {
+    public AbilityUser(@NotNull LivingEntity entity) {
         this.entity = entity;
 
         this.enabled = true;
@@ -34,8 +35,10 @@ public abstract class AbilityUser implements IAbilityUser {
     public <T extends IActiveAbility> void execute(@NotNull Class<T> type, boolean isKeyDown) {
         IActiveAbility ability = abilityMap.get(type);
 
-        if (ability != null && canExecute(ability))
+        if (ability != null && canExecute(ability)) {
+            getEntity().sendMessage(Text.literal(  "Executes " + ability.getName()));
             ability.execute(isKeyDown);
+        }
     }
 
     @Override
@@ -83,6 +86,10 @@ public abstract class AbilityUser implements IAbilityUser {
     @Override
     public void setBlocked(boolean blocked) {
         this.blocked = blocked;
+    }
+
+    public void setEntity(@NotNull LivingEntity entity) {
+        this.entity = entity;
     }
 
 }

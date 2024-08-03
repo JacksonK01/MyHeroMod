@@ -16,6 +16,9 @@ public class AbilityMap extends HashMap<Class<? extends IAbility>, IAbility> imp
     public AbilityMap(@NotNull IAbilitySet set) {
         setAbilities(set);
     }
+    public AbilityMap(@NotNull IAbilityMap map) {
+        super.putAll(map);
+    }
 
     @Nullable
     public <T extends IAbility> T get(@NotNull Class<T> key) {
