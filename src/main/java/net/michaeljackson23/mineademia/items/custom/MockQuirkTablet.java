@@ -12,16 +12,16 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
-public class QuirkTablet extends Item {
+public class MockQuirkTablet extends Item {
 
-    public QuirkTablet(Settings settings) {
+    public MockQuirkTablet(Settings settings) {
         super(settings);
     }
 
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
         if (!world.isClient) {
-            ServerPlayNetworking.send((ServerPlayerEntity) player, Networking.QUIRK_TABLET_GUI, PacketByteBufs.empty());
+            ServerPlayNetworking.send((ServerPlayerEntity) player, Networking.MOCK_QUIRK_TABLET_GUI, PacketByteBufs.empty());
         }
         return TypedActionResult.success(player.getStackInHand(hand));
     }

@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.michaeljackson23.mineademia.Mineademia;
 import net.michaeljackson23.mineademia.armor.ArmorRegister;
 import net.michaeljackson23.mineademia.blocks.BlockRegister;
+import net.michaeljackson23.mineademia.items.custom.MockQuirkTablet;
 import net.michaeljackson23.mineademia.items.custom.QuirkTablet;
 import net.minecraft.item.*;
 import net.minecraft.registry.Registries;
@@ -15,16 +16,20 @@ import net.minecraft.util.Identifier;
 public class ItemRegister {
     public static Item sharpShooter;
     public static QuirkTablet quirkTablet;
+    public static MockQuirkTablet mockQuirkTablet;
 
     public static void register() {
         ItemRegister.quirkTablet = Registry.register(Registries.ITEM, new Identifier(Mineademia.MOD_ID, "quirk_menu_selector"), new QuirkTablet(new FabricItemSettings().maxCount(1)));
+        ItemRegister.mockQuirkTablet = Registry.register(Registries.ITEM, new Identifier(Mineademia.MOD_ID, "mock_quirk_tablet"), new MockQuirkTablet(new FabricItemSettings().maxCount(1)));
         ItemRegister.sharpShooter = Registry.register(Registries.ITEM, new Identifier(Mineademia.MOD_ID, "sharp_shooter"), new Item(new FabricItemSettings().maxCount(1)));
+
 
         ItemGroup MHA_GROUP = FabricItemGroup.builder()
                 .icon(() -> new ItemStack(quirkTablet))
                 .displayName(Text.translatable("itemGroup.mineademia.item_group"))
                 .entries((context, entries) -> {
                     entries.add(quirkTablet);
+                    entries.add(mockQuirkTablet);
                     entries.add(ItemRegister.sharpShooter);
                     entries.add(BlockRegister.QUIRK_ICE);
                     entries.add(ArmorRegister.GAMMA_SUIT_HELMET);

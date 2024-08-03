@@ -9,6 +9,7 @@ import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationAccess;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationRegistry;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.michaeljackson23.mineademia.Mineademia;
+import net.michaeljackson23.mineademia.gui.quirktablet.MockQuirkTabletGui;
 import net.michaeljackson23.mineademia.gui.quirktablet.QuirkTabletGui;
 import net.michaeljackson23.mineademia.gui.vestige.VestigeGUI;
 import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkData;
@@ -57,6 +58,14 @@ public class ClientPackets {
     public static void quirkTablet(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
         client.execute(() -> {
             QuirkTabletGui quirkTabletGui = new QuirkTabletGui(Text.literal("Quirk Tablet"));
+            quirkTabletGui.init(client, 50, 50);
+            quirkTabletGui.shouldPause();
+            client.setScreenAndRender(quirkTabletGui);
+        });
+    }
+    public static void mockQuirkTablet(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
+        client.execute(() -> {
+            MockQuirkTabletGui quirkTabletGui = new MockQuirkTabletGui(Text.literal("Mock Quirk Tablet"));
             quirkTabletGui.init(client, 50, 50);
             quirkTabletGui.shouldPause();
             client.setScreenAndRender(quirkTabletGui);

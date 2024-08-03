@@ -22,6 +22,7 @@ public class Networking {
     public static final Identifier AERIAL_COMBO = new Identifier(Mineademia.MOD_ID, "aerial_combo");
     public static final Identifier OPEN_QUIRK_GUI = new Identifier(Mineademia.MOD_ID, "open_quirk_tablet_gui");
     public static final Identifier SELECT_VESTIGE_GUI = new Identifier(Mineademia.MOD_ID, "vestige_gui");
+    public static final Identifier MOCK_CHANGE_QUIRK_WITH_TABLET = new Identifier(Mineademia.MOD_ID, "mock_change_quirk_with_tablet");
 
 
     public static final Identifier ABILITY_TEST = new Identifier(Mineademia.MOD_ID, "ability_test"); // TODO REMOVE!!!
@@ -29,6 +30,7 @@ public class Networking {
 
     //Client Identifiers sent from server
     public static final Identifier QUIRK_TABLET_GUI = new Identifier(Mineademia.MOD_ID, "quirk_tablet_gui");
+    public static final Identifier MOCK_QUIRK_TABLET_GUI = new Identifier(Mineademia.MOD_ID, "mock_quirk_tablet_gui");
     public static final Identifier ANIMATION = new Identifier(Mineademia.MOD_ID, "animation_proxy");
     public static final Identifier SET_YAW = new Identifier(Mineademia.MOD_ID, "set_yaw");
     public static final Identifier FORCE_INTO_THIRD_PERSON_BACK = new Identifier(Mineademia.MOD_ID, "force_third_person_back");
@@ -50,6 +52,7 @@ public class Networking {
         ServerPlayNetworking.registerGlobalReceiver(KICK_COMBO, ServerPackets::kickCombo);
         ServerPlayNetworking.registerGlobalReceiver(AERIAL_COMBO, ServerPackets::aerialCombo);
         ServerPlayNetworking.registerGlobalReceiver(OPEN_QUIRK_GUI, ServerPackets::openQuirkTabletGUI);
+        ServerPlayNetworking.registerGlobalReceiver(MOCK_CHANGE_QUIRK_WITH_TABLET, ServerPackets::mockQuirkTabletQuirkChange);
         ServerPlayNetworking.registerGlobalReceiver(SELECT_VESTIGE_GUI, ServerPackets::vestigeAbility);
         ServerPlayNetworking.registerGlobalReceiver(ABILITY_DODGE, ServerPackets::abilityDodge);
 
@@ -62,6 +65,7 @@ public class Networking {
         ClientPlayNetworking.registerGlobalReceiver(QuirkDataPacket.QUIRK_DATA_SYNC, ClientPackets::quirkDataSync);
         ClientPlayNetworking.registerGlobalReceiver(QuirkDataPacket.QUIRK_DATA_SYNC_PROXY, ClientPackets::quirkDataSyncProxy);
         ClientPlayNetworking.registerGlobalReceiver(QUIRK_TABLET_GUI, ClientPackets::quirkTablet);
+        ClientPlayNetworking.registerGlobalReceiver(MOCK_QUIRK_TABLET_GUI, ClientPackets::mockQuirkTablet);
         ClientPlayNetworking.registerGlobalReceiver(ANIMATION, ClientPackets::animationProxy);
         ClientPlayNetworking.registerGlobalReceiver(SET_YAW, ClientPackets::setYaw);
         ClientPlayNetworking.registerGlobalReceiver(FORCE_INTO_THIRD_PERSON_BACK, ClientPackets::forceThirdPersonBack);

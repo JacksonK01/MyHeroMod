@@ -2,9 +2,11 @@ package net.michaeljackson23.mineademia;
 
 import net.fabricmc.api.ModInitializer;
 
+import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
-import net.michaeljackson23.mineademia.abilitiestest.impl.Abilities;
+import net.michaeljackson23.mineademia.abilitysystem.impl.Abilities;
+import net.michaeljackson23.mineademia.abilitysystem.impl.AbilityEvents;
 import net.michaeljackson23.mineademia.armor.ArmorRegister;
 import net.michaeljackson23.mineademia.blocks.BlockRegister;
 import net.michaeljackson23.mineademia.combo.ComboEvent;
@@ -71,8 +73,9 @@ public class Mineademia implements ModInitializer {
 	}
 
 	private void registerEvents() {
-		ServerTickEvents.START_SERVER_TICK.register(Abilities::tickAbilities);
-		ServerPlayConnectionEvents.JOIN.register(Abilities::initAbilityUser);
+		ServerTickEvents.START_SERVER_TICK.register(Abilities::onServerTick);
+		ServerPlayConnectionEvents.JOIN.register(Abilities::onPlayerJoin);
+		ServerLivingEntityEvents.ALLOW_DAMAGE.register(AbilityEvents::onEntityDamage);
 	}
 
 }

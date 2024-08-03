@@ -1,6 +1,7 @@
 {
   "itemGroup.mineademia.item_group": "Mineademia Items",
   "item.mineademia.quirk_menu_selector": "Quirk Tablet",
+  "item.mineademia.mock_quirk_tablet": "Mock Quirk Tablet",
   "item.mineademia.sharp_shooter": "Sharpshooting Gear",
 
   "item.mineademia.gamma_suit_helmet": "Gamma Suit Mask",
@@ -34,6 +35,10 @@
 
   "death.attack.quirk.physical.player": "%1$s was killed by %2$s using physical quirk damage",
   "death.attack.quirk.physical": "%1$s died by physical quirk damage",
+
+  "death.attack.quirk_explosion_ap_shot.player": "%1$s was incinerated by %2$s using AP Shot",
+  "death.attack.quirk_explosion_ap_shot.mob": "%1$s was incinerated by %2$s using AP Shot",
+  "death.attack.quirk_explosion_ap_shot.": "%1$s was incinerated by %2$s using AP Shot",
 
   "effect.mineademia.cowling": "Full Cowling"
 }

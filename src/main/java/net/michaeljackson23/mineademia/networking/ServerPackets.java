@@ -1,12 +1,12 @@
 package net.michaeljackson23.mineademia.networking;
 
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
-import net.michaeljackson23.mineademia.abilitiestest.impl.Abilities;
-import net.michaeljackson23.mineademia.abilitiestest.impl.abilityyser.PlayerAbilityUser;
-import net.michaeljackson23.mineademia.abilitiestest.intr.ability.IAbility;
-import net.michaeljackson23.mineademia.abilitiestest.intr.ability.IActiveAbility;
-import net.michaeljackson23.mineademia.abilitiestest.usage.abilities.DodgeAbility;
-import net.michaeljackson23.mineademia.abilitiestest.usage.abilities.quirks.hchh.cold.IceShootAbility;
+import net.michaeljackson23.mineademia.abilitysystem.impl.Abilities;
+import net.michaeljackson23.mineademia.abilitysystem.impl.abilityyser.PlayerAbilityUser;
+import net.michaeljackson23.mineademia.abilitysystem.intr.ability.IAbility;
+import net.michaeljackson23.mineademia.abilitysystem.intr.ability.IActiveAbility;
+import net.michaeljackson23.mineademia.abilitysystem.usage.AbilitySets;
+import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.DodgeAbility;
 import net.michaeljackson23.mineademia.keybinds.Keybinds;
 import net.michaeljackson23.mineademia.quirk.Quirk;
 import net.michaeljackson23.mineademia.quirk.QuirkInitialize;
@@ -50,16 +50,18 @@ public class ServerPackets {
     public static void abilityDodge(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
         PlayerAbilityUser user = Abilities.getUser(player);
         if (user != null)
-            user.execute(DodgeAbility.class);
+            user.execute(DodgeAbility.class, true);
     }
 
     // TODO REMOVE!!!
     public static void abilityTest(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
+        boolean isKeyDown = buf.readBoolean();
+
         PlayerAbilityUser user = Abilities.getUser(player);
         if (user != null) {
             Class<? extends IAbility> type = user.getCurrentAbility();
             if (user.getAbilities().get(type) instanceof IActiveAbility ability) {
-                user.execute(ability.getClass());
+                user.execute(ability.getClass(), isKeyDown);
             }
         }
     }
@@ -87,6 +89,15 @@ public class ServerPackets {
         String quirk = buf.readString();
         player.sendMessage(Text.literal("Changed quirk to " + quirk));
         ((QuirkAccessor) player).myHeroMod$setQuirk(QuirkInitialize.setQuirkWithString(quirk));
+    }
+
+    @SuppressWarnings("unchecked")
+    public static void mockQuirkTabletQuirkChange(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
+        String abilityName = buf.readString();
+
+        PlayerAbilityUser user = Abilities.getUser(player);
+        if (user != null)
+            user.setAbilities(AbilitySets.GENERAL, AbilitySets.getAbilitySetOrEmpty(abilityName));
     }
 
     private static void activateAbility(ServerPlayerEntity player, PacketByteBuf buf, int i) {
