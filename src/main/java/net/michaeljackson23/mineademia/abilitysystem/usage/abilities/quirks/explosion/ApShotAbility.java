@@ -26,8 +26,8 @@ import java.util.HashSet;
 
 public class ApShotAbility extends HoldAbility implements ICooldownAbility, IStaminaAbility {
 
-    public static final int MIN_COOLDOWN_TIME = 10;
-    public static final int MAX_COOLDOWN_TIME = 200;
+    public static final int MIN_COOLDOWN_TIME = 30;
+    public static final int MAX_COOLDOWN_TIME = 300;
 
     public static final int MAX_DURATION = 40;
 
@@ -44,7 +44,7 @@ public class ApShotAbility extends HoldAbility implements ICooldownAbility, ISta
 
     public static final float DAMAGE = 10;
 
-    public static final float HARDNESS_MULTIPLIER = 3.5f;
+    public static final float HARDNESS_MULTIPLIER = 5f;
 
 
     private final Cooldown cooldown;

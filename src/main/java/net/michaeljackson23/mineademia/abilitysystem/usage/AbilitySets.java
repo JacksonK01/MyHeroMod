@@ -6,6 +6,7 @@ import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IAbilityUs
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.DodgeAbility;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.explosion.ApShotAbility;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.explosion.ExplosiveSpeedAbility;
+import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.explosion.HowitzerImpactAbility;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.hchh.cold.IceShootAbility;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.hchh.cold.IceSnowflakeAbility;
 import org.jetbrains.annotations.NotNull;
@@ -25,7 +26,7 @@ public final class AbilitySets {
 
     public static final Function<IAbilityUser, IAbilitySet> OFA = registerAbilitySet("ofa", (u) -> new AbilitySet());
 
-    public static final Function<IAbilityUser, IAbilitySet> EXPLOSION = registerAbilitySet("explosion", (u) -> new AbilitySet(new ExplosiveSpeedAbility(u), new ApShotAbility(u)));
+    public static final Function<IAbilityUser, IAbilitySet> EXPLOSION = registerAbilitySet("explosion", (u) -> new AbilitySet(new ExplosiveSpeedAbility(u), new ApShotAbility(u), new HowitzerImpactAbility(u)));
 
     public static final Function<IAbilityUser, IAbilitySet> RIFLE = registerAbilitySet("rifle", (u) -> new AbilitySet());
 

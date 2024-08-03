@@ -1,10 +1,12 @@
 package net.michaeljackson23.mineademia.abilitysystem.impl;
 
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.michaeljackson23.mineademia.abilitysystem.impl.abilityyser.PlayerAbilityUser;
 import net.michaeljackson23.mineademia.abilitysystem.intr.ability.IAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.ability.extras.ICooldownAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.ability.extras.ITickAbility;
+import net.michaeljackson23.mineademia.abilitysystem.intr.ability.passive.IEventPassiveAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IAbilityUser;
 import net.michaeljackson23.mineademia.abilitysystem.usage.AbilitySets;
 import net.minecraft.server.MinecraftServer;
@@ -27,6 +29,7 @@ public final class Abilities {
 
     private static final HashSet<ITickAbility> tickAbilities = new HashSet<>();
     private static final HashSet<ICooldownAbility> cooldownAbilities = new HashSet<>();
+    private static final HashSet<IEventPassiveAbility<?>> eventAbilities = new HashSet<>();
 
     public static void registerAbility(@NotNull IAbility ability) {
         // abilities.add(ability);
@@ -35,6 +38,8 @@ public final class Abilities {
             tickAbilities.add(tickAbility);
         if (ability instanceof ICooldownAbility cooldownAbility)
             cooldownAbilities.add(cooldownAbility);
+        if (ability instanceof IEventPassiveAbility<?> eventAbility)
+            eventAbilities.add(eventAbility);
     }
 
     public static void registerAbilities(@NotNull IAbilityUser user) {
@@ -45,18 +50,24 @@ public final class Abilities {
     public static void unregisterAbilities(@NotNull IAbilityUser user) {
         tickAbilities.removeIf((a) -> a.getUser().equals(user));
         cooldownAbilities.removeIf((a) -> a.getUser().equals(user));
+        eventAbilities.removeIf((a) -> a.getUser().equals(user));
     }
 
-    public static void tickAbilities(MinecraftServer minecraftServer) {
+    public static void onServerTick(MinecraftServer minecraftServer) {
         for (ITickAbility tickAbility : tickAbilities)
             tickAbility.onTick();
         for (ICooldownAbility cooldownAbility : cooldownAbilities)
             cooldownAbility.getCooldown().onTick();
     }
 
+    public static void triggerEvents(Class<?> eventType) {
+        for (IEventPassiveAbility<?> eventAbility : eventAbilities)
+            eventAbility.tryTriggerEvent(eventType);
+    }
+
 
     @SuppressWarnings("unchecked")
-    public static void initAbilityUser(ServerPlayNetworkHandler serverPlayNetworkHandler, PacketSender packetSender, MinecraftServer minecraftServer) {
+    public static void onPlayerJoin(ServerPlayNetworkHandler serverPlayNetworkHandler, PacketSender packetSender, MinecraftServer minecraftServer) {
         ServerPlayerEntity player = serverPlayNetworkHandler.getPlayer();
 
         PlayerAbilityUser user = getUser(player);
@@ -66,6 +77,7 @@ public final class Abilities {
         }
 
         playerUsers.putIfAbsent(player.getUuid(), user);
+        triggerEvents(ServerPlayConnectionEvents.Join.class);
     }
 
     @Nullable
