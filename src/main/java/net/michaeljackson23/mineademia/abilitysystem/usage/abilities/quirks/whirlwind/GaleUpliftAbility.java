@@ -6,6 +6,7 @@ import net.michaeljackson23.mineademia.abilitysystem.intr.Cooldown;
 import net.michaeljackson23.mineademia.abilitysystem.intr.ability.extras.ICooldownAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.ability.extras.ITickAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IAbilityUser;
+import net.michaeljackson23.mineademia.util.AffectAll;
 import net.michaeljackson23.mineademia.util.AnimationProxy;
 import net.michaeljackson23.mineademia.util.AreaOfEffect;
 import net.michaeljackson23.mineademia.util.QuirkDamage;
@@ -84,8 +85,8 @@ public class GaleUpliftAbility extends ActiveAbility implements ICooldownAbility
 
         spawnCloudParticles(10, 0.4, 0.01);
 
-        AreaOfEffect.execute(entity, 4, yScale, entity.getX(), entity.getY(), entity.getZ(), this::applyAscendingEffects);
-
+        // AreaOfEffect.execute(entity, 4, yScale, entity.getX(), entity.getY(), entity.getZ(), this::applyAscendingEffects);
+        AffectAll.withinRadius(LivingEntity.class, entity.getWorld(), entity.getPos(), 4).exclude(entity).with(this::applyDescendingEffects);
     }
 
     private void handleDescendingPhase() {
@@ -94,7 +95,8 @@ public class GaleUpliftAbility extends ActiveAbility implements ICooldownAbility
         spawnCloudParticles(25, 0.4, 1);
         entity.getWorld().playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.ENTITY_PLAYER_BREATH, SoundCategory.PLAYERS, 2f, 2f);
 
-        AreaOfEffect.execute(entity, 4, yScale, entity.getX(), entity.getY(), entity.getZ(), this::applyDescendingEffects);
+        // AreaOfEffect.execute(entity, 4, yScale, entity.getX(), entity.getY(), entity.getZ(), this::applyDescendingEffects);
+        AffectAll.withinRadius(LivingEntity.class, entity.getWorld(), entity.getPos(), 4, yScale, 4).exclude(entity).with(this::applyDescendingEffects);
     }
 
     private void spawnCloudParticles(int count, double spread, double speed) {
