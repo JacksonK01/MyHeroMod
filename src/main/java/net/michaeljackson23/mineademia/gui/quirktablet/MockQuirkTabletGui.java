@@ -22,6 +22,7 @@ public class MockQuirkTabletGui extends Screen {
     private ButtonWidget none;
     private ButtonWidget hchh_ice;
     private ButtonWidget explosion;
+    private ButtonWidget whirlwind;
 
     @Override
     protected void init() {
@@ -55,10 +56,12 @@ public class MockQuirkTabletGui extends Screen {
         none = createButton("Quirkless", "", 0);
         hchh_ice = createButton("Half Cold Half Hot - Ice", "hchh_cold", 1);
         explosion = createButton("Explosion", "explosion", 2);
+        whirlwind = createButton("Whirlwind", "whirlwind", 3);
 
         addDrawableChild(none);
         addDrawableChild(hchh_ice);
         addDrawableChild(explosion);
+        addDrawableChild(whirlwind);
     }
 
     private ButtonWidget createButton(String name, String value, int index) {
