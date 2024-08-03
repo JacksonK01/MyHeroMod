@@ -17,7 +17,7 @@ public class HowitzerImpactAbility extends ActiveAbility implements ITickAbility
 
     public static final int COOLDOWN_TIME = 10;// 20 * 60; // 1 min
 
-    public static final int MAX_TORNADO_HEIGHT = 15;
+    public static final int MAX_HEIGHT = 15;
 
     public static final float START_TORNADO_RADIUS = 5;
     public static final float CENTER_TORNADO_RADIUS = 2f;
@@ -38,6 +38,9 @@ public class HowitzerImpactAbility extends ActiveAbility implements ITickAbility
     public static final float TORNADO_OUTLINE_MIN_SPEED = 15;
     public static final float TORNADO_OUTLINE_MAX_SPEED = 25;
 
+    public static final float TORNADO_OUTLINE_MIN_MOVEMENT = 50;
+    public static final float TORNADO_OUTLINE_MAX_MOVEMENT = 100;
+
 
     private final Cooldown cooldown;
     private int phase;
@@ -45,8 +48,8 @@ public class HowitzerImpactAbility extends ActiveAbility implements ITickAbility
 
     private int phase1Ticks;
 
-    private float[] tornadoOutlineSpeed;
-    private float[] tornadoOutlineHeights;
+    private final float[] tornadoOutlineSpeed;
+    private final float[] tornadoOutlineHeights;
 
     public HowitzerImpactAbility(@NotNull IAbilityUser user) {
         super(user, "Howitzer Impact", "The user dashes into the air and creates two Explosions in their hands. While in the air, the user spins themselves around, building up momentum for their Explosions. After spinning themselves around and gathering momentum for their Explosions, the user fires an Explosive tornado at their opponent.", AbilityCategory.ATTACK, AbilityCategory.ULTIMATE);
@@ -54,8 +57,8 @@ public class HowitzerImpactAbility extends ActiveAbility implements ITickAbility
         this.cooldown = new Cooldown(COOLDOWN_TIME);
         this.phase = -1;
 
-        this.tornadoOutlineSpeed = new float[(int) (MAX_TORNADO_HEIGHT / TORNADO_HEIGHT_INCREASE)];
-        this.tornadoOutlineHeights = new float[(int) (MAX_TORNADO_HEIGHT / TORNADO_HEIGHT_INCREASE)];
+        this.tornadoOutlineSpeed = new float[(int) (MAX_HEIGHT / TORNADO_HEIGHT_INCREASE)];
+        this.tornadoOutlineHeights = new float[(int) (MAX_HEIGHT / TORNADO_HEIGHT_INCREASE)];
     }
 
     @Override
@@ -107,15 +110,8 @@ public class HowitzerImpactAbility extends ActiveAbility implements ITickAbility
 
     private void tornadoBody(ServerWorld world, Vec3d pos, float angle) {
         for (int l = 0; l < TORNADO_LINES; l++) {
-            for (float y = 0; y < MAX_TORNADO_HEIGHT; y += TORNADO_HEIGHT_INCREASE) {
-                float partialHeight = y / MAX_TORNADO_HEIGHT;
-
-                float radius;
-                if (partialHeight <= TORNADO_CENTER_POINT)
-                    radius = Mathf.lerp(START_TORNADO_RADIUS, CENTER_TORNADO_RADIUS, partialHeight * (1 / TORNADO_CENTER_POINT));
-                else
-                    radius = Mathf.lerp(CENTER_TORNADO_RADIUS, END_TORNADO_RADIUS, (partialHeight - TORNADO_CENTER_POINT) * (1 / (1 - TORNADO_CENTER_POINT)));
-
+            for (float y = 0; y < MAX_HEIGHT; y += TORNADO_HEIGHT_INCREASE) {
+                double radius = getRadius(y, 0, -1);
                 double radians = Math.toRadians(360d / TORNADO_LINES * l + y * 25 - angle);
 
                 double x = Math.cos(radians) * radius;
@@ -129,17 +125,9 @@ public class HowitzerImpactAbility extends ActiveAbility implements ITickAbility
     private void tornadoOverlay(ServerWorld world, Vec3d pos, int time) {
         int index = 0;
 
-        for (float y = TORNADO_OUTLINE_HEIGHT_INCREASE; y < MAX_TORNADO_HEIGHT - TORNADO_OUTLINE_HEIGHT_INCREASE; y += TORNADO_OUTLINE_HEIGHT_INCREASE) {
+        for (float y = TORNADO_OUTLINE_HEIGHT_INCREASE; y < MAX_HEIGHT - TORNADO_OUTLINE_HEIGHT_INCREASE; y += TORNADO_OUTLINE_HEIGHT_INCREASE) {
             float offsetY = y + (float) Math.sin(time / tornadoOutlineHeights[index]) * 0.75f;
-            float partialHeight = offsetY / MAX_TORNADO_HEIGHT;//+ (float) Math.sin(time / tornadoOutlineHeights[index]);
-
-            double radius;
-            if (partialHeight <= TORNADO_CENTER_POINT)
-                radius = Mathf.lerp(START_TORNADO_RADIUS + TORNADO_OUTLINE_SIZE, CENTER_TORNADO_RADIUS + TORNADO_OUTLINE_SIZE, partialHeight * (1 / TORNADO_CENTER_POINT));
-            else
-                radius = Mathf.lerp(CENTER_TORNADO_RADIUS + TORNADO_OUTLINE_SIZE, END_TORNADO_RADIUS + TORNADO_OUTLINE_SIZE, (partialHeight - TORNADO_CENTER_POINT) * (1 / (1 - TORNADO_CENTER_POINT)));
-
-            radius += Math.sin(time / tornadoOutlineSpeed[index]);
+            double radius = getRadius(offsetY, time, index);
 
             for (int i = 0; i < 360; i += TORNADO_OUTLINE_DENSITY) {
                 double radians = Math.toRadians(i - time);
@@ -154,12 +142,27 @@ public class HowitzerImpactAbility extends ActiveAbility implements ITickAbility
         }
     }
 
+    private double getRadius(float y, float time, int index) {
+        float partialHeight = y / MAX_HEIGHT;//+ (float) Math.sin(time / tornadoOutlineHeights[index]);
+
+        double radius;
+        if (partialHeight <= TORNADO_CENTER_POINT)
+            radius = Mathf.lerp(START_TORNADO_RADIUS + TORNADO_OUTLINE_SIZE, CENTER_TORNADO_RADIUS + TORNADO_OUTLINE_SIZE, partialHeight * (1 / TORNADO_CENTER_POINT));
+        else
+            radius = Mathf.lerp(CENTER_TORNADO_RADIUS + TORNADO_OUTLINE_SIZE, END_TORNADO_RADIUS + TORNADO_OUTLINE_SIZE, (partialHeight - TORNADO_CENTER_POINT) * (1 / (1 - TORNADO_CENTER_POINT)));
+
+        if (index >= 0)
+            radius += Math.sin(time / tornadoOutlineSpeed[index]);
+
+        return radius;
+    }
+
     private void createOverlaySpeeds() {
         int index = 0;
 
-        for (float y = TORNADO_OUTLINE_HEIGHT_INCREASE; y < MAX_TORNADO_HEIGHT - TORNADO_OUTLINE_HEIGHT_INCREASE; y += TORNADO_OUTLINE_HEIGHT_INCREASE) {
+        for (float y = TORNADO_OUTLINE_HEIGHT_INCREASE; y < MAX_HEIGHT - TORNADO_OUTLINE_HEIGHT_INCREASE; y += TORNADO_OUTLINE_HEIGHT_INCREASE) {
             tornadoOutlineSpeed[index] = Mathf.random(TORNADO_OUTLINE_MIN_SPEED, TORNADO_OUTLINE_MAX_SPEED);
-            tornadoOutlineHeights[index] = Mathf.random(TORNADO_OUTLINE_MIN_SPEED * 3, TORNADO_OUTLINE_MAX_SPEED * 3);
+            tornadoOutlineHeights[index] = Mathf.random(TORNADO_OUTLINE_MIN_MOVEMENT, TORNADO_OUTLINE_MAX_MOVEMENT);
 
             index++;
         }
