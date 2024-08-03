@@ -43,6 +43,11 @@ public interface IAbilityUser {
         setStamina(getStamina() + offset);
     }
 
+    int getStaminaRegenAmount();
+    int getStaminaRegenRate();
+
+    default boolean onStaminaRegen() { return true; }
+
     boolean isEnabled();
     boolean isBlocked();
 

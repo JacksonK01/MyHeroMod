@@ -25,6 +25,16 @@ public class PlayerAbilityUser extends AbilityUser implements IPlayerAbilityUser
         return 1000;
     }
 
+    @Override
+    public int getStaminaRegenAmount() {
+        return 1;
+    }
+
+    @Override
+    public int getStaminaRegenRate() {
+        return 1;
+    }
+
     public void incrementIndex() {
         if (++index >= getAbilities().size())
             index = 0;

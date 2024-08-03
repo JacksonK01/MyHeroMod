@@ -4,13 +4,12 @@ import net.michaeljackson23.mineademia.abilitysystem.impl.ability.active.HoldAbi
 import net.michaeljackson23.mineademia.abilitysystem.intr.AbilityCategory;
 import net.michaeljackson23.mineademia.abilitysystem.intr.Cooldown;
 import net.michaeljackson23.mineademia.abilitysystem.intr.ability.extras.ICooldownAbility;
-import net.michaeljackson23.mineademia.abilitysystem.intr.ability.extras.IStaminaAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IAbilityUser;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.NotNull;
 
-public class ExplosiveSpeedAbility extends HoldAbility implements ICooldownAbility, IStaminaAbility {
+public class ExplosiveSpeedAbility extends HoldAbility implements ICooldownAbility {
 
     public static final int COOLDOWN_TIME = 60;
 
@@ -63,11 +62,6 @@ public class ExplosiveSpeedAbility extends HoldAbility implements ICooldownAbili
     @Override
     public @NotNull Cooldown getCooldown() {
         return cooldown;
-    }
-
-    @Override
-    public int getStaminaCost() {
-        return 25;
     }
 
     private void moveUser() {

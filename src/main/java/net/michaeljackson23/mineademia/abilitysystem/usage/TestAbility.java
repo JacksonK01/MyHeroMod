@@ -1,10 +1,8 @@
 package net.michaeljackson23.mineademia.abilitysystem.usage;
 
 import net.michaeljackson23.mineademia.abilitysystem.impl.ability.ActiveAbility;
-import net.michaeljackson23.mineademia.abilitysystem.intr.AbilityCategory;
 import net.michaeljackson23.mineademia.abilitysystem.intr.Cooldown;
 import net.michaeljackson23.mineademia.abilitysystem.intr.ability.extras.ICooldownAbility;
-import net.michaeljackson23.mineademia.abilitysystem.intr.ability.extras.IStaminaAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.ability.extras.ITickAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IAbilityUser;
 import org.jetbrains.annotations.NotNull;
@@ -12,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * How an ability implementation in stages (Kinda like {@link net.michaeljackson23.mineademia.quirk.abilities.ofa.ManchesterSmash} works) could look like
  */
-public final class TestAbility extends ActiveAbility implements ITickAbility, IStaminaAbility, ICooldownAbility {
+public final class TestAbility extends ActiveAbility implements ITickAbility, ICooldownAbility {
 
     private boolean isRunning;
     private int phase;
@@ -83,11 +81,6 @@ public final class TestAbility extends ActiveAbility implements ITickAbility, IS
     @Override
     public @NotNull Cooldown getCooldown() {
         return cooldown; // 7 seconds
-    }
-
-    @Override
-    public int getStaminaCost() {
-        return 50;
     }
 
 }

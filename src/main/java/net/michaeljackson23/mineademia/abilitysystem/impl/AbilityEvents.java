@@ -10,7 +10,7 @@ public final class AbilityEvents {
 
 
     public static boolean onEntityDamage(LivingEntity entity, DamageSource damageSource, float v) {
-        Abilities.triggerEvents(ServerLivingEntityEvents.AllowDamage.class);
+        AbilityManager.triggerEvents(ServerLivingEntityEvents.AllowDamage.class);
         return true;
     }
 

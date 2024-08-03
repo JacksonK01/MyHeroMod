@@ -4,7 +4,6 @@ import net.michaeljackson23.mineademia.abilitysystem.impl.ability.active.HoldAbi
 import net.michaeljackson23.mineademia.abilitysystem.intr.AbilityCategory;
 import net.michaeljackson23.mineademia.abilitysystem.intr.Cooldown;
 import net.michaeljackson23.mineademia.abilitysystem.intr.ability.extras.ICooldownAbility;
-import net.michaeljackson23.mineademia.abilitysystem.intr.ability.extras.IStaminaAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IAbilityUser;
 import net.michaeljackson23.mineademia.damagetypes.CustomDamageTypes;
 import net.michaeljackson23.mineademia.particles.ParticleRegister;
@@ -13,7 +12,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.text.Text;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
@@ -24,7 +22,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.HashSet;
 
-public class ApShotAbility extends HoldAbility implements ICooldownAbility, IStaminaAbility {
+public class ApShotAbility extends HoldAbility implements ICooldownAbility {
 
     public static final int MIN_COOLDOWN_TIME = 30;
     public static final int MAX_COOLDOWN_TIME = 300;
@@ -122,11 +120,6 @@ public class ApShotAbility extends HoldAbility implements ICooldownAbility, ISta
         return cooldown;
     }
 
-    @Override
-    public int getStaminaCost() {
-        return 200;
-    }
-
     private void drawBeam() {
         LivingEntity entity = getEntity();
         ServerWorld world = (ServerWorld) entity.getWorld();
@@ -163,6 +156,8 @@ public class ApShotAbility extends HoldAbility implements ICooldownAbility, ISta
     }
 
     private void tickAffectedBlocks(World world, Vec3d hitPos) {
+        LivingEntity entity = getEntity();
+
         Vec3d minPos = hitPos.subtract(MAX_SIZE, MAX_SIZE, MAX_SIZE);
         Vec3d maxPos = hitPos.add(MAX_SIZE, MAX_SIZE, MAX_SIZE);
 
@@ -182,7 +177,7 @@ public class ApShotAbility extends HoldAbility implements ICooldownAbility, ISta
                 int ticksAffected = affectedBlocks.get(posLong);
 
                 if (ticksAffected >= state.getBlock().getHardness() * HARDNESS_MULTIPLIER) {
-                    world.breakBlock(pos, true);
+                    world.breakBlock(pos, true, entity);
                     affectedBlocks.remove(posLong);
                 } else
                     affectedBlocks.put(posLong, ticksAffected + 1);

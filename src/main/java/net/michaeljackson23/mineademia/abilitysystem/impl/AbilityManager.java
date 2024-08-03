@@ -8,6 +8,7 @@ import net.michaeljackson23.mineademia.abilitysystem.intr.ability.extras.ICooldo
 import net.michaeljackson23.mineademia.abilitysystem.intr.ability.extras.ITickAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.ability.passive.IEventPassiveAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IAbilityUser;
+import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IPlayerAbilityUser;
 import net.michaeljackson23.mineademia.abilitysystem.usage.AbilitySets;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
@@ -19,13 +20,16 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.UUID;
 
-public final class Abilities {
+public final class AbilityManager {
 
-    private Abilities() { }
+    private AbilityManager() { }
 
 
     // private static final HashSet<IAbility> abilities = new HashSet<>();
-    private static final HashMap<UUID, PlayerAbilityUser> playerUsers = new HashMap<>();
+    private static final HashMap<UUID, IAbilityUser> users = new HashMap<>();
+    private static final HashMap<UUID, IPlayerAbilityUser> playerUsers = new HashMap<>();
+
+    private static final HashMap<IAbilityUser, Integer> userStaminaRegen = new HashMap<>();
 
     private static final HashSet<ITickAbility> tickAbilities = new HashSet<>();
     private static final HashSet<ICooldownAbility> cooldownAbilities = new HashSet<>();
@@ -58,6 +62,8 @@ public final class Abilities {
             tickAbility.onTick();
         for (ICooldownAbility cooldownAbility : cooldownAbilities)
             cooldownAbility.getCooldown().onTick();
+
+        regenUserStamina();
     }
 
     public static void triggerEvents(Class<?> eventType) {
@@ -70,19 +76,38 @@ public final class Abilities {
     public static void onPlayerJoin(ServerPlayNetworkHandler serverPlayNetworkHandler, PacketSender packetSender, MinecraftServer minecraftServer) {
         ServerPlayerEntity player = serverPlayNetworkHandler.getPlayer();
 
-        PlayerAbilityUser user = getUser(player);
+        IPlayerAbilityUser user = getUser(player);
         if (user == null) {
             user = new PlayerAbilityUser(player);
             user.setAbilities(AbilitySets.GENERAL);
         }
 
+        users.putIfAbsent(player.getUuid(), user);
         playerUsers.putIfAbsent(player.getUuid(), user);
+        userStaminaRegen.put(user, 0); // not absent cause if you rejoin that SHOULD reset
+
         triggerEvents(ServerPlayConnectionEvents.Join.class);
     }
 
     @Nullable
-    public static PlayerAbilityUser getUser(@NotNull ServerPlayerEntity player) {
+    public static IPlayerAbilityUser getUser(@NotNull ServerPlayerEntity player) {
         return playerUsers.get(player.getUuid());
+    }
+
+    private static void regenUserStamina() {
+        for (IAbilityUser user : users.values()) {
+            int sinceLastRegen = userStaminaRegen.get(user);
+
+            if (sinceLastRegen >= user.getStaminaRegenRate()) {
+                if (user.onStaminaRegen()) {
+                    user.offsetStamina(user.getStaminaRegenAmount());
+                    userStaminaRegen.put(user, 0);
+                    continue;
+                }
+            }
+
+            userStaminaRegen.put(user, sinceLastRegen + 1);
+        }
     }
 
 }

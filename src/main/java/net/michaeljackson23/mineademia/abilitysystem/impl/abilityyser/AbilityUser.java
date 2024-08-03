@@ -1,6 +1,6 @@
 package net.michaeljackson23.mineademia.abilitysystem.impl.abilityyser;
 
-import net.michaeljackson23.mineademia.abilitysystem.impl.Abilities;
+import net.michaeljackson23.mineademia.abilitysystem.impl.AbilityManager;
 import net.michaeljackson23.mineademia.abilitysystem.impl.abilityset.AbilityMap;
 import net.michaeljackson23.mineademia.abilitysystem.intr.ability.IActiveAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityset.IAbilityMap;
@@ -45,9 +45,9 @@ public abstract class AbilityUser implements IAbilityUser {
 
     @Override
     public void setAbilities(@NotNull IAbilitySet abilities) {
-        Abilities.unregisterAbilities(this);
+        AbilityManager.unregisterAbilities(this);
         abilityMap.setAbilities(abilities);
-        Abilities.registerAbilities(this);
+        AbilityManager.registerAbilities(this);
     }
 
     @Override

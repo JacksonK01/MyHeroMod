@@ -30,7 +30,7 @@ public class IceBeamAbility extends ActiveAbility implements ICooldownAbility {
     @Override
     public void execute(boolean isKeyDown) {
         if (isReadyAndReset()) {
-            LivingEntity entity = getUser().getEntity();
+            LivingEntity entity = getEntity();
             World world = entity.getWorld();
 
             world.playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.BLOCK_GLASS_PLACE, SoundCategory.PLAYERS, 2f, 2f);

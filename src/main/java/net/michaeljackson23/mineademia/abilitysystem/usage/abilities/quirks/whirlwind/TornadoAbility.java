@@ -4,30 +4,31 @@ import net.michaeljackson23.mineademia.abilitysystem.impl.ability.ActiveAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.AbilityCategory;
 import net.michaeljackson23.mineademia.abilitysystem.intr.Cooldown;
 import net.michaeljackson23.mineademia.abilitysystem.intr.ability.extras.ICooldownAbility;
-import net.michaeljackson23.mineademia.abilitysystem.intr.ability.extras.IStaminaAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IAbilityUser;
 import net.michaeljackson23.mineademia.entity.projectile.tornado.TornadoProjectile;
-import net.michaeljackson23.mineademia.entity.projectile.windblade.WindBladeProjectile;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 
-public class TornadoAbility extends ActiveAbility implements ICooldownAbility, IStaminaAbility {
+public class TornadoAbility extends ActiveAbility implements ICooldownAbility {
+
+    public static final int COOLDOWN_TIME = 30;
+
 
     private final Cooldown cooldown;
 
     public TornadoAbility(@NotNull IAbilityUser user) {
         super(user, "Magnitude 5", "User focuses wind to form a Tornado.", AbilityCategory.ATTACK);
 
-        this.cooldown = new Cooldown(30);
+        this.cooldown = new Cooldown(COOLDOWN_TIME);
     }
 
     @Override
     public void execute(boolean isKeyDown) {
-        if(isReadyAndReset()) {
+        if(isReadyAndReset())
             spawnTornado();
-        }
     }
 
     @Override
@@ -35,18 +36,16 @@ public class TornadoAbility extends ActiveAbility implements ICooldownAbility, I
         return cooldown;
     }
 
-    @Override
-    public int getStaminaCost() {
-        return 120;
-    }
-
     private void spawnTornado() {
-        LivingEntity user = getEntity();
-        user.getWorld().playSound(null, user.getX(), user.getY(), user.getZ(), SoundEvents.ITEM_ELYTRA_FLYING, SoundCategory.PLAYERS, 1f, 2f);
-        TornadoProjectile tornadoProjectile = new TornadoProjectile(user.getWorld(), user);
-        tornadoProjectile.setVelocity(user, user.getPitch(), user.getYaw(), 0f, 1.0f, 0);
-        user.getWorld().spawnEntity(tornadoProjectile);
+        LivingEntity entity = getEntity();
+        World world = entity.getWorld();
 
-        user.swingHand(user.getActiveHand(), true);
+        world.playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.ITEM_ELYTRA_FLYING, SoundCategory.PLAYERS, 1f, 2f);
+
+        TornadoProjectile tornadoProjectile = new TornadoProjectile(world, entity);
+        tornadoProjectile.setVelocity(entity, entity.getPitch(), entity.getYaw(), 0f, 1.0f, 0);
+
+        world.spawnEntity(tornadoProjectile);
+        entity.swingHand(entity.getActiveHand(), true);
     }
 }

@@ -1,10 +1,11 @@
 package net.michaeljackson23.mineademia.networking;
 
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
-import net.michaeljackson23.mineademia.abilitysystem.impl.Abilities;
+import net.michaeljackson23.mineademia.abilitysystem.impl.AbilityManager;
 import net.michaeljackson23.mineademia.abilitysystem.impl.abilityyser.PlayerAbilityUser;
 import net.michaeljackson23.mineademia.abilitysystem.intr.ability.IAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.ability.IActiveAbility;
+import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IPlayerAbilityUser;
 import net.michaeljackson23.mineademia.abilitysystem.usage.AbilitySets;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.DodgeAbility;
 import net.michaeljackson23.mineademia.keybinds.Keybinds;
@@ -48,7 +49,7 @@ public class ServerPackets {
     }
 
     public static void abilityDodge(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
-        PlayerAbilityUser user = Abilities.getUser(player);
+        IPlayerAbilityUser user = AbilityManager.getUser(player);
         if (user != null)
             user.execute(DodgeAbility.class, true);
     }
@@ -57,7 +58,7 @@ public class ServerPackets {
     public static void abilityTest(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
         boolean isKeyDown = buf.readBoolean();
 
-        PlayerAbilityUser user = Abilities.getUser(player);
+        PlayerAbilityUser user = (PlayerAbilityUser) AbilityManager.getUser(player);
         if (user != null) {
             Class<? extends IAbility> type = user.getCurrentAbility();
             if (user.getAbilities().get(type) instanceof IActiveAbility ability) {
@@ -68,7 +69,7 @@ public class ServerPackets {
 
     // TODO REMOVE!!!
     public static void abilityTestSwap(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
-        PlayerAbilityUser user = Abilities.getUser(player);
+        PlayerAbilityUser user = (PlayerAbilityUser) AbilityManager.getUser(player);
         if (user != null)
             user.incrementIndex();
     }
@@ -95,7 +96,7 @@ public class ServerPackets {
     public static void mockQuirkTabletQuirkChange(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
         String abilityName = buf.readString();
 
-        PlayerAbilityUser user = Abilities.getUser(player);
+        IPlayerAbilityUser user = AbilityManager.getUser(player);
         if (user != null)
             user.setAbilities(AbilitySets.GENERAL, AbilitySets.getAbilitySetOrEmpty(abilityName));
     }

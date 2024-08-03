@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class HowitzerImpactAbility extends ActiveAbility implements ITickAbility, ICooldownAbility {
 
-    public static final int COOLDOWN_TIME = 10;// 20 * 60; // 1 min
+    public static final int COOLDOWN_TIME = 10;// 20 * 60 * 2; // 2 min
 
     public static final int MAX_HEIGHT = 15;
 
