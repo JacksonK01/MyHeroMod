@@ -92,7 +92,7 @@ public final class DrawParticles {
 
     // VORTEX SHAPE
 
-    public static <T extends ParticleEffect> void inVortex(@NotNull ServerWorld world, @NotNull Vec3d center, @NotNull Vec3d normal, float radius, float rotation, float maxHeight, int lineCount, float stepSize, float steepness, @NotNull T particleEffect, @NotNull Vec3d delta, int count, float speed) {
+    public static <T extends ParticleEffect> void inVortex(@NotNull ServerWorld world, @NotNull Vec3d center, @NotNull Vec3d normal, @NotNull VortexRadius[] radiusMap, float rotation, float maxHeight, int lineCount, float stepSize, float steepness, @NotNull T particleEffect, @NotNull Vec3d delta, int count, float speed) {
         count = Math.max(1, count);
         speed = Math.max(0, speed);
 
@@ -109,6 +109,9 @@ public final class DrawParticles {
 
         for (int line = 0; line < lineCount; line++) {
             while (distance < maxHeight * maxHeight) {
+                float partialHeight = (float) distance / (maxHeight * maxHeight);
+                float radius = getVortexRadius(partialHeight, radiusMap);
+
                 double radians = Math.toRadians(360d / lineCount * line + distance * steepness - rotation);
 
                 Vec3d addCos = v1.multiply(Math.cos(radians));
@@ -123,19 +126,45 @@ public final class DrawParticles {
                 distance = currentCenter.squaredDistanceTo(center);
             }
         }
-
-//        for (int i = 0; i < 360; i += density) {
-//            float radians = i - rotation;
-//
-//            Vec3d addCos = v1.multiply(Math.cos(radians));
-//            Vec3d addSin = v2.multiply(Math.sin(radians));
-//
-//            Vec3d addAll = addCos.add(addSin).multiply(radius);
-//            Vec3d point = center.add(addAll);
-//
-//            world.spawnParticles(particleEffect, point.x, point.y, point.z, count, delta.x, delta.y, delta.z, speed);
-//        }
     }
 
+    private static float getVortexRadius(float partialHeight, @NotNull VortexRadius[] radiusMap) {
+        if (radiusMap.length == 0)
+            return 1;
+        else if (radiusMap.length == 1)
+            return radiusMap[0].radius();
+
+        for (int i = 0; i < radiusMap.length - 1; i++) {
+            VortexRadius current = radiusMap[i];
+            VortexRadius next = radiusMap[i + 1];
+
+            float currentPartial = current.partialHeight();
+            float nextPartial = next.partialHeight();
+
+            if (currentPartial <= partialHeight && nextPartial >= partialHeight) {
+                float maxRange = nextPartial - currentPartial;
+                float valueInRange = partialHeight - currentPartial;
+
+                if (valueInRange == 0)
+                    return current.radius();
+
+                float partialRange = valueInRange / maxRange;
+
+                return Mathf.lerp(current.radius(), next.radius(), partialRange);
+            }
+        }
+
+        return 1;
+    }
+
+
+    public record VortexRadius(float partialHeight, float radius) {
+
+            public VortexRadius(float partialHeight, float radius) {
+                this.partialHeight = Mathf.clamp(0, 1, partialHeight);
+                this.radius = Math.max(0, radius);
+            }
+
+        }
 
 }

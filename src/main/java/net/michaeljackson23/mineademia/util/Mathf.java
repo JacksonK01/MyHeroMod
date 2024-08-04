@@ -17,6 +17,9 @@ public final class Mathf {
     }
 
     public static float lerp(float min, float max, float alpha) {
+        if (min > max)
+            return lerp(max, min, 1 - alpha);
+
         return min + alpha * (max - min);
     }
 
