@@ -1,11 +1,13 @@
 package net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser;
 
 import net.michaeljackson23.mineademia.abilitysystem.impl.abilityset.AbilitySet;
+import net.michaeljackson23.mineademia.abilitysystem.intr.ability.IAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.ability.IActiveAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityset.IAbilityMap;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityset.IAbilitySet;
 import net.minecraft.entity.LivingEntity;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.function.Function;
@@ -29,10 +31,13 @@ public interface IAbilityUser {
         setAbilities(new AbilitySet(sets));
     }
 
-    <T extends IActiveAbility> void execute(@NotNull Class<T> type, boolean isDown);
+    @Nullable
+    <T extends IAbility> T getAbility(@NotNull Class<T> type);
+
+    <T extends IActiveAbility> void execute(@NotNull Class<T> type, boolean isKeyDown);
 
     default boolean canExecute(@NotNull IActiveAbility ability) {
-        return !isBlocked() && isEnabled() && ability.isActive();
+        return !isBlocked() && isEnabled() && ability.isActive() && ability.canExecute();
     }
 
     int getMaxStamina();

@@ -1,5 +1,6 @@
 package net.michaeljackson23.mineademia.abilitysystem.intr.ability;
 
+import net.michaeljackson23.mineademia.abilitysystem.intr.AbilityCategory;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IAbilityUser;
 import net.minecraft.entity.LivingEntity;
 import org.jetbrains.annotations.NotNull;
@@ -33,6 +34,10 @@ public interface IAbility {
 
     default int getStamina() {
         return getUser().getStamina();
+    }
+
+    default boolean canExecute() {
+        return true;
     }
 
 }

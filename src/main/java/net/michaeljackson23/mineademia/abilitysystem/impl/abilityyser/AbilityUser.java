@@ -2,6 +2,7 @@ package net.michaeljackson23.mineademia.abilitysystem.impl.abilityyser;
 
 import net.michaeljackson23.mineademia.abilitysystem.impl.AbilityManager;
 import net.michaeljackson23.mineademia.abilitysystem.impl.abilityset.AbilityMap;
+import net.michaeljackson23.mineademia.abilitysystem.intr.ability.IAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.ability.IActiveAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityset.IAbilityMap;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityset.IAbilitySet;
@@ -10,6 +11,7 @@ import net.michaeljackson23.mineademia.util.Mathf;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public abstract class AbilityUser implements IAbilityUser {
 
@@ -33,7 +35,7 @@ public abstract class AbilityUser implements IAbilityUser {
 
     @Override
     public <T extends IActiveAbility> void execute(@NotNull Class<T> type, boolean isKeyDown) {
-        IActiveAbility ability = abilityMap.get(type);
+        IActiveAbility ability = getAbility(type);
 
         if (ability != null && canExecute(ability)) {
             getEntity().sendMessage(Text.literal(  "Executes " + ability.getName()));
@@ -51,6 +53,11 @@ public abstract class AbilityUser implements IAbilityUser {
         AbilityManager.unregisterAbilities(this);
         abilityMap.setAbilities(abilities);
         AbilityManager.registerAbilities(this);
+    }
+
+    @Override
+    public <T extends IAbility> @Nullable T getAbility(@NotNull Class<T> type) {
+        return getAbilities().get(type);
     }
 
     @Override

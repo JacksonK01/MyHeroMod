@@ -1,8 +1,10 @@
 package net.michaeljackson23.mineademia.abilitysystem.intr.ability;
 
 import net.michaeljackson23.mineademia.abilitysystem.intr.AbilityCategory;
+import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IAbilityUser;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
 import java.util.HashSet;
 
 /**
@@ -13,8 +15,28 @@ public interface IActiveAbility extends IAbility {
     @NotNull
     HashSet<AbilityCategory> getCategories();
 
-    default boolean isConflicting(@NotNull IActiveAbility ability) {
-        return getCategories().stream().anyMatch(ability.getCategories()::contains);
+    @NotNull
+    HashSet<AbilityCategory> getBlockingState();
+    void setBlockingState(@NotNull AbilityCategory... categories);
+
+    default boolean isConflicting() {
+        IAbilityUser user = getUser();
+
+        for (IAbility ability : user.getAbilities().values()) {
+            if (!(ability instanceof IActiveAbility activeAbility))
+                continue;
+
+            // If any overlap between the blocking state and the categories, is conflicting
+            if (getCategories().stream().anyMatch(activeAbility.getBlockingState()::contains))
+                return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    default boolean canExecute() {
+        return !isConflicting();
     }
 
 }

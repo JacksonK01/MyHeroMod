@@ -31,7 +31,6 @@ public class ExplosiveSpeedAbility extends HoldAbility implements ICooldownAbili
 
     @Override
     public boolean executeStart() {
-        getEntity().sendMessage(Text.literal(  "Execute start"));
         if (!isReady())
             return false;
 
@@ -42,14 +41,12 @@ public class ExplosiveSpeedAbility extends HoldAbility implements ICooldownAbili
 
     @Override
     public void executeEnd() {
-        getEntity().sendMessage(Text.literal(  "Execute End"));
         dashing = false;
         reset();
     }
 
     @Override
     public boolean onTickActive() {
-        getEntity().sendMessage(Text.literal(  "Tick Active"));
         if (dashing) {
             if (ticks++ >= INTERVAL_TIME) {
                 moveUser();

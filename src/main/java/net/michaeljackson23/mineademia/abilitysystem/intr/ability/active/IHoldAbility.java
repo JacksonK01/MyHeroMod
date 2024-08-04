@@ -21,20 +21,16 @@ public interface IHoldAbility extends IActiveAbility, ITickAbility {
 
     @Override
     default void execute(boolean isKeyDown) {
-        getEntity().sendMessage(Text.literal(  "Is Held:" + isHeld()));
         if (isHeld() && !isKeyDown) {
-            getEntity().sendMessage(Text.literal(  "Set Held False"));
             executeEnd();
             setHeld(false);
         } else if (isKeyDown && executeStart()) {
-            getEntity().sendMessage(Text.literal(  "Set Held True"));
             setHeld(true);
         }
     }
 
     @Override
     default void onTick() {
-        getEntity().sendMessage(Text.literal(  "Tick"));
         if (isHeld()) {
             if (!onTickActive()) {
                 executeEnd();

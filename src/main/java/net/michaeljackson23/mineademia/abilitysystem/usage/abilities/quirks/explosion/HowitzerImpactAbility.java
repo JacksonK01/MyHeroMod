@@ -7,7 +7,9 @@ import net.michaeljackson23.mineademia.abilitysystem.intr.ability.extras.ICooldo
 import net.michaeljackson23.mineademia.abilitysystem.intr.ability.extras.ITickAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IAbilityUser;
 import net.michaeljackson23.mineademia.particles.ParticleRegister;
+import net.michaeljackson23.mineademia.util.DrawParticles;
 import net.michaeljackson23.mineademia.util.Mathf;
+import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.Vec3d;
@@ -67,6 +69,8 @@ public class HowitzerImpactAbility extends ActiveAbility implements ITickAbility
             return;
 
         createOverlaySpeeds();
+        normal = new Vec3d(Math.random(), Math.random(), Math.random());
+        pos = getEntity().getPos();
         this.phase = 0;
     }
 
@@ -82,17 +86,24 @@ public class HowitzerImpactAbility extends ActiveAbility implements ITickAbility
         return cooldown;
     }
 
+    private Vec3d normal;
+    private Vec3d pos;
+
     private void risePhase() {
         if (phase != 0)
             return;
 
         ServerWorld world = (ServerWorld) getEntity().getWorld();
-        Vec3d pos = getEntity().getPos().add(getEntity().getRotationVecClient().normalize().multiply(15));
 
-        tornadoBody(world, pos, phase1Ticks * TORNADO_SPEED);
-        tornadoOverlay(world, pos, phase1Ticks * TORNADO_SPEED);
+//        tornadoBody(world, pos, phase1Ticks * TORNADO_SPEED);
+//        tornadoOverlay(world, pos, phase1Ticks * TORNADO_SPEED);
 
-        if (phase1Ticks++ >= 200) {
+        // DrawParticles.inCircle(world, pos, normal, 5, phase1Ticks, 15, ParticleTypes.CLOUD);
+        DrawParticles.inVortex(world, pos, new Vec3d(1, 0, 0), 5, phase1Ticks * 3, 10, 4, 0.25f, 5, ParticleTypes.CLOUD, Vec3d.ZERO, 1, 0);
+        DrawParticles.inVortex(world, pos, new Vec3d(1, 0, 0), 5, phase1Ticks * 3, 10, 4, 0.25f, 10, ParticleTypes.LARGE_SMOKE, Vec3d.ZERO, 1, 0);
+        DrawParticles.inVortex(world, pos, new Vec3d(1, 0, 0), 5, phase1Ticks * 3, 10, 4, 0.25f, 20, ParticleTypes.FLAME, Vec3d.ZERO, 1, 0);
+
+        if (phase1Ticks++ >= 2000) {
             phase = -1;
             phase1Ticks = 0;
         }

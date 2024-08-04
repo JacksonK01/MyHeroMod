@@ -11,15 +11,29 @@ import java.util.List;
 public abstract class ActiveAbility extends Ability implements IActiveAbility {
 
     private final HashSet<AbilityCategory> categories;
+    private final HashSet<AbilityCategory> blockingState;
 
     public ActiveAbility(@NotNull IAbilityUser user, @NotNull String name, @NotNull String description, @NotNull AbilityCategory... categories) {
         super(user, name, description);
+
         this.categories = new HashSet<>(List.of(categories));
+        this.blockingState = new HashSet<>();
     }
 
     @Override
     public @NotNull HashSet<AbilityCategory> getCategories() {
         return categories;
+    }
+
+    @Override
+    public @NotNull HashSet<AbilityCategory> getBlockingState() {
+        return blockingState;
+    }
+
+    @Override
+    public void setBlockingState(@NotNull AbilityCategory... categories) {
+        blockingState.clear();
+        blockingState.addAll(List.of(categories));
     }
 
 }
