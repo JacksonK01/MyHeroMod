@@ -14,6 +14,7 @@ import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.whir
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.whirlwind.TornadoAbility;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.whirlwind.WindBladeAbility;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.whirlwind.WindFlyAbility;
+import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.hchh.cold.IceWallAbility;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -36,7 +37,7 @@ public final class AbilitySets {
     public static final Function<IAbilityUser, IAbilitySet> RIFLE = registerAbilitySet("rifle", (u) -> new AbilitySet());
 
     public static final Function<IAbilityUser, IAbilitySet> HCHH_HOT = registerAbilitySet("hchh_hot", (u) -> new AbilitySet());
-    public static final Function<IAbilityUser, IAbilitySet> HCHH_COLD = registerAbilitySet("hchh_cold", (u) -> new AbilitySet(new IceShootAbility(u), new IceSnowflakeAbility(u), new IceBeamAbility(u)));
+    public static final Function<IAbilityUser, IAbilitySet> HCHH_COLD = registerAbilitySet("hchh_cold", (u) -> new AbilitySet(new IceShootAbility(u), new IceSnowflakeAbility(u), new IceBeamAbility(u), new IceWallAbility(u)));
 
     public static final Function<IAbilityUser, IAbilitySet> WHIRL_WIND = registerAbilitySet("whirlwind", (u) -> new AbilitySet(new WindBladeAbility(u), new TornadoAbility(u), new GaleUpliftAbility(u), new WindFlyAbility(u)));
 
