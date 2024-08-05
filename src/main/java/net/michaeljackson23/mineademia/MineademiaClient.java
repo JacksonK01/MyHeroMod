@@ -1,6 +1,7 @@
 package net.michaeljackson23.mineademia;
 
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.michaeljackson23.mineademia.animations.AnimationRegister;
 import net.michaeljackson23.mineademia.armor.CustomArmorModelRenderer;
 import net.michaeljackson23.mineademia.blocks.BlockRegister;
@@ -11,7 +12,9 @@ import net.michaeljackson23.mineademia.networking.Networking;
 import net.michaeljackson23.mineademia.particles.ParticleRegister;
 import net.michaeljackson23.mineademia.quirk.ClientQuirkTicks;
 import net.michaeljackson23.mineademia.quirk.feature.QuirkFeatureRenderer;
+import net.minecraft.block.Block;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.render.RenderLayer;
 
 public class MineademiaClient implements ClientModInitializer {
 
@@ -25,6 +28,7 @@ public class MineademiaClient implements ClientModInitializer {
         CustomArmorModelRenderer.register();
         QuirkFeatureRenderer.register();
         BlockRegister.render();
+        BlockRenderLayerMap.INSTANCE.putBlock(BlockRegister.QUIRK_ICE_SPIKE, RenderLayer.getCutout());
         Keybinds.keybindActions();
         EntityRegister.registerModels();
         QuirkHud.register();

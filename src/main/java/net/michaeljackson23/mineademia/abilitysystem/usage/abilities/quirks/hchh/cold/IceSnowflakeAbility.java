@@ -13,7 +13,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 
-public class IceSnowflakeAbility extends ActiveAbility implements ICooldownAbility {
+public class IceSnowflakeAbility extends ActiveAbility implements ICooldownAbility{
 
     private final Cooldown cooldown;
 

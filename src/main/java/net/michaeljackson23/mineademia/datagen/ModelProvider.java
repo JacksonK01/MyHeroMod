@@ -5,9 +5,9 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
 import net.michaeljackson23.mineademia.blocks.BlockRegister;
 import net.michaeljackson23.mineademia.blocks.quirkice.QuirkIceSpikeBlock;
 import net.michaeljackson23.mineademia.items.ItemRegister;
-import net.minecraft.data.client.BlockStateModelGenerator;
-import net.minecraft.data.client.ItemModelGenerator;
-import net.minecraft.data.client.Models;
+import net.minecraft.block.enums.Thickness;
+import net.minecraft.data.client.*;
+import net.minecraft.state.property.Properties;
 
 public class ModelProvider extends FabricModelProvider {
     public ModelProvider(FabricDataOutput output) {
@@ -18,12 +18,25 @@ public class ModelProvider extends FabricModelProvider {
     public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
         blockStateModelGenerator.registerSimpleCubeAll(BlockRegister.QUIRK_ICE);
         blockStateModelGenerator.registerSimpleCubeAll(BlockRegister.LASTING_QUIRK_ICE);
-        blockStateModelGenerator.registerTintableCrossBlockStateWithStages(BlockRegister.QUIRK_ICE_SPIKE, BlockStateModelGenerator.TintType.NOT_TINTED, QuirkIceSpikeBlock.MAX_GROWTH, 0, 1, 2, 3, 4, 5);
+        registerQuirkIceSpike(blockStateModelGenerator);
 
     }
 
     @Override
     public void generateItemModels(ItemModelGenerator itemModelGenerator) {
         itemModelGenerator.register(ItemRegister.quirkTablet, Models.GENERATED);
+    }
+    private void registerQuirkIceSpike(BlockStateModelGenerator blockStateModelGenerator) {
+        BlockStateVariantMap.SingleProperty<Thickness> property = BlockStateVariantMap.create(Properties.THICKNESS);
+        for (Thickness thickness : Thickness.values()) {
+            property.register(thickness, getQuirkIceSpikeVariant(thickness, blockStateModelGenerator));
+        }
+        blockStateModelGenerator.blockStateCollector.accept(VariantsBlockStateSupplier.create(BlockRegister.QUIRK_ICE_SPIKE).coordinate(property));
+    }
+
+    public final BlockStateVariant getQuirkIceSpikeVariant(Thickness thickness, BlockStateModelGenerator blockStateModelGenerator) {
+        String string = "_" + thickness.asString();
+        TextureMap textureMap = TextureMap.cross(TextureMap.getSubId(BlockRegister.QUIRK_ICE_SPIKE, string));
+        return BlockStateVariant.create().put(VariantSettings.MODEL, Models.CROSS.upload(BlockRegister.QUIRK_ICE_SPIKE, string, textureMap, blockStateModelGenerator.modelCollector));
     }
 }

@@ -8,6 +8,8 @@ import net.michaeljackson23.mineademia.blocks.quirkice.QuirkIceSpikeBlock;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.MapColor;
+import net.minecraft.block.enums.Instrument;
+import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.item.BlockItem;
 import net.minecraft.registry.Registries;
@@ -18,7 +20,8 @@ import net.minecraft.util.Identifier;
 public class BlockRegister {
     public static final QuirkIceBlock QUIRK_ICE = new QuirkIceBlock(AbstractBlock.Settings.create().mapColor(MapColor.PALE_PURPLE).slipperiness(0.98f).ticksRandomly().strength(0.5f).sounds(BlockSoundGroup.GLASS).nonOpaque().solidBlock(Blocks::never), 100);
     public static final QuirkIceBlock LASTING_QUIRK_ICE = new QuirkIceBlock(AbstractBlock.Settings.create().mapColor(MapColor.PALE_PURPLE).slipperiness(0.98f).ticksRandomly().strength(0.5f).sounds(BlockSoundGroup.GLASS).nonOpaque().solidBlock(Blocks::never), 200);
-    public static final QuirkIceSpikeBlock QUIRK_ICE_SPIKE = new QuirkIceSpikeBlock(AbstractBlock.Settings.create().mapColor(MapColor.PALE_PURPLE).slipperiness(0.98f).ticksRandomly().strength(0.5f).sounds(BlockSoundGroup.GLASS).nonOpaque().solidBlock(Blocks::never));
+
+    public static final QuirkIceSpikeBlock QUIRK_ICE_SPIKE = new QuirkIceSpikeBlock(AbstractBlock.Settings.create().nonOpaque().mapColor(MapColor.PALE_PURPLE).strength(0.5f).noCollision().sounds(BlockSoundGroup.GLASS).strength(1f, 1.0f).dynamicBounds());
 
     public static void register() {
         Registry.register(Registries.BLOCK, new Identifier(Mineademia.MOD_ID, "quirk_ice"), QUIRK_ICE);

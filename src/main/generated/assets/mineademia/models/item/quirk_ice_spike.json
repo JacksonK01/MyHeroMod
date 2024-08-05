@@ -1,6 +1,3 @@
 {
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "mineademia:item/quirk_ice_spike"
-  }
+  "parent": "mineademia:block/quirk_ice_spike"
 }
