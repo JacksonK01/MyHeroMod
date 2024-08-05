@@ -65,6 +65,6 @@ public class RaycastToEntity {
     }
 
     public interface OnStepAction {
-        void action(ServerPlayerEntity player, double x, double y, double z);
+        void action(LivingEntity livingEntity, double x, double y, double z);
     }
 }

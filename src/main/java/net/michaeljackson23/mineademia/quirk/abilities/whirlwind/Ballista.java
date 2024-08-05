@@ -26,7 +26,7 @@ public class Ballista extends BasicAbility {
         }
         if(timer > 15) {
             EntityHitResult entityHitResult = RaycastToEntity.raycast(player, 15, (player2, x, y, z) -> {
-                player2.getServerWorld().spawnParticles(ParticleTypes.CLOUD,
+                player.getServerWorld().spawnParticles(ParticleTypes.CLOUD,
                         x, y, z,
                         10, 1, 1, 1, 0.05);
             });
