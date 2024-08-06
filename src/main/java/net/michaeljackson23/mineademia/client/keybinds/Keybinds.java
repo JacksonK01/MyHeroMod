@@ -4,9 +4,12 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.michaeljackson23.mineademia.client.gui.quirkmenu.QuirkMenuGui;
+import net.michaeljackson23.mineademia.client.gui.quirktablet.MockQuirkTabletGui;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.text.Text;
 import net.minecraft.util.hit.EntityHitResult;
 import org.lwjgl.glfw.GLFW;
 
@@ -27,6 +30,7 @@ public class Keybinds {
 
     private static KeyBinding keyKickCombo;
     private static KeyBinding keyAerialCombo;
+    private static KeyBinding quirkMenu;
 
 
 
@@ -85,6 +89,13 @@ public class Keybinds {
                 "key.mineademia.mineademia"
         ));
 
+        quirkMenu = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+                "key.mineademia.quirk_menu",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_O,
+                "key.mineademia.mineademia"
+        ));
+
 
         // TODO REMOVE
         keyTest = (HoldableKeybind) KeyBindingHelper.registerKeyBinding(new HoldableKeybind(
@@ -115,6 +126,12 @@ public class Keybinds {
                 if (keyDodge.wasPressed()) {
                     PacketByteBuf buf = PacketByteBufs.create();
                     ClientPlayNetworking.send(ABILITY_DODGE, buf);
+                }
+
+                if(quirkMenu.wasPressed()) {
+                    QuirkMenuGui quirkMenuGui = new QuirkMenuGui(Text.literal("Quirk Menu"));
+                    quirkMenuGui.init(client, 50, 50);
+                    client.setScreenAndRender(quirkMenuGui);
                 }
 
                 keyTest.holdAndReleaseAction(ABILITY_TEST); // TODO REMOVE!!!
