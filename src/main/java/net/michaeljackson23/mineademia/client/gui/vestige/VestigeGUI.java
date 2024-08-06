@@ -1,11 +1,10 @@
-package net.michaeljackson23.mineademia.gui.vestige;
+package net.michaeljackson23.mineademia.client.gui.vestige;
 
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.michaeljackson23.mineademia.Mineademia;
 import net.michaeljackson23.mineademia.networking.Networking;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.gui.widget.ButtonWidget;

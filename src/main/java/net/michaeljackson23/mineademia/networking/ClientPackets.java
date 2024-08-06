@@ -9,26 +9,19 @@ import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationAccess;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationRegistry;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.michaeljackson23.mineademia.Mineademia;
-import net.michaeljackson23.mineademia.gui.quirktablet.MockQuirkTabletGui;
-import net.michaeljackson23.mineademia.gui.quirktablet.QuirkTabletGui;
-import net.michaeljackson23.mineademia.gui.vestige.VestigeGUI;
+import net.michaeljackson23.mineademia.abilitysystem.networking.PlayerAbilityUserPacketS2C;
+import net.michaeljackson23.mineademia.client.ClientCache;
+import net.michaeljackson23.mineademia.client.gui.quirktablet.MockQuirkTabletGui;
+import net.michaeljackson23.mineademia.client.gui.quirktablet.QuirkTabletGui;
+import net.michaeljackson23.mineademia.client.gui.vestige.VestigeGUI;
 import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkData;
 import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkDataAccessors;
 import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkDataPacket;
-import net.michaeljackson23.mineademia.util.AreaOfEffect;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.option.Perspective;
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.WorldRenderer;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.Text;
@@ -146,26 +139,7 @@ public class ClientPackets {
         }
     }
 
-    public static void drawBox(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
-        double x1 = buf.readDouble();
-        double y1 = buf.readDouble();
-        double z1 = buf.readDouble();
-        double x2 = buf.readDouble();
-        double y2 = buf.readDouble();
-        double z2 = buf.readDouble();
-
-        client.execute(() -> {
-            VertexConsumerProvider.Immediate vertexConsumers = client.getBufferBuilders().getEntityVertexConsumers();
-            VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getLines());
-
-            drawBox(vertexConsumer, x1, y1, z1, x2, y2, z2, 1f, 1f, 1f, 1f);
-
-            vertexConsumers.draw();
-        });
-    }
-
-    public static void drawBox(VertexConsumer vertexConsumer, double x1, double y1, double z1, double x2, double y2, double z2, float red, float green, float blue, float alpha) {
-        MatrixStack matrixStack = new MatrixStack();
-        WorldRenderer.drawBox(matrixStack, vertexConsumer, x1, y1, z1, x2, y2, z2, red, green, blue, alpha, red, green, blue);
+    public static void playerAbilityUser(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
+        ClientCache.setData(PlayerAbilityUserPacketS2C.decode(buf));
     }
 }

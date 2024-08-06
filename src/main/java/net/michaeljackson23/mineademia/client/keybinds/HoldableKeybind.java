@@ -1,4 +1,4 @@
-package net.michaeljackson23.mineademia.keybinds;
+package net.michaeljackson23.mineademia.client.keybinds;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

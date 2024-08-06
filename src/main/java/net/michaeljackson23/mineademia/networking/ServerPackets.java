@@ -8,7 +8,7 @@ import net.michaeljackson23.mineademia.abilitysystem.intr.ability.IActiveAbility
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IPlayerAbilityUser;
 import net.michaeljackson23.mineademia.abilitysystem.usage.AbilitySets;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.DodgeAbility;
-import net.michaeljackson23.mineademia.keybinds.Keybinds;
+import net.michaeljackson23.mineademia.client.keybinds.Keybinds;
 import net.michaeljackson23.mineademia.quirk.Quirk;
 import net.michaeljackson23.mineademia.quirk.QuirkInitialize;
 import net.michaeljackson23.mineademia.quirk.abilities.AbilityBase;
@@ -24,7 +24,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.Vec3d;
 
-import static net.michaeljackson23.mineademia.keybinds.Keybinds.DASH_STRENGHT;
+import static net.michaeljackson23.mineademia.client.keybinds.Keybinds.DASH_STRENGHT;
 
 public class ServerPackets {
 

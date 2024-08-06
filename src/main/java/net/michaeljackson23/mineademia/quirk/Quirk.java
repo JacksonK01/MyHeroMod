@@ -36,7 +36,7 @@ public abstract class Quirk {
      *     This holds all the abilities. The current max is 5 abilities per quirk.
      *     The index of the ability corresponds to the keybind. The Ability One keybind corresponds
      *     with abilities[0] and Ability Two keybind with abilities[1].
-     *     See {@link net.michaeljackson23.mineademia.keybinds.Keybinds} for more on keybinds.
+     *     See {@link net.michaeljackson23.mineademia.client.keybinds.Keybinds} for more on keybinds.
      * </p>
      */
     private AbilityBase[] abilities = new AbilityBase[5];

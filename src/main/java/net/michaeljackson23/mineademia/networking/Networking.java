@@ -3,6 +3,7 @@ package net.michaeljackson23.mineademia.networking;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.michaeljackson23.mineademia.Mineademia;
+import net.michaeljackson23.mineademia.abilitysystem.networking.PlayerAbilityUserPacketS2C;
 import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkDataPacket;
 import net.minecraft.util.Identifier;
 
@@ -75,6 +76,7 @@ public class Networking {
         ClientPlayNetworking.registerGlobalReceiver(DANGER_SENSE, ClientPackets::makeAnEntityGlow);
         ClientPlayNetworking.registerGlobalReceiver(WIND_FLY_DESCENT_VELOCITY, ClientPackets::windFlyDescentVelocity);
         ClientPlayNetworking.registerGlobalReceiver(COMBO_DAMAGE, ClientPackets::comboDamage);
-        ClientPlayNetworking.registerGlobalReceiver(DRAW_BOX, ClientPackets::drawBox);
+
+        ClientPlayNetworking.registerGlobalReceiver(PlayerAbilityUserPacketS2C.PLAYER_ABILITY_USER_PACKET, ClientPackets::playerAbilityUser);
     }
 }

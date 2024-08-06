@@ -9,6 +9,7 @@ import net.michaeljackson23.mineademia.abilitysystem.intr.ability.extras.ITickAb
 import net.michaeljackson23.mineademia.abilitysystem.intr.ability.passive.IEventPassiveAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IAbilityUser;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IPlayerAbilityUser;
+import net.michaeljackson23.mineademia.abilitysystem.networking.PlayerAbilityUserPacketS2C;
 import net.michaeljackson23.mineademia.abilitysystem.usage.AbilitySets;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
@@ -64,6 +65,7 @@ public final class AbilityManager {
             cooldownAbility.getCooldown().onTick();
 
         regenUserStamina();
+        sendUserPacket();
     }
 
     public static void triggerEvents(Class<?> eventType) {
@@ -87,6 +89,8 @@ public final class AbilityManager {
             userStaminaRegen.put(user, 0); // not absent cause if you rejoin that SHOULD reset
         } else
             user.setEntity(player);
+
+        PlayerAbilityUserPacketS2C.sendToClient(user);
 
         triggerEvents(ServerPlayConnectionEvents.Join.class);
     }
@@ -112,4 +116,9 @@ public final class AbilityManager {
         }
     }
 
+    private static void sendUserPacket() {
+        for (IPlayerAbilityUser user : playerUsers.values()) {
+            PlayerAbilityUserPacketS2C.sendToClient((PlayerAbilityUser) user);
+        }
+    }
 }
