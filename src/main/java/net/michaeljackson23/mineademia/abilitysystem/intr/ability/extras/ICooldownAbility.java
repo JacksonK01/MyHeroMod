@@ -24,4 +24,8 @@ public interface ICooldownAbility extends IActiveAbility {
         return getCooldown().isReadyAndReset();
     }
 
+    default boolean shouldDisplayOnHud() {
+        return true;
+    }
+
 }

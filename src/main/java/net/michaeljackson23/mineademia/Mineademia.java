@@ -76,6 +76,7 @@ public class Mineademia implements ModInitializer {
 		ServerTickEvents.START_SERVER_TICK.register(AbilityManager::onServerTick);
 		ServerPlayConnectionEvents.JOIN.register(AbilityManager::onPlayerJoin);
 		ServerLivingEntityEvents.ALLOW_DAMAGE.register(AbilityEvents::onEntityDamage);
+		ServerLivingEntityEvents.AFTER_DEATH.register(AbilityEvents::onEntityDeath);
 	}
 
 }

@@ -104,7 +104,7 @@ public class ApShotAbility extends HoldAbility implements ICooldownAbility {
         float partialHoldTime = (float) ticks / MAX_TICKS;
         float delta = Mathf.lerp(0, MAX_CHARGE_SIZE, partialHoldTime);
 
-        world.spawnParticles(ParticleRegister.EXPLOSION_QUIRK_PARTICLES, pos.x, pos.y, pos.z , 10, delta, delta, delta, 0);
+        world.spawnParticles(ParticleRegister.LAVA_POP_NO_GRAVITY, pos.x, pos.y, pos.z , 10, delta, delta, delta, 0);
 
         return ticks++ <= MAX_TICKS;
     }
@@ -138,7 +138,7 @@ public class ApShotAbility extends HoldAbility implements ICooldownAbility {
             float alpha = ((steps++ * PARTICLE_SPACING) / MAX_DISTANCE);
             float delta = Mathf.lerp(MIN_SIZE, maxSize, alpha);
 
-            world.spawnParticles(ParticleRegister.EXPLOSION_QUIRK_PARTICLES, current.x, current.y, current.z , 100, delta, delta, delta, 0);
+            world.spawnParticles(ParticleRegister.LAVA_POP_NO_GRAVITY, current.x, current.y, current.z , 100, delta, delta, delta, 0);
 
             Vec3d minBox = current.subtract(delta, delta, delta);
             Vec3d maxBox = current.add(delta, delta, delta);

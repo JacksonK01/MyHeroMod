@@ -14,4 +14,8 @@ public final class AbilityEvents {
         return true;
     }
 
+    public static void onEntityDeath(LivingEntity entity, DamageSource damageSource) {
+
+    }
+
 }

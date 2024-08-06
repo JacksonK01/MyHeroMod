@@ -11,26 +11,31 @@ import java.util.*;
 public class AbilitySet implements IAbilitySet {
 
     private final HashSet<IAbility> innerSet;
+    private final String name;
 
-    public AbilitySet() {
+    public AbilitySet(@NotNull String name) {
+        this.name = name;
         this.innerSet = new HashSet<>();
     }
 
-    public AbilitySet(IAbility... abilities) {
+    public AbilitySet(@NotNull String name, @NotNull IAbility... abilities) {
+        this.name = name;
         this.innerSet = new HashSet<>(List.of(abilities));
     }
 
-    public AbilitySet(IAbilitySet set) {
+    public AbilitySet(@NotNull String name, @NotNull IAbilitySet set) {
+        this.name = name;
         this.innerSet = new HashSet<>(set);
     }
 
-    public AbilitySet(Collection<IAbilitySet> sets) {
+    public AbilitySet(@NotNull Collection<IAbilitySet> sets) {
+        this.name = chainNames(sets);
         this.innerSet = new HashSet<>();
 
         for (IAbilitySet set : sets)
             this.innerSet.addAll(set);
     }
-    public AbilitySet(IAbilitySet... sets) {
+    public AbilitySet(@NotNull IAbilitySet... sets) {
         this(List.of(sets));
     }
 
@@ -71,12 +76,12 @@ public class AbilitySet implements IAbilitySet {
     }
 
     @Override
-    public boolean add(IAbility ability) {
+    public boolean add(@NotNull IAbility ability) {
         return innerSet.add(ability);
     }
 
     @Override
-    public boolean remove(Object o) {
+    public boolean remove(@NotNull Object o) {
         return innerSet.remove(o);
     }
 
@@ -106,7 +111,7 @@ public class AbilitySet implements IAbilitySet {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(@Nullable Object o) {
         return innerSet.equals(o);
     }
 
@@ -116,9 +121,29 @@ public class AbilitySet implements IAbilitySet {
     }
 
     @Override
+    public @NotNull String getName() {
+        return name;
+    }
+
+    @Override
     public <T extends IActiveAbility> @Nullable T getByType(@NotNull Class<T> type) {
         Optional<IAbility> result = innerSet.stream().filter((a) -> a.getClass().equals(type)).findFirst();
         return result.map(type::cast).orElse(null);
+    }
+
+    private static String chainNames(Collection<IAbilitySet> sets) {
+        StringBuilder builder = new StringBuilder();
+
+        for (IAbilitySet set : sets) {
+            String name = set.getName();
+
+            if (!name.isBlank())
+                builder.append(name).append(" & ");
+        }
+        if (!builder.isEmpty())
+            builder.delete(builder.length() - 3, builder.length());
+
+        return builder.toString();
     }
 
 }

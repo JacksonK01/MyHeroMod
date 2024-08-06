@@ -25,19 +25,19 @@ public final class AbilitySets {
 
     private static final HashMap<String, Function<IAbilityUser, IAbilitySet>> abilitySetMap = new HashMap<>();
 
-    public static final Function<IAbilityUser, IAbilitySet> GENERAL = registerAbilitySet("general", (u) -> new AbilitySet(new DodgeAbility(u)));
+    public static final Function<IAbilityUser, IAbilitySet> GENERAL = registerAbilitySet("general", (u) -> new AbilitySet("", new DodgeAbility(u)));
 
 
-    public static final Function<IAbilityUser, IAbilitySet> OFA = registerAbilitySet("ofa", (u) -> new AbilitySet());
+    public static final Function<IAbilityUser, IAbilitySet> OFA = registerAbilitySet("ofa", (u) -> new AbilitySet("One For All"));
 
-    public static final Function<IAbilityUser, IAbilitySet> EXPLOSION = registerAbilitySet("explosion", (u) -> new AbilitySet(new ExplosiveSpeedAbility(u), new ApShotAbility(u), new HowitzerImpactAbility(u)));
+    public static final Function<IAbilityUser, IAbilitySet> EXPLOSION = registerAbilitySet("explosion", (u) -> new AbilitySet("Explosion", new ExplosiveSpeedAbility(u), new ApShotAbility(u), new HowitzerImpactAbility(u)));
 
-    public static final Function<IAbilityUser, IAbilitySet> RIFLE = registerAbilitySet("rifle", (u) -> new AbilitySet());
+    public static final Function<IAbilityUser, IAbilitySet> RIFLE = registerAbilitySet("rifle", (u) -> new AbilitySet("Rifle"));
 
-    public static final Function<IAbilityUser, IAbilitySet> HCHH_HOT = registerAbilitySet("hchh_hot", (u) -> new AbilitySet());
-    public static final Function<IAbilityUser, IAbilitySet> HCHH_COLD = registerAbilitySet("hchh_cold", (u) -> new AbilitySet(new IceShootAbility(u), new IceSnowflakeAbility(u), new IceBeamAbility(u),  new IceSpikeAbility(u), new IceWallAbility(u)));
+    public static final Function<IAbilityUser, IAbilitySet> HCHH_HOT = registerAbilitySet("hchh_hot", (u) -> new AbilitySet("Half Cold Half Hot"));
+    public static final Function<IAbilityUser, IAbilitySet> HCHH_COLD = registerAbilitySet("hchh_cold", (u) -> new AbilitySet("Half Cold Half Hot", new IceShootAbility(u), new IceSnowflakeAbility(u), new IceBeamAbility(u),  new IceSpikeAbility(u), new IceWallAbility(u)));
 
-    public static final Function<IAbilityUser, IAbilitySet> WHIRL_WIND = registerAbilitySet("whirlwind", (u) -> new AbilitySet(new WindBladeAbility(u), new TornadoAbility(u), new GaleUpliftAbility(u), new BallistaAbility(u) ,new WindFlyAbility(u)));
+    public static final Function<IAbilityUser, IAbilitySet> WHIRLWIND = registerAbilitySet("whirlwind", (u) -> new AbilitySet("Whirlwind", new WindBladeAbility(u), new TornadoAbility(u), new GaleUpliftAbility(u), new BallistaAbility(u) ,new WindFlyAbility(u)));
 
     private static Function<IAbilityUser, IAbilitySet> registerAbilitySet(String key, Function<IAbilityUser, IAbilitySet> abilitySetFunction) {
         abilitySetMap.put(key, abilitySetFunction);
@@ -55,7 +55,7 @@ public final class AbilitySets {
 
     @NotNull
     public static Function<IAbilityUser, IAbilitySet> getAbilitySetOrEmpty(@NotNull String name) {
-        return abilitySetMap.getOrDefault(name, (u) -> new AbilitySet());
+        return abilitySetMap.getOrDefault(name, (u) -> new AbilitySet("Unknown"));
     }
 
 }

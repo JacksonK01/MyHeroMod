@@ -8,6 +8,7 @@ import net.michaeljackson23.mineademia.abilitysystem.impl.abilityyser.PlayerAbil
 import net.michaeljackson23.mineademia.abilitysystem.intr.Cooldown;
 import net.michaeljackson23.mineademia.abilitysystem.intr.ability.extras.ICooldownAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityset.IAbilityMap;
+import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IPlayerAbilityUser;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
@@ -40,13 +41,15 @@ public class PlayerAbilityUserPacketS2C {
         this.user = user;
     }
 
-    public static PacketByteBuf encode(@NotNull PlayerAbilityUser user) {
+    public static PacketByteBuf encode(@NotNull IPlayerAbilityUser user) {
         String[] abilities;
         String[] descriptions;
+
         int stamina;
         int maxStamina;
         int[] cooldowns;
         int[] maxCooldowns;
+
         LinkedList<Integer> cooldownsList = new LinkedList<>();
         LinkedList<Integer> maxCooldownsList = new LinkedList<>();
 
@@ -76,13 +79,16 @@ public class PlayerAbilityUserPacketS2C {
         maxCooldowns = maxCooldownsList.stream().mapToInt(Integer::intValue).toArray();
 
         PacketByteBuf buf = PacketByteBufs.create();
+
         writeStringArray(buf, abilities);
         writeStringArray(buf, descriptions);
+
         buf.writeInt(stamina);
         buf.writeInt(maxStamina);
         buf.writeIntArray(cooldowns);
         buf.writeIntArray(maxCooldowns);
         buf.writeUuid(user.getEntity().getUuid());
+
         return buf;
     }
 
@@ -90,15 +96,16 @@ public class PlayerAbilityUserPacketS2C {
         return new PlayerAbilityUserPacketS2C(readStringArray(buf), readStringArray(buf), buf.readInt(), buf.readInt(), buf.readIntArray(), buf.readIntArray(), buf.readUuid());
     }
 
-    public static void sendToClient(@NotNull PlayerAbilityUser user) {
+    public static void sendToClient(@NotNull IPlayerAbilityUser user) {
         PacketByteBuf buf = encode(user);
         ServerPlayNetworking.send(user.getEntity(), PLAYER_ABILITY_USER_PACKET, buf);
     }
 
     //Sends AbilityUser data to every client. Useful for some cases.
-    public static void sendProxy(@NotNull PlayerAbilityUser user) {
+    public static void sendProxy(@NotNull IPlayerAbilityUser user) {
         PacketByteBuf buf = encode(user);
         ServerPlayerEntity serverPlayer = user.getEntity();
+
         for (ServerPlayerEntity otherPlayer : Objects.requireNonNull(serverPlayer.getServer()).getPlayerManager().getPlayerList()) {
             ServerPlayNetworking.send(otherPlayer, PLAYER_ABILITY_USER_PACKET, buf);
         }

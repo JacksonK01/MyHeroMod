@@ -22,12 +22,17 @@ import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.option.Perspective;
+import net.minecraft.client.render.entity.LivingEntityRenderer;
+import net.minecraft.client.world.ClientWorld;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.UUID;
 
 public class ClientPackets {
@@ -116,10 +121,35 @@ public class ClientPackets {
             client.setScreenAndRender(vestigeGUI);
         });
     }
-    public static void makeAnEntityGlow(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
-        ClientPlayerEntity player = client.player;
-        if(player != null) {
+    public static void setEntitiesGlow(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
+        ClientWorld world = client.world;
 
+        Method method = null;
+        try {
+            method = Entity.class.getDeclaredMethod("setFlag", int.class, boolean.class);
+            method.setAccessible(true);
+        } catch (NoSuchMethodException e) {
+            return;
+        }
+
+        if (world != null) {
+            int[] ids = buf.readIntArray();
+            boolean isGlowing = buf.readBoolean();
+
+            if (ids != null) {
+                for (int id : ids) {
+                    Entity entity = world.getEntityById(id);
+
+                    if (entity != null) {
+                        try {
+                            method.invoke(entity, 6, isGlowing);
+                        } catch (IllegalAccessException | InvocationTargetException e) {
+                            continue;
+                        }
+                        // entity.setGlowing(isGlowing);
+                    }
+                }
+            }
         }
     }
     public static void windFlyDescentVelocity(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {

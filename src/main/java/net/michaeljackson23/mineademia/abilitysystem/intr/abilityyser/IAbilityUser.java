@@ -43,6 +43,10 @@ public interface IAbilityUser {
     int getMaxStamina();
     int getStamina();
 
+    default boolean hasStamina(int stamina) {
+        return getStamina() >= stamina;
+    }
+
     void setStamina(int amount);
     default void offsetStamina(int offset) {
         setStamina(getStamina() + offset);

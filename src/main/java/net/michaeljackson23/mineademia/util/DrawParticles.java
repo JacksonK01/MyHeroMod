@@ -10,7 +10,17 @@ public final class DrawParticles {
     private DrawParticles() { }
 
     public static final Vec3d UP = new Vec3d(0, 1, 0);
+    public static final Vec3d POS_Z = new Vec3d(0, 0, 1);
 
+
+    public static Vec3d getOrthogonal(@NotNull Vec3d normal) {
+        if (normal == Vec3d.ZERO)
+            return Vec3d.ZERO;
+        else if (normal.x == 0 && normal.z == 0)
+            return POS_Z;
+        else
+            return new Vec3d(normal.z, 0, -normal.x).normalize();
+    }
 
     // CIRCLE SHAPE
 
@@ -18,9 +28,12 @@ public final class DrawParticles {
         count = Math.max(1, count);
         speed = Math.max(0, speed);
 
+        if (normal == Vec3d.ZERO)
+            normal = UP;
+
         normal = normal.normalize();
 
-        Vec3d v1 = new Vec3d(normal.z, 0, -normal.x).normalize();
+        Vec3d v1 = getOrthogonal(normal);
         Vec3d v2 = v1.crossProduct(normal);
 
         for (int i = 0; i < 360; i += density) {
@@ -96,12 +109,11 @@ public final class DrawParticles {
         count = Math.max(1, count);
         speed = Math.max(0, speed);
 
-        // if (normal == Vec3d.ZERO)
-        //    normal = UP;
-
+        if (normal == Vec3d.ZERO)
+            normal = UP;
         normal = normal.normalize();
 
-        Vec3d v1 = new Vec3d(normal.z, 0, -normal.x).normalize();
+        Vec3d v1 = getOrthogonal(normal);
         Vec3d v2 = v1.crossProduct(normal);
 
         Vec3d currentCenter = center;
@@ -128,7 +140,7 @@ public final class DrawParticles {
         }
     }
 
-    private static float getVortexRadius(float partialHeight, @NotNull VortexRadius[] radiusMap) {
+    public static float getVortexRadius(float partialHeight, @NotNull VortexRadius[] radiusMap) {
         if (radiusMap.length == 0)
             return 1;
         else if (radiusMap.length == 1)
@@ -145,12 +157,15 @@ public final class DrawParticles {
                 float maxRange = nextPartial - currentPartial;
                 float valueInRange = partialHeight - currentPartial;
 
-                if (valueInRange == 0)
-                    return current.radius();
+//                if (valueInRange == 0)
+//                    return current.radius();
 
                 float partialRange = valueInRange / maxRange;
 
-                return Mathf.lerp(current.radius(), next.radius(), partialRange);
+                float radius = Mathf.lerp(current.radius(), next.radius(), partialRange);
+                // System.out.println(partialHeight + "(" + partialRange + ") ) " + radius);
+
+                return radius;
             }
         }
 
@@ -160,11 +175,25 @@ public final class DrawParticles {
 
     public record VortexRadius(float partialHeight, float radius) {
 
-            public VortexRadius(float partialHeight, float radius) {
-                this.partialHeight = Mathf.clamp(0, 1, partialHeight);
-                this.radius = Math.max(0, radius);
+        public VortexRadius(float partialHeight, float radius) {
+            this.partialHeight = Mathf.clamp(0, 1, partialHeight);
+            this.radius = Math.max(0, radius);
+        }
+
+        public static VortexRadius[] constant(float radius) {
+            return new VortexRadius[] { new VortexRadius(0, radius) };
+        }
+
+        public static VortexRadius[] addRandom(@NotNull VortexRadius[] radiusMap, float min, float max) {
+                VortexRadius[] newRadiusMap = new VortexRadius[radiusMap.length];
+
+            for (int i = 0; i < radiusMap.length; i++) {
+                newRadiusMap[i] = new VortexRadius(radiusMap[i].partialHeight, radiusMap[i].radius + Mathf.random(min, max));
             }
 
+            return newRadiusMap;
         }
+
+    }
 
 }

@@ -39,7 +39,7 @@ public class Networking {
     public static final Identifier FORCE_INTO_FIRST_PERSON = new Identifier(Mineademia.MOD_ID, "force_first_person");
     public static final Identifier COMBO_DAMAGE = new Identifier(Mineademia.MOD_ID, "combo_damage");
     public static final Identifier OPEN_VESTIGE_GUI = new Identifier(Mineademia.MOD_ID, "vestige_gui");
-    public static final Identifier DANGER_SENSE = new Identifier(Mineademia.MOD_ID, "danger_sense");
+    public static final Identifier GLOW_ENTITIES = new Identifier(Mineademia.MOD_ID, "glow_entities");
     public static final Identifier WIND_FLY_DESCENT_VELOCITY = new Identifier(Mineademia.MOD_ID, "wind_fly_descent_velocity");
     public static final Identifier DRAW_BOX = new Identifier(Mineademia.MOD_ID, "draw_box");
 
@@ -73,7 +73,7 @@ public class Networking {
         ClientPlayNetworking.registerGlobalReceiver(FORCE_INTO_THIRD_PERSON_FRONT, ClientPackets::forceThirdPersonFront);
         ClientPlayNetworking.registerGlobalReceiver(FORCE_INTO_FIRST_PERSON, ClientPackets::forceFirstPerson);
         ClientPlayNetworking.registerGlobalReceiver(OPEN_VESTIGE_GUI, ClientPackets::openVestigeGui);
-        ClientPlayNetworking.registerGlobalReceiver(DANGER_SENSE, ClientPackets::makeAnEntityGlow);
+        ClientPlayNetworking.registerGlobalReceiver(GLOW_ENTITIES, ClientPackets::setEntitiesGlow);
         ClientPlayNetworking.registerGlobalReceiver(WIND_FLY_DESCENT_VELOCITY, ClientPackets::windFlyDescentVelocity);
         ClientPlayNetworking.registerGlobalReceiver(COMBO_DAMAGE, ClientPackets::comboDamage);
 

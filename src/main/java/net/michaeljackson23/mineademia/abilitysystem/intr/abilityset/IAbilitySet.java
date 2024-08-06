@@ -12,6 +12,9 @@ import java.util.Set;
  */
 public interface IAbilitySet extends Set<IAbility> {
 
+    @NotNull
+    String getName();
+
     @Nullable
     <T extends IActiveAbility> T getByType(@NotNull Class<T> type);
 

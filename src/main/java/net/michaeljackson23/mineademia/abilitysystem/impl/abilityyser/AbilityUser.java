@@ -9,7 +9,6 @@ import net.michaeljackson23.mineademia.abilitysystem.intr.abilityset.IAbilitySet
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IAbilityUser;
 import net.michaeljackson23.mineademia.util.Mathf;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -37,10 +36,8 @@ public abstract class AbilityUser implements IAbilityUser {
     public <T extends IActiveAbility> void execute(@NotNull Class<T> type, boolean isKeyDown) {
         IActiveAbility ability = getAbility(type);
 
-        if (ability != null && canExecute(ability)) {
-            getEntity().sendMessage(Text.literal(  "Executes " + ability.getName()));
+        if (ability != null && canExecute(ability))
             ability.execute(isKeyDown);
-        }
     }
 
     @Override

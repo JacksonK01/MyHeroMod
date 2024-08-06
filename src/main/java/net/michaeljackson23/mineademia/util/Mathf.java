@@ -1,5 +1,7 @@
 package net.michaeljackson23.mineademia.util;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Random;
 
 public final class Mathf {
@@ -24,7 +26,19 @@ public final class Mathf {
     }
 
     public static float random(float min, float max) {
+        if (min > max)
+            return random(max, min);
+
         return r.nextFloat() * (max - min) + min;
+    }
+
+    public static float[] randomArray(float min, float max, int amount) {
+        float[] result = new float[amount];
+
+        for (int i = 0; i < amount; i++)
+            result[i] = random(min, max);
+
+        return result;
     }
 
 }

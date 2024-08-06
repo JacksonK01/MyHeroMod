@@ -9,28 +9,38 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashSet;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 public final class AffectAll<T extends Entity> {
 
     private final HashSet<T> entities;
 
-    private AffectAll(List<T> entities) {
+    private AffectAll(@NotNull List<T> entities) {
         this.entities = new HashSet<>(entities);
     }
 
-    public AffectAll<T> exclude(T entity) {
+    public AffectAll<T> exclude(@NotNull T entity) {
         entities.remove(entity);
         return this;
     }
 
-    public AffectAll<T> with(Consumer<T> action) {
+    public HashSet<T> getAll() {
+        return entities;
+    }
+
+    public AffectAll<T> with(@NotNull Consumer<T> action) {
         entities.forEach(action);
         return this;
     }
 
-    public AffectAll<T> withVelocity(Vec3d velocity, boolean set) {
+    public AffectAll<T> withVelocity(@NotNull Vec3d velocity, boolean set) {
         entities.forEach((e) -> affectWithVelocity(e, velocity, set));
+        return this;
+    }
+
+    public AffectAll<T> withVelocity(@NotNull Function<T, Vec3d> velocityFunction, boolean set) {
+        entities.forEach((e) -> affectWithVelocity(e, velocityFunction.apply(e), set));
         return this;
     }
 
