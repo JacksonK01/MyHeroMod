@@ -17,11 +17,9 @@ public class VestigeGUI extends Screen {
     private final int BACKGROUND_WIDTH = 192;
     private final int BACKGROUND_HEIGHT = 149;
 
-    // Button dimensions
     private final int BUTTON_WIDTH = 100;
     private final int BUTTON_HEIGHT = 20;
 
-    // These variables need to be initialized in the constructor because they use the screen dimensions
     private final ButtonWidget blackwhip;
     private final ButtonWidget smokescreen;
     private final ButtonWidget faJin;
@@ -82,7 +80,6 @@ public class VestigeGUI extends Screen {
 
     @Override
     protected void init() {
-        // Adjust button position to account for the position of the GUI window
         int guiLeft = (this.width - BACKGROUND_WIDTH) / 2;
         int guiTop = (this.height - BACKGROUND_HEIGHT) / 2;
 

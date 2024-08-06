@@ -26,33 +26,6 @@ public class MockQuirkTabletGui extends Screen {
 
     @Override
     protected void init() {
-//        none = ButtonWidget.builder(Text.literal("none"), button -> {
-//                    PacketByteBuf data = PacketByteBufs.create();
-//                    data.writeString("");
-//                    ClientPlayNetworking.send(Networking.MOCK_CHANGE_QUIRK_WITH_TABLET, data);
-//                })
-//                .dimensions(width / 2 - 205, 20, 200, 20)
-//                .tooltip(Tooltip.of(Text.literal("changes quirk")))
-//                .build();
-//
-//        hchh_ice = ButtonWidget.builder(Text.literal("HCHH ICE"), button -> {
-//                    PacketByteBuf data = PacketByteBufs.create();
-//                    data.writeString("hchh_cold");
-//                    ClientPlayNetworking.send(Networking.MOCK_CHANGE_QUIRK_WITH_TABLET, data);
-//                })
-//                .dimensions(width / 2 + 5, 20, 200, 20)
-//                .tooltip(Tooltip.of(Text.literal("changes quirk")))
-//                .build();
-
-//        explosion = ButtonWidget.builder(Text.literal("Explosion"), button -> {
-//                    PacketByteBuf data = PacketByteBufs.create();
-//                    data.writeString("explosion");
-//                    ClientPlayNetworking.send(Networking.MOCK_CHANGE_QUIRK_WITH_TABLET, data);
-//                })
-//                .dimensions(width / 2 - 205, 40, 200, 20)
-//                .tooltip(Tooltip.of(Text.literal("changes quirk")))
-//                .build();
-
         none = createButton("Quirkless", "", 0);
         hchh_ice = createButton("Half Cold Half Hot - Ice", "hchh_cold", 1);
         explosion = createButton("Explosion", "explosion", 2);

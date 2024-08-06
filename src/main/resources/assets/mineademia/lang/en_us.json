@@ -25,6 +25,7 @@
   "key.mineademia.dodge": "Dodge",
   "key.mineademia.kick": "Kick Combo",
   "key.mineademia.aerial": "Aerial Combo",
+  "key.mineademia.quirk_menu": "Quirk Menu",
 
   "death.attack.quirk.player": "%1$s was killed by %2$s using their quirk",
   "death.attack.quirk": "%1$s died by a quirk",
