@@ -24,7 +24,7 @@ public class DodgeAbility extends ActiveAbility implements ICooldownAbility, ITi
     private int ticks;
 
     public DodgeAbility(@NotNull IAbilityUser user) {
-        super(user, "dodge", "dah dodge", AbilityCategory.MOBILITY);
+        super(user, "Dodge", "dah dodge", AbilityCategory.MOBILITY);
         this.cooldown = new Cooldown(40);
     }
 
