@@ -36,6 +36,19 @@ public interface IAbility {
         return getUser().getStamina();
     }
 
+    default boolean hasStamina(int stamina) {
+        return getUser().hasStamina(stamina);
+    }
+
+    default boolean hasStaminaAndConsume(int stamina) {
+        if (getUser().hasStamina(stamina)) {
+            getUser().offsetStamina(-stamina);
+            return true;
+        }
+
+        return false;
+    }
+
     default boolean canExecute() {
         return true;
     }

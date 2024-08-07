@@ -1,5 +1,6 @@
 package net.michaeljackson23.mineademia.util;
 
+import dev.kosmx.playerAnim.core.util.Vector3;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.Vec3d;
@@ -9,17 +10,35 @@ public final class DrawParticles {
 
     private DrawParticles() { }
 
+    public static final double kEpsilonNormalSqrt = 1e-15F;
+    public static final double Rad2Deg = 360 / (Math.PI * 2);
+
     public static final Vec3d UP = new Vec3d(0, 1, 0);
     public static final Vec3d POS_Z = new Vec3d(0, 0, 1);
 
 
+    public static boolean isZero(double value) {
+        return value >= -kEpsilonNormalSqrt && value <= kEpsilonNormalSqrt;
+    }
+
     public static Vec3d getOrthogonal(@NotNull Vec3d normal) {
         if (normal == Vec3d.ZERO)
             return Vec3d.ZERO;
-        else if (normal.x == 0 && normal.z == 0)
+        else if (isZero(normal.x) && isZero(normal.z))
             return POS_Z;
         else
             return new Vec3d(normal.z, 0, -normal.x).normalize();
+    }
+
+    public static float angleBetweenVectors(@NotNull Vec3d from, @NotNull Vec3d to)
+    {
+        // sqrt(a) * sqrt(b) = sqrt(a * b) -- valid for real numbers
+        float denominator = (float)Math.sqrt(from.length() * to.length());
+        if (denominator < kEpsilonNormalSqrt)
+            return 0F;
+
+        float dot = Mathf.clamp((float) from.dotProduct(to) / denominator, -1F, 1F);
+        return (float) (Math.acos(dot) * Rad2Deg);
     }
 
     // CIRCLE SHAPE
@@ -112,6 +131,8 @@ public final class DrawParticles {
         if (normal == Vec3d.ZERO)
             normal = UP;
         normal = normal.normalize();
+
+        System.out.println(normal);
 
         Vec3d v1 = getOrthogonal(normal);
         Vec3d v2 = v1.crossProduct(normal);

@@ -7,18 +7,18 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.particle.DefaultParticleType;
 import org.jetbrains.annotations.Nullable;
 
-public class LavaPopFactory extends SpriteBillboardParticle {
+public class QuirkExplosionBeamFactory extends SpriteBillboardParticle {
 
     private final SpriteProvider spriteProvider;
 
-    protected LavaPopFactory(ClientWorld world, double x, double y, double z, SpriteProvider spriteProvider, float upwardsAcceleration) {
+    protected QuirkExplosionBeamFactory(ClientWorld world, double x, double y, double z, SpriteProvider spriteProvider, float upwardsAcceleration) {
         super(world, x, y, z);
         this.velocityMultiplier = 1f;
         this.x = x;
         this.y = y;
         this.z = z;
         this.scale = 0.45f;
-        this.maxAge = 6;
+        this.maxAge = 1;
         this.spriteProvider = spriteProvider;
         this.setSprite(spriteProvider);
     }
@@ -52,7 +52,7 @@ public class LavaPopFactory extends SpriteBillboardParticle {
         @Nullable
         @Override
         public Particle createParticle(DefaultParticleType parameters, ClientWorld world, double x, double y, double z, double velocityX, double velocityY, double velocityZ) {
-            return new LavaPopFactory(world, x, y, z, this.sprites, 0f);
+            return new QuirkExplosionBeamFactory(world, x, y, z, this.sprites, 0f);
         }
 
     }
