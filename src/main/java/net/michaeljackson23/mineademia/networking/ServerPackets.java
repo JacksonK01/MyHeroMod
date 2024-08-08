@@ -14,6 +14,7 @@ import net.michaeljackson23.mineademia.quirk.QuirkInitialize;
 import net.michaeljackson23.mineademia.quirk.abilities.AbilityBase;
 import net.michaeljackson23.mineademia.quirk.abilities.ofa.PickVestigeAbility;
 import net.michaeljackson23.mineademia.savedata.StateSaverAndLoader;
+import net.michaeljackson23.mineademia.util.AnimationProxy;
 import net.michaeljackson23.mineademia.util.PlayerDataAccessor;
 import net.michaeljackson23.mineademia.util.QuirkAccessor;
 import net.minecraft.entity.LivingEntity;
@@ -27,6 +28,10 @@ import net.minecraft.util.math.Vec3d;
 import static net.michaeljackson23.mineademia.client.keybinds.Keybinds.DASH_STRENGHT;
 
 public class ServerPackets {
+
+    public static void blocking(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
+        AnimationProxy.sendAnimationToClients((LivingEntity) player, "blocking");
+    }
 
     public static void abilityOne(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
         activateAbility(player, buf, 0);

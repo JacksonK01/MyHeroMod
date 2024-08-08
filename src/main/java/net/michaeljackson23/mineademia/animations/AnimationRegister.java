@@ -85,11 +85,4 @@ public class AnimationRegister {
             return player instanceof ClientPlayerEntity ? new ModifierLayer<>() : null;
         });
     }
-
-//    private static ModifierLayer generateModifierLayer() {
-//        ModifierLayer modifierLayer = new ModifierLayer<>();
-//        modifierLayer.addModifier(AbstractFadeModifier.);
-//        FirstPersonConfiguration configuration =
-//        return modifierLayer;
-//    }
 }

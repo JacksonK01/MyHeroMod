@@ -6,7 +6,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -24,7 +23,7 @@ public class PlayerEntityMixin {
 
     @Inject(method = "attack", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;getVelocity()Lnet/minecraft/util/math/Vec3d;"), locals = LocalCapture.CAPTURE_FAILHARD,cancellable = true)
     private void onAttack(Entity target, CallbackInfo ci, float damage) {
-        PlayerEntity player = (PlayerEntity) (Object) this;
+        PlayerEntity player = getSelf();
         if (target instanceof LivingEntity livingEntity && player instanceof ServerPlayerEntity serverPlayer) {
             damageWrapperOnAttack = new MutableObject<>(damage);
             ActionResult result = OnPlayerAttackEntity.EVENT.invoker().onAttack(serverPlayer, livingEntity, damageWrapperOnAttack);
@@ -36,7 +35,7 @@ public class PlayerEntityMixin {
 
     @ModifyVariable(method = "attack", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;getVelocity()Lnet/minecraft/util/math/Vec3d;"), ordinal = 0)
     private float modifyDamageAmount(float damage) {
-        PlayerEntity player = (PlayerEntity) (Object) this;
+        PlayerEntity player = getSelf();
         if(player instanceof ServerPlayerEntity serverPlayer) {
             if (damageWrapperOnAttack != null) {
                 damage = damageWrapperOnAttack.getData();
@@ -44,5 +43,9 @@ public class PlayerEntityMixin {
             }
         }
         return damage;
+    }
+
+    private PlayerEntity getSelf() {
+        return (PlayerEntity) (Object) this;
     }
 }

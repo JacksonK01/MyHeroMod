@@ -19,7 +19,7 @@ public interface IToggleAbility extends IActiveAbility, ITickAbility {
 
     @Override
     default void execute(boolean isKeyDown) {
-        if (isToggled() && isKeyDown) {
+        if (isKeyDown && isToggled()) {
             executeEnd();
             setToggle(false);
         } else if (isKeyDown && executeStart()) {

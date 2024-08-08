@@ -15,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
 public class TornadoAbility extends ActiveAbility implements ICooldownAbility {
 
     public static final int COOLDOWN_TIME = 30;
+    public static final int STAMINA = 210;
 
 
     private final Cooldown cooldown;
@@ -27,8 +28,11 @@ public class TornadoAbility extends ActiveAbility implements ICooldownAbility {
 
     @Override
     public void execute(boolean isKeyDown) {
-        if(isReadyAndReset())
+        if(isReadyAndReset() && getStamina() >= STAMINA) {
+            offsetStamina(-STAMINA);
             spawnTornado();
+        }
+
     }
 
     @Override

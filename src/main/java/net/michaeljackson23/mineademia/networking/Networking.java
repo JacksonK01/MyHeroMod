@@ -19,6 +19,7 @@ public class Networking {
     public static final Identifier ABILITY_FOUR = new Identifier(Mineademia.MOD_ID, "ability_four");
     public static final Identifier ABILITY_FIVE = new Identifier(Mineademia.MOD_ID, "ability_five");
     public static final Identifier ABILITY_DODGE = new Identifier(Mineademia.MOD_ID, "ability_dodge");
+    public static final Identifier BLOCKING = new Identifier(Mineademia.MOD_ID, "blocking");
     public static final Identifier KICK_COMBO = new Identifier(Mineademia.MOD_ID, "kick_combo");
     public static final Identifier AERIAL_COMBO = new Identifier(Mineademia.MOD_ID, "aerial_combo");
     public static final Identifier OPEN_QUIRK_GUI = new Identifier(Mineademia.MOD_ID, "open_quirk_tablet_gui");
@@ -33,6 +34,7 @@ public class Networking {
     public static final Identifier QUIRK_TABLET_GUI = new Identifier(Mineademia.MOD_ID, "quirk_tablet_gui");
     public static final Identifier MOCK_QUIRK_TABLET_GUI = new Identifier(Mineademia.MOD_ID, "mock_quirk_tablet_gui");
     public static final Identifier ANIMATION = new Identifier(Mineademia.MOD_ID, "animation_proxy");
+    public static final Identifier ANIMATION_NO_API = new Identifier(Mineademia.MOD_ID, "animation_proxy_no_api");
     public static final Identifier SET_YAW = new Identifier(Mineademia.MOD_ID, "set_yaw");
     public static final Identifier FORCE_INTO_THIRD_PERSON_BACK = new Identifier(Mineademia.MOD_ID, "force_third_person_back");
     public static final Identifier FORCE_INTO_THIRD_PERSON_FRONT = new Identifier(Mineademia.MOD_ID, "force_third_person_front");
@@ -50,6 +52,7 @@ public class Networking {
         ServerPlayNetworking.registerGlobalReceiver(ABILITY_THREE, ServerPackets::abilityThree);
         ServerPlayNetworking.registerGlobalReceiver(ABILITY_FOUR, ServerPackets::abilityFour);
         ServerPlayNetworking.registerGlobalReceiver(ABILITY_FIVE, ServerPackets::abilityFive);
+        ServerPlayNetworking.registerGlobalReceiver(BLOCKING, ServerPackets::blocking);
         ServerPlayNetworking.registerGlobalReceiver(KICK_COMBO, ServerPackets::kickCombo);
         ServerPlayNetworking.registerGlobalReceiver(AERIAL_COMBO, ServerPackets::aerialCombo);
         ServerPlayNetworking.registerGlobalReceiver(OPEN_QUIRK_GUI, ServerPackets::openQuirkTabletGUI);
@@ -68,6 +71,7 @@ public class Networking {
         ClientPlayNetworking.registerGlobalReceiver(QUIRK_TABLET_GUI, ClientPackets::quirkTablet);
         ClientPlayNetworking.registerGlobalReceiver(MOCK_QUIRK_TABLET_GUI, ClientPackets::mockQuirkTablet);
         ClientPlayNetworking.registerGlobalReceiver(ANIMATION, ClientPackets::animationProxy);
+        ClientPlayNetworking.registerGlobalReceiver(ANIMATION_NO_API, ClientPackets::animationProxyNoAPI);
         ClientPlayNetworking.registerGlobalReceiver(SET_YAW, ClientPackets::setYaw);
         ClientPlayNetworking.registerGlobalReceiver(FORCE_INTO_THIRD_PERSON_BACK, ClientPackets::forceThirdPersonBack);
         ClientPlayNetworking.registerGlobalReceiver(FORCE_INTO_THIRD_PERSON_FRONT, ClientPackets::forceThirdPersonFront);

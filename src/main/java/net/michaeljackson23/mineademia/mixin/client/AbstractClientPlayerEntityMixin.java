@@ -22,6 +22,8 @@ public abstract class AbstractClientPlayerEntityMixin implements QuirkDataAccess
         }
         return new QuirkData();
     }
+
+
     @Unique
     public void myHeroMod$setQuirkData(QuirkData data) {
         this.quirkData = data;

@@ -17,12 +17,14 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.Text;
 import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.NotNull;
 
 public class GaleUpliftAbility extends ActiveAbility implements ICooldownAbility, ITickAbility {
 
     private static final int COOLDOWN_TIME = 40;
+    private static final int STAMINA = 180;
     private static final int ABILITY_DURATION = 30;
 
 
@@ -67,9 +69,10 @@ public class GaleUpliftAbility extends ActiveAbility implements ICooldownAbility
 
     @Override
     public void execute(boolean isKeyDown) {
-        if(!isReadyAndReset()) {
+        if(!isReadyAndReset() && isKeyDown && getStamina() >= STAMINA) {
             return;
         }
+        offsetStamina(-STAMINA);
         isActive = true;
         LivingEntity user = getUser().getEntity();
         if(user instanceof ServerPlayerEntity player) {

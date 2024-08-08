@@ -15,7 +15,8 @@
     "client.InGameHudMixin",
     "client.ItemRendererAccessor",
     "client.ModelLoaderMixin",
-    "client.PlayerEntityRendererMixin"
+    "client.PlayerEntityRendererMixin",
+    "model.BipedModelMixin"
   ],
   "injectors": {
     "defaultRequire": 1

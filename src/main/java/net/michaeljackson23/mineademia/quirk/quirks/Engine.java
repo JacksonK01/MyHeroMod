@@ -36,7 +36,7 @@ public class Engine extends Quirk {
     @Override
     public void tick(ServerPlayerEntity player) {
         super.tick(player);
-        engineDash(player);
+        //engineDash(player);
     }
 
     private void engineDash(ServerPlayerEntity player) {

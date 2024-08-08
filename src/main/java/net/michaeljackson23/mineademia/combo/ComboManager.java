@@ -121,7 +121,7 @@ public class ComboManager {
         Vec3d playerVec = getVec3d(player);
         target.setVelocity(playerVec.multiply(targetVelocityMultiplier));
         player.setVelocity(target.getVelocity().multiply(playerVelocityMultiplier));
-        AnimationProxy.sendAnimationToClients(player, animation);
+        AnimationProxy.sendAnimationToClients((LivingEntity) player, animation);
         target.getWorld().playSound(null, target.getBlockPos(), soundEvent, SoundCategory.PLAYERS, 1f, pitch);
         player.getServerWorld().spawnParticles(ParticleTypes.EXPLOSION,
                 target.getX(), target.getY() + 1, target.getZ(),

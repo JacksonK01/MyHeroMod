@@ -5,7 +5,6 @@ import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.michaeljackson23.mineademia.client.gui.quirkmenu.QuirkMenuGui;
-import net.michaeljackson23.mineademia.client.gui.quirktablet.MockQuirkTabletGui;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.network.PacketByteBuf;
@@ -26,6 +25,7 @@ public class Keybinds {
     private static HoldableKeybind keyAbilityThree;
     private static HoldableKeybind keyAbilityFour;
     private static HoldableKeybind keyAbilityFive;
+    private static KeyBinding blocking;
     private static KeyBinding keyDodge;
 
     private static KeyBinding keyKickCombo;
@@ -96,6 +96,13 @@ public class Keybinds {
                 "key.mineademia.mineademia"
         ));
 
+        blocking = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+                "key.mineademia.blocking",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_B,
+                "key.mineademia.mineademia"
+        ));
+
 
         // TODO REMOVE
         keyTest = (HoldableKeybind) KeyBindingHelper.registerKeyBinding(new HoldableKeybind(
@@ -154,6 +161,9 @@ public class Keybinds {
                         buf.writeInt(hitResult.getEntity().getId());
                         ClientPlayNetworking.send(AERIAL_COMBO, buf);
                     }
+                }
+                if(blocking.wasPressed()) {
+                    ClientPlayNetworking.send(BLOCKING, PacketByteBufs.empty());
                 }
 
 //                if (keyKickCombo.wasPressed() || keyAerialCombo.wasPressed()) {

@@ -7,6 +7,7 @@ import net.michaeljackson23.mineademia.abilitysystem.intr.ability.extras.ICooldo
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IAbilityUser;
 import net.michaeljackson23.mineademia.entity.projectile.windblade.WindBladeProjectile;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.world.World;
@@ -14,8 +15,8 @@ import org.jetbrains.annotations.NotNull;
 
 public class WindBladeAbility extends ActiveAbility implements ICooldownAbility {
 
-    public static final int COOLDOWN_TIME = 10;
-
+    private static final int COOLDOWN_TIME = 10;
+    private static final int STAMINA = 110;
 
     private final Cooldown cooldown;
 
@@ -27,8 +28,10 @@ public class WindBladeAbility extends ActiveAbility implements ICooldownAbility 
 
     @Override
     public void execute(boolean isKeyDown) {
-        if(isReadyAndReset())
+        if (isReadyAndReset() && isKeyDown && getStamina() >= STAMINA) {
+            offsetStamina(-STAMINA);
             spawnWindBlade();
+        }
     }
 
     @Override
@@ -45,6 +48,6 @@ public class WindBladeAbility extends ActiveAbility implements ICooldownAbility 
 
         world.spawnEntity(windBlade);
         world.playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.ENTITY_PLAYER_BREATH, SoundCategory.PLAYERS, 1.0f, 2.0f);
-        entity.swingHand(entity.getActiveHand(), true);
+        entity.swingHand(entity.getActiveHand(), entity instanceof ServerPlayerEntity);
     }
 }

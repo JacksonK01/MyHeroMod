@@ -81,7 +81,7 @@ public class VestigeGUI extends Screen {
     @Override
     protected void init() {
         int guiLeft = (this.width - BACKGROUND_WIDTH) / 2;
-        int guiTop = (this.height - BACKGROUND_HEIGHT) / 2;
+        int guiTop = (this.height - BACKGROUND_HEIGHT) / 2 - 20;
 
         blackwhip.setX(guiLeft + (BACKGROUND_WIDTH - BUTTON_WIDTH) / 2);
         blackwhip.setY(guiTop + (BACKGROUND_HEIGHT - BUTTON_HEIGHT) / 2);

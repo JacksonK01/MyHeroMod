@@ -23,6 +23,7 @@
   "key.mineademia.ability_four": "Ability 4",
   "key.mineademia.ability_five": "Ability 5",
   "key.mineademia.dodge": "Dodge",
+  "key.mineademia.blocking": "Block",
   "key.mineademia.kick": "Kick Combo",
   "key.mineademia.aerial": "Aerial Combo",
   "key.mineademia.quirk_menu": "Quirk Menu",
@@ -41,5 +42,6 @@
   "death.attack.quirk_explosion_ap_shot.mob": "%1$s was incinerated by %2$s using AP Shot",
   "death.attack.quirk_explosion_ap_shot.": "%1$s was incinerated by %2$s using AP Shot",
 
-  "effect.mineademia.cowling": "Full Cowling"
+  "effect.mineademia.cowling": "Full Cowling",
+  "effect.mineademia.frozen": "Frozen"
 }

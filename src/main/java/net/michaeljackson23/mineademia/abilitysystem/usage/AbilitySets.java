@@ -4,6 +4,7 @@ import net.michaeljackson23.mineademia.abilitysystem.impl.abilityset.AbilitySet;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityset.IAbilitySet;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IAbilityUser;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.DodgeAbility;
+import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.engine.EngineDashPassive;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.explosion.ApShotAbility;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.explosion.ExplosiveSpeedAbility;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.explosion.HowitzerImpactAbility;
@@ -11,6 +12,8 @@ import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.hchh
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.hchh.cold.IceShootAbility;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.hchh.cold.IceSnowflakeAbility;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.hchh.cold.IceSpikeAbility;
+import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.ofa.AirForceAbility;
+import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.ofa.FullCowlingAbility;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.whirlwind.*;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.hchh.cold.IceWallAbility;
 import org.jetbrains.annotations.NotNull;
@@ -28,7 +31,7 @@ public final class AbilitySets {
     public static final Function<IAbilityUser, IAbilitySet> GENERAL = registerAbilitySet("general", (u) -> new AbilitySet("", new DodgeAbility(u)));
 
 
-    public static final Function<IAbilityUser, IAbilitySet> OFA = registerAbilitySet("ofa", (u) -> new AbilitySet("One For All"));
+    public static final Function<IAbilityUser, IAbilitySet> OFA = registerAbilitySet("ofa", (u) -> new AbilitySet("One For All", new AirForceAbility(u), new FullCowlingAbility(u)));
 
     public static final Function<IAbilityUser, IAbilitySet> EXPLOSION = registerAbilitySet("explosion", (u) -> new AbilitySet("Explosion", new ExplosiveSpeedAbility(u), new ApShotAbility(u), new HowitzerImpactAbility(u)));
 
@@ -38,6 +41,8 @@ public final class AbilitySets {
     public static final Function<IAbilityUser, IAbilitySet> HCHH_COLD = registerAbilitySet("hchh_cold", (u) -> new AbilitySet("Half Cold Half Hot", new IceShootAbility(u), new IceSnowflakeAbility(u), new IceBeamAbility(u),  new IceSpikeAbility(u), new IceWallAbility(u)));
 
     public static final Function<IAbilityUser, IAbilitySet> WHIRLWIND = registerAbilitySet("whirlwind", (u) -> new AbilitySet("Whirlwind", new WindBladeAbility(u), new TornadoAbility(u), new GaleUpliftAbility(u), new BallistaAbility(u) ,new WindFlyAbility(u)));
+
+    public static final Function<IAbilityUser, IAbilitySet> ENGINE = registerAbilitySet("engine", (u) -> new AbilitySet("Engine", new EngineDashPassive(u)));
 
     private static Function<IAbilityUser, IAbilitySet> registerAbilitySet(String key, Function<IAbilityUser, IAbilitySet> abilitySetFunction) {
         abilitySetMap.put(key, abilitySetFunction);

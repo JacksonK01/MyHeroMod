@@ -23,6 +23,8 @@ public class MockQuirkTabletGui extends Screen {
     private ButtonWidget hchh_ice;
     private ButtonWidget explosion;
     private ButtonWidget whirlwind;
+    private ButtonWidget ofa;
+    private ButtonWidget engine;
 
     @Override
     protected void init() {
@@ -30,11 +32,15 @@ public class MockQuirkTabletGui extends Screen {
         hchh_ice = createButton("Half Cold Half Hot - Ice", "hchh_cold", 1);
         explosion = createButton("Explosion", "explosion", 2);
         whirlwind = createButton("Whirlwind", "whirlwind", 3);
+        ofa = createButton("One For All", "ofa", 4);
+        engine = createButton("Engine", "engine", 5);
 
         addDrawableChild(none);
         addDrawableChild(hchh_ice);
         addDrawableChild(explosion);
         addDrawableChild(whirlwind);
+        addDrawableChild(ofa);
+        addDrawableChild(engine);
     }
 
     private ButtonWidget createButton(String name, String value, int index) {

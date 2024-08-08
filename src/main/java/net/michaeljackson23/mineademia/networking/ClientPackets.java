@@ -10,6 +10,7 @@ import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationRegistry;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.michaeljackson23.mineademia.Mineademia;
 import net.michaeljackson23.mineademia.abilitysystem.networking.PlayerAbilityUserPacketS2C;
+import net.michaeljackson23.mineademia.animations.Animations;
 import net.michaeljackson23.mineademia.client.ClientCache;
 import net.michaeljackson23.mineademia.client.gui.quirktablet.MockQuirkTabletGui;
 import net.michaeljackson23.mineademia.client.gui.quirktablet.QuirkTabletGui;
@@ -17,6 +18,7 @@ import net.michaeljackson23.mineademia.client.gui.vestige.VestigeGUI;
 import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkData;
 import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkDataAccessors;
 import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkDataPacket;
+import net.michaeljackson23.mineademia.util.LivingEntityMixinAccessor;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
@@ -24,7 +26,9 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.option.Perspective;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
 import net.minecraft.client.world.ClientWorld;
+import net.minecraft.entity.AnimationState;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.Text;
@@ -96,6 +100,31 @@ public class ClientPackets {
                     }
                 }
             }
+        });
+    }
+    public static void animationProxyNoAPI(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
+        client.execute(() -> {
+            int id = buf.readInt();
+            String animationName = buf.readString();
+
+            assert client.world != null;
+            Entity entity = client.world.getEntityById(id);
+
+            if(!(entity instanceof LivingEntity livingEntity)) {
+                return;
+            }
+
+            LivingEntityMixinAccessor animatedLivingEntity = (LivingEntityMixinAccessor) livingEntity;
+
+            animatedLivingEntity.setAnimationState(new AnimationState());
+
+            if(animationName.equals("reset")) {
+                animatedLivingEntity.getAnimationState().setRunning(false, livingEntity.age);
+                return;
+            }
+
+            animatedLivingEntity.setAnimationData(Animations.getAnimationRegistry().get(animationName));
+            animatedLivingEntity.getAnimationState().setRunning(true, livingEntity.age);
         });
     }
     public static void setYaw(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
