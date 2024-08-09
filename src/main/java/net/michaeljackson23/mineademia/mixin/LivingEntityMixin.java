@@ -85,7 +85,7 @@ public abstract class LivingEntityMixin implements LivingEntityMixinAccessor {
             isEndTimerStored = true;
         }
 
-        getSelf().sendMessage(Text.literal("Duration: " + self.age + "/" + animationDuration));
+        //getSelf().sendMessage(Text.literal("Duration: " + self.age + "/" + animationDuration));
 
         if (isEndTimerStored && !animation.looping() && self.age >= animationDuration) {
             resetAnimationState();

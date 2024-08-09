@@ -47,7 +47,7 @@ public abstract class BipedModelMixin<T extends LivingEntity> implements BipedMo
             if(state.isRunning()) {
                 animation.getBodyPartsUsed().forEach((part) -> {
                     this.getChild(part).orElseThrow().resetTransform();
-                    livingEntity.sendMessage(Text.literal("Current Part: " + part));
+                    //livingEntity.sendMessage(Text.literal("Current Part: " + part));
                 });
             }
 

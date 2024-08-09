@@ -1,6 +1,7 @@
 package net.michaeljackson23.mineademia.quirk.quirks;
 
 import net.michaeljackson23.mineademia.quirk.Quirk;
+import net.michaeljackson23.mineademia.quirk.abilities.Empty;
 import net.michaeljackson23.mineademia.quirk.abilities.ofa.*;
 import net.michaeljackson23.mineademia.sound.ModSounds;
 import net.michaeljackson23.mineademia.util.AreaOfEffect;
@@ -16,7 +17,7 @@ public class OneForAll extends Quirk {
     private int dangerSenseCounter = DANGER_SENSE_INTERVAL;
 
     public OneForAll() {
-        super("One For All", new AirForce(), new PickVestigeAbility(), new ShootStyleKicks(), new ManchesterSmash(), new Cowling());
+        super("One For All", new AirForce(), /* new PickVestigeAbility() */ new Empty(), new ShootStyleKicks(), new ManchesterSmash(), new Cowling());
     }
 
     @Override
