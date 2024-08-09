@@ -3,10 +3,9 @@ package net.michaeljackson23.mineademia.quirk.abilities.ofa;
 import net.michaeljackson23.mineademia.quirk.Quirk;
 import net.michaeljackson23.mineademia.quirk.abilities.BasicAbility;
 import net.michaeljackson23.mineademia.quirk.abilities.PassiveAbility;
-import net.michaeljackson23.mineademia.particles.ParticleRegister;
-import net.michaeljackson23.mineademia.sound.CustomSounds;
+import net.michaeljackson23.mineademia.particles.ModParticles;
+import net.michaeljackson23.mineademia.sound.ModSounds;
 import net.michaeljackson23.mineademia.statuseffects.StatusEffectsRegister;
-import net.michaeljackson23.mineademia.util.StopSoundProxy;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
@@ -66,7 +65,7 @@ public class Cowling extends BasicAbility {
 
     private void playRepeatSound(ServerPlayerEntity player) {
         if (soundCounter == 0) {
-            player.getWorld().playSound(null, player.getX(), player.getY(), player.getZ(), CustomSounds.COWLING_REPEAT_EVENT, SoundCategory.PLAYERS, 1f, 1f);
+            player.getWorld().playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.COWLING_REPEAT, SoundCategory.PLAYERS, 1f, 1f);
         }
         soundCounter++;
         if (soundCounter > SOUND_COUNT_MAX) {
@@ -75,7 +74,7 @@ public class Cowling extends BasicAbility {
     }
 
     private void spawnCowlingParticles(ServerPlayerEntity player) {
-        player.getServerWorld().spawnParticles(ParticleRegister.COWLING_PARTICLES, player.getX(), player.getY() + 1, player.getZ(),
+        player.getServerWorld().spawnParticles(ModParticles.COWLING_PARTICLES, player.getX(), player.getY() + 1, player.getZ(),
                 cowlingPower * 2, 0.3f, 0.5f, 0.3f, 0.1);
     }
 
@@ -94,7 +93,7 @@ public class Cowling extends BasicAbility {
         if (cowlingPower <= 10) {
             cowlingPower++;
             if (cowlingPower == 1) {
-                player.getWorld().playSound(null, player.getX(), player.getY(), player.getZ(), CustomSounds.COWLING_START_EVENT, SoundCategory.PLAYERS, 1f, 1f);
+                player.getWorld().playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.COWLING_START_EVENT, SoundCategory.PLAYERS, 1f, 1f);
                 soundCounter = 0;
             }
         }
@@ -107,7 +106,7 @@ public class Cowling extends BasicAbility {
     private void resetCowlingPower(ServerPlayerEntity player) {
         player.sendMessage(Text.literal("Resetting Cowling to 0%"));
         cowlingPower = 0;
-        player.getWorld().playSound(null, player.getX(), player.getY(), player.getZ(), CustomSounds.COWLING_END_EVENT, SoundCategory.PLAYERS, 1f, 1f);
+        player.getWorld().playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.COWLING_END, SoundCategory.PLAYERS, 1f, 1f);
     }
 
     private void sendMessageToPlayer(ServerPlayerEntity player) {
@@ -115,8 +114,8 @@ public class Cowling extends BasicAbility {
     }
 
     private void resetSound(ServerPlayerEntity player) {
-        player.getWorld().playSound(null, player.getX(), player.getY(), player.getZ(), CustomSounds.COWLING_END_EVENT, SoundCategory.PLAYERS, 1f, 1f);
-        StopSoundProxy.execute(player, CustomSounds.COWLING_REPEAT_ID);
+        player.getWorld().playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.COWLING_END, SoundCategory.PLAYERS, 1f, 1f);
+        // StopSoundProxy.execute(player, ModSounds.COWLING_REPEAT_ID);
         soundCounter = 0;
     }
 }

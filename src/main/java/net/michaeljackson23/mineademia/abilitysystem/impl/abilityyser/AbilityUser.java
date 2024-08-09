@@ -85,15 +85,24 @@ public abstract class AbilityUser implements IAbilityUser {
     @Override
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+        cancelAbilities();
     }
 
     @Override
     public void setBlocked(boolean blocked) {
         this.blocked = blocked;
+        cancelAbilities();
     }
 
     public void setEntity(@NotNull LivingEntity entity) {
         this.entity = entity;
+    }
+
+    private void cancelAbilities() {
+        if (!this.isEnabled() || this.isBlocked()) {
+            for (IAbility ability : abilityMap.values())
+                ability.cancel();
+        }
     }
 
 }

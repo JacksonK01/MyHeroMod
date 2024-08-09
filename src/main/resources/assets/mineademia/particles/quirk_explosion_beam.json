@@ -1,5 +1,8 @@
 {
   "textures": [
-    "mineademia:quirk_explosion_beam"
+    "mineademia:quirk_explosion_beam_1",
+    "mineademia:quirk_explosion_beam_2",
+    "mineademia:quirk_explosion_beam_3",
+    "mineademia:quirk_explosion_beam_4"
   ]
 }

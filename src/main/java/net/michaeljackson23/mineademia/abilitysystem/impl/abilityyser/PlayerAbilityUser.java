@@ -2,7 +2,6 @@ package net.michaeljackson23.mineademia.abilitysystem.impl.abilityyser;
 
 import net.michaeljackson23.mineademia.abilitysystem.intr.ability.IAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IPlayerAbilityUser;
-import net.minecraft.entity.AnimationState;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;

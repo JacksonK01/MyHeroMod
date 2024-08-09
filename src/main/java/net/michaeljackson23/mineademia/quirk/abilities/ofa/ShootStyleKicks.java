@@ -5,7 +5,7 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.michaeljackson23.mineademia.networking.Networking;
 import net.michaeljackson23.mineademia.quirk.Quirk;
 import net.michaeljackson23.mineademia.quirk.abilities.BasicAbility;
-import net.michaeljackson23.mineademia.sound.CustomSounds;
+import net.michaeljackson23.mineademia.sound.ModSounds;
 import net.michaeljackson23.mineademia.util.AnimationProxy;
 import net.michaeljackson23.mineademia.util.AreaOfEffect;
 import net.michaeljackson23.mineademia.util.QuirkDamage;
@@ -106,6 +106,6 @@ public class ShootStyleKicks extends BasicAbility {
     }
 
     private void legSound(ServerPlayerEntity player) {
-        player.getWorld().playSound(null, player.getX(), player.getY(), player.getZ(), CustomSounds.LEG_MOVEMENT_EVENT, SoundCategory.PLAYERS, 2f, 1f);
+        player.getWorld().playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.LEG_MOVEMENT, SoundCategory.PLAYERS, 2f, 1f);
     }
 }

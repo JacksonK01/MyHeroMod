@@ -2,7 +2,7 @@ package net.michaeljackson23.mineademia.quirk.abilities.hchh.fire;
 
 import net.michaeljackson23.mineademia.quirk.Quirk;
 import net.michaeljackson23.mineademia.quirk.abilities.BasicAbility;
-import net.michaeljackson23.mineademia.sound.CustomSounds;
+import net.michaeljackson23.mineademia.sound.ModSounds;
 import net.michaeljackson23.mineademia.util.AreaOfEffect;
 import net.michaeljackson23.mineademia.util.QuirkDamage;
 import net.minecraft.particle.ParticleTypes;
@@ -22,7 +22,7 @@ public class WallOfFlame extends BasicAbility {
     @Override
     protected void activate(ServerPlayerEntity player, Quirk quirk) {
         if(!didPlaySound) {
-            player.getServerWorld().playSound(null, player.getX(), player.getY(), player.getZ(), CustomSounds.MHA_FIRE_EVENT, SoundCategory.PLAYERS, 1f, 1f);
+            player.getServerWorld().playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.MHA_FIRE, SoundCategory.PLAYERS, 1f, 1f);
             player.getServerWorld().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.BLOCK_FIRE_AMBIENT, SoundCategory.PLAYERS, 2f, 1f);
             didPlaySound = true;
         }

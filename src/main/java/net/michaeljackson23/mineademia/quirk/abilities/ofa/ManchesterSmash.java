@@ -5,7 +5,7 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.michaeljackson23.mineademia.networking.Networking;
 import net.michaeljackson23.mineademia.quirk.Quirk;
 import net.michaeljackson23.mineademia.quirk.abilities.BasicAbility;
-import net.michaeljackson23.mineademia.sound.CustomSounds;
+import net.michaeljackson23.mineademia.sound.ModSounds;
 import net.michaeljackson23.mineademia.util.AnimationProxy;
 import net.michaeljackson23.mineademia.util.AreaOfEffect;
 import net.michaeljackson23.mineademia.util.QuirkDamage;
@@ -13,7 +13,6 @@ import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.Text;
 import net.minecraft.util.math.Vec3d;
 
 public class ManchesterSmash extends BasicAbility {
@@ -84,7 +83,7 @@ public class ManchesterSmash extends BasicAbility {
             if(!hasLeapAnimationPlayed) {
                 AnimationProxy.sendAnimationToClients(player, "charge_up_leap");
                 hasLeapAnimationPlayed = true;
-                player.getWorld().playSound(null, player.getX(), player.getY(), player.getZ(), CustomSounds.OFA_CHARGE_EVENT, SoundCategory.PLAYERS, 2f, 1f);
+                player.getWorld().playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.OFA_CHARGE, SoundCategory.PLAYERS, 2f, 1f);
                 player.getServerWorld().spawnParticles(ParticleTypes.CLOUD,
                         player.getX(), player.getY() + 0.2, player.getZ(),
                         10, 0, 0, 0, 0.5
@@ -123,7 +122,7 @@ public class ManchesterSmash extends BasicAbility {
                goDown(player);
                hasGoneDown = true;
                player.getWorld().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ENTITY_WITCH_THROW, SoundCategory.PLAYERS, 2f, 2f);
-               player.getWorld().playSound(null, player.getX(), player.getY(), player.getZ(), CustomSounds.OFA_RELEASE_EVENT, SoundCategory.PLAYERS, 2f, 1f);
+               player.getWorld().playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.OFA_RELEASE, SoundCategory.PLAYERS, 2f, 1f);
                player.getServerWorld().spawnParticles(ParticleTypes.CLOUD,
                        player.getX(), player.getY() + 0.2, player.getZ(),
                        10, 0, 0, 0, 0.5

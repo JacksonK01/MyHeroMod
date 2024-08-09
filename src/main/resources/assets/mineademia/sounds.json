@@ -246,5 +246,35 @@
         "stream": false
       }
     ]
+  },
+  "distant_explosion_1": {
+    "category": "master",
+    "subtitle": "subtitles.distant_explosion",
+    "sounds": [
+      {
+        "name": "mineademia:distant_explosion_1",
+        "stream": false
+      }
+    ]
+  },
+  "distant_explosion_2": {
+    "category": "master",
+    "subtitle": "subtitles.distant_explosion",
+    "sounds": [
+      {
+        "name": "mineademia:distant_explosion_2",
+        "stream": false
+      }
+    ]
+  },
+  "deep_explosion": {
+    "category": "master",
+    "subtitle": "subtitles.deep_explosion",
+    "sounds": [
+      {
+        "name": "mineademia:deep_explosion",
+        "stream": false
+      }
+    ]
   }
 }

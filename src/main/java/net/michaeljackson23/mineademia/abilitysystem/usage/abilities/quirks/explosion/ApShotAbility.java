@@ -6,7 +6,7 @@ import net.michaeljackson23.mineademia.abilitysystem.intr.Cooldown;
 import net.michaeljackson23.mineademia.abilitysystem.intr.ability.extras.ICooldownAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IAbilityUser;
 import net.michaeljackson23.mineademia.damagetypes.CustomDamageTypes;
-import net.michaeljackson23.mineademia.particles.ParticleRegister;
+import net.michaeljackson23.mineademia.particles.ModParticles;
 import net.michaeljackson23.mineademia.util.Mathf;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
@@ -104,7 +104,7 @@ public class ApShotAbility extends HoldAbility implements ICooldownAbility {
         float partialHoldTime = (float) ticks / MAX_TICKS;
         float delta = Mathf.lerp(0, MAX_CHARGE_SIZE, partialHoldTime);
 
-        world.spawnParticles(ParticleRegister.QUIRK_EXPLOSION_BEAM, pos.x, pos.y, pos.z , 10, delta, delta, delta, 0);
+        world.spawnParticles(ModParticles.QUIRK_EXPLOSION_BEAM, pos.x, pos.y, pos.z , 10, delta, delta, delta, 0);
 
         return ticks++ <= MAX_TICKS;
     }
@@ -138,7 +138,7 @@ public class ApShotAbility extends HoldAbility implements ICooldownAbility {
             float alpha = ((steps++ * PARTICLE_SPACING) / MAX_DISTANCE);
             float delta = Mathf.lerp(MIN_SIZE, maxSize, alpha);
 
-            world.spawnParticles(ParticleRegister.QUIRK_EXPLOSION_BEAM, current.x, current.y, current.z , 100, delta, delta, delta, 0);
+            world.spawnParticles(ModParticles.QUIRK_EXPLOSION_BEAM, current.x, current.y, current.z , 100, delta, delta, delta, 0);
 
             Vec3d minBox = current.subtract(delta, delta, delta);
             Vec3d maxBox = current.add(delta, delta, delta);

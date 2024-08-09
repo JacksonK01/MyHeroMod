@@ -1,23 +1,13 @@
 package net.michaeljackson23.mineademia.quirk.quirks;
 
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.michaeljackson23.mineademia.networking.Networking;
 import net.michaeljackson23.mineademia.quirk.Quirk;
-import net.michaeljackson23.mineademia.quirk.abilities.PassiveAbility;
-import net.michaeljackson23.mineademia.quirk.abilities.engine.SlideAndKicks;
 import net.michaeljackson23.mineademia.quirk.abilities.ofa.*;
-import net.michaeljackson23.mineademia.sound.CustomSounds;
+import net.michaeljackson23.mineademia.sound.ModSounds;
 import net.michaeljackson23.mineademia.util.AreaOfEffect;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.text.Text;
 import net.minecraft.util.math.Vec3d;
 
 public class OneForAll extends Quirk {
@@ -40,7 +30,7 @@ public class OneForAll extends Quirk {
             AreaOfEffect.execute(player, 8, 2, player.getX(), player.getY(), player.getZ(), (entityToAffect -> {
                 if(player.canSee(entityToAffect) &&
                         (entityToAffect instanceof HostileEntity || player.getAttacker() == entityToAffect)) {
-                    player.getServerWorld().playSound(null, player.getX(), player.getY(), player.getZ(), CustomSounds.DANGER_SENSE_EVENT, SoundCategory.PLAYERS, 1f, 1f);
+                    player.getServerWorld().playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.DANGER_SENSE, SoundCategory.PLAYERS, 1f, 1f);
                     Vec3d playerVec = player.getRotationVector();
                     player.getServerWorld().spawnParticles(ParticleTypes.ELECTRIC_SPARK,
                             player.getX() + playerVec.x, player.getEyeY() + playerVec.y, player.getZ() + playerVec.z,

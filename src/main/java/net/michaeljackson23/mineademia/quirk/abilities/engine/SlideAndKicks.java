@@ -6,7 +6,7 @@ import net.michaeljackson23.mineademia.networking.Networking;
 import net.michaeljackson23.mineademia.quirk.Quirk;
 import net.michaeljackson23.mineademia.quirk.abilities.BasicAbility;
 import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkDataPacket;
-import net.michaeljackson23.mineademia.sound.CustomSounds;
+import net.michaeljackson23.mineademia.sound.ModSounds;
 import net.michaeljackson23.mineademia.util.AnimationProxy;
 import net.michaeljackson23.mineademia.util.AreaOfEffect;
 import net.michaeljackson23.mineademia.util.QuirkDamage;
@@ -61,7 +61,7 @@ public class SlideAndKicks extends BasicAbility {
     @Override
     protected void deActivate(ServerPlayerEntity player, Quirk quirk) {
         super.deActivate(player, quirk);
-        StopSoundProxy.execute(player, CustomSounds.SLIDE_ID, SoundCategory.PLAYERS);
+        // StopSoundProxy.execute(player, ModSounds.SLIDE_ID, SoundCategory.PLAYERS);
         init = false;
         yaw = 0;
         storedVec = null;
@@ -88,7 +88,7 @@ public class SlideAndKicks extends BasicAbility {
             init = true;
             AnimationProxy.sendAnimationToClients(player, "slide");
 
-            player.getWorld().playSound(null, player.getX(), player.getY(), player.getZ(), CustomSounds.SLIDE_EVENT, SoundCategory.PLAYERS, 1f, 1f);
+            player.getWorld().playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.SLIDE, SoundCategory.PLAYERS, 1f, 1f);
             quirk.addModel("Slide");
             QuirkDataPacket.sendProxy(player);
         } else {
@@ -159,7 +159,7 @@ public class SlideAndKicks extends BasicAbility {
                 entity.setVelocity(storedVec.x, 0.5, storedVec.z);
                 entity.velocityModified = true;
             });
-            StopSoundProxy.execute(player, CustomSounds.SLIDE_ID, SoundCategory.PLAYERS);
+            // StopSoundProxy.execute(player, ModSounds.SLIDE_ID, SoundCategory.PLAYERS);
             quirk.removeModel("Slide");
             QuirkDataPacket.sendProxy(player);
             AnimationProxy.sendAnimationToClients(player, "from_slide_to_flipkick");

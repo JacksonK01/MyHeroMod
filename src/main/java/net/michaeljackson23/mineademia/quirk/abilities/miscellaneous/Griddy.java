@@ -5,7 +5,7 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.michaeljackson23.mineademia.networking.Networking;
 import net.michaeljackson23.mineademia.quirk.Quirk;
 import net.michaeljackson23.mineademia.quirk.abilities.BasicAbility;
-import net.michaeljackson23.mineademia.sound.CustomSounds;
+import net.michaeljackson23.mineademia.sound.ModSounds;
 import net.michaeljackson23.mineademia.util.AnimationProxy;
 import net.michaeljackson23.mineademia.util.StopSoundProxy;
 import net.minecraft.network.PacketByteBuf;
@@ -30,7 +30,7 @@ public class Griddy extends BasicAbility {
             this.storedVec = getVec3d(player).multiply(0.6);
             init = true;
             AnimationProxy.sendAnimationToClients(player, "griddy");
-            player.getWorld().playSound(null, player.getX(), player.getY(), player.getZ(), CustomSounds.GRIDDY_EVENT, SoundCategory.PLAYERS, 1f, 1f);
+            player.getWorld().playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.GRIDDY, SoundCategory.PLAYERS, 1f, 1f);
         }
         ServerPlayNetworking.send(player, Networking.FORCE_INTO_THIRD_PERSON_BACK, PacketByteBufs.empty());
         PacketByteBuf data = PacketByteBufs.create();
@@ -44,7 +44,7 @@ public class Griddy extends BasicAbility {
     @Override
     protected void deActivate(ServerPlayerEntity player, Quirk quirk) {
         super.deActivate(player, quirk);
-        StopSoundProxy.execute(player, CustomSounds.GRIDDY_ID, SoundCategory.PLAYERS);
+        // StopSoundProxy.execute(player, ModSounds.GRIDDY_ID, SoundCategory.PLAYERS);
         init = false;
         yaw = 0;
         storedVec = null;

@@ -1,28 +1,19 @@
 package net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.hchh.cold;
 
-import dev.kosmx.playerAnim.core.data.opennbs.SoundPlayer;
 import net.michaeljackson23.mineademia.abilitysystem.impl.ability.ActiveAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.AbilityCategory;
 import net.michaeljackson23.mineademia.abilitysystem.intr.Cooldown;
 import net.michaeljackson23.mineademia.abilitysystem.intr.ability.extras.ICooldownAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IAbilityUser;
-import net.michaeljackson23.mineademia.entity.projectile.hchh.IceBeamProjectile;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
-import net.michaeljackson23.mineademia.quirk.Quirk;
-import net.michaeljackson23.mineademia.particles.ParticleRegister;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.michaeljackson23.mineademia.blocks.BlockRegister;
 import net.minecraft.util.Hand;
-import net.minecraft.world.World;
 import net.minecraft.server.world.ServerWorld;
 import org.jetbrains.annotations.NotNull;
-
-import static net.minecraft.particle.ParticleTypes.*;
 
 public class IceWallAbility extends ActiveAbility implements ICooldownAbility {
     private final Cooldown cooldown;

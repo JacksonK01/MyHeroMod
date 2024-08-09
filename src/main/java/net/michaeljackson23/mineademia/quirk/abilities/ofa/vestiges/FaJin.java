@@ -1,6 +1,6 @@
 package net.michaeljackson23.mineademia.quirk.abilities.ofa.vestiges;
 
-import net.michaeljackson23.mineademia.particles.ParticleRegister;
+import net.michaeljackson23.mineademia.particles.ModParticles;
 import net.michaeljackson23.mineademia.quirk.Quirk;
 import net.michaeljackson23.mineademia.quirk.abilities.BasicAbility;
 import net.michaeljackson23.mineademia.quirk.abilities.PassiveAbility;
@@ -36,7 +36,7 @@ public class FaJin extends BasicAbility {
         );
         if(counter % 3 == 0) {
             player.getServerWorld().spawnParticles(
-                    ParticleRegister.SHOCKWAVE_PARTICLES,
+                    ModParticles.SHOCKWAVE_PARTICLES,
                     player.getX(), player.getY() + 1, player.getZ(),
                     1, 0, 0, 0, 0
             );

@@ -1,6 +1,6 @@
 package net.michaeljackson23.mineademia.combo;
 
-import net.michaeljackson23.mineademia.sound.CustomSounds;
+import net.michaeljackson23.mineademia.sound.ModSounds;
 import net.michaeljackson23.mineademia.util.AnimationProxy;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -98,8 +98,8 @@ public class ComboManager {
 
     private void doPunchCombo(ServerPlayerEntity player) {
         switch (amountOfHits) {
-            case 1 -> punchStep(player, 0.5, 0.9, "combo_punch_1", CustomSounds.PHYSICAL_DAMAGE_EVENT, 1.2f);
-            case 2 -> punchStep(player, 1, 0.8, "combo_punch_2", CustomSounds.PHYSICAL_DAMAGE_EVENT, 0.75f);
+            case 1 -> punchStep(player, 0.5, 0.9, "combo_punch_1", ModSounds.PUNCH_IMPACT, 1.2f);
+            case 2 -> punchStep(player, 1, 0.8, "combo_punch_2", ModSounds.PUNCH_IMPACT, 0.75f);
             case 3 -> punchStep(player, 3, 0.8, "combo_punch_3", SoundEvents.ENTITY_GENERIC_EXPLODE, 2f);
         }
         player.velocityModified = true;
@@ -138,7 +138,7 @@ public class ComboManager {
             player.setVelocity(kickVel.multiply(playerVelocityMultiplier));
         }
         AnimationProxy.sendAnimationToClients(player, animation);
-        target.getWorld().playSound(null, target.getBlockPos(), CustomSounds.LEG_MOVEMENT_EVENT, SoundCategory.PLAYERS, 1f, pitch);
+        target.getWorld().playSound(null, target.getBlockPos(), ModSounds.LEG_MOVEMENT, SoundCategory.PLAYERS, 1f, pitch);
         player.getServerWorld().spawnParticles(ParticleTypes.EXPLOSION,
                 target.getX(), target.getY() + 0.1, target.getZ(),
                 1, 0.1, 0.1, 0.1, 0);

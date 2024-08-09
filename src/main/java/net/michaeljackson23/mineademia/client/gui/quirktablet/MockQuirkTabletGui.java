@@ -19,24 +19,17 @@ public class MockQuirkTabletGui extends Screen {
         super(title);
     }
 
-    private ButtonWidget none;
-    private ButtonWidget hchh_ice;
-    private ButtonWidget explosion;
-    private ButtonWidget whirlwind;
-    private ButtonWidget ofa;
-    private ButtonWidget engine;
-
     @Override
     protected void init() {
-        none = createButton("Quirkless", "", 0);
-        hchh_ice = createButton("Half Cold Half Hot - Ice", "hchh_cold", 1);
-        explosion = createButton("Explosion", "explosion", 2);
-        whirlwind = createButton("Whirlwind", "whirlwind", 3);
-        ofa = createButton("One For All", "ofa", 4);
-        engine = createButton("Engine", "engine", 5);
+        ButtonWidget none = createButton("Quirkless", "", 0);
+        ButtonWidget hchh_cold = createButton("Half Cold Half Hot - Cold", "hchh_cold", 1);
+        ButtonWidget explosion = createButton("Explosion", "explosion", 2);
+        ButtonWidget whirlwind = createButton("Whirlwind", "whirlwind", 3);
+        ButtonWidget ofa = createButton("One For All", "ofa", 4);
+        ButtonWidget engine = createButton("Engine", "engine", 5);
 
         addDrawableChild(none);
-        addDrawableChild(hchh_ice);
+        addDrawableChild(hchh_cold);
         addDrawableChild(explosion);
         addDrawableChild(whirlwind);
         addDrawableChild(ofa);

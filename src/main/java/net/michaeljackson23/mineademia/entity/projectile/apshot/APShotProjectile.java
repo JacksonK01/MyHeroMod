@@ -1,7 +1,7 @@
 package net.michaeljackson23.mineademia.entity.projectile.apshot;
 
 import net.michaeljackson23.mineademia.entity.EntityRegister;
-import net.michaeljackson23.mineademia.particles.ParticleRegister;
+import net.michaeljackson23.mineademia.particles.ModParticles;
 import net.michaeljackson23.mineademia.util.PlaceParticleInWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -10,8 +10,6 @@ import net.minecraft.entity.projectile.thrown.ThrownItemEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.world.World;
@@ -51,7 +49,7 @@ public class APShotProjectile extends ThrownItemEntity {
         }
         timer++;
         PlaceParticleInWorld.spawn(getWorld(), ParticleTypes.LAVA, getX(), getY(), getZ(), 0, 0, 0, 1);
-        PlaceParticleInWorld.spawn(getWorld(), ParticleRegister.EXPLOSION_QUIRK_PARTICLES, getX(), getY(), getZ(), 0.3, 0.3, 0.3, 2);
+        PlaceParticleInWorld.spawn(getWorld(), ModParticles.EXPLOSION_QUIRK_PARTICLES, getX(), getY(), getZ(), 0.3, 0.3, 0.3, 2);
     }
 
     @Override

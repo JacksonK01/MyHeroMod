@@ -1,6 +1,6 @@
 package net.michaeljackson23.mineademia.quirk.abilities.explosion;
 
-import net.michaeljackson23.mineademia.particles.ParticleRegister;
+import net.michaeljackson23.mineademia.particles.ModParticles;
 import net.michaeljackson23.mineademia.quirk.Quirk;
 import net.michaeljackson23.mineademia.quirk.abilities.BasicAbility;
 import net.michaeljackson23.mineademia.util.AnimationProxy;
@@ -33,7 +33,7 @@ public class Explode extends BasicAbility {
             AnimationProxy.sendAnimationToClients(player, "explode_flip");
         } else if(!init2){
             spawnParticlesUnderHands(player, ParticleTypes.EXPLOSION);
-            spawnParticlesUnderHands(player, ParticleRegister.EXPLOSION_QUIRK_PARTICLES);
+            spawnParticlesUnderHands(player, ModParticles.EXPLOSION_QUIRK_PARTICLES);
             player.getWorld().createExplosion(player, player.getX(), player.getY(), player.getZ(), 1.5f, true, World.ExplosionSourceType.TNT);
             player.setVelocity(player.getVelocity().x, 1, player.getVelocity().z);
             player.velocityModified = true;

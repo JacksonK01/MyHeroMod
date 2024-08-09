@@ -5,7 +5,7 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.michaeljackson23.mineademia.networking.Networking;
 import net.michaeljackson23.mineademia.quirk.Quirk;
 import net.michaeljackson23.mineademia.quirk.abilities.BasicAbility;
-import net.michaeljackson23.mineademia.sound.CustomSounds;
+import net.michaeljackson23.mineademia.sound.ModSounds;
 import net.michaeljackson23.mineademia.util.AnimationProxy;
 import net.michaeljackson23.mineademia.util.AreaOfEffect;
 import net.michaeljackson23.mineademia.util.QuirkDamage;
@@ -37,7 +37,7 @@ public class StLouisSmash extends BasicAbility {
                 AnimationProxy.sendAnimationToClients(player, "st_louis_smash_left_leg");
             }
             init = true;
-            player.getServerWorld().playSound(null, player.getBlockPos(), CustomSounds.OFA_CHARGE_EVENT, SoundCategory.PLAYERS, 1f, 1f);
+            player.getServerWorld().playSound(null, player.getBlockPos(), ModSounds.OFA_CHARGE, SoundCategory.PLAYERS, 1f, 1f);
         }
         player.setVelocity(0, 0, 0);
         player.velocityModified = true;
@@ -50,7 +50,7 @@ public class StLouisSmash extends BasicAbility {
                 entityList.add(entityToAffect);
             });
             player.getServerWorld().spawnParticles(ParticleTypes.CLOUD, player.getX(), player.getY(), player.getZ(), 50, 0, 0, 0, 1);
-            player.getServerWorld().playSound(null, player.getBlockPos(), CustomSounds.OFA_RELEASE_EVENT, SoundCategory.PLAYERS, 1f, 1f);
+            player.getServerWorld().playSound(null, player.getBlockPos(), ModSounds.OFA_RELEASE, SoundCategory.PLAYERS, 1f, 1f);
             hasHit = true;
         } else if(!hasHit){
             player.getServerWorld().spawnParticles(ParticleTypes.CLOUD, player.getX(), player.getY(), player.getZ(), 10, -1, -1, -1, 0.01);

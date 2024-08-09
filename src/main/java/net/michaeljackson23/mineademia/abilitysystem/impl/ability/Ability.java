@@ -23,6 +23,9 @@ public abstract class Ability implements IAbility {
     }
 
     @Override
+    public void cancel() { }
+
+    @Override
     public @NotNull IAbilityUser getUser() {
         return user;
     }

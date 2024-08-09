@@ -18,7 +18,7 @@ public class QuirkExplosionBeamFactory extends SpriteBillboardParticle {
         this.y = y;
         this.z = z;
         this.scale = 0.45f;
-        this.maxAge = 1;
+        this.maxAge = 4;
         this.spriteProvider = spriteProvider;
         this.setSprite(spriteProvider);
     }

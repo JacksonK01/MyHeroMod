@@ -1,11 +1,9 @@
 package net.michaeljackson23.mineademia.entity.projectile.stungrenade;
 
 import net.michaeljackson23.mineademia.entity.EntityRegister;
-import net.michaeljackson23.mineademia.particles.ParticleRegister;
 import net.michaeljackson23.mineademia.util.AreaOfEffect;
 import net.michaeljackson23.mineademia.util.PlaceParticleInWorld;
 import net.michaeljackson23.mineademia.util.QuirkDamage;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;

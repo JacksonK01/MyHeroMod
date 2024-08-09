@@ -3,7 +3,7 @@ package net.michaeljackson23.mineademia.quirk.abilities.explosion;
 import net.michaeljackson23.mineademia.entity.projectile.apshot.APShotProjectile;
 import net.michaeljackson23.mineademia.quirk.Quirk;
 import net.michaeljackson23.mineademia.quirk.abilities.BasicAbility;
-import net.michaeljackson23.mineademia.sound.CustomSounds;
+import net.michaeljackson23.mineademia.sound.ModSounds;
 import net.michaeljackson23.mineademia.util.AnimationProxy;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
@@ -26,7 +26,7 @@ public class APShot extends BasicAbility {
 
         if(timer >= 5) {
             if(!hasFiredProjectile) {
-                player.getServerWorld().playSound(null, player.getX(), player.getY(), player.getZ(), CustomSounds.MHA_EXPLOSION_EVENT, SoundCategory.PLAYERS, 1f, 1f);
+                player.getServerWorld().playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.MHA_EXPLOSION, SoundCategory.PLAYERS, 1f, 1f);
                 APShotProjectile apshot = new APShotProjectile(player.getWorld(), player);
                 apshot.setVelocity(player, player.getPitch(), player.getYaw(), 0f, 2f, 0);
                 player.getWorld().spawnEntity(apshot);

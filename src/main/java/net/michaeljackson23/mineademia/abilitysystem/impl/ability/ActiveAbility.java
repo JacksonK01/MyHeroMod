@@ -1,6 +1,5 @@
 package net.michaeljackson23.mineademia.abilitysystem.impl.ability;
 
-import net.michaeljackson23.mineademia.abilitysystem.intr.Cooldown;
 import net.michaeljackson23.mineademia.abilitysystem.intr.ability.IActiveAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.AbilityCategory;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IAbilityUser;
@@ -37,5 +36,4 @@ public abstract class ActiveAbility extends Ability implements IActiveAbility {
         blockingState.addAll(List.of(categories));
     }
 
-    public abstract @NotNull Cooldown getCooldown();
 }

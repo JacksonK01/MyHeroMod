@@ -1,9 +1,9 @@
 package net.michaeljackson23.mineademia.quirk.abilities.explosion;
 
-import net.michaeljackson23.mineademia.particles.ParticleRegister;
+import net.michaeljackson23.mineademia.particles.ModParticles;
 import net.michaeljackson23.mineademia.quirk.Quirk;
 import net.michaeljackson23.mineademia.quirk.abilities.BasicAbility;
-import net.michaeljackson23.mineademia.sound.CustomSounds;
+import net.michaeljackson23.mineademia.sound.ModSounds;
 import net.michaeljackson23.mineademia.util.AreaOfEffect;
 import net.michaeljackson23.mineademia.util.QuirkDamage;
 import net.minecraft.particle.DefaultParticleType;
@@ -61,7 +61,7 @@ public class HowitzerImpact extends BasicAbility {
     }
 
     private void phase1(ServerPlayerEntity player) {
-        player.getServerWorld().playSound(null, player.getX(), player.getY(), player.getZ(), CustomSounds.MHA_EXPLOSION_EVENT, SoundCategory.PLAYERS, 1f, 2f);
+        player.getServerWorld().playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.MHA_EXPLOSION, SoundCategory.PLAYERS, 1f, 2f);
         spawnParticlesUnderHands(player, ParticleTypes.EXPLOSION);
     }
 
@@ -69,7 +69,7 @@ public class HowitzerImpact extends BasicAbility {
         player.getServerWorld().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ITEM_TOTEM_USE, SoundCategory.PLAYERS, 1f, 2f);
         Vec3d playerVec = player.getRotationVector();
         player.getServerWorld().spawnParticles(ParticleTypes.SMOKE, player.getX() + playerVec.x, player.getY() + 1 + playerVec.y, player.getZ() + playerVec.z, 300, 0.5, 0.5, 0.5, 0);
-        spawnParticlesUnderHands(player, ParticleRegister.EXPLOSION_QUIRK_PARTICLES);
+        spawnParticlesUnderHands(player, ModParticles.EXPLOSION_QUIRK_PARTICLES);
         AreaOfEffect.execute(player, 3, 0.5, player.getX(), player.getY(), player.getZ(), (entityToAffect -> {
             entityToAffect.setVelocity(playerVec);
             entityToAffect.velocityModified = true;

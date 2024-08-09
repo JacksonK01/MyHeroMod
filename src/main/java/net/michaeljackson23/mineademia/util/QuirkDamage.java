@@ -1,7 +1,7 @@
 package net.michaeljackson23.mineademia.util;
 
 import net.michaeljackson23.mineademia.damagetypes.CustomDamageTypes;
-import net.michaeljackson23.mineademia.sound.CustomSounds;
+import net.michaeljackson23.mineademia.sound.ModSounds;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.sound.SoundCategory;
 
@@ -23,7 +23,7 @@ public class QuirkDamage {
     public static void doPhysicalDamage(LivingEntity attacker, LivingEntity attacked, float amount) {
         attacked.setAttacker(attacker);
         if(attacked.damage(CustomDamageTypes.of(attacker.getWorld(), CustomDamageTypes.PHYSICAL_QUIRK_DAMAGE), amount)) {
-            attacked.getWorld().playSound(null, attacked.getBlockPos(), CustomSounds.PHYSICAL_DAMAGE_EVENT, SoundCategory.PLAYERS, 1f, 1f);
+            attacked.getWorld().playSound(null, attacked.getBlockPos(), ModSounds.PUNCH_IMPACT, SoundCategory.PLAYERS, 1f, 1f);
         }
     }
 }

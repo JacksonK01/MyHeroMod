@@ -3,8 +3,9 @@ package net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.ofa
 import net.michaeljackson23.mineademia.abilitysystem.impl.ability.active.ToggleAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.AbilityCategory;
 import net.michaeljackson23.mineademia.abilitysystem.intr.Cooldown;
+import net.michaeljackson23.mineademia.abilitysystem.intr.ability.extras.ICooldownAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IAbilityUser;
-import net.michaeljackson23.mineademia.particles.ParticleRegister;
+import net.michaeljackson23.mineademia.particles.ModParticles;
 import net.michaeljackson23.mineademia.util.LivingEntityMixinAccessor;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -12,7 +13,7 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
 
-public class FullCowlingAbility extends ToggleAbility {
+public class FullCowlingAbility extends ToggleAbility implements ICooldownAbility {
     private static final int STAMINA = 5;
     private static final int COOLDOWN = 5;
     private static final int COWLING_LEVEL_MAX = 10;
@@ -91,7 +92,7 @@ public class FullCowlingAbility extends ToggleAbility {
     private void spawnCowlingParticles() {
         LivingEntity entity = getEntity();
         ServerWorld world = (ServerWorld) entity.getWorld();
-        world.spawnParticles(ParticleRegister.COWLING_PARTICLES, entity.getX(), entity.getY() + 1, entity.getZ(),
+        world.spawnParticles(ModParticles.COWLING_PARTICLES, entity.getX(), entity.getY() + 1, entity.getZ(),
                 fullCowlingLevel * 2, 0.3f, 0.5f, 0.3f, 0.1);
     }
 
