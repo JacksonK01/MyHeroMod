@@ -58,14 +58,19 @@ public final class AbilityManager {
         eventAbilities.removeIf((a) -> a.getUser().equals(user));
     }
 
-    public static void onServerTick(MinecraftServer minecraftServer) {
+    public static void onStartServerTick(MinecraftServer minecraftServer) {
         for (ITickAbility tickAbility : tickAbilities)
-            tickAbility.onTick();
+            tickAbility.onStartTick();
         for (ICooldownAbility cooldownAbility : cooldownAbilities)
             cooldownAbility.getCooldown().onTick();
 
         regenUserStamina();
         sendUserPacket();
+    }
+
+    public static void onEndServerTick(MinecraftServer minecraftServer) {
+        for (ITickAbility tickAbility : tickAbilities)
+            tickAbility.onEndTick();
     }
 
     public static void triggerEvents(Class<?> eventType) {

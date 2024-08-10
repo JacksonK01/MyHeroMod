@@ -14,6 +14,10 @@
   "item.mineademia.beta_suit_leggings": "Beta Suit Leggings",
   "item.mineademia.beta_suit_boots": "Beta Suit Boots",
 
+  "item.mineademia.energy_drink": "Energy Drink",
+  "item.mineademia.energy_drink.tooltip_1": "You feel refreshed!",
+  "item.mineademia.energy_drink.tooltip_2": "Fills up your stamina",
+
   "block.mineademia.quirk_ice": "Quirk Ice",
 
   "key.mineademia.mineademia": "Mineademia",

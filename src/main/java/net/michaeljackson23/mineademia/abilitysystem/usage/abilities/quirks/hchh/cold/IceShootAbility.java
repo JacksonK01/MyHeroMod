@@ -38,7 +38,7 @@ public class IceShootAbility extends ActiveAbility implements ICooldownAbility, 
     }
 
     @Override
-    public void onTick() {
+    public void onStartTick() {
         if (ticks <= 10) {
             if (ticks % 2 == 0) {
                 LivingEntity entity = getEntity();

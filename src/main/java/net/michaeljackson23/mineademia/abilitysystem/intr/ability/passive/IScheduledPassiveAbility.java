@@ -14,7 +14,7 @@ public interface IScheduledPassiveAbility extends IPassiveAbility, ITickAbility 
     void setCurrentTime(int currentTime);
 
     @Override
-    default void onTick() {
+    default void onStartTick() {
         int currentTime = getCurrentTime();
 
         if (currentTime <= 0) {

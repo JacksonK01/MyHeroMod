@@ -45,7 +45,7 @@ public class DodgeAbility extends ActiveAbility implements ICooldownAbility, ITi
     }
 
     @Override
-    public void onTick() {
+    public void onStartTick() {
         if(dashing) {
             if (ticks++ >= 2) {
                 LivingEntity entity = getEntity();

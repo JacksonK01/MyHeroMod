@@ -51,7 +51,7 @@ public class FullCowlingAbility extends ActiveAbility implements ITickAbility, I
     }
 
     @Override
-    public void onTick() {
+    public void onStartTick() {
         if(fullCowlingLevel > 0) {
             spawnCowlingParticles();
             applyStatusEffects();

@@ -33,7 +33,7 @@ public class Explode extends BasicAbility {
             AnimationProxy.sendAnimationToClients(player, "explode_flip");
         } else if(!init2){
             spawnParticlesUnderHands(player, ParticleTypes.EXPLOSION);
-            spawnParticlesUnderHands(player, ModParticles.EXPLOSION_QUIRK_PARTICLES);
+            spawnParticlesUnderHands(player, ModParticles.QUIRK_EXPLOSION_DETONATION);
             player.getWorld().createExplosion(player, player.getX(), player.getY(), player.getZ(), 1.5f, true, World.ExplosionSourceType.TNT);
             player.setVelocity(player.getVelocity().x, 1, player.getVelocity().z);
             player.velocityModified = true;

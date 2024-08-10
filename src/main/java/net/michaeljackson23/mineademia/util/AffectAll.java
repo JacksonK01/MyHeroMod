@@ -10,8 +10,10 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -24,8 +26,18 @@ public final class AffectAll<T extends Entity> {
         this.entities = new HashSet<>(entities);
     }
 
+    public HashSet<T> getAll() {
+        return entities;
+    }
+
+
     public AffectAll<T> exclude(@NotNull T entity) {
         entities.remove(entity);
+        return this;
+    }
+
+    public AffectAll<T> exclude(@NotNull Collection<T> entities) {
+        entities.removeAll(entities);
         return this;
     }
 
@@ -34,9 +46,24 @@ public final class AffectAll<T extends Entity> {
         return this;
     }
 
-    public HashSet<T> getAll() {
-        return entities;
+    public AffectAll<T> insertInto(@NotNull Collection<T> collection) {
+        collection.addAll(entities);
+        return this;
     }
+
+    public <T2, C extends Map<T, T2>> AffectAll<T> insertInto(@NotNull C map, @NotNull Function<T, T2> mapFunction, boolean putIfAbsent) {
+        for (T entity : entities) {
+            T2 value = mapFunction.apply(entity);
+
+            if (putIfAbsent)
+                map.putIfAbsent(entity, value);
+            else
+                map.put(entity, mapFunction.apply(entity));
+        }
+
+        return this;
+    }
+
 
     public AffectAll<T> with(@NotNull Consumer<T> action) {
         entities.forEach(action);

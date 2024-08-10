@@ -60,7 +60,7 @@ public class IceSpikeAbility extends ActiveAbility implements ICooldownAbility, 
         this.maxDistance = this.position.distanceTo(result.getPos());
     }
 
-    public void onTick() {
+    public void onStartTick() {
         if (ticks < 0 || ticks++ > MAX_TIME) {
             ticks = -1;
             return;

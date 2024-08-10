@@ -45,7 +45,7 @@ public class EngineDashPassive extends ActiveAbility implements ICooldownAbility
     }
 
     @Override
-    public void onTick() {
+    public void onStartTick() {
         engineDash();
     }
 

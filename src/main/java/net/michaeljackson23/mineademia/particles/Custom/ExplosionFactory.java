@@ -10,7 +10,9 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Random;
 
 public class ExplosionFactory extends SpriteBillboardParticle {
+
     SpriteProvider spriteProvider;
+
     protected ExplosionFactory(ClientWorld world, double x, double y, double z, SpriteProvider spriteProvider, float upwardsAcceleration) {
         super(world, x, y, z);
         this.velocityMultiplier = 1f;
@@ -41,14 +43,18 @@ public class ExplosionFactory extends SpriteBillboardParticle {
 
     @Environment(EnvType.CLIENT)
     public static class Factory implements ParticleFactory<DefaultParticleType> {
+
         private final SpriteProvider sprites;
+
         public Factory(SpriteProvider spriteSet) {
             this.sprites = spriteSet;
         }
+
         @Nullable
         @Override
         public Particle createParticle(DefaultParticleType parameters, ClientWorld world, double x, double y, double z, double velocityX, double velocityY, double velocityZ) {
             return new ExplosionFactory(world, x, y, z, this.sprites, 0f);
         }
+
     }
 }

@@ -6,6 +6,8 @@ import net.michaeljackson23.mineademia.abilitysystem.intr.ability.IAbility;
  */
 public interface ITickAbility extends IAbility {
 
-    void onTick();
+    void onStartTick();
+
+    default void onEndTick() { }
 
 }

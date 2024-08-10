@@ -49,7 +49,7 @@ public class APShotProjectile extends ThrownItemEntity {
         }
         timer++;
         PlaceParticleInWorld.spawn(getWorld(), ParticleTypes.LAVA, getX(), getY(), getZ(), 0, 0, 0, 1);
-        PlaceParticleInWorld.spawn(getWorld(), ModParticles.EXPLOSION_QUIRK_PARTICLES, getX(), getY(), getZ(), 0.3, 0.3, 0.3, 2);
+        PlaceParticleInWorld.spawn(getWorld(), ModParticles.QUIRK_EXPLOSION_DETONATION, getX(), getY(), getZ(), 0.3, 0.3, 0.3, 2);
     }
 
     @Override

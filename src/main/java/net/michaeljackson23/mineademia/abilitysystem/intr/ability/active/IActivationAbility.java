@@ -12,7 +12,7 @@ public interface IActivationAbility extends IActiveAbility, ITickAbility {
     void setTicks(int ticks);
 
     void onTickActive();
-    void onTickInactive();
+    default void onTickInactive() { }
 
     default void incrementTicks() {
         setTicks(getTicks() + 1);
@@ -22,7 +22,7 @@ public interface IActivationAbility extends IActiveAbility, ITickAbility {
     }
 
     @Override
-    default void onTick() {
+    default void onStartTick() {
         if (isActive())
             onTickActive();
         else

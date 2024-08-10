@@ -82,7 +82,7 @@ public class ManchesterSmashAbility extends ActiveAbility implements ICooldownAb
     }
 
     @Override
-    public void onTick() {
+    public void onStartTick() {
         if(isActivate)
             manchesterSmash();
     }

@@ -316,5 +316,35 @@
         "stream": false
       }
     ]
+  },
+  "big_tornado_start": {
+    "category": "master",
+    "subtitle": "subtitles.big_tornado_start",
+    "sounds": [
+      {
+        "name": "mineademia:big_tornado_start",
+        "stream": false
+      }
+    ]
+  },
+  "big_tornado_loop": {
+    "category": "master",
+    "subtitle": "subtitles.big_tornado_loop",
+    "sounds": [
+      {
+        "name": "mineademia:big_tornado_loop",
+        "stream": false
+      }
+    ]
+  },
+  "big_tornado_end": {
+    "category": "master",
+    "subtitle": "subtitles.big_tornado_end",
+    "sounds": [
+      {
+        "name": "mineademia:big_tornado_end",
+        "stream": false
+      }
+    ]
   }
 }

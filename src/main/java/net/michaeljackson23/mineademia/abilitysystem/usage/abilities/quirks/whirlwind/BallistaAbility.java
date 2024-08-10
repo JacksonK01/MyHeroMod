@@ -42,7 +42,7 @@ public class BallistaAbility extends ActiveAbility implements ICooldownAbility, 
     }
 
     @Override
-    public void onTick() {
+    public void onStartTick() {
         if(!isActive) {
             return;
         }

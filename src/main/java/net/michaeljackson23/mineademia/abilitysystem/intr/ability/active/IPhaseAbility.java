@@ -50,7 +50,7 @@ public interface IPhaseAbility extends IActiveAbility, ITickAbility {
     }
 
     @Override
-    default void onTick() {
+    default void onStartTick() {
         Runnable phaseMethod = getCurrentPhase();
         if (phaseMethod != null)
             phaseMethod.run();

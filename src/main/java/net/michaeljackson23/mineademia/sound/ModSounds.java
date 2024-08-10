@@ -38,6 +38,10 @@ public class ModSounds {
     public static final SoundEvent SMALL_TORNADO_LOOP = registerSound("small_tornado_loop");
     public static final SoundEvent SMALL_TORNADO_END = registerSound("small_tornado_end");
 
+    public static final SoundEvent BIG_TORNADO_START = registerSound("big_tornado_start");
+    public static final SoundEvent BIG_TORNADO_LOOP = registerSound("big_tornado_loop");
+    public static final SoundEvent BIG_TORNADO_END = registerSound("big_tornado_end");
+
     private static SoundEvent registerSound(String id) {
         Identifier identifier = new Identifier(Mineademia.MOD_ID, id);
         return Registry.register(Registries.SOUND_EVENT, identifier, SoundEvent.of(identifier));

@@ -45,7 +45,7 @@ public class GaleUpliftAbility extends ActiveAbility implements ICooldownAbility
     }
 
     @Override
-    public void onTick() {
+    public void onStartTick() {
         if(!isActive)
             return;
 

@@ -77,6 +77,8 @@ public class HowitzerImpactAbility extends PhaseAbility implements ICooldownAbil
     public static final float P1_RING_SPIN_MULTIPLIER = 0.1f;
     public static final float P1_RING_HEIGHT_OFFSET = MAX_HEIGHT / (float) P1_RING_AMOUNT;
 
+    public static final int P2_DASH_SOUND_LOOP_TIME = 20;
+
     public static final Vec3d P2_DASH_MULTIPLIER = new Vec3d(1, 0.75f, 1);
 
     public static final int P2_DASH_BEAM_AMOUNT = 4;
@@ -122,14 +124,13 @@ public class HowitzerImpactAbility extends PhaseAbility implements ICooldownAbil
     private Vec3d projectileDirection;
 
     public HowitzerImpactAbility(@NotNull IAbilityUser user) {
-        super(user, "Howitzer Impact", "The user dashes into the air and creates two Explosions in their hands. While in the air, the user spins themselves around, building up momentum for their Explosions. After spinning themselves around and gathering momentum for their Explosions, the user fires an Explosive tornado at their opponent.", AbilityCategory.ATTACK, AbilityCategory.ULTIMATE);
+        super(user, "Howitzer Impact", "The user dashes into the air and creates two Explosions in their hands. While in the air, the user spins themselves around, building up momentum for their Explosions. After spinning themselves around and gathering momentum for their Explosions, the user fires an Explosive tornado at their opponent.", AbilityCategory.ATTACK, AbilityCategory.MOBILITY, AbilityCategory.ULTIMATE);
 
         this.cooldown = new Cooldown(COOLDOWN_TIME);
         this.glowingIds = new HashSet<>();
 
         setPhaseMethods(0, this::risePhase, this::dashPhase, this::shootPhase);
-        setStartPhaseMethod(1, this::startDashPhase);
-        setStartPhaseMethod(2, this::startShootPhase);
+        setStartPhaseMethods(0, this::startRisePhase, this::startDashPhase, this::startShootPhase);
     }
 
     @Override
@@ -139,8 +140,10 @@ public class HowitzerImpactAbility extends PhaseAbility implements ICooldownAbil
             this.ticks = 0;
             return;
         }
-        else if (this.getPhase() >= 0 || /* !hasStaminaAndConsume(getUser().getMaxStamina()) || */ !isCooldownReadyAndReset())
+        else if (this.getPhase() >= 0 || !hasStamina(getUser().getMaxStamina()) || !isCooldownReadyAndReset())
             return;
+
+        getUser().setStamina(0);
 
         super.execute(isKeyDown);
         this.ticks = 0;
@@ -152,14 +155,14 @@ public class HowitzerImpactAbility extends PhaseAbility implements ICooldownAbil
     }
 
     @Override
-    public void onTick() {
+    public void onStartTick() {
         if (ticks % 10 == 0)
             removeGlow();
 
         if (getPhase() >= 0)
             setNearbyGlow();
 
-        super.onTick();
+        super.onStartTick();
 
         ticks++;
     }
@@ -233,6 +236,11 @@ public class HowitzerImpactAbility extends PhaseAbility implements ICooldownAbil
         }
     }
 
+    private void startRisePhase() {
+        if (getEntity() instanceof ServerPlayerEntity player)
+            ServerPlayNetworking.send(player, Networking.FORCE_INTO_THIRD_PERSON_BACK, PacketByteBufs.empty());
+    }
+
     private void lockToUserPosition() {
         LivingEntity entity = getEntity();
         Vec3d entityPos = entity.getPos();
@@ -294,12 +302,15 @@ public class HowitzerImpactAbility extends PhaseAbility implements ICooldownAbil
         LivingEntity entity = getEntity();
         ServerWorld world = (ServerWorld) entity.getWorld();
 
-        Vec3d trailPos = entity.getPos().add(0, 1, 0);
+        Vec3d trailPos = entity.getPos().add(0, 0, 0);
 
         Vec3d forward = entity.getRotationVecClient().normalize();
         Vec3d backward = forward.multiply(-1);
 
         dashForward();
+
+        if (ticks % P2_DASH_SOUND_LOOP_TIME == 0)
+            world.playSound(null, entity.getX(), entity.getY(), entity.getZ(), ModSounds.BIG_TORNADO_LOOP, SoundCategory.MASTER, 1, (ticks / (float) P2_TIME));
 
         drawBeamTail(world, trailPos, backward);
         DrawParticles.inVortex(world, trailPos, backward, P2_DASH_VORTEX_RADIUS, ticks * P2_VORTEX_ROTATION_MULTIPLIER, P2_VORTEX_MAX_HEIGHT, P2_VORTEX_LINES, P2_VORTEX_DENSITY, P2_VORTEX_STEEPNESS, ParticleTypes.LARGE_SMOKE, Vec3d.ZERO, 1, 0, true);
@@ -316,6 +327,7 @@ public class HowitzerImpactAbility extends PhaseAbility implements ICooldownAbil
     private void startDashPhase() {
         if (getEntity() instanceof ServerPlayerEntity player) {
             EntityReflection.trySetLivingFlag(player, 4, true);
+            ServerPlayNetworking.send(player, Networking.FORCE_INTO_FIRST_PERSON, PacketByteBufs.empty());
         }
     }
 
@@ -372,6 +384,8 @@ public class HowitzerImpactAbility extends PhaseAbility implements ICooldownAbil
         this.projectilePos = entity.getPos();
         this.projectileDirection = entity.getRotationVecClient().normalize();
 
+        AffectAll.withinRadius(world, this.projectileStartPos, 32).stopSound(ModSounds.BIG_TORNADO_LOOP, SoundCategory.MASTER);
+
         world.playSound(null, this.projectileStartPos.x, this.projectileStartPos.y, this.projectileStartPos.z, ModSounds.DISTANT_EXPLOSION_1, SoundCategory.MASTER, 10, 1);
         world.playSound(null, this.projectileStartPos.x, this.projectileStartPos.y, this.projectileStartPos.z, ModSounds.DISTANT_EXPLOSION_2, SoundCategory.MASTER, 10, 1);
 
@@ -388,7 +402,7 @@ public class HowitzerImpactAbility extends PhaseAbility implements ICooldownAbil
         world.playSound(null, this.projectileStartPos.x, this.projectileStartPos.y, this.projectileStartPos.z, ModSounds.DEEP_EXPLOSION, SoundCategory.MASTER, 10, 1);
 
         DamageSource source = world.getDamageSources().explosion(entity, entity);
-        world.createExplosion(entity, source, new ExplosionBehavior(), pos.getX(), pos.getY(), pos.getZ(), P3_PROJECTILE_POWER, true, World.ExplosionSourceType.MOB, ModParticles.EXPLOSION_QUIRK_PARTICLES, ModParticles.QUIRK_EXPLOSION_BEAM, SoundEvents.ENTITY_GENERIC_EXPLODE);
+        world.createExplosion(entity, source, new ExplosionBehavior(), pos.getX(), pos.getY(), pos.getZ(), P3_PROJECTILE_POWER, true, World.ExplosionSourceType.MOB, ModParticles.QUIRK_EXPLOSION_DETONATION, ModParticles.QUIRK_EXPLOSION_BEAM, SoundEvents.ENTITY_GENERIC_EXPLODE);
 
     }
 

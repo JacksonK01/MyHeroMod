@@ -20,12 +20,12 @@ public class MockQuirkTabletGui extends Screen {
 
     public MockQuirkTabletGui(Text title) {
         super(title);
-
-        this.index = 0;
     }
 
     @Override
     protected void init() {
+        this.index = 0;
+
         if (FabricLoader.getInstance().isDevelopmentEnvironment()) {
             ButtonWidget example = createButton("Example", "example");
             addDrawableChild(example);

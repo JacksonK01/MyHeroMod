@@ -12,7 +12,13 @@ public interface IToggleAbility extends IActivationAbility {
 
     @Override
     default void execute(boolean isKeyDown) {
-        if (isKeyDown && isActive() && executeEnd()) {
+        if (isKeyDown && isActive()) {
+            setActive(false);
+            if (!executeEnd()) {
+                setActive(true);
+                return;
+            }
+
             resetTicks();
             setActive(false);
         } else if (isKeyDown && !isActive() && executeStart()) {

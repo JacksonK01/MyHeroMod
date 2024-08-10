@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.michaeljackson23.mineademia.Mineademia;
 import net.michaeljackson23.mineademia.armor.ArmorRegister;
 import net.michaeljackson23.mineademia.blocks.BlockRegister;
+import net.michaeljackson23.mineademia.items.custom.EnergyDrinkItem;
 import net.michaeljackson23.mineademia.items.custom.MockQuirkTablet;
 import net.michaeljackson23.mineademia.items.custom.QuirkTablet;
 import net.minecraft.item.*;
@@ -12,11 +13,14 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import org.jetbrains.annotations.NotNull;
 
 public class ItemRegister {
     public static Item sharpShooter;
     public static QuirkTablet quirkTablet;
     public static MockQuirkTablet mockQuirkTablet;
+
+    public static final Item ENERGY_DRINK = registerItem("energy_drink", new EnergyDrinkItem());
 
     public static void register() {
         ItemRegister.quirkTablet = Registry.register(Registries.ITEM, new Identifier(Mineademia.MOD_ID, "quirk_menu_selector"), new QuirkTablet(new FabricItemSettings().maxCount(1)));
@@ -43,5 +47,12 @@ public class ItemRegister {
                 })
                 .build();
         Registry.register(Registries.ITEM_GROUP, new Identifier(Mineademia.MOD_ID, "mha_group"), MHA_GROUP);
+
+        Mineademia.LOGGER.info("Registering items for " + Mineademia.MOD_ID);
     }
+
+    private static <T extends Item> T registerItem(@NotNull String id, @NotNull T item) {
+        return Registry.register(Registries.ITEM, new Identifier(Mineademia.MOD_ID, id), item);
+    }
+
 }

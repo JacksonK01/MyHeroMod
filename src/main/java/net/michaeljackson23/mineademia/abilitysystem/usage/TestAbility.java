@@ -25,7 +25,7 @@ public final class TestAbility extends ActiveAbility implements ITickAbility, IC
     }
 
     @Override
-    public void onTick() {
+    public void onStartTick() {
         if (!isRunning)
             return;
 
