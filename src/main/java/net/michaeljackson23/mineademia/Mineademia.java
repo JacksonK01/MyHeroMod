@@ -20,6 +20,7 @@ import net.michaeljackson23.mineademia.quirk.events.BeforeDamageEvent;
 import net.michaeljackson23.mineademia.savedata.OnPlayerRespawn;
 import net.michaeljackson23.mineademia.sound.ModSounds;
 import net.michaeljackson23.mineademia.statuseffects.StatusEffectsRegister;
+import net.michaeljackson23.mineademia.util.EntityReflection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -70,6 +71,11 @@ public class Mineademia implements ModInitializer {
 		StatusEffectsRegister.register();
 
 		registerEvents();
+		registerServices();
+	}
+
+	private void registerServices() {
+		EntityReflection.register();
 	}
 
 	private void registerEvents() {

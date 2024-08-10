@@ -8,7 +8,6 @@ import net.michaeljackson23.mineademia.abilitysystem.intr.ability.extras.ITickAb
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IAbilityUser;
 import net.michaeljackson23.mineademia.util.AffectAll;
 import net.michaeljackson23.mineademia.util.AnimationProxy;
-import net.michaeljackson23.mineademia.util.AreaOfEffect;
 import net.michaeljackson23.mineademia.util.QuirkDamage;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -17,7 +16,6 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.Text;
 import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.NotNull;
 
@@ -69,7 +67,7 @@ public class GaleUpliftAbility extends ActiveAbility implements ICooldownAbility
 
     @Override
     public void execute(boolean isKeyDown) {
-        if(!isReadyAndReset() && isKeyDown && getStamina() >= STAMINA) {
+        if(!isCooldownReadyAndReset() && isKeyDown && getStamina() >= STAMINA) {
             return;
         }
         offsetStamina(-STAMINA);

@@ -11,13 +11,17 @@ import java.util.List;
 public abstract class ActiveAbility extends Ability implements IActiveAbility {
 
     private final HashSet<AbilityCategory> categories;
-    private final HashSet<AbilityCategory> blockingState;
+    private final HashSet<AbilityCategory> blockedCategories;
+
+    private boolean blockedIgnoreSelf;
 
     public ActiveAbility(@NotNull IAbilityUser user, @NotNull String name, @NotNull String description, @NotNull AbilityCategory... categories) {
         super(user, name, description);
 
         this.categories = new HashSet<>(List.of(categories));
-        this.blockingState = new HashSet<>();
+        this.blockedCategories = new HashSet<>();
+
+        this.blockedIgnoreSelf = true;
     }
 
     @Override
@@ -26,14 +30,24 @@ public abstract class ActiveAbility extends Ability implements IActiveAbility {
     }
 
     @Override
-    public @NotNull HashSet<AbilityCategory> getBlockingState() {
-        return blockingState;
+    public @NotNull HashSet<AbilityCategory> getBlockedCategories() {
+        return blockedCategories;
     }
 
     @Override
-    public void setBlockingState(@NotNull AbilityCategory... categories) {
-        blockingState.clear();
-        blockingState.addAll(List.of(categories));
+    public boolean isBlockIgnoreSelf() {
+        return blockedIgnoreSelf;
+    }
+
+    @Override
+    public void setBlockIgnoreSelf(boolean blockIgnoreSelf) {
+        this.blockedIgnoreSelf = blockIgnoreSelf;
+    }
+
+    @Override
+    public void setBlockedCategories(@NotNull AbilityCategory... categories) {
+        blockedCategories.clear();
+        blockedCategories.addAll(List.of(categories));
     }
 
 }

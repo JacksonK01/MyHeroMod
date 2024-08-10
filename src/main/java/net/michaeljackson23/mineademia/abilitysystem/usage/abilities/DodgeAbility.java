@@ -30,7 +30,7 @@ public class DodgeAbility extends ActiveAbility implements ICooldownAbility, ITi
 
     @Override
     public void execute(boolean isKeyDown) {
-        if (!isReadyAndReset())
+        if (!isCooldownReadyAndReset())
             return;
 
         oldPos = getEntity().getPos();

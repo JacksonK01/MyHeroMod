@@ -276,5 +276,45 @@
         "stream": false
       }
     ]
+  },
+  "small_explosion": {
+    "category": "master",
+    "subtitle": "subtitles.small_explosion",
+    "sounds": [
+      {
+        "name": "mineademia:small_explosion",
+        "stream": false
+      }
+    ]
+  },
+  "small_tornado_start": {
+    "category": "master",
+    "subtitle": "subtitles.small_tornado_start",
+    "sounds": [
+      {
+        "name": "mineademia:small_tornado_start",
+        "stream": false
+      }
+    ]
+  },
+  "small_tornado_loop": {
+    "category": "master",
+    "subtitle": "subtitles.small_tornado_loop",
+    "sounds": [
+      {
+        "name": "mineademia:small_tornado_loop",
+        "stream": false
+      }
+    ]
+  },
+  "small_tornado_end": {
+    "category": "master",
+    "subtitle": "subtitles.small_tornado_end",
+    "sounds": [
+      {
+        "name": "mineademia:small_tornado_end",
+        "stream": false
+      }
+    ]
   }
 }

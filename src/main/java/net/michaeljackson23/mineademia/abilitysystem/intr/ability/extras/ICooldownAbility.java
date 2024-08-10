@@ -2,6 +2,7 @@ package net.michaeljackson23.mineademia.abilitysystem.intr.ability.extras;
 
 import net.michaeljackson23.mineademia.abilitysystem.intr.Cooldown;
 import net.michaeljackson23.mineademia.abilitysystem.intr.ability.IActiveAbility;
+import net.minecraft.network.PacketByteBuf;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -12,20 +13,29 @@ public interface ICooldownAbility extends IActiveAbility {
     @NotNull
     Cooldown getCooldown();
 
-    default void reset() {
+    default void resetCooldown() {
         getCooldown().reset();
     }
 
-    default boolean isReady() {
+    default boolean isCooldownReady() {
         return getCooldown().isReady();
     }
 
-    default boolean isReadyAndReset() {
+    default boolean isCooldownReadyAndReset() {
         return getCooldown().isReadyAndReset();
     }
 
-    default boolean shouldDisplayOnHud() {
+    default boolean shouldCooldownDisplayOnHud() {
         return true;
+    }
+
+    @Override
+    default void encode(@NotNull PacketByteBuf buffer) {
+        IActiveAbility.super.encode(buffer);
+
+        Cooldown cooldown = getCooldown();
+        buffer.writeInt(cooldown.getCooldownTicks());
+        buffer.writeInt(cooldown.getTicksRemaining());
     }
 
 }

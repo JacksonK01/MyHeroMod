@@ -59,7 +59,7 @@ public class BallistaAbility extends ActiveAbility implements ICooldownAbility, 
 
     @Override
     public void execute(boolean isKeyDown) {
-        if(isReadyAndReset() && doesHaveRequiredStamina() && isKeyDown) {
+        if(isCooldownReadyAndReset() && doesHaveRequiredStamina() && isKeyDown) {
             isActive = true;
             timer = 0;
             offsetStamina(-STAMINA_DRAIN);

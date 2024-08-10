@@ -18,13 +18,13 @@ import net.michaeljackson23.mineademia.client.gui.vestige.VestigeGUI;
 import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkData;
 import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkDataAccessors;
 import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkDataPacket;
+import net.michaeljackson23.mineademia.util.EntityReflection;
 import net.michaeljackson23.mineademia.util.LivingEntityMixinAccessor;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.option.Perspective;
-import net.minecraft.client.render.entity.LivingEntityRenderer;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.AnimationState;
 import net.minecraft.entity.Entity;
@@ -35,8 +35,6 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.UUID;
 
 public class ClientPackets {
@@ -153,14 +151,6 @@ public class ClientPackets {
     public static void setEntitiesGlow(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
         ClientWorld world = client.world;
 
-        Method method = null;
-        try {
-            method = Entity.class.getDeclaredMethod("setFlag", int.class, boolean.class);
-            method.setAccessible(true);
-        } catch (NoSuchMethodException e) {
-            return;
-        }
-
         if (world != null) {
             int[] ids = buf.readIntArray();
             boolean isGlowing = buf.readBoolean();
@@ -169,14 +159,8 @@ public class ClientPackets {
                 for (int id : ids) {
                     Entity entity = world.getEntityById(id);
 
-                    if (entity != null) {
-                        try {
-                            method.invoke(entity, 6, isGlowing);
-                        } catch (IllegalAccessException | InvocationTargetException e) {
-                            continue;
-                        }
-                        // entity.setGlowing(isGlowing);
-                    }
+                    if (entity != null)
+                        EntityReflection.trySetFlag(entity, 6, isGlowing);
                 }
             }
         }

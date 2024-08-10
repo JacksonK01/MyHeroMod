@@ -53,7 +53,7 @@ public class ManchesterSmashAbility extends ActiveAbility implements ICooldownAb
 
     @Override
     public void execute(boolean isKeyDown) {
-        if(isKeyDown && isReadyAndReset() && hasStaminaAndConsume(STAMINA)) {
+        if(isKeyDown && isCooldownReadyAndReset() && hasStaminaAndConsume(STAMINA)) {
             init();
         }
     }

@@ -11,15 +11,11 @@ public abstract class Ability implements IAbility {
     private final String name;
     private final String description;
 
-    private boolean active;
-
     public Ability(@NotNull IAbilityUser user, @NotNull String name, @NotNull String description) {
         this.user = user;
 
         this.name = name;
         this.description = description;
-
-        this.active = true;
     }
 
     @Override
@@ -38,16 +34,6 @@ public abstract class Ability implements IAbility {
     @Override
     public @NotNull String getDescription() {
         return description;
-    }
-
-    @Override
-    public boolean isActive() {
-        return active;
-    }
-
-    @Override
-    public void setActive(boolean active) {
-        this.active = active;
     }
 
 }

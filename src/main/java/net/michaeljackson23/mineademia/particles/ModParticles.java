@@ -24,13 +24,6 @@ public class ModParticles {
         return Registry.register(Registries.PARTICLE_TYPE, new Identifier(Mineademia.MOD_ID, id), particleType);
     }
 
-//    public static void register() {
-//        Registry.register(Registries.PARTICLE_TYPE, new Identifier(Mineademia.MOD_ID, "cowling_particles"), COWLING_PARTICLES);
-//        Registry.register(Registries.PARTICLE_TYPE, new Identifier(Mineademia.MOD_ID, "explosion"), EXPLOSION_QUIRK_PARTICLES);
-//        Registry.register(Registries.PARTICLE_TYPE, new Identifier(Mineademia.MOD_ID, "ring"), SHOCKWAVE_PARTICLES);
-//        Registry.register(Registries.PARTICLE_TYPE, new Identifier(Mineademia.MOD_ID, "quirk_explosion_beam"), QUIRK_EXPLOSION_BEAM);
-//    }
-
     public static void register() {
         Mineademia.LOGGER.info("Registering particles for " + Mineademia.MOD_ID);
     }

@@ -6,6 +6,7 @@ import net.michaeljackson23.mineademia.abilitysystem.intr.ability.IActiveAbility
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityset.IAbilityMap;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityset.IAbilitySet;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.network.PacketByteBuf;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -17,6 +18,10 @@ import java.util.stream.Stream;
  * Base class for all ability users
  */
 public interface IAbilityUser {
+
+    String USER_END_TOKEN = "--USER-END--";
+    String ABILITY_END_TOKEN = "--ABILITY-END--";
+
 
     @NotNull
     LivingEntity getEntity();
@@ -37,7 +42,7 @@ public interface IAbilityUser {
     <T extends IActiveAbility> void execute(@NotNull Class<T> type, boolean isKeyDown);
 
     default boolean canExecute(@NotNull IActiveAbility ability) {
-        return !isBlocked() && isEnabled() && ability.isActive() && ability.canExecute();
+        return !isBlocked() && isEnabled() && ability.canExecute();
     }
 
     int getMaxStamina();
@@ -62,5 +67,19 @@ public interface IAbilityUser {
 
     void setEnabled(boolean enabled);
     void setBlocked(boolean blocked);
+
+    default void encode(@NotNull PacketByteBuf buffer) {
+        buffer.writeUuid(getEntity().getUuid());
+        buffer.writeInt(getMaxStamina());
+        buffer.writeInt(getStamina());
+        buffer.writeBoolean(isEnabled());
+        buffer.writeBoolean(isBlocked());
+        buffer.writeString(USER_END_TOKEN);
+
+        for (IAbility ability : getAbilities().values()) {
+            ability.encode(buffer);
+            buffer.writeString(ABILITY_END_TOKEN);
+        }
+    }
 
 }

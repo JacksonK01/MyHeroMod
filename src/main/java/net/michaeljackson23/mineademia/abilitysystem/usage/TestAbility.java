@@ -36,7 +36,7 @@ public final class TestAbility extends ActiveAbility implements ITickAbility, IC
 
     @Override
     public void execute(boolean isKeyDown) {
-        if (isReadyAndReset()) {
+        if (isCooldownReadyAndReset()) {
             phase = 0;
             isRunning = true;
         }

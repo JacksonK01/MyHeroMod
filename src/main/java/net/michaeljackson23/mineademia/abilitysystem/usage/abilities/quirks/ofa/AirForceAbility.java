@@ -6,7 +6,6 @@ import net.michaeljackson23.mineademia.abilitysystem.intr.Cooldown;
 import net.michaeljackson23.mineademia.abilitysystem.intr.ability.extras.ICooldownAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IAbilityUser;
 import net.michaeljackson23.mineademia.entity.projectile.airforce.AirForceProjectile;
-import net.michaeljackson23.mineademia.util.PlayerAngleVector;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.math.Vec3d;
@@ -30,7 +29,7 @@ public class AirForceAbility extends ActiveAbility implements ICooldownAbility {
 
     @Override
     public void execute(boolean isKeyDown) {
-        if(isReadyAndReset() && isKeyDown && getStamina() >= STAMINA) {
+        if(isCooldownReadyAndReset() && isKeyDown && getStamina() >= STAMINA) {
             offsetStamina(-STAMINA);
             spawnAirforce();
         }

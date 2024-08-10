@@ -27,7 +27,7 @@ import org.jetbrains.annotations.Nullable;
  *                           Annotate {@link Override} above methods you override from super classes / interfaces
 
  * THOSE WHO DO NOT FOLLOW STANDARDS SHALL BE SMITTEN!!!
- * Nah jk but I'll prob throw ya a comment and worst case revise your code cause those stuff really matters in the long run yk? (Please follow standards lol)
+ * Nah jk but I'll prob throw ya a comment and worst case revise your code(Please don't make me revise your code I'd feel bad) cause those stuff really matters in the long run yk? (Please follow standards :3)
  */
 public class ExampleAbility2 extends ActiveAbility implements ICooldownAbility {
 
@@ -67,7 +67,7 @@ public class ExampleAbility2 extends ActiveAbility implements ICooldownAbility {
     }
 
     /**
-     * Notice that method {@link ICooldownAbility#isReadyAndReset()}, it is essentially a combination of {@link ICooldownAbility#isReady()} and {@link ICooldownAbility#reset()}, who'd have thought :P
+     * Notice that method {@link ICooldownAbility#isCooldownReadyAndReset()}, it is essentially a combination of {@link ICooldownAbility#isCooldownReady()} and {@link ICooldownAbility#resetCooldown()}, who'd have thought :P
      * It does exactly what it sounds like, if our cooldown is ready, it resets it and returns 'true', however, if it isn't ready, it just returns 'false'
 
      * You might be asking: Why are we even checking the cooldown ourselves? We implemented {@link ICooldownAbility} and set up our cooldown why that?
@@ -79,7 +79,7 @@ public class ExampleAbility2 extends ActiveAbility implements ICooldownAbility {
      */
     @Override
     public void execute(boolean isKeyDown) {
-        if (!isReadyAndReset())
+        if (isKeyDown && !isCooldownReadyAndReset())
             return;
 
         if (isKeyDown)

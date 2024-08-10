@@ -6,6 +6,7 @@ import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IAbilityUs
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.DodgeAbility;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.example.ExampleAbility1;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.example.ExampleAbility2;
+import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.example.ExampleAbility3;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.engine.EngineDashPassive;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.explosion.ApShotAbility;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.explosion.ExplosiveSpeedAbility;
@@ -48,7 +49,7 @@ public final class AbilitySets {
 
     public static final Function<IAbilityUser, IAbilitySet> ENGINE = registerAbilitySet("engine", (u) -> new AbilitySet("Engine", new EngineDashPassive(u)));
 
-    public static final Function<IAbilityUser, IAbilitySet> EXAMPLE = registerAbilitySet("example", (u) -> new AbilitySet("Example", new ExampleAbility1(u), new ExampleAbility2(u)));
+    public static final Function<IAbilityUser, IAbilitySet> EXAMPLE = registerAbilitySet("example", (u) -> new AbilitySet("Example", new ExampleAbility1(u), new ExampleAbility2(u), new ExampleAbility3(u)));
 
     private static Function<IAbilityUser, IAbilitySet> registerAbilitySet(String key, Function<IAbilityUser, IAbilitySet> abilitySetFunction) {
         abilitySetMap.put(key, abilitySetFunction);

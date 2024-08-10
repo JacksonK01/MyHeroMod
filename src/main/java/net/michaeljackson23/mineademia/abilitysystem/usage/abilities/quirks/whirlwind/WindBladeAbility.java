@@ -28,7 +28,7 @@ public class WindBladeAbility extends ActiveAbility implements ICooldownAbility 
 
     @Override
     public void execute(boolean isKeyDown) {
-        if (isReadyAndReset() && isKeyDown && getStamina() >= STAMINA) {
+        if (isCooldownReadyAndReset() && isKeyDown && getStamina() >= STAMINA) {
             offsetStamina(-STAMINA);
             spawnWindBlade();
         }

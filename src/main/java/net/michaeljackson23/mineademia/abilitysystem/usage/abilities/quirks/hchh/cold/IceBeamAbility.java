@@ -29,7 +29,7 @@ public class IceBeamAbility extends ActiveAbility implements ICooldownAbility {
 
     @Override
     public void execute(boolean isKeyDown) {
-        if (isReadyAndReset()) {
+        if (isCooldownReadyAndReset()) {
             LivingEntity entity = getEntity();
             World world = entity.getWorld();
 

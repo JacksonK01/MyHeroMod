@@ -2,19 +2,15 @@ package net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.exp
 
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.michaeljackson23.mineademia.abilitysystem.impl.ability.ActiveAbility;
+import net.michaeljackson23.mineademia.abilitysystem.impl.ability.active.PhaseAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.AbilityCategory;
 import net.michaeljackson23.mineademia.abilitysystem.intr.Cooldown;
 import net.michaeljackson23.mineademia.abilitysystem.intr.ability.extras.ICooldownAbility;
-import net.michaeljackson23.mineademia.abilitysystem.intr.ability.extras.ITickAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IAbilityUser;
 import net.michaeljackson23.mineademia.networking.Networking;
 import net.michaeljackson23.mineademia.particles.ModParticles;
 import net.michaeljackson23.mineademia.sound.ModSounds;
-import net.michaeljackson23.mineademia.util.AffectAll;
-import net.michaeljackson23.mineademia.util.DrawParticles;
-import net.michaeljackson23.mineademia.util.Mathf;
-import net.michaeljackson23.mineademia.util.RadiusMap;
+import net.michaeljackson23.mineademia.util.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
@@ -32,18 +28,18 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
 
-public class HowitzerImpactAbility extends ActiveAbility implements ITickAbility, ICooldownAbility {
+public class HowitzerImpactAbility extends PhaseAbility implements ICooldownAbility {
 
     public static final int COOLDOWN_TIME = 10; //20 * 60 * 60; // 60 min
 
-    public static final int MAX_HEIGHT = 15;
-    public static final int GLOW_RADIUS = 50;
+    public static final int MAX_HEIGHT = 25;
+    public static final int GLOW_RADIUS = 40;
 
-    public static final int P1_TIME = 200;
+    public static final int P1_TIME = 120;
     public static final int P2_TIME = 120;
 
     public static final boolean P1_PUSH_SET_VELOCITY = false;
-    public static final float P1_PUSH_RADIUS = 40;
+    public static final float P1_PUSH_RADIUS = 20;
     public static final Vec3d P1_PUSH_AXIS_MULTIPLIER_VECTOR = new Vec3d(0.1, 0.1, 0.1); // (Forward, Side, Up)
 
     public static final int P1_VORTEX_LINES = 10;
@@ -81,8 +77,13 @@ public class HowitzerImpactAbility extends ActiveAbility implements ITickAbility
     public static final float P1_RING_SPIN_MULTIPLIER = 0.1f;
     public static final float P1_RING_HEIGHT_OFFSET = MAX_HEIGHT / (float) P1_RING_AMOUNT;
 
-    public static final Vec3d P2_DASH_MULTIPLIER = new Vec3d(1, 1, 1);
+    public static final Vec3d P2_DASH_MULTIPLIER = new Vec3d(1, 0.75f, 1);
 
+    public static final int P2_DASH_BEAM_AMOUNT = 4;
+    public static final int P2_DASH_BEAM_ANGLE = 360 / P2_DASH_BEAM_AMOUNT;
+    public static final int P2_DASH_BEAM_MAX_HEIGHT = 20;
+    public static final float P2_DASH_BEAM_DENSITY = 0.1f;
+    public static final float P2_DASH_BEAM_ROTATION_MULTIPLIER = 5f;
     public static final RadiusMap P2_DASH_BEAM_RADIUS = new RadiusMap(0, 5);
 
     public static final int P2_VORTEX_MAX_HEIGHT = 20;
@@ -92,7 +93,8 @@ public class HowitzerImpactAbility extends ActiveAbility implements ITickAbility
     public static final float P2_VORTEX_ROTATION_MULTIPLIER = 5f;
     public static final RadiusMap P2_DASH_VORTEX_RADIUS = new RadiusMap(0, 5);
 
-    public static final float P3_PROJECTILE_SPEED = 1.5f;
+    public static final int P3_PROJECTILE_POWER = 50;
+    public static final float P3_PROJECTILE_SPEED = 1f;
     public static final float P3_PROJECTILE_MAX_DISTANCE = 100f;
     public static final float P3_PROJECTILE_MAX_DISTANCE_SQUARED = P3_PROJECTILE_MAX_DISTANCE * P3_PROJECTILE_MAX_DISTANCE;
 
@@ -106,7 +108,6 @@ public class HowitzerImpactAbility extends ActiveAbility implements ITickAbility
 
     private final Cooldown cooldown;
 
-    private int phase;
     private int ticks;
 
     private Vec3d pos;
@@ -124,25 +125,27 @@ public class HowitzerImpactAbility extends ActiveAbility implements ITickAbility
         super(user, "Howitzer Impact", "The user dashes into the air and creates two Explosions in their hands. While in the air, the user spins themselves around, building up momentum for their Explosions. After spinning themselves around and gathering momentum for their Explosions, the user fires an Explosive tornado at their opponent.", AbilityCategory.ATTACK, AbilityCategory.ULTIMATE);
 
         this.cooldown = new Cooldown(COOLDOWN_TIME);
-        this.phase = -1;
-
         this.glowingIds = new HashSet<>();
+
+        setPhaseMethods(0, this::risePhase, this::dashPhase, this::shootPhase);
+        setStartPhaseMethod(1, this::startDashPhase);
+        setStartPhaseMethod(2, this::startShootPhase);
     }
 
     @Override
     public void execute(boolean isKeyDown) {
-        if (this.phase == 1 && isKeyDown) {
-            this.phase++;
+        if (this.getPhase() == 1 && isKeyDown) {
+            this.nextPhase();
             this.ticks = 0;
             return;
         }
-        else if (this.phase >= 0 || /* !hasStaminaAndConsume(getUser().getMaxStamina()) || */ !isReadyAndReset())
+        else if (this.getPhase() >= 0 || /* !hasStaminaAndConsume(getUser().getMaxStamina()) || */ !isCooldownReadyAndReset())
             return;
 
-        this.phase = 0;
+        super.execute(isKeyDown);
         this.ticks = 0;
 
-        setBlockingState(AbilityCategory.all());
+        setBlockedCategories(AbilityCategory.all());
 
         this.pos = getEntity().getPos();
         this.userPos = pos.add(0, MAX_HEIGHT, 0);
@@ -153,21 +156,20 @@ public class HowitzerImpactAbility extends ActiveAbility implements ITickAbility
         if (ticks % 10 == 0)
             removeGlow();
 
-        if (phase >= 0)
+        if (getPhase() >= 0)
             setNearbyGlow();
 
-        risePhase();
-        dashPhase();
-        shootPhase();
+        super.onTick();
 
         ticks++;
     }
 
     @Override
     public void cancel() {
-        this.phase = -1;
+        super.cancel();
+
         this.ticks = 0;
-        setBlockingState(AbilityCategory.none());
+        setBlockedCategories(AbilityCategory.none());
     }
 
     @Override
@@ -215,9 +217,6 @@ public class HowitzerImpactAbility extends ActiveAbility implements ITickAbility
 
 
     private void risePhase() {
-        if (phase != 0)
-            return;
-
         LivingEntity entity = getEntity();
         ServerWorld world = (ServerWorld) entity.getWorld();
 
@@ -229,7 +228,7 @@ public class HowitzerImpactAbility extends ActiveAbility implements ITickAbility
         affect.withVelocity(this::determinePushVelocity, P1_PUSH_SET_VELOCITY);
 
         if (ticks > P1_TIME) {
-            phase++;
+            nextPhase();
             ticks = 0;
         }
     }
@@ -292,9 +291,6 @@ public class HowitzerImpactAbility extends ActiveAbility implements ITickAbility
 
 
     private void dashPhase() {
-        if (phase != 1)
-            return;
-
         LivingEntity entity = getEntity();
         ServerWorld world = (ServerWorld) entity.getWorld();
 
@@ -305,22 +301,24 @@ public class HowitzerImpactAbility extends ActiveAbility implements ITickAbility
 
         dashForward();
 
-        Vec3d frontPos = trailPos.add(forward);
-        BlockPos front = new BlockPos((int) frontPos.x, (int) frontPos.y, (int) frontPos.z);
-        if (!world.getBlockState(front).isAir()) {
-            phase++;
-            ticks = 0;
-            return;
-        }
-
         drawBeamTail(world, trailPos, backward);
         DrawParticles.inVortex(world, trailPos, backward, P2_DASH_VORTEX_RADIUS, ticks * P2_VORTEX_ROTATION_MULTIPLIER, P2_VORTEX_MAX_HEIGHT, P2_VORTEX_LINES, P2_VORTEX_DENSITY, P2_VORTEX_STEEPNESS, ParticleTypes.LARGE_SMOKE, Vec3d.ZERO, 1, 0, true);
 
-        if (ticks > P2_TIME) {
-            phase++;
+        Vec3d frontPos = trailPos.add(forward);
+        BlockPos front = new BlockPos((int) frontPos.x, (int) frontPos.y, (int) frontPos.z);
+
+        if (ticks > P2_TIME || !world.getBlockState(front).isAir()) {
+            nextPhase();
             ticks = 0;
         }
     }
+
+    private void startDashPhase() {
+        if (getEntity() instanceof ServerPlayerEntity player) {
+            EntityReflection.trySetLivingFlag(player, 4, true);
+        }
+    }
+
 
     private void dashForward() {
         if (ticks % 2 == 0)
@@ -335,33 +333,14 @@ public class HowitzerImpactAbility extends ActiveAbility implements ITickAbility
     }
 
     private void drawBeamTail(@NotNull ServerWorld world, @NotNull Vec3d pos, @NotNull Vec3d normal) {
-        DrawParticles.inVortex(world, pos, normal, P2_DASH_BEAM_RADIUS, ticks * 5, 20, 1, 0.1f, 1, ModParticles.QUIRK_EXPLOSION_BEAM, Vec3d.ZERO, 1, 0, true);
-        DrawParticles.inVortex(world, pos, normal, P2_DASH_BEAM_RADIUS, ((ticks + 90) * 5), 20, 1, 0.1f, 1, ModParticles.QUIRK_EXPLOSION_BEAM, Vec3d.ZERO, 1, 0, true);
-        DrawParticles.inVortex(world, pos, normal, P2_DASH_BEAM_RADIUS, ((ticks + 180) * 5), 20, 1, 0.1f, 1, ModParticles.QUIRK_EXPLOSION_BEAM, Vec3d.ZERO, 1, 0, true);
-        DrawParticles.inVortex(world, pos, normal, P2_DASH_BEAM_RADIUS, ((ticks + 270) * 5), 20, 1, 0.1f, 1, ModParticles.QUIRK_EXPLOSION_BEAM, Vec3d.ZERO, 1, 0, true);
+        for (int i = 0; i < P2_DASH_BEAM_AMOUNT; i++)
+            DrawParticles.inVortex(world, pos, normal, P2_DASH_BEAM_RADIUS, ((ticks + (P2_DASH_BEAM_ANGLE * i)) * P2_DASH_BEAM_ROTATION_MULTIPLIER), P2_DASH_BEAM_MAX_HEIGHT, 1, P2_DASH_BEAM_DENSITY, 1, ModParticles.QUIRK_EXPLOSION_BEAM, Vec3d.ZERO, 1, 0, true);
     }
 
 
     private void shootPhase() {
-        if (phase != 2)
-            return;
-
         LivingEntity entity = getEntity();
         ServerWorld world = (ServerWorld) entity.getWorld();
-
-        if (ticks == 0) {
-            this.projectileStartPos = entity.getPos();
-            this.projectilePos = entity.getPos();
-            this.projectileDirection = entity.getRotationVecClient().normalize();
-
-            world.playSound(null, this.projectileStartPos.x, this.projectileStartPos.y, this.projectileStartPos.z, ModSounds.DISTANT_EXPLOSION_1, SoundCategory.MASTER, 10, 1);
-            world.playSound(null, this.projectileStartPos.x, this.projectileStartPos.y, this.projectileStartPos.z, ModSounds.DISTANT_EXPLOSION_2, SoundCategory.MASTER, 10, 1);
-
-            entity.setVelocity(this.projectileDirection.multiply(-5));
-            entity.velocityModified = true;
-
-            setBlockingState(AbilityCategory.none());
-        }
 
         if (ticks <= P3_SMOKE_TIME) {
             Vec3d smokePlacement = this.projectileStartPos.add(this.projectileDirection.multiply(-P3_SMOKE_RECOIL));
@@ -377,9 +356,29 @@ public class HowitzerImpactAbility extends ActiveAbility implements ITickAbility
 
         if (!world.getBlockState(nextBlock).isAir() || this.projectileStartPos.squaredDistanceTo(this.projectilePos) >= P3_PROJECTILE_MAX_DISTANCE_SQUARED) {
             detonate(this.projectilePos);
-            this.phase = -1;
+            resetPhase();
         } else
             this.projectilePos = nextPos;
+    }
+
+    private void startShootPhase() {
+        LivingEntity entity = getEntity();
+        ServerWorld world = (ServerWorld) entity.getWorld();
+
+        if (entity instanceof ServerPlayerEntity player)
+            EntityReflection.trySetLivingFlag(player, 4, false);
+
+        this.projectileStartPos = entity.getPos();
+        this.projectilePos = entity.getPos();
+        this.projectileDirection = entity.getRotationVecClient().normalize();
+
+        world.playSound(null, this.projectileStartPos.x, this.projectileStartPos.y, this.projectileStartPos.z, ModSounds.DISTANT_EXPLOSION_1, SoundCategory.MASTER, 10, 1);
+        world.playSound(null, this.projectileStartPos.x, this.projectileStartPos.y, this.projectileStartPos.z, ModSounds.DISTANT_EXPLOSION_2, SoundCategory.MASTER, 10, 1);
+
+        entity.setVelocity(this.projectileDirection.multiply(-5));
+        entity.velocityModified = true;
+
+        setBlockedCategories(AbilityCategory.none());
     }
 
     private void detonate(@NotNull Vec3d pos) {
@@ -389,7 +388,7 @@ public class HowitzerImpactAbility extends ActiveAbility implements ITickAbility
         world.playSound(null, this.projectileStartPos.x, this.projectileStartPos.y, this.projectileStartPos.z, ModSounds.DEEP_EXPLOSION, SoundCategory.MASTER, 10, 1);
 
         DamageSource source = world.getDamageSources().explosion(entity, entity);
-        world.createExplosion(entity, source, new ExplosionBehavior(), pos.getX(), pos.getY(), pos.getZ(), 50, true, World.ExplosionSourceType.MOB, ModParticles.EXPLOSION_QUIRK_PARTICLES, ModParticles.QUIRK_EXPLOSION_BEAM, SoundEvents.ENTITY_GENERIC_EXPLODE);
+        world.createExplosion(entity, source, new ExplosionBehavior(), pos.getX(), pos.getY(), pos.getZ(), P3_PROJECTILE_POWER, true, World.ExplosionSourceType.MOB, ModParticles.EXPLOSION_QUIRK_PARTICLES, ModParticles.QUIRK_EXPLOSION_BEAM, SoundEvents.ENTITY_GENERIC_EXPLODE);
 
     }
 

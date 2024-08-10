@@ -2,9 +2,9 @@ package net.michaeljackson23.mineademia.abilitysystem.intr.ability;
 
 import net.michaeljackson23.mineademia.abilitysystem.intr.AbilityCategory;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IAbilityUser;
+import net.minecraft.network.PacketByteBuf;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
 import java.util.HashSet;
 
 /**
@@ -16,18 +16,26 @@ public interface IActiveAbility extends IAbility {
     HashSet<AbilityCategory> getCategories();
 
     @NotNull
-    HashSet<AbilityCategory> getBlockingState();
-    void setBlockingState(@NotNull AbilityCategory... categories);
+    HashSet<AbilityCategory> getBlockedCategories();
+    void setBlockedCategories(@NotNull AbilityCategory @NotNull... categories);
+
+    boolean isBlockIgnoreSelf();
+    void setBlockIgnoreSelf(boolean blockIgnoreSelf);
+
+    default void setBlockedCategories(boolean blockIgnoreSelf, @NotNull AbilityCategory @NotNull ... categories) {
+        setBlockedCategories(categories);
+        setBlockIgnoreSelf(blockIgnoreSelf);
+    }
 
     default boolean isConflicting() {
         IAbilityUser user = getUser();
 
         for (IAbility ability : user.getAbilities().values()) {
-            if (!(ability instanceof IActiveAbility activeAbility))
+            if (!(ability instanceof IActiveAbility activeAbility) || (isBlockIgnoreSelf() && ability.equals(this)))
                 continue;
 
             // If any overlap between the blocking state and the categories, is conflicting
-            if (getCategories().stream().anyMatch(activeAbility.getBlockingState()::contains))
+            if (getCategories().stream().anyMatch(activeAbility.getBlockedCategories()::contains))
                 return true;
         }
 
@@ -37,6 +45,12 @@ public interface IActiveAbility extends IAbility {
     @Override
     default boolean canExecute() {
         return !isConflicting();
+    }
+
+    @Override
+    default void encode(@NotNull PacketByteBuf buffer) {
+        IAbility.super.encode(buffer);
+
     }
 
 }

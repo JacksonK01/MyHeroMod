@@ -2,6 +2,7 @@ package net.michaeljackson23.mineademia.abilitysystem.intr.ability;
 
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IAbilityUser;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.network.PacketByteBuf;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -20,9 +21,6 @@ public interface IAbility {
 
     void execute(boolean isKeyDown);
     void cancel();
-
-    boolean isActive();
-    void setActive(boolean active);
 
     default LivingEntity getEntity() {
         return getUser().getEntity();
@@ -51,6 +49,12 @@ public interface IAbility {
 
     default boolean canExecute() {
         return true;
+    }
+
+    default void encode(@NotNull PacketByteBuf buffer) {
+        buffer.writeString(getName());
+        buffer.writeString(getDescription());
+        buffer.writeBoolean(canExecute());
     }
 
 }

@@ -32,6 +32,11 @@ public class ModSounds {
     public static final SoundEvent DISTANT_EXPLOSION_1 = registerSound("distant_explosion_1");
     public static final SoundEvent DISTANT_EXPLOSION_2 = registerSound("distant_explosion_2");
     public static final SoundEvent DEEP_EXPLOSION = registerSound("deep_explosion");
+    public static final SoundEvent SMALL_EXPLOSION = registerSound("small_explosion");
+
+    public static final SoundEvent SMALL_TORNADO_START = registerSound("small_tornado_start");
+    public static final SoundEvent SMALL_TORNADO_LOOP = registerSound("small_tornado_loop");
+    public static final SoundEvent SMALL_TORNADO_END = registerSound("small_tornado_end");
 
     private static SoundEvent registerSound(String id) {
         Identifier identifier = new Identifier(Mineademia.MOD_ID, id);

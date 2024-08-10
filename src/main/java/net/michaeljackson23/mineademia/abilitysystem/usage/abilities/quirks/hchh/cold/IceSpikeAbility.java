@@ -7,14 +7,9 @@ import net.michaeljackson23.mineademia.abilitysystem.intr.ability.extras.ICooldo
 import net.michaeljackson23.mineademia.abilitysystem.intr.ability.extras.ITickAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IAbilityUser;
 import net.michaeljackson23.mineademia.blocks.BlockRegister;
-import net.michaeljackson23.mineademia.blocks.quirkice.QuirkIceSpikeBlock;
 import net.michaeljackson23.mineademia.util.Mathf;
-import net.michaeljackson23.mineademia.util.RaycastToEntity;
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.Text;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -48,7 +43,7 @@ public class IceSpikeAbility extends ActiveAbility implements ICooldownAbility, 
         this.affectedBlocks = new HashMap<>();
     }
     public void execute(boolean isKeyDown) {
-        if (getStamina() < STAMINA_COST || !isReadyAndReset())
+        if (getStamina() < STAMINA_COST || !isCooldownReadyAndReset())
             return;
 
         LivingEntity entity = getEntity();
@@ -96,7 +91,7 @@ public class IceSpikeAbility extends ActiveAbility implements ICooldownAbility, 
                 floor = getFloorBlock(world, nextBlock);
                 if (floor == null)
                     return;
-                getEntity().sendMessage(Text.literal("test"));
+
                 getEntity().teleport(nextBlock.getX(), nextBlock.getY(), nextBlock.getZ());
                 world.setBlockState(floor, BlockRegister.QUIRK_ICE_SPIKE.getDefaultState());
             }

@@ -28,7 +28,7 @@ public class IceShootAbility extends ActiveAbility implements ICooldownAbility, 
 
     @Override
     public void execute(boolean isKeyDown) {
-        if(isReadyAndReset())
+        if(isCooldownReadyAndReset())
             ticks = 0;
     }
 

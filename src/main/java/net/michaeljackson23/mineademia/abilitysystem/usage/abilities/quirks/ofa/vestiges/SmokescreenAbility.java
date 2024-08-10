@@ -44,7 +44,7 @@ public class SmokescreenAbility extends HoldAbility implements ICooldownAbility 
     }
 
     @Override
-    public boolean onTickActive() {
+    public void onTickActive() {
         LivingEntity entity = getEntity();
         ServerWorld world = (ServerWorld) entity.getWorld();
 
@@ -60,9 +60,6 @@ public class SmokescreenAbility extends HoldAbility implements ICooldownAbility 
         DrawParticles.spawnParticles(world, new DustParticleEffect(new Vector3f(0.5f, 0.0f, 0.5f), 2.0f),
                 entity.getPos().add(0, 1, 0),
                 25, 1, 0, 1, 1, true);
-
-
-        return false;
     }
 
     @Override

@@ -1,6 +1,10 @@
 package net.michaeljackson23.mineademia.util;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.network.packet.s2c.play.StopSoundS2CPacket;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -25,6 +29,11 @@ public final class AffectAll<T extends Entity> {
         return this;
     }
 
+    public <T1 extends T> AffectAll<T> exclude(@NotNull Class<T1> type) {
+        entities.removeIf((e) -> type.isAssignableFrom(e.getClass()));
+        return this;
+    }
+
     public HashSet<T> getAll() {
         return entities;
     }
@@ -41,6 +50,13 @@ public final class AffectAll<T extends Entity> {
 
     public AffectAll<T> withVelocity(@NotNull Function<T, Vec3d> velocityFunction, boolean set) {
         entities.forEach((e) -> affectWithVelocity(e, velocityFunction.apply(e), set));
+        return this;
+    }
+
+    public AffectAll<T> stopSound(@NotNull SoundEvent sound, @NotNull SoundCategory category) {
+        StopSoundS2CPacket packet = new StopSoundS2CPacket(sound.getId(), category);
+        entities.forEach((e) -> affectStopSound(e, packet));
+
         return this;
     }
 
@@ -229,6 +245,11 @@ public final class AffectAll<T extends Entity> {
         else
             entity.addVelocity(velocity);
         entity.velocityModified = true;
+    }
+
+    private static <T extends Entity> void affectStopSound(T entity, StopSoundS2CPacket packet) {
+        if (entity instanceof ServerPlayerEntity player)
+            player.networkHandler.sendPacket(packet);
     }
 
 }

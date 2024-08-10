@@ -21,6 +21,7 @@ import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class PlayerAbilityUserPacketS2C {
+
     public static Identifier PLAYER_ABILITY_USER_PACKET = new Identifier(Mineademia.MOD_ID, "player_ability_user_packet");
 
     private final String[] abilities;

@@ -68,7 +68,7 @@ public class ApShotAbility extends HoldAbility implements ICooldownAbility {
 
     @Override
     public boolean executeStart() {
-        if (!isReady())
+        if (!isCooldownReady())
             return false;
 
         ticks = 0;
@@ -88,13 +88,13 @@ public class ApShotAbility extends HoldAbility implements ICooldownAbility {
         int cooldown = (int) Mathf.lerp(MIN_COOLDOWN_TIME, MAX_COOLDOWN_TIME, partialHoldTime);
 
         getCooldown().setCooldownTicks(cooldown);
-        reset();
+        resetCooldown();
 
         endTicks = 0;
     }
 
     @Override
-    public boolean onTickActive() {
+    public void onTickActive() {
         LivingEntity entity = getEntity();
         ServerWorld world = (ServerWorld) entity.getWorld();
 
@@ -106,7 +106,8 @@ public class ApShotAbility extends HoldAbility implements ICooldownAbility {
 
         world.spawnParticles(ModParticles.QUIRK_EXPLOSION_BEAM, pos.x, pos.y, pos.z , 10, delta, delta, delta, 0);
 
-        return ticks++ <= MAX_TICKS;
+        if (ticks ++ > MAX_TICKS)
+            setActive(false);
     }
 
     @Override

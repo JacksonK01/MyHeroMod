@@ -28,7 +28,7 @@ public class TornadoAbility extends ActiveAbility implements ICooldownAbility {
 
     @Override
     public void execute(boolean isKeyDown) {
-        if(isReadyAndReset() && getStamina() >= STAMINA) {
+        if(isCooldownReadyAndReset() && getStamina() >= STAMINA) {
             offsetStamina(-STAMINA);
             spawnTornado();
         }

@@ -25,7 +25,7 @@ public class IceSnowflakeAbility extends ActiveAbility implements ICooldownAbili
 
     @Override
     public void execute(boolean isKeyDown) {
-        if (isReadyAndReset()) {
+        if (isCooldownReadyAndReset()) {
             LivingEntity entity = getEntity();
             World world = entity.getWorld();
 
