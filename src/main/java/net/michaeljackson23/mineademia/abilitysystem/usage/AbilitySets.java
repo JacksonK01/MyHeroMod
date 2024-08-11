@@ -7,9 +7,6 @@ import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.DodgeAbilit
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.example.ExampleAbility1;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.example.ExampleAbility2;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.example.ExampleAbility3;
-import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.dev.mango.resonance.AerialStanceAbility;
-import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.dev.mango.resonance.ChangeFrequencyAbility;
-import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.dev.mango.resonance.passive.WaterWalkAbility;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.engine.EngineDashPassive;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.explosion.ApShotAbility;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.explosion.ExplosiveSpeedAbility;
