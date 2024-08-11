@@ -69,7 +69,7 @@ public class HowitzerImpact extends BasicAbility {
         player.getServerWorld().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ITEM_TOTEM_USE, SoundCategory.PLAYERS, 1f, 2f);
         Vec3d playerVec = player.getRotationVector();
         player.getServerWorld().spawnParticles(ParticleTypes.SMOKE, player.getX() + playerVec.x, player.getY() + 1 + playerVec.y, player.getZ() + playerVec.z, 300, 0.5, 0.5, 0.5, 0);
-        spawnParticlesUnderHands(player, ModParticles.QUIRK_EXPLOSION_DETONATION);
+        spawnParticlesUnderHands(player, ModParticles.QUIRK_EXPLOSION_SHORT);
         AreaOfEffect.execute(player, 3, 0.5, player.getX(), player.getY(), player.getZ(), (entityToAffect -> {
             entityToAffect.setVelocity(playerVec);
             entityToAffect.velocityModified = true;

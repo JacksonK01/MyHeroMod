@@ -6,6 +6,7 @@ import net.michaeljackson23.mineademia.abilitysystem.intr.Cooldown;
 import net.michaeljackson23.mineademia.abilitysystem.intr.ability.extras.ICooldownAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IAbilityUser;
 import net.michaeljackson23.mineademia.damagetypes.CustomDamageTypes;
+import net.michaeljackson23.mineademia.networking.Networking;
 import net.michaeljackson23.mineademia.particles.ModParticles;
 import net.michaeljackson23.mineademia.util.Mathf;
 import net.minecraft.block.BlockState;
@@ -23,6 +24,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 public class ApShotAbility extends HoldAbility implements ICooldownAbility {
+
+    public static final String DESCRIPTION = "The user stretches out one of their hands and uses their other hand to form a circle on the palm of their outstretched hand. By focusing the path of their explosions into a single point instead of around their whole palm, The user creates a concentrated blast with reduced area of impact.";
+
 
     public static final int MIN_COOLDOWN_TIME = 30;
     public static final int MAX_COOLDOWN_TIME = 300;
@@ -57,7 +61,7 @@ public class ApShotAbility extends HoldAbility implements ICooldownAbility {
     private final HashMap<Long, Integer> affectedBlocks;
 
     public ApShotAbility(@NotNull IAbilityUser user) {
-        super(user, "AP Shot", "The user stretches out one of their hands and uses their other hand to form a circle on the palm of their outstretched hand. By focusing the path of their explosions into a single point instead of around their whole palm, The user creates a concentrated blast with reduced area of impact.", AbilityCategory.ATTACK);
+        super(user, "AP Shot", DESCRIPTION, Networking.C2S_ABILITY_TWO, AbilityCategory.ATTACK);
 
         this.cooldown = new Cooldown(MAX_COOLDOWN_TIME);
         this.endTicks = MAX_DURATION + 1;

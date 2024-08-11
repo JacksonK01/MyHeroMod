@@ -27,7 +27,7 @@ public class QuirkTabletGui extends Screen {
         ofa = ButtonWidget.builder(Text.literal("One for all"), button -> {
                     PacketByteBuf data = PacketByteBufs.create();
                     data.writeString("One For All");
-                    ClientPlayNetworking.send(Networking.OPEN_QUIRK_GUI, data);
+                    ClientPlayNetworking.send(Networking.C2S_OPEN_QUIRK_GUI, data);
                 })
                 .dimensions(width / 2 - 205, 20, 200, 20)
                 .tooltip(Tooltip.of(Text.literal("changes quirk")))
@@ -35,7 +35,7 @@ public class QuirkTabletGui extends Screen {
         explosion = ButtonWidget.builder(Text.literal("Explosion"), button -> {
                     PacketByteBuf data = PacketByteBufs.create();
                     data.writeString("Explosion");
-                    ClientPlayNetworking.send(Networking.OPEN_QUIRK_GUI, data);
+                    ClientPlayNetworking.send(Networking.C2S_OPEN_QUIRK_GUI, data);
                 })
                 .dimensions(width / 2 + 5, 20, 200, 20)
                 .tooltip(Tooltip.of(Text.literal("changes quirk")))
@@ -44,7 +44,7 @@ public class QuirkTabletGui extends Screen {
         hchh = ButtonWidget.builder(Text.literal("Hchh"), button -> {
                     PacketByteBuf data = PacketByteBufs.create();
                     data.writeString("Half-Cold Half-Hot");
-                    ClientPlayNetworking.send(Networking.OPEN_QUIRK_GUI, data);
+                    ClientPlayNetworking.send(Networking.C2S_OPEN_QUIRK_GUI, data);
                 })
                 .dimensions(width / 2 - 205, 40, 200, 20)
                 .tooltip(Tooltip.of(Text.literal("changes quirk")))
@@ -53,7 +53,7 @@ public class QuirkTabletGui extends Screen {
         whirlwind = ButtonWidget.builder(Text.literal("Whirlwind"), button -> {
                     PacketByteBuf data = PacketByteBufs.create();
                     data.writeString("Whirlwind");
-                    ClientPlayNetworking.send(Networking.OPEN_QUIRK_GUI, data);
+                    ClientPlayNetworking.send(Networking.C2S_OPEN_QUIRK_GUI, data);
                 })
                 .dimensions(width / 2 + 5, 40, 200, 20)
                 .tooltip(Tooltip.of(Text.literal("changes quirk")))
@@ -61,7 +61,7 @@ public class QuirkTabletGui extends Screen {
         elect = ButtonWidget.builder(Text.literal("Electrification"), button -> {
                     PacketByteBuf data = PacketByteBufs.create();
                     data.writeString("Electrification");
-                    ClientPlayNetworking.send(Networking.OPEN_QUIRK_GUI, data);
+                    ClientPlayNetworking.send(Networking.C2S_OPEN_QUIRK_GUI, data);
                 })
                 .dimensions(width / 2 - 205, 60, 200, 20)
                 .tooltip(Tooltip.of(Text.literal("changes quirk")))
@@ -70,7 +70,7 @@ public class QuirkTabletGui extends Screen {
         engine = ButtonWidget.builder(Text.literal("Engine"), button -> {
                     PacketByteBuf data = PacketByteBufs.create();
                     data.writeString("Engine");
-                    ClientPlayNetworking.send(Networking.OPEN_QUIRK_GUI, data);
+                    ClientPlayNetworking.send(Networking.C2S_OPEN_QUIRK_GUI, data);
                 })
                 .dimensions(width / 2 + 5, 60, 200, 20)
                 .tooltip(Tooltip.of(Text.literal("changes quirk")))

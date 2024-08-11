@@ -1,6 +1,7 @@
 package net.michaeljackson23.mineademia.abilitysystem.impl.abilityyser;
 
 import net.michaeljackson23.mineademia.abilitysystem.impl.AbilityManager;
+import net.michaeljackson23.mineademia.abilitysystem.impl.ability.ActiveAbility;
 import net.michaeljackson23.mineademia.abilitysystem.impl.abilityset.AbilityMap;
 import net.michaeljackson23.mineademia.abilitysystem.intr.ability.IAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.ability.IActiveAbility;
@@ -9,6 +10,7 @@ import net.michaeljackson23.mineademia.abilitysystem.intr.abilityset.IAbilitySet
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IAbilityUser;
 import net.michaeljackson23.mineademia.util.Mathf;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

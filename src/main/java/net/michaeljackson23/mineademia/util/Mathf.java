@@ -5,6 +5,7 @@ import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Random;
+import java.util.Vector;
 
 public final class Mathf {
 
@@ -69,6 +70,7 @@ public final class Mathf {
 
     public static class Vector {
 
+        // public static final Vec3d ONE = new Vec3d(1, 1, 1);
         public static final Vec3d UP = new Vec3d(0, 1, 0);
         public static final Vec3d POS_Z = new Vec3d(0, 0, 1);
 

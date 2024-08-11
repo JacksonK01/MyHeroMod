@@ -10,10 +10,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -26,31 +23,42 @@ public final class AffectAll<T extends Entity> {
         this.entities = new HashSet<>(entities);
     }
 
+    @NotNull
     public HashSet<T> getAll() {
         return entities;
     }
 
+    @NotNull
+    public Optional<T> getFirst() {
+        return entities.stream().findFirst();
+    }
 
+
+    @NotNull
     public AffectAll<T> exclude(@NotNull T entity) {
         entities.remove(entity);
         return this;
     }
 
+    @NotNull
     public AffectAll<T> exclude(@NotNull Collection<T> entities) {
-        entities.removeAll(entities);
+        this.entities.removeAll(entities);
         return this;
     }
+    @NotNull
 
     public <T1 extends T> AffectAll<T> exclude(@NotNull Class<T1> type) {
         entities.removeIf((e) -> type.isAssignableFrom(e.getClass()));
         return this;
     }
 
+    @NotNull
     public AffectAll<T> insertInto(@NotNull Collection<T> collection) {
         collection.addAll(entities);
         return this;
     }
 
+    @NotNull
     public <T2, C extends Map<T, T2>> AffectAll<T> insertInto(@NotNull C map, @NotNull Function<T, T2> mapFunction, boolean putIfAbsent) {
         for (T entity : entities) {
             T2 value = mapFunction.apply(entity);
@@ -65,21 +73,25 @@ public final class AffectAll<T extends Entity> {
     }
 
 
+    @NotNull
     public AffectAll<T> with(@NotNull Consumer<T> action) {
         entities.forEach(action);
         return this;
     }
 
+    @NotNull
     public AffectAll<T> withVelocity(@NotNull Vec3d velocity, boolean set) {
         entities.forEach((e) -> affectWithVelocity(e, velocity, set));
         return this;
     }
 
+    @NotNull
     public AffectAll<T> withVelocity(@NotNull Function<T, Vec3d> velocityFunction, boolean set) {
         entities.forEach((e) -> affectWithVelocity(e, velocityFunction.apply(e), set));
         return this;
     }
 
+    @NotNull
     public AffectAll<T> stopSound(@NotNull SoundEvent sound, @NotNull SoundCategory category) {
         StopSoundS2CPacket packet = new StopSoundS2CPacket(sound.getId(), category);
         entities.forEach((e) -> affectStopSound(e, packet));

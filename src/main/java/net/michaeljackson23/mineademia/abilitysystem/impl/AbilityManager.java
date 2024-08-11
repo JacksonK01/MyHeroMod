@@ -11,6 +11,7 @@ import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IAbilityUs
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IPlayerAbilityUser;
 import net.michaeljackson23.mineademia.abilitysystem.networking.PlayerAbilityUserPacketS2C;
 import net.michaeljackson23.mineademia.abilitysystem.usage.AbilitySets;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -84,7 +85,7 @@ public final class AbilityManager {
         ServerPlayerEntity player = serverPlayNetworkHandler.getPlayer();
         UUID uuid = player.getUuid();
 
-        PlayerAbilityUser user = (PlayerAbilityUser) getUser(player);
+        PlayerAbilityUser user = (PlayerAbilityUser) getPlayerUser(player);
         if (user == null) {
             user = new PlayerAbilityUser(player);
             user.setAbilities(AbilitySets.GENERAL);
@@ -101,8 +102,13 @@ public final class AbilityManager {
     }
 
     @Nullable
-    public static IPlayerAbilityUser getUser(@NotNull ServerPlayerEntity player) {
+    public static IPlayerAbilityUser getPlayerUser(@NotNull ServerPlayerEntity player) {
         return playerUsers.get(player.getUuid());
+    }
+
+    @Nullable
+    public static IAbilityUser getUser(@NotNull LivingEntity entity) {
+        return users.get(entity.getUuid());
     }
 
     private static void regenUserStamina() {

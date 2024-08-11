@@ -7,8 +7,10 @@ import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.DodgeAbilit
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.example.ExampleAbility1;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.example.ExampleAbility2;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.example.ExampleAbility3;
+import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.dev.mango.resonance.AerialStanceAbility;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.engine.EngineDashPassive;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.explosion.ApShotAbility;
+import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.explosion.ExplodeAPult;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.explosion.ExplosiveSpeedAbility;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.explosion.HowitzerImpactAbility;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.hchh.cold.IceBeamAbility;
@@ -38,7 +40,7 @@ public final class AbilitySets {
 
     public static final Function<IAbilityUser, IAbilitySet> OFA = registerAbilitySet("ofa", (u) -> new AbilitySet("One For All", new AirForceAbility(u), new FullCowlingAbility(u), new ManchesterSmashAbility(u), new PickVestigeAbility(u)));
 
-    public static final Function<IAbilityUser, IAbilitySet> EXPLOSION = registerAbilitySet("explosion", (u) -> new AbilitySet("Explosion", new ExplosiveSpeedAbility(u), new ApShotAbility(u), new HowitzerImpactAbility(u)));
+    public static final Function<IAbilityUser, IAbilitySet> EXPLOSION = registerAbilitySet("explosion", (u) -> new AbilitySet("Explosion", new ExplosiveSpeedAbility(u), new ApShotAbility(u), new HowitzerImpactAbility(u), new ExplodeAPult(u)));
 
     public static final Function<IAbilityUser, IAbilitySet> RIFLE = registerAbilitySet("rifle", (u) -> new AbilitySet("Rifle"));
 

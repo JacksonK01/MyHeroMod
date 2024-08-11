@@ -58,7 +58,7 @@ public class MockQuirkTabletGui extends Screen {
         return ButtonWidget.builder(Text.literal(name), button -> {
                     PacketByteBuf data = PacketByteBufs.create();
                     data.writeString(value);
-                    ClientPlayNetworking.send(Networking.MOCK_CHANGE_QUIRK_WITH_TABLET, data);
+                    ClientPlayNetworking.send(Networking.C2S_MOCK_CHANGE_QUIRK_WITH_TABLET, data);
                 })
                 .dimensions(xCoord, yCoord, 200, 20)
                 .tooltip(Tooltip.of(Text.literal("changes quirk")))

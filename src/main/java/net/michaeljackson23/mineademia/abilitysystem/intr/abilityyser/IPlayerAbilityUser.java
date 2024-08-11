@@ -1,10 +1,12 @@
 package net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser;
 
+import net.michaeljackson23.mineademia.abilitysystem.intr.ability.IActiveAbility;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.Identifier;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import net.minecraft.util.Identifier;
 
 public interface IPlayerAbilityUser extends IAbilityUser {
 
@@ -13,8 +15,14 @@ public interface IPlayerAbilityUser extends IAbilityUser {
     ServerPlayerEntity getEntity();
 
     @Nullable
-    <T extends IActiveAbility> Class<T> getBoundAbility(@NotNull Identifier identifier);
+    Class<? extends IActiveAbility> getBoundAbility(@NotNull Identifier identifier);
 
-    <T extends IActiveAbility> void setBoundAbility(@NotNull Identifier Identifier, @NotNull IActiveAbility ability);
+    void setBoundAbility(@NotNull Identifier Identifier, @NotNull Class<? extends IActiveAbility> ability);
+
+    default void executeBoundAbility(@NotNull Identifier identifier, boolean isKeyDown) {
+        Class<? extends IActiveAbility> ability = getBoundAbility(identifier);
+        if (ability != null)
+            execute(ability, isKeyDown);
+    }
 
 }

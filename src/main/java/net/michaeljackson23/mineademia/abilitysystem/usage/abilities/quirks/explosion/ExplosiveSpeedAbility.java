@@ -5,6 +5,7 @@ import net.michaeljackson23.mineademia.abilitysystem.intr.AbilityCategory;
 import net.michaeljackson23.mineademia.abilitysystem.intr.Cooldown;
 import net.michaeljackson23.mineademia.abilitysystem.intr.ability.extras.ICooldownAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IAbilityUser;
+import net.michaeljackson23.mineademia.networking.Networking;
 import net.michaeljackson23.mineademia.particles.ModParticles;
 import net.michaeljackson23.mineademia.sound.ModSounds;
 import net.michaeljackson23.mineademia.util.*;
@@ -17,6 +18,8 @@ import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.NotNull;
 
 public class ExplosiveSpeedAbility extends HoldAbility implements ICooldownAbility {
+
+    public static final String DESCRIPTION = "The user throws their hands back and then causes an explosion in their palms to propel themselves forward. This move can also be used to achieve a flight.";
 
     public static final int COOLDOWN_TIME_MIN = 60;
     public static final int COOLDOWN_TIME_MAX = 120;
@@ -61,7 +64,7 @@ public class ExplosiveSpeedAbility extends HoldAbility implements ICooldownAbili
     private Vec3d endDirection;
 
     public ExplosiveSpeedAbility(@NotNull IAbilityUser user) {
-        super(user, "Explosive Speed", "The user throws their hands back and then causes an explosion in their palms to propel themselves forward. This move can also be used to achieve a flight.", AbilityCategory.MOBILITY);
+        super(user, "Explosive Speed", DESCRIPTION, Networking.C2S_ABILITY_ONE, AbilityCategory.MOBILITY);
 
         this.cooldown = new Cooldown(COOLDOWN_TIME_MIN);
         setTicks(-1);
@@ -137,7 +140,7 @@ public class ExplosiveSpeedAbility extends HoldAbility implements ICooldownAbili
                 world.playSound(null, pos.x, pos.y, pos.z, ModSounds.SMALL_EXPLOSION, SoundCategory.MASTER, 0.1f, 2);
 
                 Vec3d forward = entity.getRotationVecClient().normalize();
-                DrawParticles.inCircle(world, pos.add(forward), forward, 1.25f, ticks * 5f, 360, ModParticles.QUIRK_EXPLOSION_DETONATION, new Vec3d(0.25f, 0.25f, 0.25f), 100, 0, true);
+                DrawParticles.inCircle(world, pos.add(forward), forward, 1.25f, ticks * 5f, 360, ModParticles.QUIRK_EXPLOSION_SHORT, new Vec3d(0.25f, 0.25f, 0.25f), 100, 0, true);
             }
 
             if (!hasStaminaAndConsume(STAMINA_PER_DASH)) {

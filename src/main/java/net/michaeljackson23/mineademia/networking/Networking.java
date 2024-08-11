@@ -13,18 +13,18 @@ import net.minecraft.util.Identifier;
  */
 public class Networking {
     //Server Identifiers sent from client
-    public static final Identifier ABILITY_ONE = new Identifier(Mineademia.MOD_ID, "ability_one");
-    public static final Identifier ABILITY_TWO = new Identifier(Mineademia.MOD_ID, "ability_two");
-    public static final Identifier ABILITY_THREE = new Identifier(Mineademia.MOD_ID, "ability_three");
-    public static final Identifier ABILITY_FOUR = new Identifier(Mineademia.MOD_ID, "ability_four");
-    public static final Identifier ABILITY_FIVE = new Identifier(Mineademia.MOD_ID, "ability_five");
-    public static final Identifier ABILITY_DODGE = new Identifier(Mineademia.MOD_ID, "ability_dodge");
-    public static final Identifier BLOCKING = new Identifier(Mineademia.MOD_ID, "blocking");
-    public static final Identifier KICK_COMBO = new Identifier(Mineademia.MOD_ID, "kick_combo");
-    public static final Identifier AERIAL_COMBO = new Identifier(Mineademia.MOD_ID, "aerial_combo");
-    public static final Identifier OPEN_QUIRK_GUI = new Identifier(Mineademia.MOD_ID, "open_quirk_tablet_gui");
-    public static final Identifier SELECT_VESTIGE_GUI = new Identifier(Mineademia.MOD_ID, "vestige_gui");
-    public static final Identifier MOCK_CHANGE_QUIRK_WITH_TABLET = new Identifier(Mineademia.MOD_ID, "mock_change_quirk_with_tablet");
+    public static final Identifier C2S_ABILITY_ONE = new Identifier(Mineademia.MOD_ID, "ability_one");
+    public static final Identifier C2S_ABILITY_TWO = new Identifier(Mineademia.MOD_ID, "ability_two");
+    public static final Identifier C2S_ABILITY_THREE = new Identifier(Mineademia.MOD_ID, "ability_three");
+    public static final Identifier C2S_ABILITY_FOUR = new Identifier(Mineademia.MOD_ID, "ability_four");
+    public static final Identifier C2S_ABILITY_FIVE = new Identifier(Mineademia.MOD_ID, "ability_five");
+    public static final Identifier C2S_ABILITY_DODGE = new Identifier(Mineademia.MOD_ID, "ability_dodge");
+    public static final Identifier C2S_BLOCKING = new Identifier(Mineademia.MOD_ID, "blocking");
+    public static final Identifier C2S_KICK_COMBO = new Identifier(Mineademia.MOD_ID, "kick_combo");
+    public static final Identifier C2S_AERIAL_COMBO = new Identifier(Mineademia.MOD_ID, "aerial_combo");
+    public static final Identifier C2S_OPEN_QUIRK_GUI = new Identifier(Mineademia.MOD_ID, "open_quirk_tablet_gui");
+    public static final Identifier C2S_SELECT_VESTIGE_GUI = new Identifier(Mineademia.MOD_ID, "vestige_gui");
+    public static final Identifier C2S_MOCK_CHANGE_QUIRK_WITH_TABLET = new Identifier(Mineademia.MOD_ID, "mock_change_quirk_with_tablet");
 
 
     public static final Identifier ABILITY_TEST = new Identifier(Mineademia.MOD_ID, "ability_test"); // TODO REMOVE!!!
@@ -47,18 +47,18 @@ public class Networking {
 
 
     public static void registerServer() {
-        ServerPlayNetworking.registerGlobalReceiver(ABILITY_ONE, ServerPackets::abilityOne);
-        ServerPlayNetworking.registerGlobalReceiver(ABILITY_TWO, ServerPackets::abilityTwo);
-        ServerPlayNetworking.registerGlobalReceiver(ABILITY_THREE, ServerPackets::abilityThree);
-        ServerPlayNetworking.registerGlobalReceiver(ABILITY_FOUR, ServerPackets::abilityFour);
-        ServerPlayNetworking.registerGlobalReceiver(ABILITY_FIVE, ServerPackets::abilityFive);
-        ServerPlayNetworking.registerGlobalReceiver(BLOCKING, ServerPackets::blocking);
-        ServerPlayNetworking.registerGlobalReceiver(KICK_COMBO, ServerPackets::kickCombo);
-        ServerPlayNetworking.registerGlobalReceiver(AERIAL_COMBO, ServerPackets::aerialCombo);
-        ServerPlayNetworking.registerGlobalReceiver(OPEN_QUIRK_GUI, ServerPackets::openQuirkTabletGUI);
-        ServerPlayNetworking.registerGlobalReceiver(MOCK_CHANGE_QUIRK_WITH_TABLET, ServerPackets::mockQuirkTabletQuirkChange);
-        ServerPlayNetworking.registerGlobalReceiver(SELECT_VESTIGE_GUI, ServerPackets::vestigeAbility);
-        ServerPlayNetworking.registerGlobalReceiver(ABILITY_DODGE, ServerPackets::abilityDodge);
+        ServerPlayNetworking.registerGlobalReceiver(C2S_ABILITY_ONE, ServerPackets::abilityOne);
+        ServerPlayNetworking.registerGlobalReceiver(C2S_ABILITY_TWO, ServerPackets::abilityTwo);
+        ServerPlayNetworking.registerGlobalReceiver(C2S_ABILITY_THREE, ServerPackets::abilityThree);
+        ServerPlayNetworking.registerGlobalReceiver(C2S_ABILITY_FOUR, ServerPackets::abilityFour);
+        ServerPlayNetworking.registerGlobalReceiver(C2S_ABILITY_FIVE, ServerPackets::abilityFive);
+        ServerPlayNetworking.registerGlobalReceiver(C2S_BLOCKING, ServerPackets::blocking);
+        ServerPlayNetworking.registerGlobalReceiver(C2S_KICK_COMBO, ServerPackets::kickCombo);
+        ServerPlayNetworking.registerGlobalReceiver(C2S_AERIAL_COMBO, ServerPackets::aerialCombo);
+        ServerPlayNetworking.registerGlobalReceiver(C2S_OPEN_QUIRK_GUI, ServerPackets::openQuirkTabletGUI);
+        ServerPlayNetworking.registerGlobalReceiver(C2S_MOCK_CHANGE_QUIRK_WITH_TABLET, ServerPackets::mockQuirkTabletQuirkChange);
+        ServerPlayNetworking.registerGlobalReceiver(C2S_SELECT_VESTIGE_GUI, ServerPackets::vestigeAbility);
+        ServerPlayNetworking.registerGlobalReceiver(C2S_ABILITY_DODGE, ServerPackets::abilityDodge);
 
 
         ServerPlayNetworking.registerGlobalReceiver(ABILITY_TEST, ServerPackets::abilityTest); // TODO REMOVE!!!

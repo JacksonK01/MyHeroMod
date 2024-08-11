@@ -34,7 +34,7 @@ public class VestigeGUI extends Screen {
         blackwhip = ButtonWidget.builder(Text.literal("Blackwhip"), button -> {
                     PacketByteBuf data = PacketByteBufs.create();
                     data.writeString("Blackwhip");
-                    ClientPlayNetworking.send(Networking.SELECT_VESTIGE_GUI, data);
+                    ClientPlayNetworking.send(Networking.C2S_SELECT_VESTIGE_GUI, data);
                     close();
                 })
                 .dimensions(buttonX, buttonY, BUTTON_WIDTH, BUTTON_HEIGHT)
@@ -43,7 +43,7 @@ public class VestigeGUI extends Screen {
         smokescreen = ButtonWidget.builder(Text.literal("Smokescreen"), button -> {
                     PacketByteBuf data = PacketByteBufs.create();
                     data.writeString("Smokescreen");
-                    ClientPlayNetworking.send(Networking.SELECT_VESTIGE_GUI, data);
+                    ClientPlayNetworking.send(Networking.C2S_SELECT_VESTIGE_GUI, data);
                     close();
                 })
                 .dimensions(buttonX, buttonY, BUTTON_WIDTH, BUTTON_HEIGHT)
@@ -52,7 +52,7 @@ public class VestigeGUI extends Screen {
         faJin = ButtonWidget.builder(Text.literal("FaJin"), button -> {
                     PacketByteBuf data = PacketByteBufs.create();
                     data.writeString("FaJin");
-                    ClientPlayNetworking.send(Networking.SELECT_VESTIGE_GUI, data);
+                    ClientPlayNetworking.send(Networking.C2S_SELECT_VESTIGE_GUI, data);
                     close();
                 })
                 .dimensions(buttonX, buttonY, BUTTON_WIDTH, BUTTON_HEIGHT)
@@ -61,7 +61,7 @@ public class VestigeGUI extends Screen {
         floatB = ButtonWidget.builder(Text.literal("Float"), button -> {
                     PacketByteBuf data = PacketByteBufs.create();
                     data.writeString("Float");
-                    ClientPlayNetworking.send(Networking.SELECT_VESTIGE_GUI, data);
+                    ClientPlayNetworking.send(Networking.C2S_SELECT_VESTIGE_GUI, data);
                     close();
                 })
                 .dimensions(buttonX, buttonY, BUTTON_WIDTH, BUTTON_HEIGHT)
@@ -70,7 +70,7 @@ public class VestigeGUI extends Screen {
         gearShift = ButtonWidget.builder(Text.literal("Gearshift"), button -> {
                     PacketByteBuf data = PacketByteBufs.create();
                     data.writeString("Gearshift");
-                    ClientPlayNetworking.send(Networking.SELECT_VESTIGE_GUI, data);
+                    ClientPlayNetworking.send(Networking.C2S_SELECT_VESTIGE_GUI, data);
                     close();
                 })
                 .dimensions(buttonX, buttonY, BUTTON_WIDTH, BUTTON_HEIGHT)

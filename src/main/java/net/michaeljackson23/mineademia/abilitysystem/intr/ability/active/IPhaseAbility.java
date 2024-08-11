@@ -10,6 +10,9 @@ public interface IPhaseAbility extends IActiveAbility, ITickAbility {
     int getPhase();
     void setPhase(int phase);
 
+    int getTicks();
+    void setTicks(int ticks);
+
     @Nullable
     Runnable getPhaseMethod(int phase);
     void setPhaseMethod(int phase, @NotNull Runnable runnable);
@@ -20,10 +23,18 @@ public interface IPhaseAbility extends IActiveAbility, ITickAbility {
 
     default void resetPhase() {
         setPhase(-1);
+        resetTicks();
     }
-
     default void nextPhase() {
         setPhase(getPhase() + 1);
+        resetTicks();
+    }
+
+    default void incrementTicks() {
+        setTicks(getTicks() + 1);
+    }
+    default void resetTicks() {
+        setTicks(0);
     }
 
     @Nullable
@@ -52,8 +63,10 @@ public interface IPhaseAbility extends IActiveAbility, ITickAbility {
     @Override
     default void onStartTick() {
         Runnable phaseMethod = getCurrentPhase();
-        if (phaseMethod != null)
+        if (phaseMethod != null) {
             phaseMethod.run();
+            incrementTicks();
+        }
     }
 
     @Override

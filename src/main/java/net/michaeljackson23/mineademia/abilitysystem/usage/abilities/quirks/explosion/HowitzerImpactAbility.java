@@ -30,6 +30,8 @@ import java.util.HashSet;
 
 public class HowitzerImpactAbility extends PhaseAbility implements ICooldownAbility {
 
+    public static final String DESCRIPTION = "The user dashes into the air and creates two Explosions in their hands. While in the air, the user spins themselves around, building up momentum for their Explosions. After spinning themselves around and gathering momentum for their Explosions, the user fires an Explosive tornado at their opponent.";
+
     public static final int COOLDOWN_TIME = 10; //20 * 60 * 60; // 60 min
 
     public static final int MAX_HEIGHT = 25;
@@ -124,7 +126,7 @@ public class HowitzerImpactAbility extends PhaseAbility implements ICooldownAbil
     private Vec3d projectileDirection;
 
     public HowitzerImpactAbility(@NotNull IAbilityUser user) {
-        super(user, "Howitzer Impact", "The user dashes into the air and creates two Explosions in their hands. While in the air, the user spins themselves around, building up momentum for their Explosions. After spinning themselves around and gathering momentum for their Explosions, the user fires an Explosive tornado at their opponent.", AbilityCategory.ATTACK, AbilityCategory.MOBILITY, AbilityCategory.ULTIMATE);
+        super(user, "Howitzer Impact", DESCRIPTION, Networking.C2S_ABILITY_FIVE, AbilityCategory.ATTACK, AbilityCategory.MOBILITY, AbilityCategory.ULTIMATE);
 
         this.cooldown = new Cooldown(COOLDOWN_TIME);
         this.glowingIds = new HashSet<>();
@@ -402,7 +404,7 @@ public class HowitzerImpactAbility extends PhaseAbility implements ICooldownAbil
         world.playSound(null, this.projectileStartPos.x, this.projectileStartPos.y, this.projectileStartPos.z, ModSounds.DEEP_EXPLOSION, SoundCategory.MASTER, 10, 1);
 
         DamageSource source = world.getDamageSources().explosion(entity, entity);
-        world.createExplosion(entity, source, new ExplosionBehavior(), pos.getX(), pos.getY(), pos.getZ(), P3_PROJECTILE_POWER, true, World.ExplosionSourceType.MOB, ModParticles.QUIRK_EXPLOSION_DETONATION, ModParticles.QUIRK_EXPLOSION_BEAM, SoundEvents.ENTITY_GENERIC_EXPLODE);
+        world.createExplosion(entity, source, new ExplosionBehavior(), pos.getX(), pos.getY(), pos.getZ(), P3_PROJECTILE_POWER, true, World.ExplosionSourceType.MOB, ModParticles.QUIRK_EXPLOSION_SHORT, ModParticles.QUIRK_EXPLOSION_BEAM, SoundEvents.ENTITY_GENERIC_EXPLODE);
 
     }
 

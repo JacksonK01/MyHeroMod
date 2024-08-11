@@ -14,7 +14,8 @@ public class ModParticles {
     public static final DefaultParticleType COWLING_PARTICLES = registerParticle("cowling_particles");
     public static final DefaultParticleType SHOCKWAVE_PARTICLES = registerParticle("ring");
 
-    public static final DefaultParticleType QUIRK_EXPLOSION_DETONATION = registerParticle("explosion");
+    public static final DefaultParticleType QUIRK_EXPLOSION_SHORT = registerParticle("explosion");
+    public static final DefaultParticleType QUIRK_EXPLOSION_LONG = registerParticle("quirk_explosion_long");
     public static final DefaultParticleType QUIRK_EXPLOSION_BEAM = registerParticle("quirk_explosion_beam");
 
     private static DefaultParticleType registerParticle(String id) {
@@ -29,10 +30,10 @@ public class ModParticles {
     public static void registerClient() {
         ParticleFactoryRegistry.getInstance().register(COWLING_PARTICLES, CowlingFactory.Factory::new);
 
-        ParticleFactoryRegistry.getInstance().register(QUIRK_EXPLOSION_DETONATION, ExplosionFactory.Factory::new);
-
         ParticleFactoryRegistry.getInstance().register(SHOCKWAVE_PARTICLES, ShockwaveFactory.Factory::new);
 
+        ParticleFactoryRegistry.getInstance().register(QUIRK_EXPLOSION_SHORT, NormalParticleFactory.Factory.createFactory(0.45f, 6));
+        ParticleFactoryRegistry.getInstance().register(QUIRK_EXPLOSION_LONG, NormalParticleFactory.Factory.createFactory(0.45f, 24));
         ParticleFactoryRegistry.getInstance().register(QUIRK_EXPLOSION_BEAM, QuirkExplosionBeamFactory.Factory::new);
     }
 

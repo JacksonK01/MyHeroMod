@@ -25,7 +25,7 @@ public class EnergyDrinkItem extends Item {
     @Override
     public ItemStack finishUsing(ItemStack stack, World world, LivingEntity entity) {
         if (entity instanceof ServerPlayerEntity player) {
-            IPlayerAbilityUser user = AbilityManager.getUser(player);
+            IPlayerAbilityUser user = AbilityManager.getPlayerUser(player);
             if (user != null)
                 user.setStamina(user.getMaxStamina());
 

@@ -3,7 +3,9 @@ package net.michaeljackson23.mineademia.abilitysystem.intr.ability;
 import net.michaeljackson23.mineademia.abilitysystem.intr.AbilityCategory;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IAbilityUser;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
 
@@ -21,6 +23,9 @@ public interface IActiveAbility extends IAbility {
 
     boolean isBlockIgnoreSelf();
     void setBlockIgnoreSelf(boolean blockIgnoreSelf);
+
+    @Nullable
+    Identifier getDefaultIdentifier();
 
     default void setBlockedCategories(boolean blockIgnoreSelf, @NotNull AbilityCategory @NotNull ... categories) {
         setBlockedCategories(categories);

@@ -13,6 +13,7 @@ import net.minecraft.util.hit.EntityHitResult;
 import org.lwjgl.glfw.GLFW;
 
 import static net.michaeljackson23.mineademia.networking.Networking.*;
+import static net.michaeljackson23.mineademia.networking.Networking.C2S_ABILITY_TWO;
 
 /**
  * For any confusion:
@@ -124,15 +125,15 @@ public class Keybinds {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             client.execute(() -> {
 
-                keyAbilityOne.holdAndReleaseAction(ABILITY_ONE);
-                keyAbilityTwo.holdAndReleaseAction(ABILITY_TWO);
-                keyAbilityThree.holdAndReleaseAction(ABILITY_THREE);
-                keyAbilityFour.holdAndReleaseAction(ABILITY_FOUR);
-                keyAbilityFive.holdAndReleaseAction(ABILITY_FIVE);
+                keyAbilityOne.holdAndReleaseAction(C2S_ABILITY_ONE);
+                keyAbilityTwo.holdAndReleaseAction(C2S_ABILITY_TWO);
+                keyAbilityThree.holdAndReleaseAction(C2S_ABILITY_THREE);
+                keyAbilityFour.holdAndReleaseAction(C2S_ABILITY_FOUR);
+                keyAbilityFive.holdAndReleaseAction(C2S_ABILITY_FIVE);
 
                 if (keyDodge.wasPressed()) {
                     PacketByteBuf buf = PacketByteBufs.create();
-                    ClientPlayNetworking.send(ABILITY_DODGE, buf);
+                    ClientPlayNetworking.send(C2S_ABILITY_DODGE, buf);
                 }
 
                 if(quirkMenu.wasPressed()) {
@@ -152,18 +153,18 @@ public class Keybinds {
                     if(client.crosshairTarget instanceof EntityHitResult hitResult) {
                         PacketByteBuf buf = PacketByteBufs.create();
                         buf.writeInt(hitResult.getEntity().getId());
-                        ClientPlayNetworking.send(KICK_COMBO, buf);
+                        ClientPlayNetworking.send(C2S_KICK_COMBO, buf);
                     }
                 }
                 if(keyAerialCombo.wasPressed()) {
                     if(client.crosshairTarget instanceof EntityHitResult hitResult) {
                         PacketByteBuf buf = PacketByteBufs.create();
                         buf.writeInt(hitResult.getEntity().getId());
-                        ClientPlayNetworking.send(AERIAL_COMBO, buf);
+                        ClientPlayNetworking.send(C2S_AERIAL_COMBO, buf);
                     }
                 }
                 if(blocking.wasPressed()) {
-                    ClientPlayNetworking.send(BLOCKING, PacketByteBufs.empty());
+                    ClientPlayNetworking.send(C2S_BLOCKING, PacketByteBufs.empty());
                 }
 
 //                if (keyKickCombo.wasPressed() || keyAerialCombo.wasPressed()) {
