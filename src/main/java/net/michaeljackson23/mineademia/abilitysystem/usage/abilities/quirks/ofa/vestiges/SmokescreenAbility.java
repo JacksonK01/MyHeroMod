@@ -1,9 +1,11 @@
 package net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.ofa.vestiges;
 
+import net.michaeljackson23.mineademia.abilitysystem.impl.ability.ActiveAbility;
 import net.michaeljackson23.mineademia.abilitysystem.impl.ability.active.HoldAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.AbilityCategory;
 import net.michaeljackson23.mineademia.abilitysystem.intr.Cooldown;
 import net.michaeljackson23.mineademia.abilitysystem.intr.ability.extras.ICooldownAbility;
+import net.michaeljackson23.mineademia.abilitysystem.intr.ability.extras.ITickAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IAbilityUser;
 import net.michaeljackson23.mineademia.util.AffectAll;
 import net.michaeljackson23.mineademia.util.AreaOfEffect;
@@ -17,15 +19,18 @@ import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
 
 //UNFINISHED
-public class SmokescreenAbility extends HoldAbility implements ICooldownAbility {
+public class SmokescreenAbility extends ActiveAbility implements ITickAbility, ICooldownAbility {
 
     private static final int COOLDOWN = 10;
 
     private final Cooldown cooldown;
+
+    private boolean isActive = false;
 
     public SmokescreenAbility(@NotNull IAbilityUser user) {
         super(user, "Smokescreen", "Allows the user to generate a thick cloud of purple smoke from their body.", AbilityCategory.ATTACK);
@@ -34,17 +39,18 @@ public class SmokescreenAbility extends HoldAbility implements ICooldownAbility 
     }
 
     @Override
-    public boolean executeStart() {
-        return true;
+    public @NotNull Cooldown getCooldown() {
+        return this.cooldown;
     }
 
     @Override
-    public void executeEnd() {
-
+    public void onStartTick() {
+        if(isActive) {
+            smokeScreen();
+        }
     }
 
-    @Override
-    public void onTickActive() {
+    private void smokeScreen() {
         LivingEntity entity = getEntity();
         ServerWorld world = (ServerWorld) entity.getWorld();
 
@@ -59,16 +65,14 @@ public class SmokescreenAbility extends HoldAbility implements ICooldownAbility 
 
         DrawParticles.spawnParticles(world, new DustParticleEffect(new Vector3f(0.5f, 0.0f, 0.5f), 2.0f),
                 entity.getPos().add(0, 1, 0),
-                25, 1, 0, 1, 1, true);
+                35, 1.5f, 1f, 1.5f, 1, true);
+
+        getEntity().sendMessage(Text.literal("Trying to do smokescreen"));
     }
 
     @Override
-    public void onTickInactive() {
-
-    }
-
-    @Override
-    public @NotNull Cooldown getCooldown() {
-        return this.cooldown;
+    public void execute(boolean isKeyDown) {
+        getEntity().sendMessage(Text.literal("Trying to do smokescreen"));
+        isActive = isKeyDown;
     }
 }
