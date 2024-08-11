@@ -8,11 +8,12 @@ import net.michaeljackson23.mineademia.abilitysystem.intr.ability.IActiveAbility
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IPlayerAbilityUser;
 import net.michaeljackson23.mineademia.abilitysystem.usage.AbilitySets;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.DodgeAbility;
+import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.ofa.PickVestigeAbility;
 import net.michaeljackson23.mineademia.client.keybinds.Keybinds;
 import net.michaeljackson23.mineademia.quirk.Quirk;
 import net.michaeljackson23.mineademia.quirk.QuirkInitialize;
 import net.michaeljackson23.mineademia.quirk.abilities.AbilityBase;
-import net.michaeljackson23.mineademia.quirk.abilities.ofa.PickVestigeAbility;
+import net.michaeljackson23.mineademia.quirk.abilities.ofa.PickVestigeAbilityOld;
 import net.michaeljackson23.mineademia.savedata.StateSaverAndLoader;
 import net.michaeljackson23.mineademia.util.AnimationProxy;
 import net.michaeljackson23.mineademia.util.PlayerDataAccessor;
@@ -126,14 +127,18 @@ public class ServerPackets {
 
     public static void vestigeAbility(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
         String abilityString = buf.readString();
-        Quirk quirk = ((QuirkAccessor) player).myHeroMod$getQuirk();
-        AbilityBase[] abilities = quirk.getAbilities();
-        for(int i = 0; i < abilities.length; i++) {
-            if(abilities[i] instanceof PickVestigeAbility vestigeAbility) {
-                vestigeAbility.setVestigeAbility(abilityString);
-                break;
-            }
+
+        IPlayerAbilityUser user = AbilityManager.getUser(player);
+
+        if(user == null) {
+            return;
         }
+
+        IAbility ability = user.getAbility(PickVestigeAbility.class);
+
+        if(ability instanceof PickVestigeAbility vestigeAbility)
+            vestigeAbility.setCurrentAbility(abilityString);
+
     }
     public static void dodge(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
        Vec3d v = player.getVelocity();

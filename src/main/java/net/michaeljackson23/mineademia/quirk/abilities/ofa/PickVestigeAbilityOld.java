@@ -16,7 +16,7 @@ import net.minecraft.text.Text;
 
 import java.util.Optional;
 
-public class PickVestigeAbility extends InfiniteAbility implements AbilityExtractor {
+public class PickVestigeAbilityOld extends InfiniteAbility implements AbilityExtractor {
     private final Blackwhip blackwhip = new Blackwhip();
     private final SmokeScreen smokescreen = new SmokeScreen();
     private final Float floatAbility = new Float();
@@ -24,7 +24,7 @@ public class PickVestigeAbility extends InfiniteAbility implements AbilityExtrac
 
     private Optional<AbilityBase> activeAbility = Optional.empty();
 
-    public PickVestigeAbility() {
+    public PickVestigeAbilityOld() {
         super(0, 0, "Vestiges", "Hold shift while using this ability");
     }
 

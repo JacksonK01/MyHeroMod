@@ -12,9 +12,4 @@ public interface IPlayerAbilityUser extends IAbilityUser {
     @NotNull
     ServerPlayerEntity getEntity();
 
-    @Nullable
-    <T extends IActiveAbility> Class<T> getBoundAbility(@NotNull Identifier identifier);
-
-    <T extends IActiveAbility> void setBoundAbility(@NotNull Identifier Identifier, @NotNull IActiveAbility ability);
-
 }
