@@ -12,6 +12,7 @@ import net.michaeljackson23.mineademia.util.Mathf;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
@@ -31,10 +32,12 @@ public class ApShotAbility extends HoldAbility implements ICooldownAbility {
     public static final int MIN_COOLDOWN_TIME = 30;
     public static final int MAX_COOLDOWN_TIME = 300;
 
-    public static final int MAX_DURATION = 40;
+    public static final int STAMINA_PER_TICK = 3;
 
-    public static final int MAX_TICKS = 100;
-    public static final int MAX_DISTANCE = 30;
+    public static final int MAX_FIRE_DURATION = 40;
+
+    public static final int MAX_CHARGE_TIME = 60;
+    public static final int MAX_DISTANCE = 20;
 
     public static final float MIN_SIZE = 0f;
     public static final float MAX_SIZE = 1.25f;
@@ -51,9 +54,6 @@ public class ApShotAbility extends HoldAbility implements ICooldownAbility {
 
     private final Cooldown cooldown;
 
-    private int ticks;
-    private int endTicks;
-
     private float distance;
     private float duration;
     private float maxSize;
@@ -63,9 +63,7 @@ public class ApShotAbility extends HoldAbility implements ICooldownAbility {
     public ApShotAbility(@NotNull IAbilityUser user) {
         super(user, "AP Shot", DESCRIPTION, Networking.C2S_ABILITY_TWO, AbilityCategory.ATTACK);
 
-        this.cooldown = new Cooldown(MAX_COOLDOWN_TIME);
-        this.endTicks = MAX_DURATION + 1;
-
+        this.cooldown = new Cooldown(MIN_COOLDOWN_TIME);
         this.affectedBlocks = new HashMap<>();
     }
 
@@ -75,49 +73,59 @@ public class ApShotAbility extends HoldAbility implements ICooldownAbility {
         if (!isCooldownReady())
             return false;
 
-        ticks = 0;
         affectedBlocks.clear();
-
         return true;
     }
 
     @Override
     public void executeEnd() {
-        float partialHoldTime = (float) ticks / MAX_TICKS;
+        float partialHoldTime = (float) getTicks() / MAX_CHARGE_TIME;
 
         distance = Mathf.lerp(1, MAX_DISTANCE, partialHoldTime);
         maxSize = Mathf.lerp(MIN_SIZE, MAX_SIZE, partialHoldTime);
-        duration = Mathf.lerp(1, MAX_DURATION, partialHoldTime);
+        duration = Mathf.lerp(1, MAX_FIRE_DURATION, partialHoldTime);
 
         int cooldown = (int) Mathf.lerp(MIN_COOLDOWN_TIME, MAX_COOLDOWN_TIME, partialHoldTime);
 
         getCooldown().setCooldownTicks(cooldown);
         resetCooldown();
-
-        endTicks = 0;
     }
 
     @Override
     public void onTickActive() {
+        if (getEntity() instanceof PlayerEntity player) {
+            player.noClip = false;
+        }
+
         LivingEntity entity = getEntity();
         ServerWorld world = (ServerWorld) entity.getWorld();
+
+        int ticks = getTicks();
 
         Vec3d forward = entity.getRotationVecClient().normalize().multiply(0.5f).add(0, Y_OFFSET, 0);
         Vec3d pos = entity.getPos().add(forward);
 
-        float partialHoldTime = (float) ticks / MAX_TICKS;
+        float partialHoldTime = (float) ticks / MAX_CHARGE_TIME;
         float delta = Mathf.lerp(0, MAX_CHARGE_SIZE, partialHoldTime);
 
         world.spawnParticles(ModParticles.QUIRK_EXPLOSION_BEAM, pos.x, pos.y, pos.z , 10, delta, delta, delta, 0);
 
-        if (ticks ++ > MAX_TICKS)
+        if (ticks > MAX_CHARGE_TIME || !hasStamina((ticks + 1) * STAMINA_PER_TICK)) {
+            executeEnd();
             setActive(false);
+        }
     }
 
     @Override
     public void onTickInactive() {
-        if (endTicks++ <= duration)
+        if (getEntity() instanceof PlayerEntity player) {
+            player.noClip = false;
+        }
+
+        if (getTicks() <= duration) {
             drawBeam();
+            offsetStamina(-STAMINA_PER_TICK);
+        }
     }
 
     @Override
@@ -190,6 +198,13 @@ public class ApShotAbility extends HoldAbility implements ICooldownAbility {
                 affectedBlocks.put(posLong, 0);
         }
 
+    }
+
+    @Override
+    public void onEndTick() {
+        if (getEntity() instanceof PlayerEntity player && !isActive()) {
+            player.noClip = false;
+        }
     }
 
 }

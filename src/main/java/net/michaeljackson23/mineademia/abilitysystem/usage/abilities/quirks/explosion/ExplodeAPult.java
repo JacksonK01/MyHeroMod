@@ -27,11 +27,11 @@ public class ExplodeAPult extends PhaseAbility implements ICooldownAbility {
 
     public static final String DESCRIPTION = "While in mid-air, the user grabs an opponent with one of their arms, then fires an explosion with their free arm, causing both them and their opponent to spin. The user then forcefully throws his opponent with the aid of a second explosion.";
 
-    public static final int COOLDOWN_TIME_MISS = 80;
-    public static final int COOLDOWN_TIME_HIT = 300;
+    public static final int COOLDOWN_TIME_MISS = 100;
+    public static final int COOLDOWN_TIME_HIT = 400;
 
     public static final int STAMINA_COST_MISS = 50;
-    public static final int STAMINA_COST_HIT = 100;
+    public static final int STAMINA_COST_HIT = 200;
 
     public static final float DASH_PHASE_STRENGTH = 2f;
 
@@ -76,8 +76,9 @@ public class ExplodeAPult extends PhaseAbility implements ICooldownAbility {
 
         this.cooldown = new Cooldown(COOLDOWN_TIME_MISS);
 
-        setPhaseMethods(0, this::dashPhase, this::grabPhase, this::throwPhase, this::smokePhase);
-        setStartPhaseMethods(0, this::startDashPhase, this::startGrabPhase, this::startThrowPhase);
+        setPhaseMethods(1, this::grabPhase, this::throwPhase, this::smokePhase);
+        setStartPhaseMethod(0, this::startDashPhase);
+        setStartPhaseMethod(2, this::startThrowPhase);
     }
 
     @Override
@@ -96,10 +97,6 @@ public class ExplodeAPult extends PhaseAbility implements ICooldownAbility {
     }
 
 
-    private void dashPhase() {
-
-    }
-
     private void startDashPhase() {
         LivingEntity entity = getEntity();
         ServerWorld world = (ServerWorld) entity.getWorld();
@@ -109,7 +106,8 @@ public class ExplodeAPult extends PhaseAbility implements ICooldownAbility {
         entity.setVelocity(forward.multiply(DASH_PHASE_STRENGTH));
         entity.velocityModified = true;
 
-        world.playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.ENTITY_HORSE_BREATHE, SoundCategory.MASTER, 3, 2);
+        world.playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.ENTITY_HORSE_BREATHE, SoundCategory.MASTER, 1, 2);
+        world.playSound(null, entity.getX(), entity.getY(), entity.getZ(), ModSounds.SMALL_EXPLOSION, SoundCategory.MASTER, 0.2f, 2);
 
         nextPhase();
     }
@@ -137,10 +135,6 @@ public class ExplodeAPult extends PhaseAbility implements ICooldownAbility {
 
             resetPhase();
         }
-    }
-
-    private void startGrabPhase() {
-
     }
 
 
@@ -182,9 +176,12 @@ public class ExplodeAPult extends PhaseAbility implements ICooldownAbility {
 
     private void startThrowPhase() {
         LivingEntity entity = getEntity();
+        ServerWorld world = (ServerWorld) entity.getWorld();
 
         entity.setVelocity(Mathf.Vector.UP.multiply(THROW_RISE_STRENGTH));
         entity.velocityModified = true;
+
+        world.playSound(null, entity.getX(), entity.getY(), entity.getZ(), ModSounds.SMALL_EXPLOSION, SoundCategory.MASTER, 1, 2);
 
         IAbilityUser targetUser = AbilityManager.getUser(target);
         if (targetUser != null)

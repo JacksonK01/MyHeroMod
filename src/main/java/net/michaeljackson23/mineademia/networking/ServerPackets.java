@@ -5,16 +5,12 @@ import net.michaeljackson23.mineademia.abilitysystem.impl.AbilityManager;
 import net.michaeljackson23.mineademia.abilitysystem.impl.abilityyser.PlayerAbilityUser;
 import net.michaeljackson23.mineademia.abilitysystem.intr.ability.IAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.ability.IActiveAbility;
+import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IAbilityUser;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IPlayerAbilityUser;
 import net.michaeljackson23.mineademia.abilitysystem.usage.AbilitySets;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.DodgeAbility;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.ofa.PickVestigeAbility;
-import net.michaeljackson23.mineademia.client.keybinds.Keybinds;
-import net.michaeljackson23.mineademia.quirk.Quirk;
 import net.michaeljackson23.mineademia.quirk.QuirkInitialize;
-import net.michaeljackson23.mineademia.quirk.abilities.AbilityBase;
-import net.michaeljackson23.mineademia.quirk.abilities.ofa.PickVestigeAbilityOld;
-import net.michaeljackson23.mineademia.savedata.StateSaverAndLoader;
 import net.michaeljackson23.mineademia.util.AnimationProxy;
 import net.michaeljackson23.mineademia.util.PlayerDataAccessor;
 import net.michaeljackson23.mineademia.util.QuirkAccessor;
@@ -24,9 +20,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
-import net.minecraft.util.math.Vec3d;
-
-import static net.michaeljackson23.mineademia.client.keybinds.Keybinds.DASH_STRENGHT;
+import org.jetbrains.annotations.NotNull;
 
 public class ServerPackets {
 
@@ -132,43 +126,34 @@ public class ServerPackets {
             user.setAbilities(AbilitySets.GENERAL, AbilitySets.getAbilitySetOrEmpty(abilityName));
     }
 
-    private static void activateAbility(ServerPlayerEntity player, PacketByteBuf buf, int i) {
-        Quirk quirk = StateSaverAndLoader.getPlayerState(player).getQuirk();
-        boolean isHeld = buf.readBoolean();
-        if (isHeld) {
-            if(quirk.getActiveAbility() == null) {
-                quirk.setActiveAbility(quirk.getAbilities()[i]);
-            }
-            if(quirk.getActiveAbility() == quirk.getAbilities()[i]) {
-                AbilityBase activeAbility = quirk.getActiveAbility();
-                activeAbility.setAmountOfTimesActivated(activeAbility.getAmountOfTimesActivated() + 1);
-            }
-        }
-        if(quirk.getActiveAbility() != null) {
-            AbilityBase activeAbility = quirk.getActiveAbility();
-            activeAbility.setIsCurrentlyHeld(isHeld);
-        }
-    }
+//    private static void activateAbility(ServerPlayerEntity player, PacketByteBuf buf, int i) {
+//        Quirk quirk = StateSaverAndLoader.getPlayerState(player).getQuirk();
+//        boolean isHeld = buf.readBoolean();
+//        if (isHeld) {
+//            if(quirk.getActiveAbility() == null) {
+//                quirk.setActiveAbility(quirk.getAbilities()[i]);
+//            }
+//            if(quirk.getActiveAbility() == quirk.getAbilities()[i]) {
+//                AbilityBase activeAbility = quirk.getActiveAbility();
+//                activeAbility.setAmountOfTimesActivated(activeAbility.getAmountOfTimesActivated() + 1);
+//            }
+//        }
+//        if(quirk.getActiveAbility() != null) {
+//            AbilityBase activeAbility = quirk.getActiveAbility();
+//            activeAbility.setIsCurrentlyHeld(isHeld);
+//        }
+//    }
 
-    public static void vestigeAbility(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
+    public static void vestigeAbility(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, @NotNull PacketByteBuf buf, PacketSender responseSender) {
         String abilityString = buf.readString();
 
-        IPlayerAbilityUser user = AbilityManager.getUser(player);
-
-        if(user == null) {
+        IAbilityUser user = AbilityManager.getUser(player);
+        if(user == null)
             return;
-        }
 
-        IAbility ability = user.getAbility(PickVestigeAbility.class);
-
-        if(ability instanceof PickVestigeAbility vestigeAbility)
-            vestigeAbility.setCurrentAbility(abilityString);
-
+        PickVestigeAbility ability = user.getAbility(PickVestigeAbility.class);
+        if(ability != null)
+            ability.setCurrentAbility(abilityString);
     }
-    public static void dodge(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
-       Vec3d v = player.getVelocity();
-       if(v.x==0 && v.z==0) v = player.getRotationVecClient().multiply(0.25f);
-       if(!player.isFallFlying())
-           player.setVelocity(v.x * Keybinds.DASH_STRENGHT, 0.25f, v.z * DASH_STRENGHT);
-    }
+
 }

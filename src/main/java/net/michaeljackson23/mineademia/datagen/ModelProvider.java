@@ -3,8 +3,7 @@ package net.michaeljackson23.mineademia.datagen;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
 import net.michaeljackson23.mineademia.blocks.BlockRegister;
-import net.michaeljackson23.mineademia.blocks.quirkice.QuirkIceSpikeBlock;
-import net.michaeljackson23.mineademia.items.ItemRegister;
+import net.michaeljackson23.mineademia.items.ModItems;
 import net.minecraft.block.enums.Thickness;
 import net.minecraft.data.client.*;
 import net.minecraft.state.property.Properties;
@@ -24,7 +23,7 @@ public class ModelProvider extends FabricModelProvider {
 
     @Override
     public void generateItemModels(ItemModelGenerator itemModelGenerator) {
-        itemModelGenerator.register(ItemRegister.quirkTablet, Models.GENERATED);
+        itemModelGenerator.register(ModItems.QUIRK_TABLET, Models.GENERATED);
     }
     private void registerQuirkIceSpike(BlockStateModelGenerator blockStateModelGenerator) {
         BlockStateVariantMap.SingleProperty<Thickness> property = BlockStateVariantMap.create(Properties.THICKNESS);

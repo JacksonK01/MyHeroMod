@@ -31,6 +31,9 @@ public abstract class ActivationAbility extends ActiveAbility implements IActiva
 
     @Override
     public void setActive(boolean active) {
+        if (this.active != active)
+            resetTicks();
+
         this.active = active;
     }
 

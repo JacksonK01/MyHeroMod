@@ -3,7 +3,7 @@ package net.michaeljackson23.mineademia.abilitysystem.intr.ability.active;
 import net.michaeljackson23.mineademia.abilitysystem.intr.ability.extras.ITickAbility;
 
 /**
- * Base class of all hoold abilities, uses the {@link ITickAbility} class to tick while active or inactive
+ * Base class of all hold abilities, uses the {@link ITickAbility} class to tick while active or inactive
  */
 public interface IHoldAbility extends IActivationAbility {
 

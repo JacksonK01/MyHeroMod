@@ -48,4 +48,6 @@ public class PlayerEntityMixin {
     private PlayerEntity getSelf() {
         return (PlayerEntity) (Object) this;
     }
+    
+
 }

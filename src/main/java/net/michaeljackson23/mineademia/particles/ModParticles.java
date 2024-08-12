@@ -14,7 +14,7 @@ public class ModParticles {
     public static final DefaultParticleType COWLING_PARTICLES = registerParticle("cowling_particles");
     public static final DefaultParticleType SHOCKWAVE_PARTICLES = registerParticle("ring");
 
-    public static final DefaultParticleType QUIRK_EXPLOSION_SHORT = registerParticle("explosion");
+    public static final DefaultParticleType QUIRK_EXPLOSION_SHORT = registerParticle("quirk_explosion_short");
     public static final DefaultParticleType QUIRK_EXPLOSION_LONG = registerParticle("quirk_explosion_long");
     public static final DefaultParticleType QUIRK_EXPLOSION_BEAM = registerParticle("quirk_explosion_beam");
 
@@ -23,18 +23,17 @@ public class ModParticles {
         return Registry.register(Registries.PARTICLE_TYPE, new Identifier(Mineademia.MOD_ID, id), particleType);
     }
 
-    public static void register() {
+    public static void registerServer() {
         Mineademia.LOGGER.info("Registering particles for " + Mineademia.MOD_ID);
     }
 
     public static void registerClient() {
-        ParticleFactoryRegistry.getInstance().register(COWLING_PARTICLES, CowlingFactory.Factory::new);
+        ParticleFactoryRegistry.getInstance().register(COWLING_PARTICLES, ModParticle.createFactory(0.2f, 3));
+        ParticleFactoryRegistry.getInstance().register(SHOCKWAVE_PARTICLES, ShockwaveFactory.Factory::new); // has color, not done yet
 
-        ParticleFactoryRegistry.getInstance().register(SHOCKWAVE_PARTICLES, ShockwaveFactory.Factory::new);
-
-        ParticleFactoryRegistry.getInstance().register(QUIRK_EXPLOSION_SHORT, NormalParticleFactory.Factory.createFactory(0.45f, 6));
-        ParticleFactoryRegistry.getInstance().register(QUIRK_EXPLOSION_LONG, NormalParticleFactory.Factory.createFactory(0.45f, 24));
-        ParticleFactoryRegistry.getInstance().register(QUIRK_EXPLOSION_BEAM, QuirkExplosionBeamFactory.Factory::new);
+        ParticleFactoryRegistry.getInstance().register(QUIRK_EXPLOSION_SHORT, ModParticle.createFactory(0.45f, 6));
+        ParticleFactoryRegistry.getInstance().register(QUIRK_EXPLOSION_LONG, ModParticle.createFactory(0.45f, 24));
+        ParticleFactoryRegistry.getInstance().register(QUIRK_EXPLOSION_BEAM, ModParticle.createFactory(0.45f, 4));
     }
 
 }

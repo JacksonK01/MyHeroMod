@@ -3,6 +3,8 @@
   "package": "net.michaeljackson23.mineademia.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "AbstractBlockMixin",
+    "EntityMixin",
     "LivingEntityMixin",
     "MineademiaMixin",
     "PlayerEntityMixin",
