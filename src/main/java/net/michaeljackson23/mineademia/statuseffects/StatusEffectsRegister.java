@@ -17,6 +17,7 @@ public class StatusEffectsRegister {
         EFFECT_COWLING.addAttributeModifier(EntityAttributes.GENERIC_ATTACK_DAMAGE,
                 "648D7064-6A60-4F59-8ABE-C2C23A6DD7A9", 0.5,
                 EntityAttributeModifier.Operation.ADDITION);
+
         EFFECT_FROZEN.addAttributeModifier(EntityAttributes.GENERIC_MOVEMENT_SPEED,
                 "7107DE5E-7CE8-4030-940E-514C1F160890", -0.1,
                 EntityAttributeModifier.Operation.MULTIPLY_TOTAL);

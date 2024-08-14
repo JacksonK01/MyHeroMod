@@ -29,25 +29,13 @@ public class AnimationHelperBiped {
                 float h = f - keyframe.timestamp();
                 float k = j != i ? MathHelper.clamp(h / (keyframe2.timestamp() - keyframe.timestamp()), 0.0f, 1.0f) : 0.0f;
                 keyframe2.interpolation().apply(tempVec, k, keyframes, i, j, scale);
-                transformation.target().apply((ModelPart)part, tempVec);
+                transformation.target().apply((ModelPart) part, tempVec);
             }));
         }
     }
 
     private static float getRunningSeconds(Animation animation, long runningTime) {
-        float f = (float)runningTime / 1000.0f;
+        float f = (float) runningTime / 1000.0f;
         return animation.looping() ? f % animation.lengthInSeconds() : f;
-    }
-
-    public static Vector3f createTranslationalVector(float x, float y, float z) {
-        return new Vector3f(x, -y, z);
-    }
-
-    public static Vector3f createRotationalVector(float x, float y, float z) {
-        return new Vector3f(x * ((float)Math.PI / 180), y * ((float)Math.PI / 180), z * ((float)Math.PI / 180));
-    }
-
-    public static Vector3f createScalingVector(double x, double y, double z) {
-        return new Vector3f((float)(x - 1.0), (float)(y - 1.0), (float)(z - 1.0));
     }
 }

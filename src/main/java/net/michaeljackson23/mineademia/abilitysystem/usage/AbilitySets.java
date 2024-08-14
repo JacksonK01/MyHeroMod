@@ -8,7 +8,6 @@ import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.abstractabi
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.example.ExampleAbility1;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.example.ExampleAbility2;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.example.ExampleAbility3;
-import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.dev.mango.resonance.AerialStanceAbility;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.engine.EngineDashPassive;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.explosion.ApShotAbility;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.explosion.ExplodeAPult;
@@ -18,10 +17,7 @@ import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.hchh
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.hchh.cold.IceShootAbility;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.hchh.cold.IceSnowflakeAbility;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.hchh.cold.IceSpikeAbility;
-import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.ofa.AirForceAbility;
-import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.ofa.FullCowlingAbility;
-import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.ofa.ManchesterSmashAbility;
-import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.ofa.PickVestigeAbility;
+import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.ofa.*;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.whirlwind.*;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.hchh.cold.IceWallAbility;
 import org.jetbrains.annotations.NotNull;
@@ -39,7 +35,7 @@ public final class AbilitySets {
     public static final Function<IAbilityUser, IAbilitySet> GENERAL = registerAbilitySet("general", (u) -> new AbilitySet("", new DodgeAbility(u), new NoClipAbility(u)));
 
 
-    public static final Function<IAbilityUser, IAbilitySet> OFA = registerAbilitySet("ofa", (u) -> new AbilitySet("One For All", new AirForceAbility(u), new FullCowlingAbility(u), new ManchesterSmashAbility(u), new PickVestigeAbility(u)));
+    public static final Function<IAbilityUser, IAbilitySet> OFA = registerAbilitySet("ofa", (u) -> new AbilitySet("One For All", new AirForceAbility(u), new FullCowlingAbility(u), new ManchesterSmashAbility(u), new PickVestigeAbility(u), new DetroitSmashAbility(u)));
 
     public static final Function<IAbilityUser, IAbilitySet> EXPLOSION = registerAbilitySet("explosion", (u) -> new AbilitySet("Explosion", new ExplosiveSpeedAbility(u), new ApShotAbility(u), new HowitzerImpactAbility(u), new ExplodeAPult(u)));
 

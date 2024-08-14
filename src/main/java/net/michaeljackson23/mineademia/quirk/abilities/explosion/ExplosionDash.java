@@ -51,7 +51,7 @@ public class ExplosionDash extends HoldableAbility {
 
     private void spawnParticlesUnderHands(ServerPlayerEntity player, DefaultParticleType type) {
         double pitch = ((player.getPitch() + 90) * Math.PI) / 180;
-        double yaw = ((player.getYaw() + 90) * Math.PI)/ 180;
+        double yaw = ((player.getYaw() + 90) * Math.PI) / 180;
         double x = Math.cos(yaw) ;
         double y = Math.sin(pitch);
         double z = Math.sin(yaw);

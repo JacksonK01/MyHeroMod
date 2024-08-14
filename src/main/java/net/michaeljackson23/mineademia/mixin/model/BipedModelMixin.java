@@ -5,11 +5,14 @@ import net.michaeljackson23.mineademia.animations.AnimationHelperBiped;
 import net.michaeljackson23.mineademia.util.BipedModelMixinAccessor;
 import net.michaeljackson23.mineademia.util.LivingEntityMixinAccessor;
 import net.minecraft.client.model.ModelPart;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.entity.animation.Animation;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
+import net.minecraft.client.render.entity.model.EntityModelPartNames;
 import net.minecraft.entity.AnimationState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 import org.joml.Vector3f;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -17,6 +20,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -29,7 +34,14 @@ public abstract class BipedModelMixin<T extends LivingEntity> implements BipedMo
     private ModelPart root;
 
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/model/ModelPart;getChild(Ljava/lang/String;)Lnet/minecraft/client/model/ModelPart;"), method = "<init>(Lnet/minecraft/client/model/ModelPart;Ljava/util/function/Function;)V")
-    private void init(ModelPart root, Function renderLayerFactory, CallbackInfo ci) {
+    private void init(ModelPart root, Function<Identifier, RenderLayer> renderLayerFactory, CallbackInfo ci) {
+//        HashMap<String, ModelPart> map = new HashMap<>();
+//        map.put(EntityModelPartNames.HEAD, getSelf().head);
+//        map.put(EntityModelPartNames.BODY, getSelf().body);
+//        map.put(EntityModelPartNames.RIGHT_ARM, getSelf().rightArm);
+//        map.put(EntityModelPartNames.LEFT_ARM, getSelf().leftArm);
+//        map.put(EntityModelPartNames.RIGHT_LEG, getSelf().rightLeg);
+//        map.put(EntityModelPartNames.LEFT_LEG, getSelf().leftLeg);
         this.root = root;
     }
 
@@ -46,8 +58,15 @@ public abstract class BipedModelMixin<T extends LivingEntity> implements BipedMo
 
             if(state.isRunning()) {
                 animation.getBodyPartsUsed().forEach((part) -> {
-                    this.getChild(part).orElseThrow().resetTransform();
-                    //livingEntity.sendMessage(Text.literal("Current Part: " + part));
+                    ModelPart modelPart = this.getChild(part).orElseThrow();
+                    modelPart.resetTransform();
+//                    if (modelPart.traverse() == null) {
+//                        System.out.println("Traverse() is null");
+//                    } else {
+//                        System.out.println("Traverse is not null");
+//                    }
+//                    System.out.println("Current Part: " + part + " IsEmpty: " + modelPart.traverse().count());
+//                    livingEntity.sendMessage(Text.literal("Current Part: " + part + " IsEmpty: " + modelPart.traverse().count()));
                 });
             }
 

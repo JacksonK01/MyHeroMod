@@ -13,6 +13,7 @@ public class ModParticles {
 
     public static final DefaultParticleType COWLING_PARTICLES = registerParticle("cowling_particles");
     public static final DefaultParticleType SHOCKWAVE_PARTICLES = registerParticle("ring");
+    public static final DefaultParticleType QUIRK_OFA_CLOUD = registerParticle("quirk_ofa_cloud");
 
     public static final DefaultParticleType QUIRK_EXPLOSION_SHORT = registerParticle("quirk_explosion_short");
     public static final DefaultParticleType QUIRK_EXPLOSION_LONG = registerParticle("quirk_explosion_long");
@@ -34,6 +35,8 @@ public class ModParticles {
         ParticleFactoryRegistry.getInstance().register(QUIRK_EXPLOSION_SHORT, ModParticle.createFactory(0.45f, 6));
         ParticleFactoryRegistry.getInstance().register(QUIRK_EXPLOSION_LONG, ModParticle.createFactory(0.45f, 24));
         ParticleFactoryRegistry.getInstance().register(QUIRK_EXPLOSION_BEAM, ModParticle.createFactory(0.45f, 4));
+
+        ParticleFactoryRegistry.getInstance().register(QUIRK_OFA_CLOUD, ModParticle.createFactory(0.1f, 1));
     }
 
 }
