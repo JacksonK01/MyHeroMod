@@ -55,8 +55,10 @@ public class QuirkFeatureRenderer extends FeatureRenderer<AbstractClientPlayerEn
         }
         matrices.pop();
     }
+
+
     public static void register() {
-        modelMap.put("EnginesAndEngineFire", new ModelDataHolder("engines", "textures/features/engines_model.png", false, EnginesModelState::new, EnginesModelState::getTexturedModelData));
-        modelMap.put("Slide", new ModelDataHolder("slide_effect", "textures/features/slide_effect_model.png", true, SlideEffectModel::new, SlideEffectModel::getTexturedModelData));
+        //modelMap.put("EnginesAndEngineFire", new ModelDataHolder("engines", "textures/features/engines_model.png", false, EnginesModelState::new, EnginesModelState::getTexturedModelData));
+        //modelMap.put("Slide", new ModelDataHolder("slide_effect", "textures/features/slide_effect_model.png", true, SlideEffectModel::new, SlideEffectModel::getTexturedModelData));
     }
 }

@@ -17,6 +17,7 @@ import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.hchh
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.hchh.cold.IceShootAbility;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.hchh.cold.IceSnowflakeAbility;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.hchh.cold.IceSpikeAbility;
+import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.miscellaneous.SuperHeroLandingAbility;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.ofa.*;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.whirlwind.*;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.hchh.cold.IceWallAbility;
@@ -46,7 +47,7 @@ public final class AbilitySets {
 
     public static final Function<IAbilityUser, IAbilitySet> WHIRLWIND = registerAbilitySet("whirlwind", (u) -> new AbilitySet("Whirlwind", new WindBladeAbility(u), new TornadoAbility(u), new GaleUpliftAbility(u), new BallistaAbility(u) ,new WindFlyAbility(u)));
 
-    public static final Function<IAbilityUser, IAbilitySet> ENGINE = registerAbilitySet("engine", (u) -> new AbilitySet("Engine", new EngineDashPassive(u)));
+    public static final Function<IAbilityUser, IAbilitySet> ENGINE = registerAbilitySet("engine", (u) -> new AbilitySet("Engine", new EngineDashPassive(u), new SuperHeroLandingAbility(u)));
 
     public static final Function<IAbilityUser, IAbilitySet> EXAMPLE = registerAbilitySet("example", (u) -> new AbilitySet("Example", new ExampleAbility1(u), new ExampleAbility2(u), new ExampleAbility3(u)));
 
