@@ -16,6 +16,7 @@ public class AnimationDataHolder {
     private final Animation animation;
     private final List<String> bodyPartsUsed;
     private final boolean isJointedAnimation;
+    private final boolean doesContainRoot;
 
     //Useful in case for example, you animate the head, but also want the player's mouse to move the head.
     public AnimationDataHolder(Animation animation, String... bodyPartsUsed) {
@@ -26,6 +27,7 @@ public class AnimationDataHolder {
         this.isJointedAnimation = !Collections.disjoint(bones, EntityAnimatedPartNames.getAllParts());
 
         this.animation = isJointedAnimation ? buildJointedAnimation(animation) : animation;
+        this.doesContainRoot = this.animation.boneAnimations().containsKey(EntityAnimatedPartNames.ANIMATED_ROOT);
     }
 
     public AnimationDataHolder(Animation animation) {
@@ -36,6 +38,7 @@ public class AnimationDataHolder {
         this.animation = isJointedAnimation ? buildJointedAnimation(animation) : animation;
 
         this.bodyPartsUsed = List.copyOf(this.animation.boneAnimations().keySet());
+        this.doesContainRoot = this.animation.boneAnimations().containsKey(EntityAnimatedPartNames.ANIMATED_ROOT);
     }
 
     private Animation buildJointedAnimation(Animation temp) {
@@ -49,7 +52,7 @@ public class AnimationDataHolder {
     }
 
     public Animation getAnimation() {
-        return this.animation;
+        return animation;
     }
 
     public List<String> getBodyPartsUsed() {
@@ -58,5 +61,9 @@ public class AnimationDataHolder {
 
     public boolean isJointedAnimation() {
         return isJointedAnimation;
+    }
+
+    public boolean doesContainRoot() {
+        return doesContainRoot;
     }
 }

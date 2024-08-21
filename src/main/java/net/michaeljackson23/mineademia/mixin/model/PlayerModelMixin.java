@@ -236,6 +236,11 @@ public abstract class PlayerModelMixin<T extends LivingEntity> {
         });
 
         animatedRoot.visible = bl;
+
+        //This has to be like this for some reason ? ???
+        if(!livingEntityMixin.getAnimationData().doesContainRoot()) {
+            animatedRoot.resetTransform();
+        }
     }
 
     @Unique
