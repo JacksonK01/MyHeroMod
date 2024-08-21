@@ -9,7 +9,7 @@ import net.michaeljackson23.mineademia.abilitysystem.intr.ability.extras.ITickAb
 import net.michaeljackson23.mineademia.abilitysystem.intr.ability.passive.IEventPassiveAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IAbilityUser;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IPlayerAbilityUser;
-import net.michaeljackson23.mineademia.abilitysystem.networking.PlayerAbilityUserPacketS2C;
+import net.michaeljackson23.mineademia.abilitysystem.networking.AbilityUserPacketS2C;
 import net.michaeljackson23.mineademia.abilitysystem.usage.AbilitySets;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.server.MinecraftServer;
@@ -18,6 +18,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.UUID;
@@ -66,7 +67,7 @@ public final class AbilityManager {
             cooldownAbility.getCooldown().onTick();
 
         regenUserStamina();
-        sendUserPacket();
+        sendToSelf();
     }
 
     public static void onEndServerTick(MinecraftServer minecraftServer) {
@@ -81,7 +82,7 @@ public final class AbilityManager {
 
 
     @SuppressWarnings("unchecked")
-    public static void onPlayerJoin(ServerPlayNetworkHandler serverPlayNetworkHandler, PacketSender packetSender, MinecraftServer minecraftServer) {
+    public static void onPlayerJoin(@NotNull ServerPlayNetworkHandler serverPlayNetworkHandler, PacketSender packetSender, MinecraftServer minecraftServer) {
         ServerPlayerEntity player = serverPlayNetworkHandler.getPlayer();
         UUID uuid = player.getUuid();
 
@@ -96,7 +97,8 @@ public final class AbilityManager {
         } else
             user.setEntity(player);
 
-        PlayerAbilityUserPacketS2C.sendToClient(user);
+        AbilityUserPacketS2C.sendSelf(player, user);
+        // PlayerAbilityUserPacketS2C.sendToClient(user);
 
         triggerEvents(ServerPlayConnectionEvents.Join.class);
     }
@@ -109,6 +111,11 @@ public final class AbilityManager {
     @Nullable
     public static IAbilityUser getUser(@NotNull LivingEntity entity) {
         return users.get(entity.getUuid());
+    }
+
+    @NotNull
+    public static Collection<IAbilityUser> getUsers() {
+        return users.values();
     }
 
     private static void regenUserStamina() {
@@ -127,9 +134,8 @@ public final class AbilityManager {
         }
     }
 
-    private static void sendUserPacket() {
-        for (IPlayerAbilityUser user : playerUsers.values()) {
-            PlayerAbilityUserPacketS2C.sendToClient((PlayerAbilityUser) user);
-        }
+    private static void sendToSelf() {
+        for (IPlayerAbilityUser user : playerUsers.values())
+            AbilityUserPacketS2C.sendSelf(user.getEntity(), user);
     }
 }

@@ -52,10 +52,4 @@ public interface IActiveAbility extends IAbility {
         return !isConflicting();
     }
 
-    @Override
-    default void encode(@NotNull PacketByteBuf buffer) {
-        IAbility.super.encode(buffer);
-
-    }
-
 }

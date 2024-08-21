@@ -21,7 +21,7 @@ public class MockQuirkTablet extends Item {
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
         if (!world.isClient) {
-            ServerPlayNetworking.send((ServerPlayerEntity) player, Networking.MOCK_QUIRK_TABLET_GUI, PacketByteBufs.empty());
+            ServerPlayNetworking.send((ServerPlayerEntity) player, Networking.S2C_MOCK_QUIRK_TABLET_GUI, PacketByteBufs.empty());
         }
         return TypedActionResult.success(player.getStackInHand(hand));
     }

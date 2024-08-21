@@ -38,7 +38,7 @@ public class WindFly extends BasicAbility {
                 entityToAffect.velocityModified = true;
             }));
         } else {
-            ServerPlayNetworking.send(player, Networking.WIND_FLY_DESCENT_VELOCITY, PacketByteBufs.empty());
+            ServerPlayNetworking.send(player, Networking.S2C_WIND_FLY_DESCENT_VELOCITY, PacketByteBufs.empty());
             player.getServerWorld().spawnParticles(ParticleTypes.CLOUD,
                     player.getX(), player.getY(), player.getZ(),
                     10,

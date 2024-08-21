@@ -37,6 +37,7 @@ public class MockQuirkTabletGui extends Screen {
         ButtonWidget whirlwind = createButton("Whirlwind", "whirlwind");
         ButtonWidget ofa = createButton("One For All", "ofa");
         ButtonWidget engine = createButton("Engine", "engine");
+        ButtonWidget rifle = createButton("Rifle", "rifle");
 
         addDrawableChild(none);
         addDrawableChild(hchh_cold);
@@ -44,6 +45,7 @@ public class MockQuirkTabletGui extends Screen {
         addDrawableChild(whirlwind);
         addDrawableChild(ofa);
         addDrawableChild(engine);
+        addDrawableChild(rifle);
     }
 
     private ButtonWidget createButton(String name, String value) {

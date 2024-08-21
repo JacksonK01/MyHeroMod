@@ -57,7 +57,7 @@ public class AreaOfEffect {
         buf.writeDouble(box.maxX);
         buf.writeDouble(box.maxY);
         buf.writeDouble(box.maxZ);
-        ServerPlayNetworking.send(player, Networking.DRAW_BOX, buf);
+        ServerPlayNetworking.send(player, Networking.S2C_DRAW_BOX, buf);
     }
 
     @FunctionalInterface

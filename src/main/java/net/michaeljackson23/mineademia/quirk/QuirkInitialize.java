@@ -3,6 +3,7 @@ package net.michaeljackson23.mineademia.quirk;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.michaeljackson23.mineademia.Mineademia;
+import net.michaeljackson23.mineademia.networking.PacketsC2S;
 import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkDataPacket;
 import net.michaeljackson23.mineademia.quirk.quirks.*;
 import net.michaeljackson23.mineademia.savedata.PlayerData;
@@ -102,7 +103,7 @@ public class QuirkInitialize {
      * </p>
      *
      * <p>
-     *     Used by = {@link QuirkInitialize#InitializeEvent()}, {@link net.michaeljackson23.mineademia.networking.ServerPackets#openQuirkTabletGUI(MinecraftServer, ServerPlayerEntity, ServerPlayNetworkHandler, PacketByteBuf, PacketSender)}
+     *     Used by = {@link QuirkInitialize#InitializeEvent()}, {@link PacketsC2S#openQuirkTabletGUI(MinecraftServer, ServerPlayerEntity, ServerPlayNetworkHandler, PacketByteBuf, PacketSender)}
      * </p>
      */
     public static Quirk setQuirkWithString(String quirk) {

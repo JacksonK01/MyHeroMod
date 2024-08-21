@@ -35,7 +35,7 @@ public class ShootStyleKicks extends BasicAbility {
         init = false;
         isAir = false;
         hasDoneAOE = false;
-        ServerPlayNetworking.send(player, Networking.FORCE_INTO_FIRST_PERSON, PacketByteBufs.empty());
+        ServerPlayNetworking.send(player, Networking.S2C_FORCE_INTO_FIRST_PERSON, PacketByteBufs.empty());
     }
 
     private void init(ServerPlayerEntity player) {
@@ -53,10 +53,10 @@ public class ShootStyleKicks extends BasicAbility {
 
     private void abilityAction(ServerPlayerEntity player, Quirk quirk) {
         if(isAir) {
-            ServerPlayNetworking.send(player, Networking.FORCE_INTO_THIRD_PERSON_BACK, PacketByteBufs.empty());
+            ServerPlayNetworking.send(player, Networking.S2C_FORCE_INTO_THIRD_PERSON_BACK, PacketByteBufs.empty());
             inAirAction(player, quirk);
         } else {
-            ServerPlayNetworking.send(player, Networking.FORCE_INTO_THIRD_PERSON_FRONT, PacketByteBufs.empty());
+            ServerPlayNetworking.send(player, Networking.S2C_FORCE_INTO_THIRD_PERSON_FRONT, PacketByteBufs.empty());
             onGroundAction(player);
         }
     }

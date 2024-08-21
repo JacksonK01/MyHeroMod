@@ -37,7 +37,7 @@ public class PickVestigeAbility extends ActiveAbility implements ITickAbility, I
     public void execute(boolean isKeyDown) {
         if((isKeyDown && currentAbility == null) || getEntity().isSneaking()) {
             if(getEntity() instanceof ServerPlayerEntity player)
-                ServerPlayNetworking.send(player, Networking.OPEN_VESTIGE_GUI, PacketByteBufs.empty());
+                ServerPlayNetworking.send(player, Networking.S2C_OPEN_VESTIGE_GUI, PacketByteBufs.empty());
         }
 
         if(currentAbility != null) {

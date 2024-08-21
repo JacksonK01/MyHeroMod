@@ -121,8 +121,11 @@ public abstract class LivingEntityMixin implements LivingEntityMixinAccessor {
         return this.activeAnimationState;
     }
 
+
     @Unique
     private LivingEntity getSelf() {
         return (LivingEntity) (Object) this;
     }
+
+
 }

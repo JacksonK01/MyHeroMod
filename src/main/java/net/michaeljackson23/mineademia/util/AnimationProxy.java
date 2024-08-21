@@ -18,7 +18,7 @@ public class AnimationProxy {
                 PacketByteBuf data = PacketByteBufs.create();
                 data.writeUuid(playerToAnimate.getUuid());
                 data.writeString(animation);
-                ServerPlayNetworking.send(player, Networking.ANIMATION, data);
+                ServerPlayNetworking.send(player, Networking.S2C_ANIMATION, data);
             });
         }
     }
@@ -30,7 +30,7 @@ public class AnimationProxy {
                 PacketByteBuf data = PacketByteBufs.create();
                 data.writeInt(toAnimate.getId());
                 data.writeString(animation);
-                ServerPlayNetworking.send(player, Networking.ANIMATION_NO_API, data);
+                ServerPlayNetworking.send(player, Networking.S2C_ANIMATION_NO_API, data);
             });
         }
     }

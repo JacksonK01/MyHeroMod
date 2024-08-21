@@ -58,24 +58,10 @@ public final class DrawParticles {
         return spawnParticles(world, particleEffect, (float) pos.x, (float) pos.y, (float) pos.z, (float) delta.x, (float) delta.y, (float) delta.z, force);
     }
 
-    // DELTA
+    // LINE SHAPE
 
-    public static Vec3d circularParticleDelta(@NotNull Vec3d center, @NotNull Vec3d normal, float radius, float rotation) {
-        if (normal == Vec3d.ZERO)
-            normal = Mathf.Vector.UP;
-
-        normal = normal.normalize();
-
-        Vec3d v1 = Mathf.Vector.getOrthogonal(normal);
-        Vec3d v2 = v1.crossProduct(normal);
-
-        Vec3d addCos = v1.multiply(Math.cos(rotation));
-        Vec3d addSin = v2.multiply(Math.sin(rotation));
-
-        Vec3d addAll = addCos.add(addSin).multiply(radius);
-        Vec3d point = center.add(addAll);
-
-        return point.subtract(center).normalize();
+    public static <T extends ParticleEffect> void inLine(@NotNull ServerWorld world, @NotNull Vec3d from, @NotNull Vec3d to, float thickness, float stepSize, float time, @NotNull T particle, @NotNull Vec3d delta, int count, float speed, boolean force) {
+        // fuck you git
     }
 
     // CIRCLE SHAPE

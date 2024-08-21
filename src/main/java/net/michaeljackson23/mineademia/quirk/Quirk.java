@@ -1,6 +1,7 @@
 package net.michaeljackson23.mineademia.quirk;
 
 import net.michaeljackson23.mineademia.Mineademia;
+import net.michaeljackson23.mineademia.networking.PacketsC2S;
 import net.michaeljackson23.mineademia.quirk.abilities.AbilityBase;
 import net.michaeljackson23.mineademia.quirk.abilities.AbilityExtractor;
 import net.michaeljackson23.mineademia.quirk.abilities.PassiveAbility;
@@ -44,7 +45,7 @@ public abstract class Quirk {
     /**
      * <p>
      *     This variable is purely used a pointer for whichever ability is active for this quirk.
-     *     See {@link net.michaeljackson23.mineademia.networking.ServerPackets#activateAbility(ServerPlayerEntity, PacketByteBuf, int)}
+     *     See {@link PacketsC2S#activateAbility(ServerPlayerEntity, PacketByteBuf, int)}
      *     for how activeAbility gets set.
      * </p>
      */

@@ -1,6 +1,10 @@
 package net.michaeljackson23.mineademia.util;
 
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.michaeljackson23.mineademia.networking.Networking;
 import net.minecraft.entity.Entity;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.packet.s2c.play.StopSoundS2CPacket;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
@@ -45,16 +49,28 @@ public final class AffectAll<T extends Entity> {
         this.entities.removeAll(entities);
         return this;
     }
-    @NotNull
 
+    @NotNull
     public <T1 extends T> AffectAll<T> exclude(@NotNull Class<T1> type) {
         entities.removeIf((e) -> type.isAssignableFrom(e.getClass()));
         return this;
     }
 
     @NotNull
+    public AffectAll<T> exclude(@NotNull Predicate<T> condition) {
+        entities.removeIf(condition);
+        return this;
+    }
+
+    @NotNull
     public AffectAll<T> insertInto(@NotNull Collection<T> collection) {
         collection.addAll(entities);
+        return this;
+    }
+
+    @NotNull
+    public <T1> AffectAll<T> insertInto(@NotNull Collection<T1> collection, Function<T, T1> convert) {
+        collection.addAll(entities.stream().map(convert).toList());
         return this;
     }
 
@@ -96,6 +112,32 @@ public final class AffectAll<T extends Entity> {
         StopSoundS2CPacket packet = new StopSoundS2CPacket(sound.getId(), category);
         entities.forEach((e) -> affectStopSound(e, packet));
 
+        return this;
+    }
+
+    @NotNull
+    public AffectAll<T> withClientGlowing(@NotNull ServerPlayerEntity player, boolean glowing) {
+        PacketByteBuf buffer = PacketByteBufs.create();
+
+        buffer.writeIntArray(entities.stream().mapToInt(Entity::getId).toArray());
+        buffer.writeBoolean(glowing);
+
+        entities.forEach((e) -> ServerPlayNetworking.send(player, Networking.S2C_GLOW_ENTITIES, buffer));
+        return this;
+    }
+
+    public AffectAll<T> withGlowingColor(float red, float green, float blue) {
+        entities.forEach((e) -> GlowingHelper.setColor(e, red, green, blue));
+        return this;
+    }
+
+    public AffectAll<T> withGlowingColor(int color) {
+        entities.forEach((e) -> GlowingHelper.setColor(e, color));
+        return this;
+    }
+
+    public AffectAll<T> clearGlowingColor() {
+        entities.forEach(GlowingHelper::clearColor);
         return this;
     }
 

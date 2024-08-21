@@ -31,56 +31,59 @@ public class Networking {
     public static final Identifier ABILITY_TEST_SWAP = new Identifier(Mineademia.MOD_ID, "ability_test_swap"); // TODO REMOVE!!!
 
     //Client Identifiers sent from server
-    public static final Identifier QUIRK_TABLET_GUI = new Identifier(Mineademia.MOD_ID, "quirk_tablet_gui");
-    public static final Identifier MOCK_QUIRK_TABLET_GUI = new Identifier(Mineademia.MOD_ID, "mock_quirk_tablet_gui");
-    public static final Identifier ANIMATION = new Identifier(Mineademia.MOD_ID, "animation_proxy");
-    public static final Identifier ANIMATION_NO_API = new Identifier(Mineademia.MOD_ID, "animation_proxy_no_api");
-    public static final Identifier SET_YAW = new Identifier(Mineademia.MOD_ID, "set_yaw");
-    public static final Identifier FORCE_INTO_THIRD_PERSON_BACK = new Identifier(Mineademia.MOD_ID, "force_third_person_back");
-    public static final Identifier FORCE_INTO_THIRD_PERSON_FRONT = new Identifier(Mineademia.MOD_ID, "force_third_person_front");
-    public static final Identifier FORCE_INTO_FIRST_PERSON = new Identifier(Mineademia.MOD_ID, "force_first_person");
-    public static final Identifier COMBO_DAMAGE = new Identifier(Mineademia.MOD_ID, "combo_damage");
-    public static final Identifier OPEN_VESTIGE_GUI = new Identifier(Mineademia.MOD_ID, "vestige_gui");
-    public static final Identifier GLOW_ENTITIES = new Identifier(Mineademia.MOD_ID, "glow_entities");
-    public static final Identifier WIND_FLY_DESCENT_VELOCITY = new Identifier(Mineademia.MOD_ID, "wind_fly_descent_velocity");
-    public static final Identifier DRAW_BOX = new Identifier(Mineademia.MOD_ID, "draw_box");
+    public static final Identifier S2C_QUIRK_TABLET_GUI = new Identifier(Mineademia.MOD_ID, "quirk_tablet_gui");
+    public static final Identifier S2C_MOCK_QUIRK_TABLET_GUI = new Identifier(Mineademia.MOD_ID, "mock_quirk_tablet_gui");
+    public static final Identifier S2C_ANIMATION = new Identifier(Mineademia.MOD_ID, "animation_proxy");
+    public static final Identifier S2C_ANIMATION_NO_API = new Identifier(Mineademia.MOD_ID, "animation_proxy_no_api");
+    public static final Identifier S2C_SET_YAW = new Identifier(Mineademia.MOD_ID, "set_yaw");
+    public static final Identifier S2C_FORCE_INTO_THIRD_PERSON_BACK = new Identifier(Mineademia.MOD_ID, "force_third_person_back");
+    public static final Identifier S2C_FORCE_INTO_THIRD_PERSON_FRONT = new Identifier(Mineademia.MOD_ID, "force_third_person_front");
+    public static final Identifier S2C_FORCE_INTO_FIRST_PERSON = new Identifier(Mineademia.MOD_ID, "force_first_person");
+    public static final Identifier S2C_COMBO_DAMAGE = new Identifier(Mineademia.MOD_ID, "combo_damage");
+    public static final Identifier S2C_OPEN_VESTIGE_GUI = new Identifier(Mineademia.MOD_ID, "vestige_gui");
+    public static final Identifier S2C_GLOW_ENTITIES = new Identifier(Mineademia.MOD_ID, "glow_entities");
+    public static final Identifier S2C_WIND_FLY_DESCENT_VELOCITY = new Identifier(Mineademia.MOD_ID, "wind_fly_descent_velocity");
+    public static final Identifier S2C_DRAW_BOX = new Identifier(Mineademia.MOD_ID, "draw_box");
+
+    public static final Identifier S2C_ZOOM = new Identifier(Mineademia.MOD_ID, "zoom");
 
 
     public static void registerServer() {
-        ServerPlayNetworking.registerGlobalReceiver(C2S_ABILITY_ONE, ServerPackets::abilityOne);
-        ServerPlayNetworking.registerGlobalReceiver(C2S_ABILITY_TWO, ServerPackets::abilityTwo);
-        ServerPlayNetworking.registerGlobalReceiver(C2S_ABILITY_THREE, ServerPackets::abilityThree);
-        ServerPlayNetworking.registerGlobalReceiver(C2S_ABILITY_FOUR, ServerPackets::abilityFour);
-        ServerPlayNetworking.registerGlobalReceiver(C2S_ABILITY_FIVE, ServerPackets::abilityFive);
-        ServerPlayNetworking.registerGlobalReceiver(C2S_BLOCKING, ServerPackets::blocking);
-        ServerPlayNetworking.registerGlobalReceiver(C2S_KICK_COMBO, ServerPackets::kickCombo);
-        ServerPlayNetworking.registerGlobalReceiver(C2S_AERIAL_COMBO, ServerPackets::aerialCombo);
-        ServerPlayNetworking.registerGlobalReceiver(C2S_OPEN_QUIRK_GUI, ServerPackets::openQuirkTabletGUI);
-        ServerPlayNetworking.registerGlobalReceiver(C2S_MOCK_CHANGE_QUIRK_WITH_TABLET, ServerPackets::mockQuirkTabletQuirkChange);
-        ServerPlayNetworking.registerGlobalReceiver(C2S_SELECT_VESTIGE_GUI, ServerPackets::vestigeAbility);
-        ServerPlayNetworking.registerGlobalReceiver(C2S_ABILITY_DODGE, ServerPackets::abilityDodge);
+        ServerPlayNetworking.registerGlobalReceiver(C2S_ABILITY_ONE, PacketsC2S::abilityOne);
+        ServerPlayNetworking.registerGlobalReceiver(C2S_ABILITY_TWO, PacketsC2S::abilityTwo);
+        ServerPlayNetworking.registerGlobalReceiver(C2S_ABILITY_THREE, PacketsC2S::abilityThree);
+        ServerPlayNetworking.registerGlobalReceiver(C2S_ABILITY_FOUR, PacketsC2S::abilityFour);
+        ServerPlayNetworking.registerGlobalReceiver(C2S_ABILITY_FIVE, PacketsC2S::abilityFive);
+        ServerPlayNetworking.registerGlobalReceiver(C2S_BLOCKING, PacketsC2S::blocking);
+        ServerPlayNetworking.registerGlobalReceiver(C2S_KICK_COMBO, PacketsC2S::kickCombo);
+        ServerPlayNetworking.registerGlobalReceiver(C2S_AERIAL_COMBO, PacketsC2S::aerialCombo);
+        ServerPlayNetworking.registerGlobalReceiver(C2S_OPEN_QUIRK_GUI, PacketsC2S::openQuirkTabletGUI);
+        ServerPlayNetworking.registerGlobalReceiver(C2S_MOCK_CHANGE_QUIRK_WITH_TABLET, PacketsC2S::mockQuirkTabletQuirkChange);
+        ServerPlayNetworking.registerGlobalReceiver(C2S_SELECT_VESTIGE_GUI, PacketsC2S::vestigeAbility);
+        ServerPlayNetworking.registerGlobalReceiver(C2S_ABILITY_DODGE, PacketsC2S::abilityDodge);
 
 
-        ServerPlayNetworking.registerGlobalReceiver(ABILITY_TEST, ServerPackets::abilityTest); // TODO REMOVE!!!
-        ServerPlayNetworking.registerGlobalReceiver(ABILITY_TEST_SWAP, ServerPackets::abilityTestSwap); // TODO REMOVE!!!
+        ServerPlayNetworking.registerGlobalReceiver(ABILITY_TEST, PacketsC2S::abilityTest); // TODO REMOVE!!!
+        ServerPlayNetworking.registerGlobalReceiver(ABILITY_TEST_SWAP, PacketsC2S::abilityTestSwap); // TODO REMOVE!!!
     }
 
     public static void registerClient() {
-        ClientPlayNetworking.registerGlobalReceiver(QuirkDataPacket.QUIRK_DATA_SYNC, ClientPackets::quirkDataSync);
-        ClientPlayNetworking.registerGlobalReceiver(QuirkDataPacket.QUIRK_DATA_SYNC_PROXY, ClientPackets::quirkDataSyncProxy);
-        ClientPlayNetworking.registerGlobalReceiver(QUIRK_TABLET_GUI, ClientPackets::quirkTablet);
-        ClientPlayNetworking.registerGlobalReceiver(MOCK_QUIRK_TABLET_GUI, ClientPackets::mockQuirkTablet);
-        ClientPlayNetworking.registerGlobalReceiver(ANIMATION, ClientPackets::animationProxy);
-        ClientPlayNetworking.registerGlobalReceiver(ANIMATION_NO_API, ClientPackets::animationProxyNoAPI);
-        ClientPlayNetworking.registerGlobalReceiver(SET_YAW, ClientPackets::setYaw);
-        ClientPlayNetworking.registerGlobalReceiver(FORCE_INTO_THIRD_PERSON_BACK, ClientPackets::forceThirdPersonBack);
-        ClientPlayNetworking.registerGlobalReceiver(FORCE_INTO_THIRD_PERSON_FRONT, ClientPackets::forceThirdPersonFront);
-        ClientPlayNetworking.registerGlobalReceiver(FORCE_INTO_FIRST_PERSON, ClientPackets::forceFirstPerson);
-        ClientPlayNetworking.registerGlobalReceiver(OPEN_VESTIGE_GUI, ClientPackets::openVestigeGui);
-        ClientPlayNetworking.registerGlobalReceiver(GLOW_ENTITIES, ClientPackets::setEntitiesGlow);
-        ClientPlayNetworking.registerGlobalReceiver(WIND_FLY_DESCENT_VELOCITY, ClientPackets::windFlyDescentVelocity);
-        ClientPlayNetworking.registerGlobalReceiver(COMBO_DAMAGE, ClientPackets::comboDamage);
+        ClientPlayNetworking.registerGlobalReceiver(QuirkDataPacket.QUIRK_DATA_SYNC, PacketsS2C::quirkDataSync);
+        ClientPlayNetworking.registerGlobalReceiver(QuirkDataPacket.QUIRK_DATA_SYNC_PROXY, PacketsS2C::quirkDataSyncProxy);
+        ClientPlayNetworking.registerGlobalReceiver(S2C_QUIRK_TABLET_GUI, PacketsS2C::quirkTablet);
+        ClientPlayNetworking.registerGlobalReceiver(S2C_MOCK_QUIRK_TABLET_GUI, PacketsS2C::mockQuirkTablet);
+        ClientPlayNetworking.registerGlobalReceiver(S2C_ANIMATION, PacketsS2C::animationProxy);
+        ClientPlayNetworking.registerGlobalReceiver(S2C_ANIMATION_NO_API, PacketsS2C::animationProxyNoAPI);
+        ClientPlayNetworking.registerGlobalReceiver(S2C_SET_YAW, PacketsS2C::setYaw);
+        ClientPlayNetworking.registerGlobalReceiver(S2C_FORCE_INTO_THIRD_PERSON_BACK, PacketsS2C::forceThirdPersonBack);
+        ClientPlayNetworking.registerGlobalReceiver(S2C_FORCE_INTO_THIRD_PERSON_FRONT, PacketsS2C::forceThirdPersonFront);
+        ClientPlayNetworking.registerGlobalReceiver(S2C_FORCE_INTO_FIRST_PERSON, PacketsS2C::forceFirstPerson);
+        ClientPlayNetworking.registerGlobalReceiver(S2C_OPEN_VESTIGE_GUI, PacketsS2C::openVestigeGui);
+        ClientPlayNetworking.registerGlobalReceiver(S2C_GLOW_ENTITIES, PacketsS2C::setEntitiesGlow);
+        ClientPlayNetworking.registerGlobalReceiver(S2C_WIND_FLY_DESCENT_VELOCITY, PacketsS2C::windFlyDescentVelocity);
+        ClientPlayNetworking.registerGlobalReceiver(S2C_COMBO_DAMAGE, PacketsS2C::comboDamage);
 
-        ClientPlayNetworking.registerGlobalReceiver(PlayerAbilityUserPacketS2C.PLAYER_ABILITY_USER_PACKET, ClientPackets::playerAbilityUser);
+        ClientPlayNetworking.registerGlobalReceiver(PlayerAbilityUserPacketS2C.PLAYER_ABILITY_USER_PACKET, PacketsS2C::playerAbilityUser);
+        ClientPlayNetworking.registerGlobalReceiver(S2C_ZOOM, PacketsS2C::zoomPacket);
     }
 }

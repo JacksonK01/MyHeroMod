@@ -200,7 +200,7 @@ public class HowitzerImpactAbility extends PhaseAbility implements ICooldownAbil
         buffer.writeIntArray(ids);
         buffer.writeBoolean(true);
 
-        ServerPlayNetworking.send(player, Networking.GLOW_ENTITIES, buffer);
+        ServerPlayNetworking.send(player, Networking.S2C_GLOW_ENTITIES, buffer);
     }
     private void removeGlow() {
         if (glowingIds.isEmpty())
@@ -215,7 +215,7 @@ public class HowitzerImpactAbility extends PhaseAbility implements ICooldownAbil
         buffer.writeIntArray(glowingIds.stream().mapToInt((i) -> i).toArray());
         buffer.writeBoolean(false);
 
-        ServerPlayNetworking.send(player, Networking.GLOW_ENTITIES, buffer);
+        ServerPlayNetworking.send(player, Networking.S2C_GLOW_ENTITIES, buffer);
 
         glowingIds.clear();
     }
@@ -240,7 +240,7 @@ public class HowitzerImpactAbility extends PhaseAbility implements ICooldownAbil
 
     private void startRisePhase() {
         if (getEntity() instanceof ServerPlayerEntity player)
-            ServerPlayNetworking.send(player, Networking.FORCE_INTO_THIRD_PERSON_BACK, PacketByteBufs.empty());
+            ServerPlayNetworking.send(player, Networking.S2C_FORCE_INTO_THIRD_PERSON_BACK, PacketByteBufs.empty());
     }
 
     private void lockToUserPosition() {
@@ -329,7 +329,7 @@ public class HowitzerImpactAbility extends PhaseAbility implements ICooldownAbil
     private void startDashPhase() {
         if (getEntity() instanceof ServerPlayerEntity player) {
             EntityReflection.trySetLivingFlag(player, 4, true);
-            ServerPlayNetworking.send(player, Networking.FORCE_INTO_FIRST_PERSON, PacketByteBufs.empty());
+            ServerPlayNetworking.send(player, Networking.S2C_FORCE_INTO_FIRST_PERSON, PacketByteBufs.empty());
         }
     }
 

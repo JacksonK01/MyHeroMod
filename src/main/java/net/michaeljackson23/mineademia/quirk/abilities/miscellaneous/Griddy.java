@@ -32,10 +32,10 @@ public class Griddy extends BasicAbility {
             AnimationProxy.sendAnimationToClients(player, "griddy");
             player.getWorld().playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.GRIDDY, SoundCategory.PLAYERS, 1f, 1f);
         }
-        ServerPlayNetworking.send(player, Networking.FORCE_INTO_THIRD_PERSON_BACK, PacketByteBufs.empty());
+        ServerPlayNetworking.send(player, Networking.S2C_FORCE_INTO_THIRD_PERSON_BACK, PacketByteBufs.empty());
         PacketByteBuf data = PacketByteBufs.create();
         data.writeFloat(this.yaw);
-        ServerPlayNetworking.send(player, Networking.SET_YAW, data);
+        ServerPlayNetworking.send(player, Networking.S2C_SET_YAW, data);
 
         player.setVelocity(storedVec.x, player.getVelocity().y, storedVec.z);
         player.velocityModified = true;
@@ -49,7 +49,7 @@ public class Griddy extends BasicAbility {
         yaw = 0;
         storedVec = null;
         AnimationProxy.sendStopAnimation(player);
-        ServerPlayNetworking.send(player, Networking.FORCE_INTO_FIRST_PERSON, PacketByteBufs.empty());
+        ServerPlayNetworking.send(player, Networking.S2C_FORCE_INTO_FIRST_PERSON, PacketByteBufs.empty());
     }
 
     private Vec3d getVec3d(ServerPlayerEntity player) {

@@ -1,6 +1,7 @@
 package net.michaeljackson23.mineademia.savedata;
 
 import net.michaeljackson23.mineademia.Mineademia;
+import net.michaeljackson23.mineademia.networking.PacketsC2S;
 import net.michaeljackson23.mineademia.quirk.QuirkInitialize;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
@@ -109,7 +110,7 @@ public class StateSaverAndLoader extends PersistentState {
      * </p>
      * <p>
      *     Used by = {@link QuirkInitialize#InitializeEvent()},
-     *     {@link net.michaeljackson23.mineademia.networking.ServerPackets#activateAbility(ServerPlayerEntity, PacketByteBuf, int)},
+     *     {@link PacketsC2S#activateAbility(ServerPlayerEntity, PacketByteBuf, int)},
      *     {@link net.michaeljackson23.mineademia.quirk.quirkdata.QuirkDataPacket#send(ServerPlayerEntity)},
      *     {@link net.michaeljackson23.mineademia.quirk.quirkdata.QuirkDataPacket#sendProxy(ServerPlayerEntity)},
      *     {@link OnPlayerRespawn#register()}

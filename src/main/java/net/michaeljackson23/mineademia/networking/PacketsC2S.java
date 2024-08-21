@@ -22,7 +22,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
 
-public class ServerPackets {
+public class PacketsC2S {
 
     public static void blocking(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
         AnimationProxy.sendAnimationToClients((LivingEntity) player, "blocking");

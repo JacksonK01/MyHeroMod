@@ -61,7 +61,7 @@ public class StLouisSmash extends BasicAbility {
             });
         }
         timer++;
-        ServerPlayNetworking.send(player, Networking.FORCE_INTO_THIRD_PERSON_BACK, PacketByteBufs.empty());
+        ServerPlayNetworking.send(player, Networking.S2C_FORCE_INTO_THIRD_PERSON_BACK, PacketByteBufs.empty());
         if(!entityList.isEmpty()) {
             entityList.forEach((entity) -> {
                 player.getServerWorld().spawnParticles(ParticleTypes.CLOUD, entity.getX(), entity.getY() + 1, entity.getZ(), 10, 0.3, 0.5, 0.3, 0);
@@ -74,7 +74,7 @@ public class StLouisSmash extends BasicAbility {
         super.deActivate(player, quirk);
         hasHit = false;
         timer = 0;
-        ServerPlayNetworking.send(player, Networking.FORCE_INTO_FIRST_PERSON, PacketByteBufs.empty());
+        ServerPlayNetworking.send(player, Networking.S2C_FORCE_INTO_FIRST_PERSON, PacketByteBufs.empty());
         init = false;
         entityList.clear();
     }

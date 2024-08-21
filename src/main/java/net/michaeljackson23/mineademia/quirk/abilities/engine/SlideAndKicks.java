@@ -66,7 +66,7 @@ public class SlideAndKicks extends BasicAbility {
         yaw = 0;
         storedVec = null;
         AnimationProxy.sendStopAnimation(player);
-        ServerPlayNetworking.send(player, Networking.FORCE_INTO_FIRST_PERSON, PacketByteBufs.empty());
+        ServerPlayNetworking.send(player, Networking.S2C_FORCE_INTO_FIRST_PERSON, PacketByteBufs.empty());
         quirk.removeModel("Slide");
         QuirkDataPacket.sendProxy(player);
         kickTimer = 0;
@@ -101,9 +101,9 @@ public class SlideAndKicks extends BasicAbility {
     }
 
     private void inAir(ServerPlayerEntity player, Quirk quirk) {
-        ServerPlayNetworking.send(player, Networking.FORCE_INTO_THIRD_PERSON_BACK, PacketByteBufs.empty());
+        ServerPlayNetworking.send(player, Networking.S2C_FORCE_INTO_THIRD_PERSON_BACK, PacketByteBufs.empty());
         if(!hasAirStarted) {
-            ServerPlayNetworking.send(player, Networking.FORCE_INTO_THIRD_PERSON_BACK, PacketByteBufs.empty());
+            ServerPlayNetworking.send(player, Networking.S2C_FORCE_INTO_THIRD_PERSON_BACK, PacketByteBufs.empty());
             this.storedVec = player.getRotationVector().multiply(1.2);
             player.setVelocity(storedVec.x, -1, storedVec.z);
             player.velocityModified = true;
@@ -125,7 +125,7 @@ public class SlideAndKicks extends BasicAbility {
     }
 
     private void onGround(ServerPlayerEntity player, Quirk quirk) {
-        ServerPlayNetworking.send(player, Networking.FORCE_INTO_THIRD_PERSON_BACK, PacketByteBufs.empty());
+        ServerPlayNetworking.send(player, Networking.S2C_FORCE_INTO_THIRD_PERSON_BACK, PacketByteBufs.empty());
         sendYawPackage(player);
         checkIfJump(player);
         if(wasPressedAgain()) {
@@ -224,7 +224,7 @@ public class SlideAndKicks extends BasicAbility {
     private void sendYawPackage(ServerPlayerEntity player) {
         PacketByteBuf data = PacketByteBufs.create();
         data.writeFloat(this.yaw);
-        ServerPlayNetworking.send(player, Networking.SET_YAW, data);
+        ServerPlayNetworking.send(player, Networking.S2C_SET_YAW, data);
     }
 
     private boolean didCollideWithBlock(ServerPlayerEntity player) {

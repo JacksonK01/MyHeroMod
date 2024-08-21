@@ -83,7 +83,7 @@ public class WindFlyAbility extends ToggleAbility implements ICooldownAbility {
     }
 
     private void sendDescentPacket(ServerPlayerEntity player) {
-        ServerPlayNetworking.send(player, Networking.WIND_FLY_DESCENT_VELOCITY, PacketByteBufs.empty());
+        ServerPlayNetworking.send(player, Networking.S2C_WIND_FLY_DESCENT_VELOCITY, PacketByteBufs.empty());
     }
 
     private void handleStamina() {

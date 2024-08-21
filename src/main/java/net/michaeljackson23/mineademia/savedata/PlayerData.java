@@ -1,9 +1,9 @@
 package net.michaeljackson23.mineademia.savedata;
 import net.michaeljackson23.mineademia.Mineademia;
 import net.michaeljackson23.mineademia.combo.ComboManager;
+import net.michaeljackson23.mineademia.networking.PacketsC2S;
 import net.michaeljackson23.mineademia.quirk.Quirk;
 import net.michaeljackson23.mineademia.quirk.quirks.NullQuirk;
-import net.michaeljackson23.mineademia.quirk.quirks.Quirkless;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -115,7 +115,7 @@ public class PlayerData {
      * </p>
      * <p>
      *     Used by = {@link net.michaeljackson23.mineademia.mixin.ServerPlayerEntityMixin},
-     *     {@link net.michaeljackson23.mineademia.networking.ServerPackets#activateAbility(ServerPlayerEntity, PacketByteBuf, int)},
+     *     {@link PacketsC2S#activateAbility(ServerPlayerEntity, PacketByteBuf, int)},
      *     {@link net.michaeljackson23.mineademia.quirk.quirkdata.QuirkDataPacket#send(ServerPlayerEntity)},
      *     {@link net.michaeljackson23.mineademia.quirk.quirkdata.QuirkDataPacket#sendProxy(ServerPlayerEntity)}
      * </p>

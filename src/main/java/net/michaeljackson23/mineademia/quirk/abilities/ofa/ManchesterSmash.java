@@ -35,7 +35,7 @@ public class ManchesterSmash extends BasicAbility {
     @Override
     protected void activate(ServerPlayerEntity player, Quirk quirk) {
         init(player);
-        ServerPlayNetworking.send(player, Networking.FORCE_INTO_THIRD_PERSON_BACK, PacketByteBufs.empty());
+        ServerPlayNetworking.send(player, Networking.S2C_FORCE_INTO_THIRD_PERSON_BACK, PacketByteBufs.empty());
         leapPhase(player);
         flipPhase(player);
         downPhase(player, quirk);
@@ -47,7 +47,7 @@ public class ManchesterSmash extends BasicAbility {
         if(impact) {
             onHitGround(player);
         }
-        ServerPlayNetworking.send(player, Networking.FORCE_INTO_FIRST_PERSON, PacketByteBufs.empty());
+        ServerPlayNetworking.send(player, Networking.S2C_FORCE_INTO_FIRST_PERSON, PacketByteBufs.empty());
         AnimationProxy.sendStopAnimation(player);
         counter = 0;
         leapCounter = 0;

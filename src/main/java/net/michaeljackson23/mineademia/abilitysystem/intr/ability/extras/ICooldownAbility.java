@@ -29,13 +29,4 @@ public interface ICooldownAbility extends IActiveAbility {
         return true;
     }
 
-    @Override
-    default void encode(@NotNull PacketByteBuf buffer) {
-        IActiveAbility.super.encode(buffer);
-
-        Cooldown cooldown = getCooldown();
-        buffer.writeInt(cooldown.getCooldownTicks());
-        buffer.writeInt(cooldown.getTicksRemaining());
-    }
-
 }

@@ -31,12 +31,4 @@ public interface ISegmentedAbility extends IActiveAbility, ICooldownAbility {
         setCharges(getCharges() + 1);
     }
 
-    @Override
-    default void encode(@NotNull PacketByteBuf buffer) {
-        ICooldownAbility.super.encode(buffer);
-
-        buffer.writeInt(getMaxCharges());
-        buffer.writeInt(getCharges());
-    }
-
 }

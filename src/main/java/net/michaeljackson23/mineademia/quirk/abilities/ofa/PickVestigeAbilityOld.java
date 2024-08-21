@@ -30,7 +30,7 @@ public class PickVestigeAbilityOld extends InfiniteAbility implements AbilityExt
 
     @Override
     protected void activate(ServerPlayerEntity player, Quirk quirk) {
-        ServerPlayNetworking.send(player, Networking.OPEN_VESTIGE_GUI, PacketByteBufs.empty());
+        ServerPlayNetworking.send(player, Networking.S2C_OPEN_VESTIGE_GUI, PacketByteBufs.empty());
         player.sendMessage(Text.literal(this.title));
         deActivate(player, quirk);
     }
