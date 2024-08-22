@@ -62,7 +62,7 @@ public class TornadoProjectile extends ThrownItemEntity {
         } else {
             nonTornadoParticle(serverWorld);
         }
-//        setVelocity(getVelocity().multiply(0.001));
+//        setVelocity(getTicksToHit().multiply(0.001));
 //        this.velocityModified = true;
 
         //TODO use a loop to make the tornado bigger the higher up it goes

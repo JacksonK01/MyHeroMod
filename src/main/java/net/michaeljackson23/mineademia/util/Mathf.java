@@ -15,6 +15,7 @@ public final class Mathf {
     public static final double EPSILON = 1e-15F;
 
     public static final double Rad2Deg = 360 / (Math.PI * 2);
+    public static final double Deg2Rad = 1 / Rad2Deg;
 
 
     public static boolean isZero(float value) {
@@ -103,6 +104,21 @@ public final class Mathf {
         @NotNull
         public static Vec3d lerp(@NotNull Vec3d from, @NotNull Vec3d to, float alpha) {
             return new Vec3d(Mathf.lerp((float) from.x, (float) to.x, alpha), Mathf.lerp((float) from.y, (float) to.y, alpha), Mathf.lerp((float) from.z, (float) to.z, alpha));
+        }
+
+        @NotNull
+        public static Vec3d lerp(float alpha, @NotNull Vec3d @NotNull ... points) {
+            if (points.length == 1)
+                return points[0];
+            else if (points.length == 0)
+                return Vec3d.ZERO;
+
+            Vec3d[] nextPoints = new Vec3d[points.length - 1];
+
+            for (int i = 0; i < points.length - 1; i++)
+                nextPoints[i] = lerp(points[i], points[i + 1], alpha);
+
+            return lerp(alpha, nextPoints);
         }
 
     }

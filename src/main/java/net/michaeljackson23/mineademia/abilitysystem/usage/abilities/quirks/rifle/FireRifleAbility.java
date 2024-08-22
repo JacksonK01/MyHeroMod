@@ -18,8 +18,8 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.text.Text;
 import net.minecraft.util.hit.EntityHitResult;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.NotNull;
@@ -40,10 +40,12 @@ public class FireRifleAbility extends HoldAbility implements ICooldownAbility {
 
     public static final int TARGET_LOCKED_COLOR = MathHelper.packRgb(1, 0 , 0);
     public static final int TARGET_LOCKING_COLOR = MathHelper.packRgb(1, 0.5f, 0);
-    public static final int TARGET_TIME_TO_LOCK = 100;
+    public static final int TARGET_TIME_TO_LOCK = 1; // 100
     public static final int TARGET_TIME_TO_LOSE = 20;
-    public static final float TARGET_ANGLE_TO_LOSE = 60f;
+    public static final float TARGET_ANGLE_TO_LOSE = 89f; // 60
     public static final float TARGET_MAX_LOCK_DISTANCE = 200f;
+
+    public static final float PROJECTILE_INITIAL_ALPHA = 0.1f;
 
 
     private final Cooldown cooldown;
@@ -61,7 +63,11 @@ public class FireRifleAbility extends HoldAbility implements ICooldownAbility {
     private boolean ammoLoaded;
 
     private ArrowEntity projectile;
-    private Vec3d lastShooterDirection;
+
+    private float curvedShotAlpha;
+    private float projectileAlphaIncrement;
+    private Vec3d lastShooterPosition;
+    private Vec3d lastPivotPoint;
     private Vec3d lastTargetPosition;
 
     public FireRifleAbility(@NotNull IAbilityUser user) {
@@ -100,40 +106,25 @@ public class FireRifleAbility extends HoldAbility implements ICooldownAbility {
 
         lockOnTarget();
 
+        lastShooterPosition = getEntity().getEyePos();
+        if (locked && lockedTarget != null) {
+            lastTargetPosition = lockedTarget.getEyePos();
+            lastPivotPoint = getPivotPoint();
+        }
+
         applyLockedZoom();
 
         applySightGlowing();
         applyTargetGlowing();
+        applyProjectileGlowing();
 
-        drawShotTrajectory();
+        drawCurvedShotTrajectory();
     }
 
     @Override
     public void onTickInactive() {
-        if (!locked || lockedTarget == null || projectile == null || projectile.isRemoved() || projectile.isInsideWall())
-            return;
-
-        SuperchargedShotAbility superchargedShotAbility = getUser().getAbility(SuperchargedShotAbility.class);
-        if (superchargedShotAbility == null)
-            return;
-
-        Vec3d directionToTarget = lastTargetPosition.subtract(projectile.getPos()).normalize();
-
-        float anglesToTarget = (float) Math.abs(projectile.getVelocity().normalize().dotProduct(directionToTarget) - 1);
-        float partial = Mathf.clamp(0, 1, anglesToTarget);
-
-        if (Mathf.isZero(partial))
-            partial = 1;
-
-        projectile.setVelocity(Mathf.Vector.lerp(lastShooterDirection, directionToTarget, partial).normalize().multiply(ammoType.getVelocity() * superchargedShotAbility.getVelocityMultiplier()));
-        projectile.velocityModified = true;
-
-        // DrawParticles.spawnParticles((ServerWorld) getEntity().getWorld(), ParticleTypes.DRIPPING_LAVA, lastTargetPosition, 100, Mathf.Vector.ONE.multiply(0.5f), 0, true);
-        if (projectile.getPos().squaredDistanceTo(lastTargetPosition) < 1) {
-            // DrawParticles.spawnParticles((ServerWorld) getEntity().getWorld(), ParticleTypes.DRIPPING_HONEY, projectile.getPos(), 100, Mathf.Vector.ONE.multiply(0.5f), 0, true);
-            projectile.kill();
-            projectile = null;
-        }
+        tickProjectile();
+        applyProjectileGlowing();
     }
 
     @Override
@@ -258,36 +249,43 @@ public class FireRifleAbility extends HoldAbility implements ICooldownAbility {
                 .withClientGlowing(player, true);
     }
 
-    private void drawShotTrajectory() {
-        if (locked && lockedTarget != null)
-            drawCurvedShotTrajectory();
-        else
-            drawStraightShotTrajectory();
-    }
+    private void applyProjectileGlowing() {
+        if (getEntity() instanceof ServerPlayerEntity player && projectile != null) {
+            PacketByteBuf buffer = PacketByteBufs.create();
 
-    private void drawStraightShotTrajectory() {
-//        if (!ammoLoaded || ammoType == null)
-//            return;
+            buffer.writeIntArray(new int[] { projectile.getId() });
+            buffer.writeBoolean(true);
 
-//        LivingEntity entity = getEntity();
-//        ServerWorld world = (ServerWorld) entity.getWorld();
+            glowingIds.add(projectile.getId());
 
-//        Vec3d eyePos = entity.getEyePos();
-//        Vec3d forward = entity.getRotationVecClient().normalize();
+            GlowingHelper.setColor(projectile, 1, 0, 1);
 
-//        Vec3d spawnPosition = eyePos.add(forward);
-
-        // DrawParticles.inLine(world, spawnPosition, eyePos.add(forward.multiply(ammoType.getRange())),0, 0.5f, 0, ModParticles.QUIRK_OFA_CLOUD, Vec3d.ZERO, 1, 0, true);
+            ServerPlayNetworking.send(player, Networking.S2C_GLOW_ENTITIES, buffer);
+        }
     }
 
     private void drawCurvedShotTrajectory() {
-//        LivingEntity entity = getEntity();
-//        ServerWorld world = (ServerWorld) entity.getWorld();
+        if (!locked || lockedTarget == null || !(getEntity() instanceof ServerPlayerEntity player))
+            return;
 
-//        Vec3d eyePos = entity.getEyePos();
-//        Vec3d forward = entity.getRotationVecClient().normalize();
+        float alpha = 0;
 
-        // Vec3d spawnPosition = eyePos.add(forward);
+        ServerWorld world = (ServerWorld) player.getWorld();
+        boolean isPathClear = true;
+
+        while (alpha < 1) {
+            Vec3d point = Mathf.Vector.lerp(alpha, lastShooterPosition, lastPivotPoint, lastTargetPosition);
+            BlockPos pos = BlockPos.ofFloored(point.x, point.y, point.z);
+
+            if (!world.getBlockState(pos).isAir()) {
+                isPathClear = false;
+                break;
+            }
+
+            alpha += 0.05f;
+        }
+
+        DrawParticles.forPlayer(player).lerpBetween(isPathClear ? ParticleTypes.CRIT : ParticleTypes.FLAME, 10, Vec3d.ZERO, 0, true, 0, 0.1f, 0.1f, lastShooterPosition, lastPivotPoint, lastTargetPosition);
     }
 
     private void removeGlow() {
@@ -326,20 +324,58 @@ public class FireRifleAbility extends HoldAbility implements ICooldownAbility {
         ItemStack projectileItem = new ItemStack(Items.ARROW, 1);
         this.projectile = new ArrowEntity(entity.getWorld(), spawnPosition.x, spawnPosition.y, spawnPosition.z, projectileItem);
 
-        projectile.setVelocity(forward.multiply(ammoType.getVelocity() * superchargedShotAbility.getVelocityMultiplier()));
+        projectile.setVelocity(forward.multiply(ammoType.getTicksToHit() * superchargedShotAbility.getVelocityMultiplier()));
         projectile.setNoGravity(true);
         projectile.setDamage(ammoType.getDamage() * superchargedShotAbility.getDamageMultiplier());
+        projectile.setPierceLevel((byte) 10);
 
         world.spawnEntity(projectile);
 
         ammoLoaded = false;
 
-        this.lastShooterDirection = forward;
+        this.lastShooterPosition = eyePos;
 
-        if (locked && lockedTarget != null)
-            this.lastTargetPosition = lockedTarget.getPos();
+        if (locked && lockedTarget != null) {
+            this.curvedShotAlpha = PROJECTILE_INITIAL_ALPHA;
+            this.projectileAlphaIncrement = (1f - PROJECTILE_INITIAL_ALPHA) / ammoType.getTicksToHit();
+            this.lastTargetPosition = lockedTarget.getEyePos();
+            this.lastPivotPoint = getPivotPoint();
+        }
 
         superchargedShotAbility.tryShootSupercharge();
+    }
+
+    private void tickProjectile() {
+        if (!locked || lockedTarget == null || projectile == null || projectile.isRemoved() || projectile.isInsideWall() || curvedShotAlpha > 1)
+            return;
+
+        Vec3d desiredPoint = Mathf.Vector.lerp(curvedShotAlpha, lastShooterPosition, lastPivotPoint, lastTargetPosition);
+        Vec3d directionToPoint = desiredPoint.subtract(projectile.getEyePos());// .normalize();
+        // double distanceToPoint = desiredPoint.distanceTo(projectile.getEyePos());
+
+        projectile.setVelocity(directionToPoint);
+        projectile.velocityModified = true;
+
+        curvedShotAlpha += projectileAlphaIncrement;
+    }
+
+    @NotNull
+    private Vec3d getPivotPoint() {
+        LivingEntity entity = getEntity();
+
+        Vec3d entityPos = entity.getEyePos();
+        Vec3d forward = entity.getRotationVecClient().normalize();
+
+        Vec3d directionToTarget = lastTargetPosition.subtract(entityPos).normalize();
+        Vec3d centerPoint = lastTargetPosition.add(entityPos).multiply(0.5f);
+
+        Vec3d planeNormal = forward.crossProduct(directionToTarget).normalize();
+        Vec3d centerCross = directionToTarget.crossProduct(planeNormal).normalize();
+
+        float alpha = Mathf.Vector.angleBetweenVectors(forward, directionToTarget);
+        float dist = (float) (Math.tan(alpha * Mathf.Deg2Rad) * entityPos.distanceTo(centerPoint));
+
+        return centerPoint.add(centerCross.multiply(dist));
     }
 
 }

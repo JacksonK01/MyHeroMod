@@ -76,19 +76,19 @@ public class LoadAmmoAbility extends ActiveAbility implements ICooldownAbility {
 
     public enum AmmoType {
 
-        REGULAR(10, 40, 7),
-        HOLLOW_POINT(12, 55, 4);
+        REGULAR(10, 40, 5),
+        HOLLOW_POINT(15, 55, 10);
 
         private final float hairCost;
 
         private final float damage;
-        private final float velocity;
+        private final int ticksToHit;
 
-        AmmoType(float hairCost, float damage, float velocity) {
+        AmmoType(float hairCost, float damage, int ticksToHit) {
             this.hairCost = hairCost;
 
             this.damage = damage;
-            this.velocity = velocity;
+            this.ticksToHit = ticksToHit;
         }
 
         public float getHairCost() {
@@ -99,8 +99,8 @@ public class LoadAmmoAbility extends ActiveAbility implements ICooldownAbility {
             return damage;
         }
 
-        public float getVelocity() {
-            return velocity;
+        public int getTicksToHit() {
+            return ticksToHit;
         }
 
         public AmmoType getNext() {
