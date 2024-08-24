@@ -110,7 +110,7 @@ public class DetroitSmashAbility extends HoldAbility implements ICooldownAbility
 
             Vec3d rightArmOffset = getRightArmOffset(entity);
 
-            DrawParticles.inCircle(serverWorld, entity.getPos().add(rightArmOffset), quad.first(), radius, 1, ModParticles.QUIRK_OFA_CLOUD, 1, true);
+            DrawParticles.forWorld(serverWorld).inCircle(entity.getPos().add(rightArmOffset), quad.first(), radius, 1, ModParticles.QUIRK_OFA_CLOUD, 1, true);
 
             // Can try to earse them when radius is small
             if(quad.second() + MAX_CIRCLE_LIFE < currentTick || Math.abs(radius) < 0.2f) {
@@ -157,7 +157,7 @@ public class DetroitSmashAbility extends HoldAbility implements ICooldownAbility
         for(int count = 1; count < ticksHeldFor; count++) {
             if(posCache != null && vectorCache != null) {
                 Vec3d pos = posCache.add(vectorCache.multiply(count));
-                DrawParticles.spawnParticles(serverWorld, ParticleTypes.CLOUD, pos, new Vec3d(0, 0, 0), true);
+                DrawParticles.forWorld(serverWorld).spawnParticle(ParticleTypes.CLOUD, pos, new Vec3d(0, 0, 0), true);
             }
         }
 
@@ -177,12 +177,12 @@ public class DetroitSmashAbility extends HoldAbility implements ICooldownAbility
                 if(posCache != null && vectorCache != null) {
 
                     Vec3d pos = posCache.add(vectorCache.multiply(count));
-                    DrawParticles.spawnParticles(serverWorld, ParticleTypes.CLOUD, pos, 20, new Vec3d(0, 0, 0), 1f, true);
-                    DrawParticles.spawnParticles(serverWorld, ParticleTypes.SWEEP_ATTACK, pos, 2, new Vec3d(2, 2, 2), 0f, true);
-                    DrawParticles.spawnParticles(serverWorld, ParticleTypes.EXPLOSION, pos, 2, new Vec3d(2, 2, 2), 0f, true);
+                    DrawParticles.forWorld(serverWorld).spawnParticles(ParticleTypes.CLOUD, pos, 20, new Vec3d(0, 0, 0), 1f, true);
+                    DrawParticles.forWorld(serverWorld).spawnParticles(ParticleTypes.SWEEP_ATTACK, pos, 2, new Vec3d(2, 2, 2), 0f, true);
+                    DrawParticles.forWorld(serverWorld).spawnParticles(ParticleTypes.EXPLOSION, pos, 2, new Vec3d(2, 2, 2), 0f, true);
 
                     if(count % 4 == 0) {
-                        DrawParticles.inCircle(serverWorld, pos, vectorCache, 4f, 3, ParticleTypes.CLOUD, 1, true);
+                        DrawParticles.forWorld(serverWorld).inCircle(pos, vectorCache, 4f, 3, ParticleTypes.CLOUD, 1, true);
                         serverWorld.createExplosion(entity, pos.getX(), pos.getY(), pos.getZ(), 3f, false, World.ExplosionSourceType.TNT);
                     }
                 }

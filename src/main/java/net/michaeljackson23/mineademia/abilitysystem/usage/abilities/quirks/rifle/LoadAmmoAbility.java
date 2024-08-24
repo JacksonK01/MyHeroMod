@@ -76,19 +76,21 @@ public class LoadAmmoAbility extends ActiveAbility implements ICooldownAbility {
 
     public enum AmmoType {
 
-        REGULAR(10, 40, 5),
-        HOLLOW_POINT(15, 55, 10);
+        REGULAR(10, 40, 5, 5),
+        HOLLOW_POINT(15, 55, 10, 0);
 
         private final float hairCost;
 
         private final float damage;
         private final int ticksToHit;
+        private final int pierceLevel;
 
-        AmmoType(float hairCost, float damage, int ticksToHit) {
+        AmmoType(float hairCost, float damage, int ticksToHit, int pierceLevel) {
             this.hairCost = hairCost;
 
             this.damage = damage;
             this.ticksToHit = ticksToHit;
+            this.pierceLevel = Math.max(0, pierceLevel);
         }
 
         public float getHairCost() {
@@ -101,6 +103,10 @@ public class LoadAmmoAbility extends ActiveAbility implements ICooldownAbility {
 
         public int getTicksToHit() {
             return ticksToHit;
+        }
+
+        public byte getPierceLevel() {
+            return (byte) pierceLevel;
         }
 
         public AmmoType getNext() {

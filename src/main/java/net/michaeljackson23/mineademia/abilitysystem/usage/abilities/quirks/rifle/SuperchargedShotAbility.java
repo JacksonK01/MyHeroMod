@@ -11,9 +11,11 @@ public class SuperchargedShotAbility extends ToggleAbility {
 
     public static final String DESCRIPTION = "";
 
-    public static final float COST_MULTIPLIER = 4f;
+    public static final int STAMINA_COST = 200;
+
     public static final float DAMAGE_MULTIPLIER = 2.5f;
-    public static final float VELOCITY_MULTIPLIER = 1.5f;
+    public static final float TICKS_TO_TARGET_MULTIPLIER = 1.5f;
+    public static final float PIERCE_MULTIPLIER = 1.2f;
 
     public static final int JAMMING_TIME = 200;
     public static final float JAMMING_CHANCE = 0.2f;
@@ -54,16 +56,19 @@ public class SuperchargedShotAbility extends ToggleAbility {
         }
     }
 
-    public float getCostMultiplier() {
-        return isActive() ? COST_MULTIPLIER : 1;
+    public float getDamage(@NotNull LoadAmmoAbility.AmmoType ammoType) {
+        float multiplier = isActive() ? DAMAGE_MULTIPLIER : 1;
+        return ammoType.getDamage() * multiplier;
     }
 
-    public float getDamageMultiplier() {
-        return isActive() ? DAMAGE_MULTIPLIER : 1;
+    public int getTicksToTarget(@NotNull LoadAmmoAbility.AmmoType ammoType) {
+        float multiplier = isActive() ? TICKS_TO_TARGET_MULTIPLIER : 1;
+        return (int) (ammoType.getTicksToHit() * multiplier);
     }
 
-    public float getVelocityMultiplier() {
-        return isActive() ? VELOCITY_MULTIPLIER : 1;
+    public byte getPierce(@NotNull LoadAmmoAbility.AmmoType ammoType) {
+        float multiplier = isActive() ? PIERCE_MULTIPLIER : 1;
+        return (byte) (ammoType.getPierceLevel() * multiplier);
     }
 
     public int getJammingTime() {
@@ -78,10 +83,11 @@ public class SuperchargedShotAbility extends ToggleAbility {
         if (!isActive())
             return true;
 
-        if (Math.random() >= JAMMING_CHANCE) {
+        if (Math.random() >= JAMMING_CHANCE || !hasStaminaAndConsume(STAMINA_COST)) {
             jammedTime = JAMMING_TIME;
             setActive(false);
 
+            // setBlockedCategories(false, AbilityCategory.allExcept(AbilityCategory.MOBILITY));
             getUser().setBlocked(true);
             return false;
         }

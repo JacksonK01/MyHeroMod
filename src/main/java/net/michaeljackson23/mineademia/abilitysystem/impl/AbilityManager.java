@@ -52,6 +52,9 @@ public final class AbilityManager {
     public static void registerAbilities(@NotNull IAbilityUser user) {
         for (IAbility ability : user.getAbilities().values())
             registerAbility(ability);
+
+        if (user instanceof IPlayerAbilityUser playerUser)
+            AbilityUserPacketS2C.sendSelf(playerUser.getEntity(), user, false);
     }
 
     public static void unregisterAbilities(@NotNull IAbilityUser user) {
@@ -67,7 +70,7 @@ public final class AbilityManager {
             cooldownAbility.getCooldown().onTick();
 
         regenUserStamina();
-        sendToSelf();
+        sendToSelf(true);
     }
 
     public static void onEndServerTick(MinecraftServer minecraftServer) {
@@ -97,7 +100,7 @@ public final class AbilityManager {
         } else
             user.setEntity(player);
 
-        AbilityUserPacketS2C.sendSelf(player, user);
+        AbilityUserPacketS2C.sendSelf(player, user, false);
         // PlayerAbilityUserPacketS2C.sendToClient(user);
 
         triggerEvents(ServerPlayConnectionEvents.Join.class);
@@ -134,8 +137,8 @@ public final class AbilityManager {
         }
     }
 
-    private static void sendToSelf() {
+    private static void sendToSelf(boolean minimal) {
         for (IPlayerAbilityUser user : playerUsers.values())
-            AbilityUserPacketS2C.sendSelf(user.getEntity(), user);
+            AbilityUserPacketS2C.sendSelf(user.getEntity(), user, minimal);
     }
 }

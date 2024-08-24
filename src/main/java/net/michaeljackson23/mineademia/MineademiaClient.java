@@ -3,6 +3,9 @@ package net.michaeljackson23.mineademia;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+import net.michaeljackson23.mineademia.abilitysystem.networking.AbilityDecoders;
+import net.michaeljackson23.mineademia.abilitysystem.networking.AbilityEncoders;
+import net.michaeljackson23.mineademia.abilitysystem.networking.AbilityNetworkManager;
 import net.michaeljackson23.mineademia.animations.AnimationRegister;
 import net.michaeljackson23.mineademia.armor.CustomArmorModelRenderer;
 import net.michaeljackson23.mineademia.blocks.BlockRegister;
@@ -34,7 +37,13 @@ public class MineademiaClient implements ClientModInitializer {
         ModParticles.registerClient();
         AnimationRegister.register();
 
+        registerServices();
         registerEvents();
+    }
+
+    private void registerServices() {
+        AbilityNetworkManager.register();
+        // AbilityDecoders.registerDecoders();
     }
 
     private void registerEvents() {

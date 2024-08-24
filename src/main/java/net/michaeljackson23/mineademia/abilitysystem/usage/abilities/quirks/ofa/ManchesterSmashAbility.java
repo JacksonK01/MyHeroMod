@@ -114,9 +114,7 @@ public class ManchesterSmashAbility extends ActiveAbility implements ICooldownAb
             hasLeapAnimationPlayed = true;
 
             livingEntity.getWorld().playSound(null, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), ModSounds.OFA_CHARGE, SoundCategory.PLAYERS, 2f, 1f);
-            DrawParticles.spawnParticles(serverWorld, ParticleTypes.CLOUD,
-                    userPos,
-                    10, 0, 0, 0, 0.5f, true);
+            DrawParticles.forWorld(serverWorld).spawnParticles(ParticleTypes.CLOUD, userPos, 10, 0, 0, 0, 0.5f, true);
         }
 
         livingEntity.setVelocity(0, livingEntity.getVelocity().y, 0);
@@ -160,9 +158,7 @@ public class ManchesterSmashAbility extends ActiveAbility implements ICooldownAb
             hasGoneDown = true;
             serverWorld.playSound(null, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), SoundEvents.ENTITY_WITCH_THROW, SoundCategory.PLAYERS, 2f, 2f);
             serverWorld.playSound(null, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), ModSounds.OFA_RELEASE, SoundCategory.PLAYERS, 2f, 1f);
-            DrawParticles.spawnParticles(serverWorld, ParticleTypes.CLOUD,
-                    userPos,
-                    10, 0, 0, 0, 0.5f, true);
+            DrawParticles.forWorld(serverWorld).spawnParticles(ParticleTypes.CLOUD, userPos, 10, 0, 0, 0, 0.5f, true);
         }
 
         if(!(serverWorld.getBlockState(livingEntity.getBlockPos().down()).isAir())) {
@@ -185,17 +181,11 @@ public class ManchesterSmashAbility extends ActiveAbility implements ICooldownAb
 
         livingEntity.getWorld().playSound(null, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), SoundEvents.ENTITY_ZOMBIE_BREAK_WOODEN_DOOR, SoundCategory.PLAYERS, 2f, 2f);
 
-        DrawParticles.spawnParticles(serverWorld, ParticleTypes.EXPLOSION,
-                userPos,
-                1, 0, 0, 0, 0, true);
+        DrawParticles.forWorld(serverWorld).spawnParticles(ParticleTypes.EXPLOSION, userPos, 1, 0, 0, 0, 0, true);
 
-        DrawParticles.spawnParticles(serverWorld, ParticleTypes.CAMPFIRE_COSY_SMOKE,
-                userPos,
-                25, 1, 0, 1, 0.5f, true);
+        DrawParticles.forWorld(serverWorld).spawnParticles(ParticleTypes.CAMPFIRE_COSY_SMOKE, userPos, 25, 1, 0, 1, 0.5f, true);
 
-        DrawParticles.spawnParticles(serverWorld, ParticleTypes.CLOUD,
-                userPos,
-                25, 1, 0, 1, 1, true);
+        DrawParticles.forWorld(serverWorld).spawnParticles(ParticleTypes.CLOUD, userPos, 25, 1, 0, 1, 1, true);
 
         AffectAll.withinRadius(LivingEntity.class, serverWorld, livingEntity.getPos(), 4, 2, 4).exclude(livingEntity).with((entity) -> {
             entity.setVelocity(0, 1, 0);

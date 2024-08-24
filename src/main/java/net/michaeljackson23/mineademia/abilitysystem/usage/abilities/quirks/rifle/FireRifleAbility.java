@@ -46,6 +46,7 @@ public class FireRifleAbility extends HoldAbility implements ICooldownAbility {
     public static final float TARGET_MAX_LOCK_DISTANCE = 200f;
 
     public static final float PROJECTILE_INITIAL_ALPHA = 0.1f;
+    public static final float PROJECTILE_STRAIGHT_VELOCITY = 5f;
 
 
     private final Cooldown cooldown;
@@ -269,11 +270,14 @@ public class FireRifleAbility extends HoldAbility implements ICooldownAbility {
             return;
 
         float alpha = 0;
+        float alphaIncrease = 1f / (float) (lastShooterPosition.distanceTo(lastPivotPoint) + lastPivotPoint.distanceTo(lastTargetPosition));
 
         ServerWorld world = (ServerWorld) player.getWorld();
         boolean isPathClear = true;
 
-        while (alpha < 1) {
+        DrawParticles drawer = DrawParticles.forPlayer(player);
+
+        while (alpha <= 1) {
             Vec3d point = Mathf.Vector.lerp(alpha, lastShooterPosition, lastPivotPoint, lastTargetPosition);
             BlockPos pos = BlockPos.ofFloored(point.x, point.y, point.z);
 
@@ -282,10 +286,10 @@ public class FireRifleAbility extends HoldAbility implements ICooldownAbility {
                 break;
             }
 
-            alpha += 0.05f;
+            alpha += alphaIncrease;
         }
 
-        DrawParticles.forPlayer(player).lerpBetween(isPathClear ? ParticleTypes.CRIT : ParticleTypes.FLAME, 10, Vec3d.ZERO, 0, true, 0, 0.1f, 0.1f, lastShooterPosition, lastPivotPoint, lastTargetPosition);
+        drawer.lerpBetween(isPathClear ? ParticleTypes.CRIT : ParticleTypes.FLAME, 10, Vec3d.ZERO, 0, true, 0, 0.1f, 0.1f, lastShooterPosition, lastPivotPoint, lastTargetPosition);
     }
 
     private void removeGlow() {
@@ -324,15 +328,11 @@ public class FireRifleAbility extends HoldAbility implements ICooldownAbility {
         ItemStack projectileItem = new ItemStack(Items.ARROW, 1);
         this.projectile = new ArrowEntity(entity.getWorld(), spawnPosition.x, spawnPosition.y, spawnPosition.z, projectileItem);
 
-        projectile.setVelocity(forward.multiply(ammoType.getTicksToHit() * superchargedShotAbility.getVelocityMultiplier()));
         projectile.setNoGravity(true);
-        projectile.setDamage(ammoType.getDamage() * superchargedShotAbility.getDamageMultiplier());
-        projectile.setPierceLevel((byte) 10);
+        projectile.setDamage(superchargedShotAbility.getDamage(ammoType));
+        projectile.setPierceLevel(superchargedShotAbility.getPierce(ammoType));
 
-        world.spawnEntity(projectile);
-
-        ammoLoaded = false;
-
+        this.ammoLoaded = false;
         this.lastShooterPosition = eyePos;
 
         if (locked && lockedTarget != null) {
@@ -340,7 +340,10 @@ public class FireRifleAbility extends HoldAbility implements ICooldownAbility {
             this.projectileAlphaIncrement = (1f - PROJECTILE_INITIAL_ALPHA) / ammoType.getTicksToHit();
             this.lastTargetPosition = lockedTarget.getEyePos();
             this.lastPivotPoint = getPivotPoint();
-        }
+        } else
+            projectile.setVelocity(forward.multiply(PROJECTILE_STRAIGHT_VELOCITY));
+
+        world.spawnEntity(projectile);
 
         superchargedShotAbility.tryShootSupercharge();
     }
@@ -350,8 +353,7 @@ public class FireRifleAbility extends HoldAbility implements ICooldownAbility {
             return;
 
         Vec3d desiredPoint = Mathf.Vector.lerp(curvedShotAlpha, lastShooterPosition, lastPivotPoint, lastTargetPosition);
-        Vec3d directionToPoint = desiredPoint.subtract(projectile.getEyePos());// .normalize();
-        // double distanceToPoint = desiredPoint.distanceTo(projectile.getEyePos());
+        Vec3d directionToPoint = desiredPoint.subtract(projectile.getEyePos());
 
         projectile.setVelocity(directionToPoint);
         projectile.velocityModified = true;

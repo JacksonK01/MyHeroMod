@@ -5,11 +5,13 @@
   "mixins": [
     "AbstractBlockMixin",
     "EntityMixin",
+    "LivingEntityAccessor",
     "LivingEntityMixin",
     "MineademiaMixin",
     "PlayerEntityMixin",
     "PlayerManagerMixin",
-    "ServerPlayerEntityMixin"
+    "ServerPlayerEntityMixin",
+    "WorldMixin"
   ],
   "client": [
     "client.AbstractClientPlayerEntityMixin",
@@ -19,6 +21,7 @@
     "client.ItemRendererAccessor",
     "client.ModelLoaderMixin",
     "client.PlayerEntityRendererMixin",
+    "client.WorldRendererMixin",
     "model.BipedModelMixin",
     "model.PlayerModelMixin"
   ],

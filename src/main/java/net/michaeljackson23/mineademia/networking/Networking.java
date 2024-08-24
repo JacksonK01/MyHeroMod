@@ -47,6 +47,7 @@ public class Networking {
     public static final Identifier S2C_DRAW_BOX = new Identifier(Mineademia.MOD_ID, "draw_box");
 
     public static final Identifier S2C_ZOOM = new Identifier(Mineademia.MOD_ID, "zoom");
+    public static final Identifier S2C_SET_VELOCITY = new Identifier(Mineademia.MOD_ID, "set_velocity");
 
 
     public static void registerServer() {
@@ -86,5 +87,6 @@ public class Networking {
 
         ClientPlayNetworking.registerGlobalReceiver(AbilityUserPacketS2C.S2C_ABILITY_USER_PACKET, PacketsS2C::playerAbilityUser);
         ClientPlayNetworking.registerGlobalReceiver(S2C_ZOOM, PacketsS2C::zoomPacket);
+        ClientPlayNetworking.registerGlobalReceiver(S2C_SET_VELOCITY, PacketsS2C::setVelocity);
     }
 }

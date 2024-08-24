@@ -8,6 +8,8 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.michaeljackson23.mineademia.abilitysystem.impl.AbilityManager;
 import net.michaeljackson23.mineademia.abilitysystem.impl.AbilityEvents;
+import net.michaeljackson23.mineademia.abilitysystem.networking.AbilityEncoders;
+import net.michaeljackson23.mineademia.abilitysystem.networking.AbilityNetworkManager;
 import net.michaeljackson23.mineademia.armor.ArmorRegister;
 import net.michaeljackson23.mineademia.blocks.BlockRegister;
 import net.michaeljackson23.mineademia.combo.ComboEvent;
@@ -77,6 +79,8 @@ public class Mineademia implements ModInitializer {
 
 	private void registerServices() {
 		EntityReflection.register();
+		AbilityNetworkManager.register();
+		// AbilityEncoders.registerEncoders();
 	}
 
 	private void registerEvents() {

@@ -5,11 +5,9 @@ import net.michaeljackson23.mineademia.abilitysystem.intr.Cooldown;
 import net.michaeljackson23.mineademia.abilitysystem.intr.ability.extras.ICooldownAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IAbilityUser;
 import net.michaeljackson23.mineademia.networking.Networking;
-import net.michaeljackson23.mineademia.sound.ModSounds;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundCategory;
 import org.jetbrains.annotations.NotNull;
 
 public class TimeStopAbility extends ToggleAbility implements ICooldownAbility {
@@ -19,6 +17,7 @@ public class TimeStopAbility extends ToggleAbility implements ICooldownAbility {
 
     public static final int MAX_TIME = 13 * 20;
     public static final int MAX_RANGE = 50;
+    public static final int MAX_RANGE_SQUARED = MAX_RANGE * MAX_RANGE;
 
     public static final int START_DELAY = 20;
     public static final int END_DELAY = 40;
@@ -64,7 +63,7 @@ public class TimeStopAbility extends ToggleAbility implements ICooldownAbility {
         int ticks = getTicks();
 
         boolean isStopped = (isActive() && ticks >= START_DELAY) || (!isActive() && ticks <= END_DELAY);
-        boolean isTargetAffected = !target.equals(entity) && target.squaredDistanceTo(entity) <= MAX_RANGE * MAX_RANGE;
+        boolean isTargetAffected = !target.equals(entity) && target.squaredDistanceTo(entity) <= MAX_RANGE_SQUARED;
 
         return isStopped && isTargetAffected;
     }

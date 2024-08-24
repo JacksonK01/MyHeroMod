@@ -6,7 +6,6 @@ import net.michaeljackson23.mineademia.Mineademia;
 import net.michaeljackson23.mineademia.abilitysystem.intr.ability.IAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IAbilityUser;
 import net.michaeljackson23.mineademia.datastructures.typesafemap.IReadonlyTypesafeMap;
-import net.michaeljackson23.mineademia.networking.Networking;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
@@ -64,18 +63,21 @@ public final class AbilityUserPacketS2C {
     }
 
 
-    public static @NotNull PacketByteBuf encode(@NotNull IAbilityUser user) {
+    public static @NotNull PacketByteBuf encode(@NotNull IAbilityUser user, boolean minimal) {
         PacketByteBuf buffer = PacketByteBufs.create();
 
+        buffer.writeBoolean(minimal);
         encodeUser(user, buffer);
 
         for (IAbility ability : user.getAbilities().values())
-            AbilityEncoders.encode(ability, buffer);
+            AbilityNetworkManager.encode(ability, buffer, minimal);
 
         return buffer;
     }
 
     public static @NotNull AbilityUserPacketS2C decode(@NotNull PacketByteBuf buffer) {
+        boolean minimal = buffer.readBoolean();
+
         UUID uuid = buffer.readUuid();
 
         int abilityAmount = buffer.readInt();
@@ -89,8 +91,8 @@ public final class AbilityUserPacketS2C {
         HashMap<Class<?>, IReadonlyTypesafeMap> abilityMap = new HashMap<>();
 
         for (int i = 0; i < abilityAmount; i++) {
-            IReadonlyTypesafeMap ability = AbilityDecoders.decode(buffer);
-            abilityMap.put(ability.getClass(), ability);
+            IReadonlyTypesafeMap ability = AbilityNetworkManager.decode(buffer, minimal);
+            abilityMap.put(ability.get(AbilityDecoders.ABILITY_TYPE), ability);
         }
 
         return new AbilityUserPacketS2C(uuid, maxStamina, stamina, enabled, blocked, abilityMap);
@@ -108,8 +110,8 @@ public final class AbilityUserPacketS2C {
         buffer.writeBoolean(user.isBlocked());
     }
 
-    public static void sendSelf(@NotNull ServerPlayerEntity player, @NotNull IAbilityUser user) {
-        ServerPlayNetworking.send(player, S2C_ABILITY_USER_PACKET, encode(user));
+    public static void sendSelf(@NotNull ServerPlayerEntity player, @NotNull IAbilityUser user, boolean minimal) {
+        ServerPlayNetworking.send(player, S2C_ABILITY_USER_PACKET, encode(user, minimal));
     }
 
 }

@@ -293,7 +293,7 @@ public class SurfaceZippingAbility extends HoldAbility implements ICooldownAbili
                 Vec3d edge1 = current.add(drawingNormal.multiply(radius));
                 Vec3d edge2 = current.add(drawingNormal.multiply(-radius));
 
-                DrawParticles.inLine(world, edge1, edge2, 0, 0.2f, 0, ParticleTypes.DRAGON_BREATH, Vec3d.ZERO, 1, 0, true);
+                // DrawParticles.inLine(world, edge1, edge2, 0, 0.2f, 0, ParticleTypes.DRAGON_BREATH, Vec3d.ZERO, 1, 0, true);
 
 //                DrawParticles.spawnParticles(world, ParticleTypes.DRAGON_BREATH, edge1, 1, Vec3d.ZERO, 0, true);
 //                DrawParticles.spawnParticles(world, ParticleTypes.DRAGON_BREATH, edge2, 1, Vec3d.ZERO, 0, true);
@@ -303,7 +303,7 @@ public class SurfaceZippingAbility extends HoldAbility implements ICooldownAbili
                 distance = current.distanceTo(selectedEnd);
             }
         } else {
-            DrawParticles.inLine(world, selectedStart, selectedEnd, 0, 0.2f, 0, ParticleTypes.FLAME, Vec3d.ZERO, 1, 0, true);
+            // DrawParticles.inLine(world, selectedStart, selectedEnd, 0, 0.2f, 0, ParticleTypes.FLAME, Vec3d.ZERO, 1, 0, true);
 
 //            Vec3d current = selectedStart;
 //            Vec3d step = selectedEnd.subtract(selectedStart).normalize().multiply(0.2f);
@@ -340,7 +340,7 @@ public class SurfaceZippingAbility extends HoldAbility implements ICooldownAbili
             return;
 
         boolean canCreate = canCreateZipper(heldStart, result.getPos());
-        DrawParticles.inLine(world, heldStart, result.getPos(), 0, 0.2f, 0, canCreate ? ParticleTypes.ELECTRIC_SPARK : ParticleTypes.MYCELIUM, Vec3d.ZERO, 1, 0, true);
+        // DrawParticles.inLine(world, heldStart, result.getPos(), 0, 0.2f, 0, canCreate ? ParticleTypes.ELECTRIC_SPARK : ParticleTypes.MYCELIUM, Vec3d.ZERO, 1, 0, true);
     }
 
     private boolean canCreateZipper(@NotNull Vec3d start, @NotNull Vec3d end) {

@@ -151,7 +151,7 @@ public class ExplodeAPult extends PhaseAbility implements ICooldownAbility {
             lockToPosition(target, holdPosition);
             prevY = entity.getY();
 
-            DrawParticles.inVortex(world, this.endPos, Mathf.Vector.UP, DASH_VORTEX_RADIUS, ticks * VORTEX_ROTATION_MULTIPLIER, (int) (prevY - endPos.y - 1), VORTEX_LINES, VORTEX_DENSITY, VORTEX_STEEPNESS, ParticleTypes.LARGE_SMOKE, Vec3d.ZERO, 1, 0, true);
+            DrawParticles.forWorld(world).inVortex(this.endPos, Mathf.Vector.UP, DASH_VORTEX_RADIUS, ticks * VORTEX_ROTATION_MULTIPLIER, (int) (prevY - endPos.y - 1), VORTEX_LINES, VORTEX_DENSITY, VORTEX_STEEPNESS, ParticleTypes.LARGE_SMOKE, Vec3d.ZERO, 1, 0, true);
         } else {
             world.playSound(null, entity.getX(), entity.getY(), entity.getZ(), ModSounds.DISTANT_EXPLOSION_2, SoundCategory.MASTER, 3, 2);
             target.setVelocity(forward.multiply(THROW_TARGET_STRENGTH));
@@ -199,20 +199,22 @@ public class ExplodeAPult extends PhaseAbility implements ICooldownAbility {
 
         int ticks = getTicks();
 
+        DrawParticles drawer = DrawParticles.forWorld(world);
+
         if (ticks <= SMOKE_RECOIL_TIME) {
             float radius = SMOKE_RECOIL_RADIUS + (ticks / (float) SMOKE_RECOIL_TIME) * SMOKE_RECOIL_RADIUS_INCREASE;
-            DrawParticles.inCircle(world, this.endPos, this.endDirection, radius, ticks * SMOKE_RECOIL_ROTATION_MULTIPLIER, SMOKE_RECOIL_DENSITY, ParticleTypes.LARGE_SMOKE, true);
+            drawer.inCircle(this.endPos, this.endDirection, radius, ticks * SMOKE_RECOIL_ROTATION_MULTIPLIER, SMOKE_RECOIL_DENSITY, ParticleTypes.LARGE_SMOKE, true);
         } else
             resetPhase();
 
         if (ticks % TARGET_RING_FREQUENCY == 0) {
             float radius = (TARGET_RING_RADIUS + TARGET_RING_RADIUS_INCREASE) - (TARGET_RING_RADIUS + (ticks / (float) 40) * TARGET_RING_RADIUS_INCREASE);
-            DrawParticles.inCircle(world, this.target.getPos(), this.target.getVelocity().normalize(), radius, ticks * TARGET_RING_ROTATION_MULTIPLIER, TARGET_RING_DENSITY, ModParticles.QUIRK_EXPLOSION_LONG, true);
-            DrawParticles.inCircle(world, this.target.getPos(), this.target.getVelocity().normalize(), radius, ticks * TARGET_RING_ROTATION_MULTIPLIER, TARGET_RING_DENSITY, ParticleTypes.LARGE_SMOKE, true);
+            drawer.inCircle(this.target.getPos(), this.target.getVelocity().normalize(), radius, ticks * TARGET_RING_ROTATION_MULTIPLIER, TARGET_RING_DENSITY, ModParticles.QUIRK_EXPLOSION_LONG, true);
+            drawer.inCircle(this.target.getPos(), this.target.getVelocity().normalize(), radius, ticks * TARGET_RING_ROTATION_MULTIPLIER, TARGET_RING_DENSITY, ParticleTypes.LARGE_SMOKE, true);
         }
 
-        DrawParticles.spawnParticles(world, ModParticles.QUIRK_EXPLOSION_LONG, this.target.getPos(), 100, 0.25f, 0.25f, 0.25f, 0, true);
-        DrawParticles.spawnParticles(world, ParticleTypes.LARGE_SMOKE, this.target.getPos(), 100, 0.25f, 0.25f, 0.25f, 0, true);
+        drawer.spawnParticles(ModParticles.QUIRK_EXPLOSION_LONG, this.target.getPos(), 100, 0.25f, 0.25f, 0.25f, 0, true);
+        drawer.spawnParticles(ParticleTypes.LARGE_SMOKE, this.target.getPos(), 100, 0.25f, 0.25f, 0.25f, 0, true);
     }
 
 

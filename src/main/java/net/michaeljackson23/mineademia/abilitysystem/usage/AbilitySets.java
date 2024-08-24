@@ -8,6 +8,7 @@ import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.abstractabi
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.example.ExampleAbility1;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.example.ExampleAbility2;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.example.ExampleAbility3;
+import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.dev.mango.theworld.TimeStopAbility;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.engine.EngineDashPassive;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.explosion.ApShotAbility;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.explosion.ExplodeAPult;
@@ -24,7 +25,6 @@ import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.rifl
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.rifle.LoadAmmoAbility;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.rifle.SuperchargedShotAbility;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.rifle.passive.EnhancedEyesightAbility;
-import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.rifle.passive.EntityFarsightAbility;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.rifle.passive.HairAmmoAbility;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.whirlwind.*;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.hchh.cold.IceWallAbility;
@@ -47,7 +47,7 @@ public final class AbilitySets {
 
     public static final Function<IAbilityUser, IAbilitySet> EXPLOSION = registerAbilitySet("explosion", (u) -> new AbilitySet("Explosion", new ExplosiveSpeedAbility(u), new ApShotAbility(u), new HowitzerImpactAbility(u), new ExplodeAPult(u)));
 
-    public static final Function<IAbilityUser, IAbilitySet> RIFLE = registerAbilitySet("rifle", (u) -> new AbilitySet("Rifle", new EnhancedEyesightAbility(u), new EntityFarsightAbility(u), new HairAmmoAbility(u), new AirwalkAbility(u), new FireRifleAbility(u), new LoadAmmoAbility(u), new SuperchargedShotAbility(u)));
+    public static final Function<IAbilityUser, IAbilitySet> RIFLE = registerAbilitySet("rifle", (u) -> new AbilitySet("Rifle", new EnhancedEyesightAbility(u), new HairAmmoAbility(u), new AirwalkAbility(u), new FireRifleAbility(u), new LoadAmmoAbility(u), new SuperchargedShotAbility(u)));
 
     public static final Function<IAbilityUser, IAbilitySet> HCHH_HOT = registerAbilitySet("hchh_hot", (u) -> new AbilitySet("Half Cold Half Hot"));
     public static final Function<IAbilityUser, IAbilitySet> HCHH_COLD = registerAbilitySet("hchh_cold", (u) -> new AbilitySet("Half Cold Half Hot", new IceShootAbility(u), new IceSnowflakeAbility(u), new IceBeamAbility(u),  new IceSpikeAbility(u), new IceWallAbility(u)));
@@ -56,7 +56,7 @@ public final class AbilitySets {
 
     public static final Function<IAbilityUser, IAbilitySet> ENGINE = registerAbilitySet("engine", (u) -> new AbilitySet("Engine", new EngineDashPassive(u), new SuperHeroLandingAbility(u)));
 
-    public static final Function<IAbilityUser, IAbilitySet> EXAMPLE = registerAbilitySet("example", (u) -> new AbilitySet("Example", new ExampleAbility1(u), new ExampleAbility2(u), new ExampleAbility3(u)));
+    public static final Function<IAbilityUser, IAbilitySet> EXAMPLE = registerAbilitySet("example", (u) -> new AbilitySet("Example", new ExampleAbility1(u), new ExampleAbility2(u), new ExampleAbility3(u), new TimeStopAbility(u)));
 
     private static Function<IAbilityUser, IAbilitySet> registerAbilitySet(String key, Function<IAbilityUser, IAbilitySet> abilitySetFunction) {
         abilitySetMap.put(key, abilitySetFunction);

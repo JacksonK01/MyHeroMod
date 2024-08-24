@@ -63,9 +63,7 @@ public class SmokescreenAbility extends ActiveAbility implements ITickAbility, I
 
         world.playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.PLAYERS, 2f, 2f);
 
-        DrawParticles.spawnParticles(world, new DustParticleEffect(new Vector3f(0.5f, 0.0f, 0.5f), 2.0f),
-                entity.getPos().add(0, 1, 0),
-                35, 1.5f, 1f, 1.5f, 1, true);
+        DrawParticles.forWorld(world).spawnParticles(new DustParticleEffect(new Vector3f(0.5f, 0.0f, 0.5f), 2.0f), entity.getPos().add(0, 1, 0), 35, 1.5f, 1f, 1.5f, 1, true);
 
         getEntity().sendMessage(Text.literal("Trying to do smokescreen"));
     }

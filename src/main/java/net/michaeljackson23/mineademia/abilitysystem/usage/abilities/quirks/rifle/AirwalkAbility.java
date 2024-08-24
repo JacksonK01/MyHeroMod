@@ -6,11 +6,15 @@ import net.michaeljackson23.mineademia.abilitysystem.impl.ability.active.ToggleA
 import net.michaeljackson23.mineademia.abilitysystem.intr.AbilityCategory;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IAbilityUser;
 import net.michaeljackson23.mineademia.networking.Networking;
+import net.michaeljackson23.mineademia.util.DrawParticles;
 import net.michaeljackson23.mineademia.util.Mathf;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.network.PacketByteBuf;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.NotNull;
@@ -18,6 +22,11 @@ import org.jetbrains.annotations.NotNull;
 public class AirwalkAbility extends ToggleAbility {
 
     public static final String DESCRIPTION = "";
+
+    public static final int STAMINA_COST_HOP = 10;
+    public static final int STAMINA_COST_FLOAT = 2;
+
+    public static final float HOP_RADIUS = 0.5f;
 
 
     public AirwalkAbility(@NotNull IAbilityUser user) {
@@ -39,39 +48,30 @@ public class AirwalkAbility extends ToggleAbility {
     @Override
     public void onTickActive() {
         LivingEntity entity = getEntity();
+        ServerWorld world = (ServerWorld) entity.getWorld();
 
-//        if (entity.isSprinting())
-            getEntity().setOnGround(true);
-//        else
-//            entity.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING, 20, 2, false, false, false));
-    }
+        if (!entity.isOnGround() && entity.isSprinting() && getTicks() % 10 == 0 && hasStaminaAndConsume(STAMINA_COST_HOP)) {
+            Vec3d forward = entity.getRotationVecClient().normalize().add(Mathf.Vector.UP.multiply(0.25f)).multiply(0.75f);
 
-    @Override
-    public void onEndTick() {
-        if (isActive()) {
-            LivingEntity entity = getEntity();
+            entity.setVelocity(forward);
+            entity.velocityModified = true;
 
-            if (entity.isSprinting() && getTicks() % 10 == 0) {
-                Vec3d forward = entity.getRotationVecClient().normalize().add(Mathf.Vector.UP.multiply(0.25f)).multiply(0.75f);
+            DrawParticles.forWorld(world).inCircle(entity.getPos(), Mathf.Vector.UP, HOP_RADIUS, 5, ParticleTypes.CLOUD, false);
 
-                entity.setVelocity(forward);
-                entity.velocityModified = true;
-            } else if (!entity.isSprinting()) {
-//                entity.addVelocity(Mathf.Vector.UP.multiply(0.08f));
-                entity.fallDistance = 0;
+            entity.fallDistance = 0;
+        } else if (!entity.isOnGround() &&!entity.isSprinting() && hasStaminaAndConsume(STAMINA_COST_FLOAT)) {
+            entity.fallDistance = 0;
 
-                if (entity instanceof ServerPlayerEntity player)
-                    ServerPlayNetworking.send(player, Networking.S2C_WIND_FLY_DESCENT_VELOCITY, PacketByteBufs.empty());
-                else
-                    entity.addStatusEffect(new StatusEffectInstance(StatusEffects.LEVITATION, 20, 254, false, false, false));
-            }
+            if (entity instanceof ServerPlayerEntity player) {
+                Vec3d velocity = player.getVelocity();
 
-//            LivingEntity entity = getEntity();
+                PacketByteBuf buffer = PacketByteBufs.create();
+                buffer.writeVec3d(new Vec3d(velocity.x, 0, velocity.z));
 
-//            if (entity.isSprinting()) {
-//                entity.setOnGround(true);
-//            } else
-//                entity.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING, 20, 2, false, false, false));
+                ServerPlayNetworking.send(player, Networking.S2C_SET_VELOCITY, buffer);
+            } else
+                entity.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING, 20, 254, false, false, false));
         }
     }
+
 }

@@ -205,4 +205,12 @@ public class PacketsS2C {
         client.options.smoothCameraEnabled = zoomLevel != 1 && buffer.readBoolean();
     }
 
+    public static void setVelocity(@NotNull MinecraftClient client, ClientPlayNetworkHandler handler, @NotNull PacketByteBuf buffer, PacketSender responseSender) {
+        ClientPlayerEntity player = client.player;
+        if (player == null)
+            return;
+
+        player.setVelocity(buffer.readVec3d());
+    }
+
 }

@@ -37,9 +37,6 @@ public class FloatAbility extends ActiveAbility implements ITickAbility {
         LivingEntity user = getEntity();
         ServerWorld serverWorld = (ServerWorld) user.getWorld();
 
-        DrawParticles.spawnParticles(serverWorld, ParticleTypes.CLOUD,
-                user.getPos(),
-                3, 0.3f, 0, 0.3f, 0.01f, true);
-
+        DrawParticles.forWorld(serverWorld).spawnParticles(ParticleTypes.CLOUD, user.getPos(), 3, 0.3f, 0, 0.3f, 0.01f, true);
     }
 }

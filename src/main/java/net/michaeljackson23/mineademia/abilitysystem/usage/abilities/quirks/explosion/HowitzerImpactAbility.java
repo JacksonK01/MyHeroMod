@@ -270,9 +270,9 @@ public class HowitzerImpactAbility extends PhaseAbility implements ICooldownAbil
         float shockwaveRadius = p1RandomizedRadius.getRadius(0) + (ticks / P1_SHOCKWAVE_SPEED_MULTIPLIER) % P1_SHOCKWAVE_MAX_SIZE;
         RadiusMap shockwaveMap = new RadiusMap(shockwaveRadius);
 
-        DrawParticles.inVortex(world, pos, Mathf.Vector.UP, p1RandomizedRadius, ticks * P1_VORTEX_ROTATION_MULTIPLIER, MAX_HEIGHT, P1_VORTEX_LINES, P1_VORTEX_DENSITY, P1_VORTEX_STEEPNESS, ParticleTypes.LARGE_SMOKE, Vec3d.ZERO, 1, 0, true);
-        DrawParticles.inVortex(world, pos, Mathf.Vector.UP, dustMap, ticks * P1_DUST_ROTATION_MULTIPLIER, MAX_HEIGHT, P1_DUST_LINES, P1_DUST_DENSITY, P1_DUST_STEEPNESS, ParticleTypes.SMOKE, Vec3d.ZERO, 1, 0, true);
-        DrawParticles.inVortex(world, pos, Mathf.Vector.UP, shockwaveMap, ticks * P1_SHOCKWAVE_ROTATION_MULTIPLIER, P1_SHOCKWAVE_HEIGHT, P1_SHOCKWAVE_LINES, P1_SHOCKWAVE_DENSITY, P1_SHOCKWAVE_STEEPNESS, ParticleTypes.LARGE_SMOKE, Vec3d.ZERO, 3, 0, true);
+        DrawParticles.forWorld(world).inVortex(pos, Mathf.Vector.UP, p1RandomizedRadius, ticks * P1_VORTEX_ROTATION_MULTIPLIER, MAX_HEIGHT, P1_VORTEX_LINES, P1_VORTEX_DENSITY, P1_VORTEX_STEEPNESS, ParticleTypes.LARGE_SMOKE, Vec3d.ZERO, 1, 0, true);
+        DrawParticles.forWorld(world).inVortex(pos, Mathf.Vector.UP, dustMap, ticks * P1_DUST_ROTATION_MULTIPLIER, MAX_HEIGHT, P1_DUST_LINES, P1_DUST_DENSITY, P1_DUST_STEEPNESS, ParticleTypes.SMOKE, Vec3d.ZERO, 1, 0, true);
+        DrawParticles.forWorld(world).inVortex(pos, Mathf.Vector.UP, shockwaveMap, ticks * P1_SHOCKWAVE_ROTATION_MULTIPLIER, P1_SHOCKWAVE_HEIGHT, P1_SHOCKWAVE_LINES, P1_SHOCKWAVE_DENSITY, P1_SHOCKWAVE_STEEPNESS, ParticleTypes.LARGE_SMOKE, Vec3d.ZERO, 3, 0, true);
 
         float heightOffset = (ticks * P1_RING_VERTICAL_SPEED) % P1_RING_HEIGHT_OFFSET;
 
@@ -281,7 +281,7 @@ public class HowitzerImpactAbility extends PhaseAbility implements ICooldownAbil
             float radius = P1_VORTEX_RADIUS.getRadius(height / MAX_HEIGHT) + P1_RING_DISTANCE + (float) Math.sin((ticks * P1_RING_SINE_FREQUENCY) % 180) * P1_RING_SINE_MULTIPLIER;
 
             Vec3d ringPos = pos.add(0, height, 0);
-            DrawParticles.inCircle(world, ringPos, Mathf.Vector.UP, radius, ticks * P1_RING_SPIN_MULTIPLIER, P1_RING_DENSITY, ModParticles.QUIRK_EXPLOSION_BEAM, true);
+            DrawParticles.forWorld(world).inCircle(ringPos, Mathf.Vector.UP, radius, ticks * P1_RING_SPIN_MULTIPLIER, P1_RING_DENSITY, ModParticles.QUIRK_EXPLOSION_BEAM, true);
         }
     }
 
@@ -315,7 +315,7 @@ public class HowitzerImpactAbility extends PhaseAbility implements ICooldownAbil
             world.playSound(null, entity.getX(), entity.getY(), entity.getZ(), ModSounds.BIG_TORNADO_LOOP, SoundCategory.MASTER, 1, (ticks / (float) P2_TIME));
 
         drawBeamTail(world, trailPos, backward);
-        DrawParticles.inVortex(world, trailPos, backward, P2_DASH_VORTEX_RADIUS, ticks * P2_VORTEX_ROTATION_MULTIPLIER, P2_VORTEX_MAX_HEIGHT, P2_VORTEX_LINES, P2_VORTEX_DENSITY, P2_VORTEX_STEEPNESS, ParticleTypes.LARGE_SMOKE, Vec3d.ZERO, 1, 0, true);
+        DrawParticles.forWorld(world).inVortex(trailPos, backward, P2_DASH_VORTEX_RADIUS, ticks * P2_VORTEX_ROTATION_MULTIPLIER, P2_VORTEX_MAX_HEIGHT, P2_VORTEX_LINES, P2_VORTEX_DENSITY, P2_VORTEX_STEEPNESS, ParticleTypes.LARGE_SMOKE, Vec3d.ZERO, 1, 0, true);
 
         Vec3d frontPos = trailPos.add(forward);
         BlockPos front = new BlockPos((int) frontPos.x, (int) frontPos.y, (int) frontPos.z);
@@ -348,7 +348,7 @@ public class HowitzerImpactAbility extends PhaseAbility implements ICooldownAbil
 
     private void drawBeamTail(@NotNull ServerWorld world, @NotNull Vec3d pos, @NotNull Vec3d normal) {
         for (int i = 0; i < P2_DASH_BEAM_AMOUNT; i++)
-            DrawParticles.inVortex(world, pos, normal, P2_DASH_BEAM_RADIUS, ((ticks + (P2_DASH_BEAM_ANGLE * i)) * P2_DASH_BEAM_ROTATION_MULTIPLIER), P2_DASH_BEAM_MAX_HEIGHT, 1, P2_DASH_BEAM_DENSITY, 1, ModParticles.QUIRK_EXPLOSION_BEAM, Vec3d.ZERO, 1, 0, true);
+            DrawParticles.forWorld(world).inVortex(pos, normal, P2_DASH_BEAM_RADIUS, ((ticks + (P2_DASH_BEAM_ANGLE * i)) * P2_DASH_BEAM_ROTATION_MULTIPLIER), P2_DASH_BEAM_MAX_HEIGHT, 1, P2_DASH_BEAM_DENSITY, 1, ModParticles.QUIRK_EXPLOSION_BEAM, Vec3d.ZERO, 1, 0, true);
     }
 
 
@@ -360,7 +360,7 @@ public class HowitzerImpactAbility extends PhaseAbility implements ICooldownAbil
             Vec3d smokePlacement = this.projectileStartPos.add(this.projectileDirection.multiply(-P3_SMOKE_RECOIL));
             float radius = P3_SMOKE_RADIUS + (ticks / (float) P3_SMOKE_TIME) * P3_SMOKE_RADIUS_INCREASE;
 
-            DrawParticles.inCircle(world, smokePlacement, this.projectileDirection, radius, ticks * P3_SMOKE_ROTATION_MULTIPLIER, P3_SMOKE_DENSITY, ParticleTypes.LARGE_SMOKE, true);
+            DrawParticles.forWorld(world).inCircle(smokePlacement, this.projectileDirection, radius, ticks * P3_SMOKE_ROTATION_MULTIPLIER, P3_SMOKE_DENSITY, ParticleTypes.LARGE_SMOKE, true);
         }
 
         drawBeamTail(world, this.projectilePos, this.projectileDirection.multiply(-1));

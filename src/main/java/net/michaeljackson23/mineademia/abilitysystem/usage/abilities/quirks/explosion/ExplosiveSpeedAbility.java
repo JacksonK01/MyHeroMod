@@ -140,7 +140,7 @@ public class ExplosiveSpeedAbility extends HoldAbility implements ICooldownAbili
                 world.playSound(null, pos.x, pos.y, pos.z, ModSounds.SMALL_EXPLOSION, SoundCategory.MASTER, 0.1f, 2);
 
                 Vec3d forward = entity.getRotationVecClient().normalize();
-                DrawParticles.inCircle(world, pos.add(forward), forward, 1.25f, ticks * 5f, 360, ModParticles.QUIRK_EXPLOSION_SHORT, new Vec3d(0.25f, 0.25f, 0.25f), 100, 0, true);
+                DrawParticles.forWorld(world).inCircle(pos.add(forward), forward, 1.25f, ticks * 5f, 360, ModParticles.QUIRK_EXPLOSION_SHORT, new Vec3d(0.25f, 0.25f, 0.25f), 100, 0, true);
             }
 
             if (!hasStaminaAndConsume(STAMINA_PER_DASH)) {
@@ -162,7 +162,7 @@ public class ExplosiveSpeedAbility extends HoldAbility implements ICooldownAbili
             ServerWorld world = (ServerWorld) entity.getWorld();
 
             float radius = SMOKE_RADIUS + (ticks / (float) SMOKE_TIME) * SMOKE_RADIUS_INCREASE;
-            DrawParticles.inCircle(world, this.endPos, this.endDirection, radius, ticks * SMOKE_ROTATION_MULTIPLIER, SMOKE_DENSITY, ParticleTypes.LARGE_SMOKE, true);
+            DrawParticles.forWorld(world).inCircle(this.endPos, this.endDirection, radius, ticks * SMOKE_ROTATION_MULTIPLIER, SMOKE_DENSITY, ParticleTypes.LARGE_SMOKE, true);
         }
     }
 
@@ -190,7 +190,7 @@ public class ExplosiveSpeedAbility extends HoldAbility implements ICooldownAbili
         Vec3d forward = entity.getRotationVecClient().normalize();
         Vec3d pos = entity.getPos().add(forward.multiply(VORTEX_FORWARD_AMOUNT));
 
-        DrawParticles.inVortex(world, pos, forward.multiply(-1), DASH_VORTEX_RADIUS, getTicks() * VORTEX_ROTATION_MULTIPLIER, VORTEX_MAX_HEIGHT, VORTEX_LINES, VORTEX_DENSITY, VORTEX_STEEPNESS, ParticleTypes.LARGE_SMOKE, Vec3d.ZERO, 1, 0, true);
+        DrawParticles.forWorld(world).inVortex(pos, forward.multiply(-1), DASH_VORTEX_RADIUS, getTicks() * VORTEX_ROTATION_MULTIPLIER, VORTEX_MAX_HEIGHT, VORTEX_LINES, VORTEX_DENSITY, VORTEX_STEEPNESS, ParticleTypes.LARGE_SMOKE, Vec3d.ZERO, 1, 0, true);
     }
 
 }
