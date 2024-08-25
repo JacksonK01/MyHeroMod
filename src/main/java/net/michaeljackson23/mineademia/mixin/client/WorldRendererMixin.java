@@ -4,6 +4,7 @@ import com.llamalad7.mixinextras.injector.WrapWithCondition;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.michaeljackson23.mineademia.abilitysystem.networking.AbilityDecoders;
+import net.michaeljackson23.mineademia.abilitysystem.networking.AbilityKeys;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.dev.mango.theworld.TimeStopAbility;
 import net.michaeljackson23.mineademia.client.ClientCache;
 import net.minecraft.client.MinecraftClient;
@@ -25,7 +26,7 @@ public class WorldRendererMixin {
 
     @ModifyVariable(method = "renderEntity", at = @At("HEAD"), ordinal = 0, argsOnly = true)
     public float renderEntityModifyDelta(float tickDelta, Entity entity) {
-        if (ClientCache.getAbilities(TimeStopAbility.class).stream().anyMatch((a) -> a.get(AbilityDecoders.ACTIVATION_ABILITY_IS_ACTIVE))) {
+        if (ClientCache.getAbilities(TimeStopAbility.class).stream().anyMatch((a) -> a.get(AbilityKeys.IS_ACTIVE))) {
             ClientPlayerEntity player = MinecraftClient.getInstance().player;
             if (player == null || ClientCache.getSelfAbilities(TimeStopAbility.class).isEmpty())
                 return tickDelta;
@@ -39,7 +40,7 @@ public class WorldRendererMixin {
 
     @WrapWithCondition(method = "renderEntity", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/entity/EntityRenderDispatcher;render(Lnet/minecraft/entity/Entity;DDDFFLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V"))
     public boolean renderEntityCancel(EntityRenderDispatcher instance, Entity entity, double x, double y, double z, float yaw, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
-        if (ClientCache.getAbilities(TimeStopAbility.class).stream().anyMatch((a) -> a.get(AbilityDecoders.ACTIVATION_ABILITY_IS_ACTIVE))) {
+        if (ClientCache.getAbilities(TimeStopAbility.class).stream().anyMatch((a) -> a.get(AbilityKeys.IS_ACTIVE))) {
             ClientPlayerEntity player = MinecraftClient.getInstance().player;
             if (player == null)
                 return true;

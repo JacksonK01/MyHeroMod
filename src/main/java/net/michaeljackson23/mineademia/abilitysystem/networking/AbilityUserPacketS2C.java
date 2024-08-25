@@ -92,7 +92,7 @@ public final class AbilityUserPacketS2C {
 
         for (int i = 0; i < abilityAmount; i++) {
             IReadonlyTypesafeMap ability = AbilityNetworkManager.decode(buffer, minimal);
-            abilityMap.put(ability.get(AbilityDecoders.ABILITY_TYPE), ability);
+            abilityMap.put(ability.get(AbilityKeys.TYPE), ability);
         }
 
         return new AbilityUserPacketS2C(uuid, maxStamina, stamina, enabled, blocked, abilityMap);
