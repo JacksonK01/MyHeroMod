@@ -1,0 +1,15 @@
+{
+  "_comment": "This is unfinished, there are a lot of copper blocks to add...",
+  "values": [
+    "minecraft:iron_block",
+    "minecraft:iron_bars",
+    "minecraft:iron_door",
+    "minecraft:chain",
+    "minecraft:lantern",
+    "minecraft:gold_block",
+    "#minecraft:anvil",
+    "minecraft:netherite_block",
+    "minecraft:copper_block",
+    "minecraft:waxed_copper_block"
+  ]
+}

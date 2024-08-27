@@ -4,6 +4,7 @@ import net.michaeljackson23.mineademia.abilitysystem.impl.AbilityManager;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IAbilityUser;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.server.world.ServerWorld;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -28,6 +29,10 @@ public interface IAbility {
 
     default LivingEntity getEntity() {
         return getUser().getEntity();
+    }
+
+    default ServerWorld getServerWorld() {
+        return (ServerWorld) getEntity().getWorld();
     }
 
     default void offsetStamina(int stamina) {

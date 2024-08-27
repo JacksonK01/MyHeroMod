@@ -10,6 +10,8 @@ import net.minecraft.util.Identifier;
 public class StatusEffectsRegister {
     public static CowlingStatusEffect EFFECT_COWLING = new CowlingStatusEffect();
     public static FrozenStatusEffect EFFECT_FROZEN = new FrozenStatusEffect();
+    public static TaseredStatusEffect EFFECT_TASER = new TaseredStatusEffect();
+
     static {
         EFFECT_COWLING.addAttributeModifier(EntityAttributes.GENERIC_MOVEMENT_SPEED,
                 "91AEAA56-376B-4498-935B-2F7F68070635", 0.2f,
@@ -26,5 +28,6 @@ public class StatusEffectsRegister {
     public static void register() {
         Registry.register(Registries.STATUS_EFFECT, new Identifier(Mineademia.MOD_ID, "cowling"), EFFECT_COWLING);
         Registry.register(Registries.STATUS_EFFECT, new Identifier(Mineademia.MOD_ID, "frozen"), EFFECT_FROZEN);
+        Registry.register(Registries.STATUS_EFFECT, new Identifier(Mineademia.MOD_ID, "taser"), EFFECT_TASER);
     }
 }

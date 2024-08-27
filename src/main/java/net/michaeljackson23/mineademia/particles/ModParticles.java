@@ -12,6 +12,7 @@ import net.minecraft.util.Identifier;
 public class ModParticles {
 
     public static final DefaultParticleType COWLING_PARTICLES = registerParticle("cowling_particles");
+    public static final DefaultParticleType ELECTRIFICATION_PARTICLES = registerParticle("electrification_particles");
     public static final DefaultParticleType SHOCKWAVE_PARTICLES = registerParticle("ring");
     public static final DefaultParticleType QUIRK_OFA_CLOUD = registerParticle("quirk_ofa_cloud");
 
@@ -29,14 +30,18 @@ public class ModParticles {
     }
 
     public static void registerClient() {
-        ParticleFactoryRegistry.getInstance().register(COWLING_PARTICLES, ModParticle.createFactory(0.2f, 3));
-        ParticleFactoryRegistry.getInstance().register(SHOCKWAVE_PARTICLES, ShockwaveFactory.Factory::new); // has color, not done yet
+        ParticleFactoryRegistry instance = ParticleFactoryRegistry.getInstance();
 
-        ParticleFactoryRegistry.getInstance().register(QUIRK_EXPLOSION_SHORT, ModParticle.createFactory(0.45f, 6));
-        ParticleFactoryRegistry.getInstance().register(QUIRK_EXPLOSION_LONG, ModParticle.createFactory(0.45f, 24));
-        ParticleFactoryRegistry.getInstance().register(QUIRK_EXPLOSION_BEAM, ModParticle.createFactory(0.45f, 4));
+        instance.register(COWLING_PARTICLES, CowlingFactory.Factory::new);
+        instance.register(SHOCKWAVE_PARTICLES, ShockwaveFactory.Factory::new); // has color, not done yet
 
-        ParticleFactoryRegistry.getInstance().register(QUIRK_OFA_CLOUD, ModParticle.createFactory(0.1f, 1));
+        instance.register(QUIRK_EXPLOSION_SHORT, ModParticle.createFactory(0.45f, 6));
+        instance.register(QUIRK_EXPLOSION_LONG, ModParticle.createFactory(0.45f, 24));
+        instance.register(QUIRK_EXPLOSION_BEAM, ModParticle.createFactory(0.45f, 4));
+
+        instance.register(ELECTRIFICATION_PARTICLES, ElectrificationFactory.Factory::new);
+
+        instance.register(QUIRK_OFA_CLOUD, ModParticle.createFactory(0.1f, 1));
     }
 
 }

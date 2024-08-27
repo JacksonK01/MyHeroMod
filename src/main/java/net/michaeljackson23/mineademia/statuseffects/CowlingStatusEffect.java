@@ -19,6 +19,7 @@ public class CowlingStatusEffect extends StatusEffect {
 //        if(amplifier >= 5) {
 //            entity.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 2, 0, true, false, false));
 //        }
+
     }
 
     @Override

@@ -9,6 +9,8 @@ import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.example.Exa
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.example.ExampleAbility2;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.example.ExampleAbility3;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.dev.mango.theworld.TimeStopAbility;
+import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.electrification.BlockConductor;
+import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.electrification.HumanStunGun;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.engine.EngineDashPassive;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.explosion.ApShotAbility;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.explosion.ExplodeAPult;
@@ -56,6 +58,8 @@ public final class AbilitySets {
     public static final Function<IAbilityUser, IAbilitySet> WHIRLWIND = registerAbilitySet("whirlwind", (u) -> new AbilitySet("Whirlwind", new WindBladeAbility(u), new TornadoAbility(u), new GaleUpliftAbility(u), new BallistaAbility(u) ,new WindFlyAbility(u)));
 
     public static final Function<IAbilityUser, IAbilitySet> ENGINE = registerAbilitySet("engine", (u) -> new AbilitySet("Engine", new EngineDashPassive(u), new SuperHeroLandingAbility(u)));
+
+    public static final Function<IAbilityUser, IAbilitySet> ELECTRIFICATION = registerAbilitySet("electrification", (u) -> new AbilitySet("Electrification", new HumanStunGun(u), new BlockConductor(u)));
 
     public static final Function<IAbilityUser, IAbilitySet> EXAMPLE = registerAbilitySet("example", (u) -> new AbilitySet("Example", new ExampleAbility1(u), new ExampleAbility2(u), new ExampleAbility3(u), new TimeStopAbility(u)));
 

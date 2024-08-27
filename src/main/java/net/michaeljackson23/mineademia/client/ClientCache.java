@@ -28,12 +28,12 @@ public class ClientCache {
     public static <T extends IAbility> @NotNull HashSet<IReadonlyTypesafeMap> getAbilities(@NotNull Class<T> type, boolean exact) {
         HashSet<IReadonlyTypesafeMap> result = new HashSet<>();
 
-        users.forEach((uuid, user) -> {
-            user.getAbilityMap().forEach((abilityType, map) -> {
-                if (AbilityMap.isMatchingRequirements(abilityType, type, exact))
-                    result.add(map);
-            });
-        });
+//        users.forEach((uuid, user) -> {
+//            user.getAbilityMap().forEach((abilityType, map) -> {
+//                if (AbilityMap.isMatchingRequirements(abilityType, type, exact))
+//                    result.add(map);
+//            });
+//        });
 
         return result;
     }
