@@ -2,10 +2,12 @@ package net.michaeljackson23.mineademia.abilitysystem.networking;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.michaeljackson23.mineademia.abilitysystem.impl.ability.passive.TogglePassiveAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.ability.IAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.ability.active.IActivationAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.ability.extras.ICooldownAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IAbilityUser;
+import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.abstractabilities.passive.EntityRenderAbility;
 import net.michaeljackson23.mineademia.datastructures.typesafemap.IReadonlyTypesafeMap;
 import net.michaeljackson23.mineademia.datastructures.typesafemap.TypesafeMap;
 import net.minecraft.network.PacketByteBuf;
@@ -50,6 +52,12 @@ public final class ModNetworkManager {
         registerObject(ICooldownAbility.class)
                 .add(new ObjectRegisterEntry<>((a) -> a.getCooldown().getCooldownTicks(), NetworkKeys.COOLDOWN_TICKS, true, ObjectRegisterMethod.INT))
                 .add(new ObjectRegisterEntry<>((a) -> a.getCooldown().getTicksRemaining(), NetworkKeys.COOLDOWN_TICKS_REMAINING, true, ObjectRegisterMethod.INT));
+
+        registerObject(TogglePassiveAbility.class)
+                .add(new ObjectRegisterEntry<>(TogglePassiveAbility::isActive, NetworkKeys.IS_ACTIVE, true, ObjectRegisterMethod.BOOLEAN));
+
+        registerObject(EntityRenderAbility.class)
+                .add(new ObjectRegisterEntry<>(EntityRenderAbility::getRange, NetworkKeys.RANGE, true, ObjectRegisterMethod.FLOAT));
     }
 
     @SuppressWarnings("unchecked")

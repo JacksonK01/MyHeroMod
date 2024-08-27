@@ -20,12 +20,15 @@ import static net.michaeljackson23.mineademia.networking.Networking.C2S_ABILITY_
  * <a href="https://fabricmc.net/wiki/tutorial:keybinds">Click Me</a>
  */
 public class Keybinds {
-    public static final float DASH_STRENGHT = 10f;
+
     private static HoldableKeybind keyAbilityOne;
     private static HoldableKeybind keyAbilityTwo;
     private static HoldableKeybind keyAbilityThree;
     private static HoldableKeybind keyAbilityFour;
     private static HoldableKeybind keyAbilityFive;
+
+    private static HoldableKeybind keyAbilityRightClick;
+
     private static KeyBinding blocking;
     private static KeyBinding keyDodge;
 
@@ -69,6 +72,14 @@ public class Keybinds {
                 GLFW.GLFW_KEY_C,
                 "key.mineademia.mineademia"
         ));
+
+        keyAbilityRightClick = (HoldableKeybind) KeyBindingHelper.registerKeyBinding(new HoldableKeybind(
+                "key.mineademia.ability_right_click",
+                InputUtil.Type.MOUSE,
+                GLFW.GLFW_MOUSE_BUTTON_RIGHT,
+                "key.mineademia.mineademia"
+        ));
+
         keyDodge = KeyBindingHelper.registerKeyBinding(new KeyBinding(
                 "key.mineademia.dodge",
                 InputUtil.Type.KEYSYM,
@@ -130,6 +141,8 @@ public class Keybinds {
                 keyAbilityThree.holdAndReleaseAction(C2S_ABILITY_THREE);
                 keyAbilityFour.holdAndReleaseAction(C2S_ABILITY_FOUR);
                 keyAbilityFive.holdAndReleaseAction(C2S_ABILITY_FIVE);
+
+                keyAbilityRightClick.holdAndReleaseAction(C2S_ABILITY_RIGHT_CLICK);
 
                 if (keyDodge.wasPressed()) {
                     PacketByteBuf buf = PacketByteBufs.create();

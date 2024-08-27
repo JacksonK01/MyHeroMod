@@ -1,4 +1,4 @@
-package net.michaeljackson23.mineademia.mixin;
+package net.michaeljackson23.mineademia.mixin.common;
 
 import net.minecraft.server.MinecraftServer;
 import org.spongepowered.asm.mixin.Mixin;

@@ -1,4 +1,4 @@
-package net.michaeljackson23.mineademia.mixin;
+package net.michaeljackson23.mineademia.mixin.common;
 
 import net.michaeljackson23.mineademia.animations.AnimationDataHolder;
 import net.michaeljackson23.mineademia.callbacks.BeforeEntityDamageCallback;
@@ -8,7 +8,6 @@ import net.minecraft.client.render.entity.animation.Animation;
 import net.minecraft.entity.AnimationState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

@@ -1,31 +1,24 @@
 package net.michaeljackson23.mineademia.abilitysystem.usage.abilities.abstractabilities.passive;
 
-import net.michaeljackson23.mineademia.abilitysystem.impl.ability.passive.DataPassiveAbility;
+import net.michaeljackson23.mineademia.abilitysystem.impl.ability.passive.TogglePassiveAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IAbilityUser;
-import net.minecraft.entity.Entity;
 import org.jetbrains.annotations.NotNull;
 
-public abstract class EntityRenderAbility extends DataPassiveAbility {
+public abstract class EntityRenderAbility extends TogglePassiveAbility {
 
-    public static final String DESCRIPTION = "";
+    private float range;
 
-
-    private boolean enabled;
-
-    public EntityRenderAbility(@NotNull IAbilityUser user) {
-        super(user, "Entity Render", DESCRIPTION);
-
-        this.enabled = false;
+    public EntityRenderAbility(@NotNull IAbilityUser user, @NotNull String description) {
+        super(user, "Entity Render", description);
+        this.range = -1;
     }
 
-    public boolean isEnabled() {
-        return enabled;
+    public float getRange() {
+        return range;
     }
 
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
+    public void setRange(float range) {
+        this.range = range;
     }
-
-    public abstract double getRenderDistance(@NotNull Entity entity);
 
 }

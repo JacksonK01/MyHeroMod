@@ -64,8 +64,6 @@ public class AirwalkAbility extends ToggleAbility {
             DrawParticles.forWorld(world).inCircle(entity.getPos(), Mathf.Vector.UP, HOP_RADIUS, 5, ParticleTypes.CLOUD, false);
         } else if (!entity.isOnGround() &&!entity.isSprinting() && hasStaminaAndConsume(STAMINA_COST_FLOAT)) {
             if (entity instanceof ServerPlayerEntity player) {
-                Vec3d velocity = player.getVelocity();
-
                 PacketByteBuf buffer = PacketByteBufs.create();
                 buffer.writeVec3d(new Vec3d(Double.MAX_VALUE, 0, Double.MAX_VALUE));
 

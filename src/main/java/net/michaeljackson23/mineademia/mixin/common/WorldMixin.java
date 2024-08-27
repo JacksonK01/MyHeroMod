@@ -1,4 +1,4 @@
-package net.michaeljackson23.mineademia.mixin;
+package net.michaeljackson23.mineademia.mixin.common;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.WrapWithCondition;

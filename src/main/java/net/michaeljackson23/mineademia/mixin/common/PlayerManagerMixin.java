@@ -1,4 +1,4 @@
-package net.michaeljackson23.mineademia.mixin;
+package net.michaeljackson23.mineademia.mixin.common;
 
 import net.michaeljackson23.mineademia.abilitysystem.impl.AbilityManager;
 import net.michaeljackson23.mineademia.abilitysystem.impl.abilityyser.PlayerAbilityUser;

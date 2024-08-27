@@ -1,7 +1,7 @@
 package net.michaeljackson23.mineademia.savedata;
 import net.michaeljackson23.mineademia.Mineademia;
 import net.michaeljackson23.mineademia.combo.ComboManager;
-import net.michaeljackson23.mineademia.mixin.OldServerPlayerEntityMixin;
+import net.michaeljackson23.mineademia.mixin.common.OldServerPlayerEntityMixin;
 import net.michaeljackson23.mineademia.networking.PacketsC2S;
 import net.michaeljackson23.mineademia.quirk.Quirk;
 import net.michaeljackson23.mineademia.quirk.quirks.NullQuirk;

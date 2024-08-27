@@ -30,21 +30,6 @@ public class PlayerAbilityUser extends AbilityUser implements IPlayerAbilityUser
     }
 
     @Override
-    public int getMaxStamina() {
-        return 1000;
-    }
-
-    @Override
-    public int getStaminaRegenAmount() {
-        return 1;
-    }
-
-    @Override
-    public int getStaminaRegenRate() {
-        return 1;
-    }
-
-    @Override
     public @Nullable Class<? extends IActiveAbility> getBoundAbility(@NotNull Identifier identifier) {
         return abilityBindMap.get(identifier);
     }

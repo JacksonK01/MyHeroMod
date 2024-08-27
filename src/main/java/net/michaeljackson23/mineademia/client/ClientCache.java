@@ -43,6 +43,8 @@ public class ClientCache {
 
     public static <T extends IAbility> @NotNull HashSet<IReadonlyTypesafeMap> getSelfAbilities(@NotNull Class<T> type, boolean exact) {
         HashSet<IReadonlyTypesafeMap> result = new HashSet<>();
+        if (self == null)
+            return result;
 
         self.getAbilityMap().forEach((abilityType, map) -> {
             if (AbilityMap.isMatchingRequirements(abilityType, type, exact))

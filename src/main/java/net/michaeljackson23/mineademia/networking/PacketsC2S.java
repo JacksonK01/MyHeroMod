@@ -5,6 +5,7 @@ import net.michaeljackson23.mineademia.abilitysystem.impl.AbilityManager;
 import net.michaeljackson23.mineademia.abilitysystem.impl.abilityyser.PlayerAbilityUser;
 import net.michaeljackson23.mineademia.abilitysystem.intr.ability.IAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.ability.IActiveAbility;
+import net.michaeljackson23.mineademia.abilitysystem.intr.ability.extras.IRightClickAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IAbilityUser;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IPlayerAbilityUser;
 import net.michaeljackson23.mineademia.abilitysystem.usage.AbilitySets;
@@ -28,7 +29,7 @@ public class PacketsC2S {
         AnimationProxy.sendAnimationToClients((LivingEntity) player, "blocking");
     }
 
-    public static void abilityOne(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
+    public static void abilityOne(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, @NotNull PacketByteBuf buf, PacketSender responseSender) {
         IPlayerAbilityUser user = AbilityManager.getPlayerUser(player);
         if (user != null) {
             boolean isKeyDown = buf.readBoolean();
@@ -37,7 +38,7 @@ public class PacketsC2S {
         // activateAbility(player, buf, 0);
     }
 
-    public static void abilityTwo(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
+    public static void abilityTwo(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, @NotNull PacketByteBuf buf, PacketSender responseSender) {
         IPlayerAbilityUser user = AbilityManager.getPlayerUser(player);
         if (user != null) {
             boolean isKeyDown = buf.readBoolean();
@@ -46,7 +47,7 @@ public class PacketsC2S {
         // activateAbility(player, buf, 1);
     }
 
-    public static void abilityThree(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
+    public static void abilityThree(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, @NotNull PacketByteBuf buf, PacketSender responseSender) {
         IPlayerAbilityUser user = AbilityManager.getPlayerUser(player);
         if (user != null) {
             boolean isKeyDown = buf.readBoolean();
@@ -55,7 +56,7 @@ public class PacketsC2S {
         // activateAbility(player, buf, 2);
     }
 
-    public static void abilityFour(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
+    public static void abilityFour(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, @NotNull PacketByteBuf buf, PacketSender responseSender) {
         IPlayerAbilityUser user = AbilityManager.getPlayerUser(player);
         if (user != null) {
             boolean isKeyDown = buf.readBoolean();
@@ -64,13 +65,26 @@ public class PacketsC2S {
         // activateAbility(player, buf, 3);
     }
 
-    public static void abilityFive(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
+    public static void abilityFive(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, @NotNull PacketByteBuf buf, PacketSender responseSender) {
         IPlayerAbilityUser user = AbilityManager.getPlayerUser(player);
         if (user != null) {
             boolean isKeyDown = buf.readBoolean();
             user.executeBoundAbility(Networking.C2S_ABILITY_FIVE, isKeyDown);
         }
         // activateAbility(player, buf, 4);
+    }
+
+    public static void abilityRightClick(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, @NotNull PacketByteBuf buf, PacketSender responseSender) {
+        IPlayerAbilityUser user = AbilityManager.getPlayerUser(player);
+        if (user != null) {
+            boolean isKeyDown = buf.readBoolean();
+            for (IAbility ability : user.getAbilities().values()) {
+                if (ability instanceof IRightClickAbility rightClickAbility) {
+                    if (rightClickAbility.onRightClick(isKeyDown))
+                        break;
+                }
+            }
+        }
     }
 
     public static void abilityDodge(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {

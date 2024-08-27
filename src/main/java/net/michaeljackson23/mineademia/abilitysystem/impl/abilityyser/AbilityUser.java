@@ -14,7 +14,7 @@ import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public abstract class AbilityUser implements IAbilityUser {
+public class AbilityUser implements IAbilityUser {
 
     private LivingEntity entity;
 
@@ -32,6 +32,21 @@ public abstract class AbilityUser implements IAbilityUser {
         this.blocked = false;
 
         this.abilityMap = new AbilityMap();
+    }
+
+    @Override
+    public int getMaxStamina() {
+        return 1000;
+    }
+
+    @Override
+    public int getStaminaRegenAmount() {
+        return 1;
+    }
+
+    @Override
+    public int getStaminaRegenRate() {
+        return 1;
     }
 
     @Override

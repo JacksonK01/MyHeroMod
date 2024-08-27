@@ -5,18 +5,18 @@ import org.jetbrains.annotations.NotNull;
 
 public abstract class TogglePassiveAbility extends DataPassiveAbility {
 
-    private boolean toggled;
+    private boolean active;
 
     public TogglePassiveAbility(@NotNull IAbilityUser user, @NotNull String name, @NotNull String description) {
         super(user, name, description);
     }
 
-    public boolean isToggled() {
-        return toggled;
+    public boolean isActive() {
+        return active;
     }
 
-    public void setToggled(boolean toggled) {
-        this.toggled = toggled;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
 }

@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.michaeljackson23.mineademia.abilitysystem.impl.abilityyser.PlayerAbilityUser;
 import net.michaeljackson23.mineademia.abilitysystem.intr.ability.IAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.ability.extras.ICooldownAbility;
+import net.michaeljackson23.mineademia.abilitysystem.intr.ability.extras.IRightClickAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.ability.extras.ITickAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.ability.passive.IEventPassiveAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IAbilityUser;
@@ -36,6 +37,7 @@ public final class AbilityManager {
 
     private static final HashSet<ITickAbility> tickAbilities = new HashSet<>();
     private static final HashSet<ICooldownAbility> cooldownAbilities = new HashSet<>();
+
     private static final HashSet<IEventPassiveAbility<?>> eventAbilities = new HashSet<>();
 
     public static void registerAbility(@NotNull IAbility ability) {

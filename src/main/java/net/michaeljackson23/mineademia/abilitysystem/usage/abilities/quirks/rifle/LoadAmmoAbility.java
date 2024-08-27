@@ -89,7 +89,7 @@ public class LoadAmmoAbility extends PhaseAbility implements ICooldownAbility {
             ammoMap.put(selectedAmmoType, ammoMap.get(selectedAmmoType) - 1);
             ammoAmount--;
 
-            world.playSound(null, entity.getBlockPos(), ModSounds.QUIRK_RIFLE_FROM_BELT, SoundCategory.MASTER, 1, 1);
+            world.playSound(null, entity.getBlockPos(), ModSounds.QUIRK_RIFLE_FROM_BELT, SoundCategory.MASTER, 0.25f, 1);
         } else {
             HairAmmoAbility hairAmmoAbility = getUser().getAbility(HairAmmoAbility.class);
             if (hairAmmoAbility == null || !hairAmmoAbility.tryRemoveAmmo(selectedAmmoType.getHairCost())) {
@@ -97,7 +97,7 @@ public class LoadAmmoAbility extends PhaseAbility implements ICooldownAbility {
                 return;
             }
 
-            world.playSound(null, entity.getBlockPos(), ModSounds.QUIRK_RIFLE_TEAR_HAIR, SoundCategory.MASTER, 1, 1);
+            world.playSound(null, entity.getBlockPos(), ModSounds.QUIRK_RIFLE_TEAR_HAIR, SoundCategory.MASTER, 0.25f, 1);
         }
     }
 
@@ -124,7 +124,7 @@ public class LoadAmmoAbility extends PhaseAbility implements ICooldownAbility {
         LivingEntity entity = getEntity();
         ServerWorld world = (ServerWorld) entity.getWorld();
 
-        world.playSound(null, entity.getBlockPos(), toBelt ? ModSounds.QUIRK_RIFLE_FROM_BELT : ModSounds.QUIRK_RIFLE_RELOAD, SoundCategory.MASTER, 1, 1);
+        world.playSound(null, entity.getBlockPos(), toBelt ? ModSounds.QUIRK_RIFLE_FROM_BELT : ModSounds.QUIRK_RIFLE_RELOAD, SoundCategory.MASTER, 0.25f, 1);
     }
 
     private void loadAmmo() {

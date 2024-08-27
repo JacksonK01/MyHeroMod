@@ -37,6 +37,9 @@ public final class NetworkKeys {
     public static final IReadonlyTypesafeMap.Key<Boolean> IS_ACTIVE = new IReadonlyTypesafeMap.Key<>();
     public static final IReadonlyTypesafeMap.Key<Integer> GET_TICKS = new IReadonlyTypesafeMap.Key<>();
 
+    // EntityRenderAbility
+    public static final IReadonlyTypesafeMap.Key<Float> RANGE = new IReadonlyTypesafeMap.Key<>();
+
     // ICooldownAbility
     public static final IReadonlyTypesafeMap.Key<Integer> COOLDOWN_TICKS = new IReadonlyTypesafeMap.Key<>();
     public static final IReadonlyTypesafeMap.Key<Integer> COOLDOWN_TICKS_REMAINING = new IReadonlyTypesafeMap.Key<>();

@@ -6,6 +6,7 @@ import net.michaeljackson23.mineademia.abilitysystem.impl.ability.active.HoldAbi
 import net.michaeljackson23.mineademia.abilitysystem.intr.AbilityCategory;
 import net.michaeljackson23.mineademia.abilitysystem.intr.Cooldown;
 import net.michaeljackson23.mineademia.abilitysystem.intr.ability.extras.ICooldownAbility;
+import net.michaeljackson23.mineademia.abilitysystem.intr.ability.extras.IRightClickAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IAbilityUser;
 import net.michaeljackson23.mineademia.networking.Networking;
 import net.michaeljackson23.mineademia.sound.ModSounds;
@@ -28,7 +29,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
 
-public class FireRifleAbility extends HoldAbility implements ICooldownAbility {
+public class FireRifleAbility extends HoldAbility implements ICooldownAbility, IRightClickAbility {
 
     public static final String DESCRIPTION = "";
 
@@ -36,9 +37,11 @@ public class FireRifleAbility extends HoldAbility implements ICooldownAbility {
 
     public static final int SIGHT_GLOWING_COLOR = MathHelper.packRgb(1, 1, 0);
     public static final float SIGHT_GLOWING_RADIUS = 200f;
-    public static final float SIGHT_ZOOM_LEVEL_DEFAULT = 0.3f;
-    public static final float SIGHT_ZOOM_LEVEL_MIN = 0.25f;
-    public static final float SIGHT_ZOOM_LEVEL_MAX = 0.75f;
+
+    public static final float[] SIGHT_ZOOM_LEVELS = new float[] { 0.75f, 0.5f, 0.25f };
+
+    public static final float SIGHT_ZOOM_TARGET_MIN = 0.25f;
+    public static final float SIGHT_ZOOM_TARGET_MAX = 0.75f;
 
     public static final int TARGET_LOCKED_COLOR = MathHelper.packRgb(1, 0 , 0);
     public static final int TARGET_LOCKING_COLOR = MathHelper.packRgb(1, 0.5f, 0);
@@ -54,6 +57,7 @@ public class FireRifleAbility extends HoldAbility implements ICooldownAbility {
 
 
     private final Cooldown cooldown;
+    private int zoomLevel;
 
     private final HashSet<Integer> glowingIds;
 
@@ -91,7 +95,8 @@ public class FireRifleAbility extends HoldAbility implements ICooldownAbility {
         timeOnTarget = 0;
         timeOffTarget = 0;
 
-        setZoom(SIGHT_ZOOM_LEVEL_DEFAULT, true);
+        zoomLevel = -1;
+        // setZoom(SIGHT_ZOOM_LEVEL_DEFAULT, true);
         return true;
     }
 
@@ -133,6 +138,27 @@ public class FireRifleAbility extends HoldAbility implements ICooldownAbility {
     }
 
     @Override
+    public boolean onRightClick(boolean isKeyDown) {
+        if (!isActive() || !isKeyDown)
+            return false;
+
+        boolean isSneaking = getEntity().isSneaking();
+
+        if (isSneaking)
+            zoomLevel--;
+        else
+            zoomLevel++;
+
+        if (zoomLevel >= SIGHT_ZOOM_LEVELS.length)
+            zoomLevel = -1;
+        else if (zoomLevel < -1)
+            zoomLevel = SIGHT_ZOOM_LEVELS.length - 1;
+
+        setDefaultZoom();
+        return true;
+    }
+
+    @Override
     public @NotNull Cooldown getCooldown() {
         return cooldown;
     }
@@ -160,6 +186,10 @@ public class FireRifleAbility extends HoldAbility implements ICooldownAbility {
         ServerPlayNetworking.send(player, Networking.S2C_ZOOM, buffer);
     }
 
+    private void setDefaultZoom() {
+        setZoom(zoomLevel == -1 ? 1 : SIGHT_ZOOM_LEVELS[zoomLevel], zoomLevel != -1);
+    }
+
 
     private void lockOnTarget() {
         LivingEntity entity = getEntity();
@@ -171,7 +201,7 @@ public class FireRifleAbility extends HoldAbility implements ICooldownAbility {
             this.angleToTarget = Mathf.Vector.angleBetweenVectors(entity.getRotationVecClient().normalize(), directionToTarget.normalize());
 
             if (angleToTarget >= TARGET_ANGLE_TO_LOSE || distance >= TARGET_MAX_LOCK_DISTANCE) {
-                setZoom(SIGHT_ZOOM_LEVEL_DEFAULT, true);
+                setDefaultZoom();
                 lockedTarget = null;
                 locked = false;
 
@@ -216,11 +246,14 @@ public class FireRifleAbility extends HoldAbility implements ICooldownAbility {
     }
 
     private void applyLockedZoom() {
-        if (lockedTarget == null || !locked || !(getEntity() instanceof ServerPlayerEntity))
+        if (!(getEntity() instanceof ServerPlayerEntity))
+            return;
+
+        if (lockedTarget == null || !locked)
             return;
 
         float partial = angleToTarget / TARGET_ANGLE_TO_LOSE;
-        float zoomLevel = Mathf.lerp(SIGHT_ZOOM_LEVEL_MIN, SIGHT_ZOOM_LEVEL_MAX, partial);
+        float zoomLevel = Mathf.lerp(SIGHT_ZOOM_TARGET_MIN, SIGHT_ZOOM_TARGET_MAX, partial);
 
         setZoom(zoomLevel, false);
     }
@@ -339,7 +372,7 @@ public class FireRifleAbility extends HoldAbility implements ICooldownAbility {
         this.ammoLoaded = false;
         this.lastShooterPosition = eyePos;
 
-        world.playSound(null, entity.getBlockPos(), ModSounds.QUIRK_RIFLE_SHOOT, SoundCategory.MASTER, 1, 1);
+        world.playSound(null, entity.getBlockPos(), ModSounds.QUIRK_RIFLE_SHOOT, SoundCategory.MASTER, 0.5f, 1);
 
         if (locked && lockedTarget != null) {
             this.curvedShotAlpha = PROJECTILE_INITIAL_ALPHA;

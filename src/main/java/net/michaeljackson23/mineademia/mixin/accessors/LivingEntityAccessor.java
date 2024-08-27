@@ -1,4 +1,4 @@
-package net.michaeljackson23.mineademia.mixin;
+package net.michaeljackson23.mineademia.mixin.accessors;
 
 import net.minecraft.entity.LivingEntity;
 import org.spongepowered.asm.mixin.Mixin;
@@ -19,5 +19,8 @@ public interface LivingEntityAccessor {
 
     @Invoker("jump")
     void invokeJump();
+
+    @Invoker("setLivingFlag")
+    void invokeSetLivingFlat(int mask, boolean value);
 
 }

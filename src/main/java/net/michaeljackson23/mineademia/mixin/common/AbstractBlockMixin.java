@@ -1,4 +1,4 @@
-package net.michaeljackson23.mineademia.mixin;
+package net.michaeljackson23.mineademia.mixin.common;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.WrapWithCondition;
@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.At;
 public class AbstractBlockMixin {
 
     @ModifyReturnValue(method = "getCollisionShape(Lnet/minecraft/world/BlockView;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/ShapeContext;)Lnet/minecraft/util/shape/VoxelShape;", at = @At("RETURN"))
-    private VoxelShape getCollisionSHape(VoxelShape original, BlockView blockView, BlockPos blockPos, ShapeContext shapeContext) {
+    private VoxelShape getCollisionShape(VoxelShape original, BlockView blockView, BlockPos blockPos, ShapeContext shapeContext) {
         Entity entity;
         if (original.isEmpty() || !(shapeContext instanceof EntityShapeContext esc) || (entity = esc.getEntity()) == null) {
             return original;
@@ -50,10 +50,7 @@ public class AbstractBlockMixin {
             return false;
 
         NoClipAbility noClipAbility = user.getAbility(NoClipAbility.class);
-        if (noClipAbility == null || !noClipAbility.isClipping())
-            return false;
-
-        return true;
+        return noClipAbility != null && noClipAbility.isClipping();
     }
 
 

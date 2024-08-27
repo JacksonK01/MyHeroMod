@@ -18,6 +18,9 @@ public class Networking {
     public static final Identifier C2S_ABILITY_THREE = new Identifier(Mineademia.MOD_ID, "ability_three");
     public static final Identifier C2S_ABILITY_FOUR = new Identifier(Mineademia.MOD_ID, "ability_four");
     public static final Identifier C2S_ABILITY_FIVE = new Identifier(Mineademia.MOD_ID, "ability_five");
+
+    public static final Identifier C2S_ABILITY_RIGHT_CLICK = new Identifier(Mineademia.MOD_ID, "ability_right_click");
+
     public static final Identifier C2S_ABILITY_DODGE = new Identifier(Mineademia.MOD_ID, "ability_dodge");
     public static final Identifier C2S_BLOCKING = new Identifier(Mineademia.MOD_ID, "blocking");
     public static final Identifier C2S_KICK_COMBO = new Identifier(Mineademia.MOD_ID, "kick_combo");
@@ -55,6 +58,9 @@ public class Networking {
         ServerPlayNetworking.registerGlobalReceiver(C2S_ABILITY_THREE, PacketsC2S::abilityThree);
         ServerPlayNetworking.registerGlobalReceiver(C2S_ABILITY_FOUR, PacketsC2S::abilityFour);
         ServerPlayNetworking.registerGlobalReceiver(C2S_ABILITY_FIVE, PacketsC2S::abilityFive);
+
+        ServerPlayNetworking.registerGlobalReceiver(C2S_ABILITY_RIGHT_CLICK, PacketsC2S::abilityRightClick);
+
         ServerPlayNetworking.registerGlobalReceiver(C2S_BLOCKING, PacketsC2S::blocking);
         ServerPlayNetworking.registerGlobalReceiver(C2S_KICK_COMBO, PacketsC2S::kickCombo);
         ServerPlayNetworking.registerGlobalReceiver(C2S_AERIAL_COMBO, PacketsC2S::aerialCombo);

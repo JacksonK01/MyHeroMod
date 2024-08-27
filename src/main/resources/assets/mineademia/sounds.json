@@ -353,7 +353,7 @@
     "sounds": [
       {
         "name": "mineademia:quirk_rifle_tear_hair",
-        "attenuation_distance": 4,
+        "attenuation_distance": 64,
         "stream": false
       }
     ]
@@ -364,6 +364,7 @@
     "sounds": [
       {
         "name": "mineademia:quirk_rifle_belt",
+        "attenuation_distance": 64,
         "stream": false
       }
     ]
@@ -374,7 +375,7 @@
     "sounds": [
       {
         "name": "mineademia:quirk_rifle_reload",
-        "attenuation_distance": 4,
+        "attenuation_distance": 64,
         "stream": false
       }
     ]
@@ -385,7 +386,7 @@
     "sounds": [
       {
         "name": "mineademia:quirk_rifle_shoot",
-        "attenuation_distance": 8,
+        "attenuation_distance": 32,
         "volume": 0.5,
         "stream": false
       }
