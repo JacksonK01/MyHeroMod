@@ -39,7 +39,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.UUID;
 
 public class PacketsS2C {
-    public static void quirkDataSync(@NotNull MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
+    public static void quirkDataSync(@NotNull MinecraftClient client, ClientPlayNetworkHandler ignore, PacketByteBuf buf, PacketSender ignore1) {
         if(!(client.player instanceof QuirkDataAccessors quirkPlayer)) {
             return;
         }
@@ -47,7 +47,7 @@ public class PacketsS2C {
         quirkPlayer.myHeroMod$setQuirkData(QuirkDataPacket.decode(buf));
     }
     //To sync player's QuirkData with every player
-    public static void quirkDataSyncProxy(@NotNull MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
+    public static void quirkDataSyncProxy(@NotNull MinecraftClient client, ClientPlayNetworkHandler ignore, PacketByteBuf buf, PacketSender ignore1) {
         if(client.world != null) {
             QuirkData quirkData = QuirkDataPacket.decode(buf);
             PlayerEntity player = client.world.getPlayerByUuid(buf.readUuid());
@@ -56,7 +56,7 @@ public class PacketsS2C {
             }
         }
     }
-    public static void quirkTablet(@NotNull MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
+    public static void quirkTablet(@NotNull MinecraftClient client, ClientPlayNetworkHandler ignore, PacketByteBuf ignore1, PacketSender ignore2) {
         client.execute(() -> {
             QuirkTabletGui quirkTabletGui = new QuirkTabletGui(Text.literal("Quirk Tablet"));
             quirkTabletGui.init(client, 50, 50);
@@ -64,7 +64,7 @@ public class PacketsS2C {
             client.setScreenAndRender(quirkTabletGui);
         });
     }
-    public static void mockQuirkTablet(@NotNull MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
+    public static void mockQuirkTablet(@NotNull MinecraftClient client, ClientPlayNetworkHandler ignore, PacketByteBuf ignore1, PacketSender ignore2) {
         client.execute(() -> {
             MockQuirkTabletGui quirkTabletGui = new MockQuirkTabletGui(Text.literal("Mock Quirk Tablet"));
             quirkTabletGui.init(client, 50, 50);
@@ -72,7 +72,7 @@ public class PacketsS2C {
             client.setScreenAndRender(quirkTabletGui);
         });
     }
-    public static void animationProxy(@NotNull MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
+    public static void animationProxy(@NotNull MinecraftClient client, ClientPlayNetworkHandler ignore, PacketByteBuf buf, PacketSender ignore1) {
         client.execute(() -> {
             UUID playerToAnimate = buf.readUuid();
             String animationName = buf.readString();
@@ -101,7 +101,7 @@ public class PacketsS2C {
             }
         });
     }
-    public static void animationProxyNoAPI(@NotNull MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
+    public static void animationProxyNoAPI(@NotNull MinecraftClient client, ClientPlayNetworkHandler ignore, PacketByteBuf buf, PacketSender ignore1) {
         client.execute(() -> {
             int id = buf.readInt();
             String animationName = buf.readString();
@@ -126,22 +126,22 @@ public class PacketsS2C {
             animatedLivingEntity.getAnimationState().setRunning(true, livingEntity.age);
         });
     }
-    public static void setYaw(@NotNull MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
+    public static void setYaw(@NotNull MinecraftClient client, ClientPlayNetworkHandler ignore, PacketByteBuf buf, PacketSender ignore1) {
         if(client.player != null) {
             client.player.setYaw(buf.readFloat());
         }
     }
-    public static void forceThirdPersonBack(@NotNull MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
+    public static void forceThirdPersonBack(@NotNull MinecraftClient client, ClientPlayNetworkHandler ignore, PacketByteBuf ignore1, PacketSender ignore2) {
         client.options.setPerspective(Perspective.THIRD_PERSON_BACK);
     }
-    public static void forceThirdPersonFront(@NotNull MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
+    public static void forceThirdPersonFront(@NotNull MinecraftClient client, ClientPlayNetworkHandler ignore, PacketByteBuf ignore1, PacketSender ignore2) {
         client.options.setPerspective(Perspective.THIRD_PERSON_FRONT);
     }
-    public static void forceFirstPerson(@NotNull MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
+    public static void forceFirstPerson(@NotNull MinecraftClient client, ClientPlayNetworkHandler ignore, PacketByteBuf ignore1, PacketSender ignore2) {
         client.options.setPerspective(Perspective.FIRST_PERSON);
     }
 
-    public static void openVestigeGui(@NotNull MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
+    public static void openVestigeGui(@NotNull MinecraftClient client, ClientPlayNetworkHandler ignore, PacketByteBuf ignore1, PacketSender ignore2) {
         client.execute(() -> {
             VestigeGUI vestigeGUI = new VestigeGUI(Text.literal("Quirk Tablet"));
             vestigeGUI.init(client, client.getWindow().getScaledWidth(), client.getWindow().getScaledHeight());
@@ -149,7 +149,7 @@ public class PacketsS2C {
             client.setScreenAndRender(vestigeGUI);
         });
     }
-    public static void setEntitiesGlow(@NotNull MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
+    public static void setEntitiesGlow(@NotNull MinecraftClient client, ClientPlayNetworkHandler ignore, PacketByteBuf buf, PacketSender ignore1) {
         ClientWorld world = client.world;
 
         if (world != null) {
@@ -166,14 +166,14 @@ public class PacketsS2C {
             }
         }
     }
-    public static void windFlyDescentVelocity(@NotNull MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
+    public static void windFlyDescentVelocity(@NotNull MinecraftClient client, ClientPlayNetworkHandler ignore, PacketByteBuf ignore1, PacketSender ignore2) {
         ClientPlayerEntity player = client.player;
         if(player != null) {
             Vec3d velocity = player.getVelocity();
             player.setVelocity(velocity.x, velocity.y/2, velocity.z);
         }
     }
-    public static void comboDamage(@NotNull MinecraftClient client, ClientPlayNetworkHandler handler, @NotNull PacketByteBuf buf, PacketSender responseSender) {
+    public static void comboDamage(@NotNull MinecraftClient client, ClientPlayNetworkHandler ignore, @NotNull PacketByteBuf buf, PacketSender ignore1) {
         UUID attackerUuid = buf.readUuid();
         float amount = buf.readFloat();
         ClientPlayerEntity target = client.player;
@@ -183,7 +183,7 @@ public class PacketsS2C {
         }
     }
 
-    public static void playerAbilityUser(@NotNull MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buffer, PacketSender responseSender) {
+    public static void playerAbilityUser(@NotNull MinecraftClient client, ClientPlayNetworkHandler ignore, PacketByteBuf buffer, PacketSender ignore1) {
         ClientPlayerEntity player = client.player;
         if (player == null)
             return;
@@ -194,7 +194,7 @@ public class PacketsS2C {
         ClientCache.users.put(player.getUuid(), user);
     }
 
-    public static void zoomPacket(@NotNull MinecraftClient client, ClientPlayNetworkHandler handler, @NotNull PacketByteBuf buffer, PacketSender responseSender) {
+    public static void zoomPacket(@NotNull MinecraftClient client, ClientPlayNetworkHandler ignore, @NotNull PacketByteBuf buffer, PacketSender ignore1) {
         ClientPlayerEntity player = client.player;
         if (player == null)
             return;
@@ -205,12 +205,16 @@ public class PacketsS2C {
         client.options.smoothCameraEnabled = zoomLevel != 1 && buffer.readBoolean();
     }
 
-    public static void setVelocity(@NotNull MinecraftClient client, ClientPlayNetworkHandler handler, @NotNull PacketByteBuf buffer, PacketSender responseSender) {
+    public static void setVelocity(@NotNull MinecraftClient client, ClientPlayNetworkHandler ignore, @NotNull PacketByteBuf buffer, PacketSender ignore1) {
         ClientPlayerEntity player = client.player;
         if (player == null)
             return;
 
-        player.setVelocity(buffer.readVec3d());
+        Vec3d playerVelocity = player.getVelocity();
+        Vec3d velocity = buffer.readVec3d();
+
+        Vec3d actualVelocity = new Vec3d(velocity.x == Double.MAX_VALUE ? playerVelocity.x : velocity.x, velocity.y == Double.MAX_VALUE ? playerVelocity.y : velocity.y, velocity.z == Double.MAX_VALUE ? playerVelocity.z : velocity.z);
+        player.setVelocity(actualVelocity);
     }
 
 }

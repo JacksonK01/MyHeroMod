@@ -8,6 +8,7 @@ import net.michaeljackson23.mineademia.abilitysystem.intr.Cooldown;
 import net.michaeljackson23.mineademia.abilitysystem.intr.ability.extras.ICooldownAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IAbilityUser;
 import net.michaeljackson23.mineademia.networking.Networking;
+import net.michaeljackson23.mineademia.sound.ModSounds;
 import net.michaeljackson23.mineademia.util.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -18,6 +19,7 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -46,7 +48,9 @@ public class FireRifleAbility extends HoldAbility implements ICooldownAbility {
     public static final float TARGET_MAX_LOCK_DISTANCE = 200f;
 
     public static final float PROJECTILE_INITIAL_ALPHA = 0.1f;
-    public static final float PROJECTILE_STRAIGHT_VELOCITY = 5f;
+    public static final float PROJECTILE_STRAIGHT_VELOCITY = 7f;
+
+    public static final float AIRWALK_RECOIL_MULTIPLIER = 1.5f;
 
 
     private final Cooldown cooldown;
@@ -328,24 +332,38 @@ public class FireRifleAbility extends HoldAbility implements ICooldownAbility {
         ItemStack projectileItem = new ItemStack(Items.ARROW, 1);
         this.projectile = new ArrowEntity(entity.getWorld(), spawnPosition.x, spawnPosition.y, spawnPosition.z, projectileItem);
 
-        projectile.setNoGravity(true);
+        projectile.setOwner(entity);
         projectile.setDamage(superchargedShotAbility.getDamage(ammoType));
         projectile.setPierceLevel(superchargedShotAbility.getPierce(ammoType));
 
         this.ammoLoaded = false;
         this.lastShooterPosition = eyePos;
 
+        world.playSound(null, entity.getBlockPos(), ModSounds.QUIRK_RIFLE_SHOOT, SoundCategory.MASTER, 1, 1);
+
         if (locked && lockedTarget != null) {
             this.curvedShotAlpha = PROJECTILE_INITIAL_ALPHA;
             this.projectileAlphaIncrement = (1f - PROJECTILE_INITIAL_ALPHA) / ammoType.getTicksToHit();
             this.lastTargetPosition = lockedTarget.getEyePos();
             this.lastPivotPoint = getPivotPoint();
-        } else
+        } else {
+            projectile.setNoGravity(true);
             projectile.setVelocity(forward.multiply(PROJECTILE_STRAIGHT_VELOCITY));
+        }
 
         world.spawnEntity(projectile);
 
         superchargedShotAbility.tryShootSupercharge();
+
+
+        AirwalkAbility airwalkAbility = getUser().getAbility(AirwalkAbility.class);
+        if (airwalkAbility == null)
+            return;
+
+        if (airwalkAbility.isActive() && !entity.isOnGround()) {
+            entity.addVelocity(forward.multiply(-AIRWALK_RECOIL_MULTIPLIER));
+            entity.velocityModified = true;
+        }
     }
 
     private void tickProjectile() {

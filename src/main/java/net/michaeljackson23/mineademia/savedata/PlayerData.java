@@ -1,6 +1,7 @@
 package net.michaeljackson23.mineademia.savedata;
 import net.michaeljackson23.mineademia.Mineademia;
 import net.michaeljackson23.mineademia.combo.ComboManager;
+import net.michaeljackson23.mineademia.mixin.OldServerPlayerEntityMixin;
 import net.michaeljackson23.mineademia.networking.PacketsC2S;
 import net.michaeljackson23.mineademia.quirk.Quirk;
 import net.michaeljackson23.mineademia.quirk.quirks.NullQuirk;
@@ -99,7 +100,7 @@ public class PlayerData {
      *     Sets the quirk for this player's data. NOTE: This is only ever used in the mixin, ignore all mixins for now.
      * </p>
      * <p>
-     *     Used by = {@link net.michaeljackson23.mineademia.mixin.ServerPlayerEntityMixin}
+     *     Used by = {@link OldServerPlayerEntityMixin}
      * </p>
      */
     public void setQuirk(Quirk quirk) {
@@ -114,7 +115,7 @@ public class PlayerData {
      *     Returns the quirk for this player's data. Ignore mixins.
      * </p>
      * <p>
-     *     Used by = {@link net.michaeljackson23.mineademia.mixin.ServerPlayerEntityMixin},
+     *     Used by = {@link OldServerPlayerEntityMixin},
      *     {@link PacketsC2S#activateAbility(ServerPlayerEntity, PacketByteBuf, int)},
      *     {@link net.michaeljackson23.mineademia.quirk.quirkdata.QuirkDataPacket#send(ServerPlayerEntity)},
      *     {@link net.michaeljackson23.mineademia.quirk.quirkdata.QuirkDataPacket#sendProxy(ServerPlayerEntity)}

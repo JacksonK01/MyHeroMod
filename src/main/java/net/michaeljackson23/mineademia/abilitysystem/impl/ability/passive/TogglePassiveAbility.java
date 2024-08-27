@@ -1,6 +1,5 @@
-package net.michaeljackson23.mineademia.abilitysystem.impl.server.ability.passive;
+package net.michaeljackson23.mineademia.abilitysystem.impl.ability.passive;
 
-import net.michaeljackson23.mineademia.abilitysystem.impl.ability.passive.DataPassiveAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IAbilityUser;
 import org.jetbrains.annotations.NotNull;
 

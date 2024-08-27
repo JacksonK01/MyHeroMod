@@ -2,19 +2,9 @@ package net.michaeljackson23.mineademia.client.hud;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.michaeljackson23.mineademia.Mineademia;
-import net.michaeljackson23.mineademia.abilitysystem.networking.PlayerAbilityUserPacketS2C;
-import net.michaeljackson23.mineademia.client.ClientCache;
-import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkDataAccessors;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.text.OrderedText;
-import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import org.joml.Random;
 
 @Environment(EnvType.CLIENT)
 public class QuirkHud {

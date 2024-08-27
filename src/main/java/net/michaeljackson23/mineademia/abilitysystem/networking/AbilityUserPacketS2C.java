@@ -67,10 +67,11 @@ public final class AbilityUserPacketS2C {
         PacketByteBuf buffer = PacketByteBufs.create();
 
         buffer.writeBoolean(minimal);
-        encodeUser(user, buffer);
+        ModNetworkManager.encode(user, buffer, minimal);
+        // encodeUser(user, buffer);
 
         for (IAbility ability : user.getAbilities().values())
-            AbilityNetworkManager.encode(ability, buffer, minimal);
+            ModNetworkManager.encode(ability, buffer, minimal);
 
         return buffer;
     }
@@ -78,38 +79,28 @@ public final class AbilityUserPacketS2C {
     public static @NotNull AbilityUserPacketS2C decode(@NotNull PacketByteBuf buffer) {
         boolean minimal = buffer.readBoolean();
 
-        UUID uuid = buffer.readUuid();
+        IReadonlyTypesafeMap userMap = ModNetworkManager.decode(buffer, minimal);
 
-        int abilityAmount = buffer.readInt();
+        UUID uuid = userMap.get(NetworkKeys.UUID);
 
-        int maxStamina = buffer.readInt();
-        int stamina = buffer.readInt();
+        int abilityAmount = userMap.getOrDefault(NetworkKeys.ABILITY_AMOUNT, 0);
 
-        boolean enabled = buffer.readBoolean();
-        boolean blocked = buffer.readBoolean();
+        int maxStamina = userMap.getOrDefault(NetworkKeys.MAX_STAMINA, 0);
+        int stamina = userMap.getOrDefault(NetworkKeys.STAMINA, 0);
+
+        boolean enabled = userMap.getOrDefault(NetworkKeys.ENABLED, true);
+        boolean blocked = userMap.getOrDefault(NetworkKeys.BLOCKED, false);
 
         HashMap<Class<?>, IReadonlyTypesafeMap> abilityMap = new HashMap<>();
 
         for (int i = 0; i < abilityAmount; i++) {
-            IReadonlyTypesafeMap ability = AbilityNetworkManager.decode(buffer, minimal);
-            abilityMap.put(ability.get(AbilityKeys.TYPE), ability);
+            IReadonlyTypesafeMap ability = ModNetworkManager.decode(buffer, minimal);
+            abilityMap.put(ability.get(NetworkKeys.TYPE), ability);
         }
 
         return new AbilityUserPacketS2C(uuid, maxStamina, stamina, enabled, blocked, abilityMap);
     }
-
-    private static void encodeUser(@NotNull IAbilityUser user, @NotNull PacketByteBuf buffer) {
-        buffer.writeUuid(user.getEntity().getUuid());
-
-        buffer.writeInt(user.getAbilities().size());
-
-        buffer.writeInt(user.getMaxStamina());
-        buffer.writeInt(user.getStamina());
-
-        buffer.writeBoolean(user.isEnabled());
-        buffer.writeBoolean(user.isBlocked());
-    }
-
+    
     public static void sendSelf(@NotNull ServerPlayerEntity player, @NotNull IAbilityUser user, boolean minimal) {
         ServerPlayNetworking.send(player, S2C_ABILITY_USER_PACKET, encode(user, minimal));
     }

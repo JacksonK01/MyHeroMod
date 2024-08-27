@@ -4,11 +4,17 @@ import net.michaeljackson23.mineademia.abilitysystem.impl.ability.active.ToggleA
 import net.michaeljackson23.mineademia.abilitysystem.intr.Cooldown;
 import net.michaeljackson23.mineademia.abilitysystem.intr.ability.extras.ICooldownAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IAbilityUser;
+import net.michaeljackson23.mineademia.abilitysystem.networking.NetworkKeys;
+import net.michaeljackson23.mineademia.datastructures.typesafemap.IReadonlyTypesafeMap;
 import net.michaeljackson23.mineademia.networking.Networking;
+import net.michaeljackson23.mineademia.sound.ModSounds;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
+import org.spongepowered.asm.mixin.Unique;
 
 public class TimeStopAbility extends ToggleAbility implements ICooldownAbility {
 
@@ -35,7 +41,7 @@ public class TimeStopAbility extends ToggleAbility implements ICooldownAbility {
         LivingEntity entity = getEntity();
         ServerWorld world = (ServerWorld) entity.getWorld();
 
-        // world.playSound(null, entity.getX(), entity.getY(), entity.getZ(), ModSounds.TIMESTOP_START, SoundCategory.MASTER, 4f, 1f);
+        world.playSound(null, entity.getX(), entity.getY(), entity.getZ(), ModSounds.QUIRK_THEWORLD_STOP_TIME_START, SoundCategory.MASTER, 4f, 1f);
         return true;
     }
 
@@ -44,7 +50,7 @@ public class TimeStopAbility extends ToggleAbility implements ICooldownAbility {
         LivingEntity entity = getEntity();
         ServerWorld world = (ServerWorld) entity.getWorld();
 
-        // world.playSound(null, entity.getX(), entity.getY(), entity.getZ(), ModSounds.TIMESTOP_END, SoundCategory.MASTER, 4f, 1f);
+        world.playSound(null, entity.getX(), entity.getY(), entity.getZ(), ModSounds.QUIRK_THEWORLD_STOP_TIME_STOP, SoundCategory.MASTER, 4f, 1f);
         return true;
     }
 
@@ -67,5 +73,24 @@ public class TimeStopAbility extends ToggleAbility implements ICooldownAbility {
 
         return isStopped && isTargetAffected;
     }
+
+
+    public static boolean shouldStopTimeClient(@NotNull World world, @NotNull IReadonlyTypesafeMap timeStopAbility, @NotNull Entity target) {
+        boolean isUser = timeStopAbility.getAndCompute(NetworkKeys.UUID, (u) -> u.equals(target.getUuid()), false);
+
+        boolean isTargetAffected = !isUser && isInsideTimeStopClient(world, timeStopAbility, target);
+
+        return isTimeStoppedClient(world, timeStopAbility) && isTargetAffected;
+    }
+    public static boolean isTimeStoppedClient(@NotNull World world, @NotNull IReadonlyTypesafeMap timeStopAbility) {
+        boolean active = timeStopAbility.getOrDefault(NetworkKeys.IS_ACTIVE, false);
+        int ticks = timeStopAbility.getOrDefault(NetworkKeys.GET_TICKS, -1);
+
+        return (active && ticks >= TimeStopAbility.START_DELAY) || (!active && ticks <= TimeStopAbility.END_DELAY);
+    }
+    public static boolean isInsideTimeStopClient(@NotNull World world, @NotNull IReadonlyTypesafeMap timeStopAbility, @NotNull Entity target) {
+        return timeStopAbility.getAndCompute(NetworkKeys.ID, (id) -> target.squaredDistanceTo(world.getEntityById(id)) <= TimeStopAbility.MAX_RANGE_SQUARED, false);
+    }
+
 
 }

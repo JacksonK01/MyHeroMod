@@ -8,6 +8,7 @@
     "LivingEntityAccessor",
     "LivingEntityMixin",
     "MineademiaMixin",
+    "OldServerPlayerEntityMixin",
     "PlayerEntityMixin",
     "PlayerManagerMixin",
     "ServerPlayerEntityMixin",

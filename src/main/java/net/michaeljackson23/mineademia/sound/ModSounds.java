@@ -42,6 +42,15 @@ public class ModSounds {
     public static final SoundEvent BIG_TORNADO_LOOP = registerSound("big_tornado_loop");
     public static final SoundEvent BIG_TORNADO_END = registerSound("big_tornado_end");
 
+    public static final SoundEvent QUIRK_RIFLE_TEAR_HAIR = registerSound("quirk_rifle_tear_hair");
+    public static final SoundEvent QUIRK_RIFLE_FROM_BELT = registerSound("quirk_rifle_belt");
+    // public static final SoundEvent QUIRK_RIFLE_TO_BELT = registerSound("quirk_rifle_belt");
+    public static final SoundEvent QUIRK_RIFLE_RELOAD = registerSound("quirk_rifle_reload");
+    public static final SoundEvent QUIRK_RIFLE_SHOOT = registerSound("quirk_rifle_shoot");
+
+    public static final SoundEvent QUIRK_THEWORLD_STOP_TIME_START = registerSound("quirk_theworld_stop_time_start");
+    public static final SoundEvent QUIRK_THEWORLD_STOP_TIME_STOP = registerSound("quirk_theworld_stop_time_end");
+
     private static SoundEvent registerSound(String id) {
         Identifier identifier = new Identifier(Mineademia.MOD_ID, id);
         return Registry.register(Registries.SOUND_EVENT, identifier, SoundEvent.of(identifier));

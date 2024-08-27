@@ -346,5 +346,69 @@
         "stream": false
       }
     ]
+  },
+  "quirk_rifle_tear_hair": {
+    "category": "master",
+    "subtitle": "subtitles.quirk_rifle_tear_hair",
+    "sounds": [
+      {
+        "name": "mineademia:quirk_rifle_tear_hair",
+        "attenuation_distance": 4,
+        "stream": false
+      }
+    ]
+  },
+  "quirk_rifle_belt": {
+    "category": "master",
+    "subtitle": "subtitles.quirk_rifle_belt",
+    "sounds": [
+      {
+        "name": "mineademia:quirk_rifle_belt",
+        "stream": false
+      }
+    ]
+  },
+  "quirk_rifle_reload": {
+    "category": "master",
+    "subtitle": "subtitles.quirk_rifle_reload",
+    "sounds": [
+      {
+        "name": "mineademia:quirk_rifle_reload",
+        "attenuation_distance": 4,
+        "stream": false
+      }
+    ]
+  },
+  "quirk_rifle_shoot": {
+    "category": "master",
+    "subtitle": "subtitles.quirk_rifle_shoot",
+    "sounds": [
+      {
+        "name": "mineademia:quirk_rifle_shoot",
+        "attenuation_distance": 8,
+        "volume": 0.5,
+        "stream": false
+      }
+    ]
+  },
+  "quirk_theworld_stop_time_start": {
+    "category": "master",
+    "subtitle": "subtitles.quirk_theworld_stop_time_start",
+    "sounds": [
+      {
+        "name": "mineademia:quirk_theworld_stop_time_start",
+        "stream": false
+      }
+    ]
+  },
+  "quirk_theworld_stop_time_end": {
+    "category": "master",
+    "subtitle": "subtitles.quirk_theworld_stop_time_end",
+    "sounds": [
+      {
+        "name": "mineademia:quirk_theworld_stop_time_end",
+        "stream": false
+      }
+    ]
   }
 }

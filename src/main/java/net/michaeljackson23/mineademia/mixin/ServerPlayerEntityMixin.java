@@ -1,60 +1,29 @@
 package net.michaeljackson23.mineademia.mixin;
 
-import com.mojang.authlib.GameProfile;
-import net.michaeljackson23.mineademia.callbacks.BeforeEntityDamageCallback;
-import net.michaeljackson23.mineademia.callbacks.OnPlayerAttackEntity;
-import net.michaeljackson23.mineademia.callbacks.OnServerPlayerCreationCallback;
-import net.michaeljackson23.mineademia.quirk.Quirk;
-import net.michaeljackson23.mineademia.quirk.feature.QuirkFeatureRenderer;
-import net.michaeljackson23.mineademia.quirk.quirks.NullQuirk;
-import net.michaeljackson23.mineademia.savedata.PlayerData;
-import net.michaeljackson23.mineademia.util.MutableObject;
-import net.michaeljackson23.mineademia.util.PlayerDataAccessor;
-import net.michaeljackson23.mineademia.util.QuirkAccessor;
-import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.damage.DamageSource;
+import com.llamalad7.mixinextras.injector.WrapWithCondition;
+import net.michaeljackson23.mineademia.abilitysystem.intr.ability.IAbility;
+import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.dev.mango.theworld.TimeStopAbility;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.network.packet.c2s.common.SyncedClientOptions;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.ActionResult;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ServerPlayerEntity.class)
-public class ServerPlayerEntityMixin implements QuirkAccessor, PlayerDataAccessor {
-    @Unique
-    private PlayerData playerData = new PlayerData();
+public class ServerPlayerEntityMixin {
 
-    @Unique
-    @Override
-    public Quirk myHeroMod$getQuirk() {
-        return playerData.getQuirk();
+    @WrapWithCondition(method = "playerTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;tick()V"))
+    private boolean playerTick(PlayerEntity instance) {
+        ServerPlayerEntity player = (ServerPlayerEntity) instance;
+
+        boolean shouldStopTime = IAbility.getAbilities(TimeStopAbility.class, false).stream().anyMatch((a) -> a.shouldTimeStop(player));
+        if (shouldStopTime) {
+            if (player.age % 20 == 0)
+                player.getDamageTracker().update();
+
+            return false;
+        }
+
+        return true;
     }
 
-    @Unique
-    @Override
-    public void myHeroMod$setQuirk(Quirk quirk) {
-        this.playerData.setQuirk(quirk);
-    }
-
-    @Unique
-    @Override
-    public PlayerData myHeroMod$getPlayerData() {
-        return this.playerData;
-    }
-
-    @Unique
-    @Override
-    public void myHeroMod$setPlayerData(PlayerData playerData) {
-        this.playerData = playerData;
-    }
 }

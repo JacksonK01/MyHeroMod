@@ -23,8 +23,8 @@ public class AirwalkAbility extends ToggleAbility {
 
     public static final String DESCRIPTION = "";
 
-    public static final int STAMINA_COST_HOP = 10;
-    public static final int STAMINA_COST_FLOAT = 2;
+    public static final int STAMINA_COST_HOP = 0; // 10
+    public static final int STAMINA_COST_FLOAT = 0; // 2
 
     public static final float HOP_RADIUS = 0.5f;
 
@@ -35,13 +35,17 @@ public class AirwalkAbility extends ToggleAbility {
 
     @Override
     public boolean executeStart() {
-        getEntity().sendMessage(Text.literal("ON"));
+        if (getEntity() instanceof ServerPlayerEntity player)
+            player.sendMessage(Text.literal("Airwalk: ON"), true);
+
         return true;
     }
 
     @Override
     public boolean executeEnd() {
-        getEntity().sendMessage(Text.literal("OFF"));
+        if (getEntity() instanceof ServerPlayerEntity player)
+            player.sendMessage(Text.literal("Airwalk: OFF"), true);
+
         return true;
     }
 
@@ -50,6 +54,7 @@ public class AirwalkAbility extends ToggleAbility {
         LivingEntity entity = getEntity();
         ServerWorld world = (ServerWorld) entity.getWorld();
 
+        entity.fallDistance = 0;
         if (!entity.isOnGround() && entity.isSprinting() && getTicks() % 10 == 0 && hasStaminaAndConsume(STAMINA_COST_HOP)) {
             Vec3d forward = entity.getRotationVecClient().normalize().add(Mathf.Vector.UP.multiply(0.25f)).multiply(0.75f);
 
@@ -57,16 +62,12 @@ public class AirwalkAbility extends ToggleAbility {
             entity.velocityModified = true;
 
             DrawParticles.forWorld(world).inCircle(entity.getPos(), Mathf.Vector.UP, HOP_RADIUS, 5, ParticleTypes.CLOUD, false);
-
-            entity.fallDistance = 0;
         } else if (!entity.isOnGround() &&!entity.isSprinting() && hasStaminaAndConsume(STAMINA_COST_FLOAT)) {
-            entity.fallDistance = 0;
-
             if (entity instanceof ServerPlayerEntity player) {
                 Vec3d velocity = player.getVelocity();
 
                 PacketByteBuf buffer = PacketByteBufs.create();
-                buffer.writeVec3d(new Vec3d(velocity.x, 0, velocity.z));
+                buffer.writeVec3d(new Vec3d(Double.MAX_VALUE, 0, Double.MAX_VALUE));
 
                 ServerPlayNetworking.send(player, Networking.S2C_SET_VELOCITY, buffer);
             } else

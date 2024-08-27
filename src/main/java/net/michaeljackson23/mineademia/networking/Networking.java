@@ -4,7 +4,6 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.michaeljackson23.mineademia.Mineademia;
 import net.michaeljackson23.mineademia.abilitysystem.networking.AbilityUserPacketS2C;
-import net.michaeljackson23.mineademia.abilitysystem.networking.PlayerAbilityUserPacketS2C;
 import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkDataPacket;
 import net.minecraft.util.Identifier;
 

@@ -3,15 +3,29 @@ package net.michaeljackson23.mineademia.abilitysystem.networking;
 import net.michaeljackson23.mineademia.abilitysystem.intr.AbilityCategory;
 import net.michaeljackson23.mineademia.datastructures.typesafemap.IReadonlyTypesafeMap;
 
-public final class AbilityKeys {
+import java.util.UUID;
 
-    private AbilityKeys() { }
+public final class NetworkKeys {
+
+    private NetworkKeys() { }
 
 
-    // IAbility
+    // Global
     public static final IReadonlyTypesafeMap.Key<Class<?>> TYPE = new IReadonlyTypesafeMap.Key<>();
 
+    // IAbilityUser
+    public static final IReadonlyTypesafeMap.Key<Integer> ABILITY_AMOUNT = new IReadonlyTypesafeMap.Key<>();
+    public static final IReadonlyTypesafeMap.Key<Integer> MAX_STAMINA = new IReadonlyTypesafeMap.Key<>();
+    public static final IReadonlyTypesafeMap.Key<Integer> STAMINA = new IReadonlyTypesafeMap.Key<>();
+    public static final IReadonlyTypesafeMap.Key<Boolean> ENABLED = new IReadonlyTypesafeMap.Key<>();
+    public static final IReadonlyTypesafeMap.Key<Boolean> BLOCKED = new IReadonlyTypesafeMap.Key<>();
+
+    // IAbility, IAbilityUser
+    public static final IReadonlyTypesafeMap.Key<UUID> UUID = new IReadonlyTypesafeMap.Key<>();
+    public static final IReadonlyTypesafeMap.Key<Integer> ID = new IReadonlyTypesafeMap.Key<>();
     public static final IReadonlyTypesafeMap.Key<String> NAME = new IReadonlyTypesafeMap.Key<>();
+
+    // IAbility
     public static final IReadonlyTypesafeMap.Key<String> DESCRIPTION = new IReadonlyTypesafeMap.Key<>();
     public static final IReadonlyTypesafeMap.Key<Boolean> CAN_EXECUTE = new IReadonlyTypesafeMap.Key<>();
 
