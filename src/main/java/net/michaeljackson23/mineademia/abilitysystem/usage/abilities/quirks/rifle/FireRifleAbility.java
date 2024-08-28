@@ -8,14 +8,13 @@ import net.michaeljackson23.mineademia.abilitysystem.intr.Cooldown;
 import net.michaeljackson23.mineademia.abilitysystem.intr.ability.extras.ICooldownAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.ability.extras.IRightClickAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IAbilityUser;
+import net.michaeljackson23.mineademia.entity.projectile.rifle.RifleAmmoEntity;
 import net.michaeljackson23.mineademia.networking.Networking;
 import net.michaeljackson23.mineademia.sound.ModSounds;
 import net.michaeljackson23.mineademia.util.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.ArrowEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -362,8 +361,7 @@ public class FireRifleAbility extends HoldAbility implements ICooldownAbility, I
 
         Vec3d spawnPosition = eyePos.add(forward);
 
-        ItemStack projectileItem = new ItemStack(Items.ARROW, 1);
-        this.projectile = new ArrowEntity(entity.getWorld(), spawnPosition.x, spawnPosition.y, spawnPosition.z, projectileItem);
+        this.projectile = new RifleAmmoEntity(entity.getWorld(), spawnPosition);
 
         projectile.setOwner(entity);
         projectile.setDamage(superchargedShotAbility.getDamage(ammoType));
@@ -372,9 +370,19 @@ public class FireRifleAbility extends HoldAbility implements ICooldownAbility, I
         this.ammoLoaded = false;
         this.lastShooterPosition = eyePos;
 
-        world.playSound(null, entity.getBlockPos(), ModSounds.QUIRK_RIFLE_SHOOT, SoundCategory.MASTER, 0.5f, 1);
+        AirwalkAbility airwalkAbility = getUser().getAbility(AirwalkAbility.class);
+        if (airwalkAbility == null)
+            return;
 
-        if (locked && lockedTarget != null) {
+        if (airwalkAbility.isActive() && !entity.isOnGround() && entity.isSprinting()) {
+            projectile.setPosition(eyePos.add(forward.multiply(-1)));
+
+            projectile.setNoGravity(true);
+            projectile.setVelocity(forward.multiply(-PROJECTILE_STRAIGHT_VELOCITY));
+
+            entity.addVelocity(forward.multiply(AIRWALK_RECOIL_MULTIPLIER));
+            entity.velocityModified = true;
+        } else if (locked && lockedTarget != null) {
             this.curvedShotAlpha = PROJECTILE_INITIAL_ALPHA;
             this.projectileAlphaIncrement = (1f - PROJECTILE_INITIAL_ALPHA) / ammoType.getTicksToHit();
             this.lastTargetPosition = lockedTarget.getEyePos();
@@ -384,19 +392,10 @@ public class FireRifleAbility extends HoldAbility implements ICooldownAbility, I
             projectile.setVelocity(forward.multiply(PROJECTILE_STRAIGHT_VELOCITY));
         }
 
-        world.spawnEntity(projectile);
-
         superchargedShotAbility.tryShootSupercharge();
 
-
-        AirwalkAbility airwalkAbility = getUser().getAbility(AirwalkAbility.class);
-        if (airwalkAbility == null)
-            return;
-
-        if (airwalkAbility.isActive() && !entity.isOnGround()) {
-            entity.addVelocity(forward.multiply(-AIRWALK_RECOIL_MULTIPLIER));
-            entity.velocityModified = true;
-        }
+        world.spawnEntity(projectile);
+        world.playSound(null, entity.getBlockPos(), ModSounds.QUIRK_RIFLE_SHOOT, SoundCategory.MASTER, 0.5f, 1);
     }
 
     private void tickProjectile() {
