@@ -21,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.Optional;
+import java.util.HashSet;
 
 @Mixin(Entity.class)
 public abstract class EntityMixin {
@@ -33,17 +33,18 @@ public abstract class EntityMixin {
         if (player == null)
             return original;
 
-        Optional<IReadonlyTypesafeMap> optionalAbility = ClientCache.getSelfAbilities(EntityRenderAbility.class, false).stream().findFirst();
-        if (optionalAbility.isEmpty())
-            return original;
+        HashSet<IReadonlyTypesafeMap> abilities = ClientCache.getSelfAbilities(EntityRenderAbility.class, false);
+        for (IReadonlyTypesafeMap ability : abilities) {
+            if (!ability.getOrDefault(NetworkKeys.IS_ACTIVE, false))
+                continue;
 
-        IReadonlyTypesafeMap ability = optionalAbility.get();
+            float range = ability.getOrDefault(NetworkKeys.RANGE, -1f);
+            boolean shouldRender = range < 0 ? original : distance < range;
+            if (shouldRender)
+                return true;
+        }
 
-        if (!ability.getOrDefault(NetworkKeys.IS_ACTIVE, false))
-            return original;
-
-        float range = ability.getOrDefault(NetworkKeys.RANGE, -1f);
-        return range < 0 ? original : distance < range;
+        return original;
     }
 
     @Inject( method = "pushOutOfBlocks", at = @At("HEAD"), cancellable = true )

@@ -218,4 +218,20 @@ public class PacketsS2C {
         player.setVelocity(actualVelocity);
     }
 
+    public static void setPitch(@NotNull MinecraftClient client, ClientPlayNetworkHandler ignore, @NotNull PacketByteBuf buffer, PacketSender ignore1) {
+        int id = buffer.readInt();
+        float pitch = buffer.readFloat();
+
+        ClientWorld world = client.world;
+        if (world == null)
+            return;
+
+        Entity entity = world.getEntityById(id);
+        if (entity == null)
+            return;
+
+        entity.setPitch(pitch);
+    }
+
+
 }

@@ -26,6 +26,9 @@ public class AirwalkAbility extends ToggleAbility {
     public static final int STAMINA_COST_HOP = 0; // 10
     public static final int STAMINA_COST_FLOAT = 0; // 2
 
+    public static final float HOP_MAX_ANGLE = 45f;
+    public static final float HOP_MAX_Y_VECTOR = HOP_MAX_ANGLE / -90f;
+
     public static final float HOP_RADIUS = 0.5f;
 
 
@@ -56,9 +59,13 @@ public class AirwalkAbility extends ToggleAbility {
 
         entity.fallDistance = 0;
         if (!entity.isOnGround() && entity.isSprinting() && getTicks() % 10 == 0 && hasStaminaAndConsume(STAMINA_COST_HOP)) {
-            Vec3d forward = entity.getRotationVecClient().normalize().add(Mathf.Vector.UP.multiply(0.25f)).multiply(0.75f);
 
-            entity.setVelocity(forward);
+            Vec3d forward = entity.getRotationVecClient().normalize();
+            forward = new Vec3d(forward.x, Mathf.clamp(-HOP_MAX_Y_VECTOR, HOP_MAX_Y_VECTOR, (float) forward.y), forward.z);
+
+            Vec3d hop = forward.add(Mathf.Vector.UP.multiply(0.25f)).multiply(0.75f);
+
+            entity.setVelocity(hop);
             entity.velocityModified = true;
 
             DrawParticles.forWorld(world).inCircle(entity.getPos(), Mathf.Vector.UP, HOP_RADIUS, 5, ParticleTypes.CLOUD, false);

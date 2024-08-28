@@ -51,6 +51,8 @@ public class Networking {
     public static final Identifier S2C_ZOOM = new Identifier(Mineademia.MOD_ID, "zoom");
     public static final Identifier S2C_SET_VELOCITY = new Identifier(Mineademia.MOD_ID, "set_velocity");
 
+    public static final Identifier S2C_SET_PITCH = new Identifier(Mineademia.MOD_ID, "set_pitch");
+
 
     public static void registerServer() {
         ServerPlayNetworking.registerGlobalReceiver(C2S_ABILITY_ONE, PacketsC2S::abilityOne);
@@ -91,7 +93,10 @@ public class Networking {
         ClientPlayNetworking.registerGlobalReceiver(S2C_COMBO_DAMAGE, PacketsS2C::comboDamage);
 
         ClientPlayNetworking.registerGlobalReceiver(AbilityUserPacketS2C.S2C_ABILITY_USER_PACKET, PacketsS2C::playerAbilityUser);
+
         ClientPlayNetworking.registerGlobalReceiver(S2C_ZOOM, PacketsS2C::zoomPacket);
         ClientPlayNetworking.registerGlobalReceiver(S2C_SET_VELOCITY, PacketsS2C::setVelocity);
+
+        ClientPlayNetworking.registerGlobalReceiver(S2C_SET_PITCH, PacketsS2C::setPitch);
     }
 }
