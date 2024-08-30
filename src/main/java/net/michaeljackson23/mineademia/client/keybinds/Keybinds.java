@@ -136,6 +136,8 @@ public class Keybinds {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             client.execute(() -> {
 
+
+
                 keyAbilityOne.holdAndReleaseAction(C2S_ABILITY_ONE);
                 keyAbilityTwo.holdAndReleaseAction(C2S_ABILITY_TWO);
                 keyAbilityThree.holdAndReleaseAction(C2S_ABILITY_THREE);

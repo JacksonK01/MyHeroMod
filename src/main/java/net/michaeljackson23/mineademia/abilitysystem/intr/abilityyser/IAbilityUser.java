@@ -61,6 +61,10 @@ public interface IAbilityUser {
     boolean isBlocked();
 
     void setEnabled(boolean enabled);
-    void setBlocked(boolean blocked);
+    void setBlocked(boolean blocked, boolean cancel);
+
+    default void setBlocked(boolean blocked) {
+        setBlocked(blocked, true);
+    }
 
 }

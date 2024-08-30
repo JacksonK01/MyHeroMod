@@ -66,9 +66,10 @@ public final class AbilityManager {
     }
 
     public static void onStartServerTick(MinecraftServer minecraftServer) {
-        for (ITickAbility tickAbility : tickAbilities)
-            tickAbility.onStartTick();
-        for (ICooldownAbility cooldownAbility : cooldownAbilities)
+        for (ITickAbility tickAbility : tickAbilities) {
+            if (tickAbility.tickOnBlock() || !tickAbility.getUser().isBlocked())
+                tickAbility.onStartTick();
+        } for (ICooldownAbility cooldownAbility : cooldownAbilities)
             cooldownAbility.getCooldown().onTick();
 
         regenUserStamina();
@@ -76,8 +77,10 @@ public final class AbilityManager {
     }
 
     public static void onEndServerTick(MinecraftServer minecraftServer) {
-        for (ITickAbility tickAbility : tickAbilities)
-            tickAbility.onEndTick();
+        for (ITickAbility tickAbility : tickAbilities) {
+            if (tickAbility.tickOnBlock() || !tickAbility.getUser().isBlocked())
+                tickAbility.onEndTick();
+        }
     }
 
     public static void triggerEvents(Class<?> eventType) {

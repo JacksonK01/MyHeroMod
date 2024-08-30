@@ -5,6 +5,7 @@ import net.michaeljackson23.mineademia.abilitysystem.impl.ability.active.PhaseAb
 import net.michaeljackson23.mineademia.abilitysystem.intr.AbilityCategory;
 import net.michaeljackson23.mineademia.abilitysystem.intr.Cooldown;
 import net.michaeljackson23.mineademia.abilitysystem.intr.ability.extras.ICooldownAbility;
+import net.michaeljackson23.mineademia.abilitysystem.intr.ability.extras.IRightClickAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IAbilityUser;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.rifle.passive.HairAmmoAbility;
 import net.michaeljackson23.mineademia.networking.Networking;
@@ -18,7 +19,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 
-public class LoadAmmoAbility extends PhaseAbility implements ICooldownAbility {
+public class LoadAmmoAbility extends PhaseAbility implements ICooldownAbility, IRightClickAbility {
 
     public static final String DESCRIPTION = "";
 
@@ -68,7 +69,15 @@ public class LoadAmmoAbility extends PhaseAbility implements ICooldownAbility {
         if (entity.isSneaking())
             changeAmmoType();
         else
-            loadAmmo();
+            loadAmmo(false);
+    }
+
+    @Override
+    public boolean onRightClick(boolean isKeyDown) {
+        if (getPhase() >= 0 || !isCooldownReady())
+            return false;
+
+        return loadAmmo(true);
     }
 
     @Override
@@ -127,23 +136,27 @@ public class LoadAmmoAbility extends PhaseAbility implements ICooldownAbility {
         world.playSound(null, entity.getBlockPos(), toBelt ? ModSounds.QUIRK_RIFLE_FROM_BELT : ModSounds.QUIRK_RIFLE_RELOAD, SoundCategory.MASTER, 0.25f, 1);
     }
 
-    private void loadAmmo() {
+    private boolean loadAmmo(boolean isRightClick) {
         FireRifleAbility fireRifleAbility = getUser().getAbility(FireRifleAbility.class);
         if (fireRifleAbility == null)
-            return;
+            return false;
 
         boolean ammoInRifle = fireRifleAbility.isAmmoLoaded();
 
         boolean hasSelectedAmmo = ammoMap.getOrDefault(selectedAmmoType, 0) > 0;
         boolean fullAmmo = ammoAmount >= MAX_BULLET_AMOUNT;
 
-        if (ammoInRifle && fullAmmo)
-            return;
+        if (ammoInRifle && fullAmmo || (!isRightClick && fullAmmo))
+            return false;
 
-        fromBelt = !ammoInRifle && hasSelectedAmmo;
-        toBelt = ammoInRifle;
+        if ((ammoInRifle && isRightClick))
+            return false;
+
+        fromBelt = isRightClick && hasSelectedAmmo;// && !ammoInRifle && hasSelectedAmmo;
+        toBelt = !isRightClick;// ammoInRifle;
 
         nextPhase();
+        return true;
     }
     private void changeAmmoType() {
         this.selectedAmmoType = selectedAmmoType.getNext();

@@ -56,6 +56,11 @@ public class SuperchargedShotAbility extends ToggleAbility {
         }
     }
 
+    @Override
+    public boolean tickOnBlock() {
+        return true;
+    }
+
     public float getDamage(@NotNull LoadAmmoAbility.AmmoType ammoType) {
         float multiplier = isActive() ? DAMAGE_MULTIPLIER : 1;
         return ammoType.getDamage() * multiplier;

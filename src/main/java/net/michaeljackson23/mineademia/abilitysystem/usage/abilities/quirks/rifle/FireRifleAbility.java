@@ -94,7 +94,7 @@ public class FireRifleAbility extends HoldAbility implements ICooldownAbility, I
         timeOnTarget = 0;
         timeOffTarget = 0;
 
-        zoomLevel = -1;
+        zoomLevel = 0;
         // setZoom(SIGHT_ZOOM_LEVEL_DEFAULT, true);
         return true;
     }

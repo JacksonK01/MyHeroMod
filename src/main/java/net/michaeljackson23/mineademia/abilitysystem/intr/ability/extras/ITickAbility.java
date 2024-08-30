@@ -10,4 +10,8 @@ public interface ITickAbility extends IAbility {
 
     default void onEndTick() { }
 
+    default boolean tickOnBlock() {
+        return false;
+    }
+
 }
