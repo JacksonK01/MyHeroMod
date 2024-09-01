@@ -95,6 +95,7 @@ public class FireRifleAbility extends HoldAbility implements ICooldownAbility, I
         timeOffTarget = 0;
 
         zoomLevel = 0;
+        setDefaultZoom();
         // setZoom(SIGHT_ZOOM_LEVEL_DEFAULT, true);
         return true;
     }
@@ -106,6 +107,12 @@ public class FireRifleAbility extends HoldAbility implements ICooldownAbility, I
 
         if (ammoLoaded)
             fireRifle();
+        else {
+            LivingEntity entity = getEntity();
+            ServerWorld world = (ServerWorld) entity.getWorld();
+
+            world.playSound(null, entity.getBlockPos(), ModSounds.QUIRK_RIFLE_SHOOT_EMPTY, SoundCategory.MASTER, 0.25f, 1);
+        }
     }
 
     @Override
@@ -138,8 +145,14 @@ public class FireRifleAbility extends HoldAbility implements ICooldownAbility, I
 
     @Override
     public boolean onRightClick(boolean isKeyDown) {
-        if (!isActive() || !isKeyDown)
+        if (!isActive() || !isKeyDown || !ammoLoaded)
             return false;
+
+        if (lockedTarget != null && locked)
+            return false;
+
+        LivingEntity entity = getEntity();
+        ServerWorld world = (ServerWorld) entity.getWorld();
 
         boolean isSneaking = getEntity().isSneaking();
 
@@ -153,6 +166,7 @@ public class FireRifleAbility extends HoldAbility implements ICooldownAbility, I
         else if (zoomLevel < -1)
             zoomLevel = SIGHT_ZOOM_LEVELS.length - 1;
 
+        entity.playSound(ModSounds.QUIRK_RIFLE_ZOOM, 1, 1);
         setDefaultZoom();
         return true;
     }
@@ -164,6 +178,10 @@ public class FireRifleAbility extends HoldAbility implements ICooldownAbility, I
 
     public boolean isAmmoLoaded() {
         return ammoLoaded;
+    }
+
+    public LoadAmmoAbility.AmmoType getAmmoType() {
+        return ammoType;
     }
 
     public void setAmmoType(@NotNull LoadAmmoAbility.AmmoType ammoType) {

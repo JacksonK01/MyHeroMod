@@ -76,7 +76,7 @@ public class Mineademia implements ModInitializer {
 	}
 
 	private void registerServices() {
-		EntityReflection.register();
+		// EntityReflection.register();
 		ModNetworkManager.register();
 		// AbilityEncoders.registerEncoders();
 	}

@@ -47,6 +47,8 @@ public class ModSounds {
     // public static final SoundEvent QUIRK_RIFLE_TO_BELT = registerSound("quirk_rifle_belt");
     public static final SoundEvent QUIRK_RIFLE_RELOAD = registerSound("quirk_rifle_reload");
     public static final SoundEvent QUIRK_RIFLE_SHOOT = registerSound("quirk_rifle_shoot");
+    public static final SoundEvent QUIRK_RIFLE_SHOOT_EMPTY = registerSound("quirk_rifle_shoot_empty");
+    public static final SoundEvent QUIRK_RIFLE_ZOOM = registerSound("quirk_rifle_zoom");
 
     public static final SoundEvent QUIRK_THEWORLD_STOP_TIME_START = registerSound("quirk_theworld_stop_time_start");
     public static final SoundEvent QUIRK_THEWORLD_STOP_TIME_STOP = registerSound("quirk_theworld_stop_time_end");

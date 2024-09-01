@@ -392,6 +392,30 @@
       }
     ]
   },
+  "quirk_rifle_shoot_empty": {
+    "category": "master",
+    "subtitle": "subtitles.quirk_rifle_shoot_empty",
+    "sounds": [
+      {
+        "name": "mineademia:quirk_rifle_shoot_empty",
+        "attenuation_distance": 32,
+        "volume": 0.5,
+        "stream": false
+      }
+    ]
+  },
+  "quirk_rifle_zoom": {
+    "category": "master",
+    "subtitle": "subtitles.quirk_rifle_zoom",
+    "sounds": [
+      {
+        "name": "mineademia:quirk_rifle_zoom",
+        "attenuation_distance": 32,
+        "volume": 0.5,
+        "stream": false
+      }
+    ]
+  },
   "quirk_theworld_stop_time_start": {
     "category": "master",
     "subtitle": "subtitles.quirk_theworld_stop_time_start",
