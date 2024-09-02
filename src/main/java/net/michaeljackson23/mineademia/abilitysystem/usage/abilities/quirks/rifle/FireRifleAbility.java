@@ -151,9 +151,6 @@ public class FireRifleAbility extends HoldAbility implements ICooldownAbility, I
         if (lockedTarget != null && locked)
             return false;
 
-        LivingEntity entity = getEntity();
-        ServerWorld world = (ServerWorld) entity.getWorld();
-
         boolean isSneaking = getEntity().isSneaking();
 
         if (isSneaking)
@@ -166,7 +163,7 @@ public class FireRifleAbility extends HoldAbility implements ICooldownAbility, I
         else if (zoomLevel < -1)
             zoomLevel = SIGHT_ZOOM_LEVELS.length - 1;
 
-        entity.playSound(ModSounds.QUIRK_RIFLE_ZOOM, 1, 1);
+        getEntity().playSound(ModSounds.QUIRK_RIFLE_ZOOM, 1, 1);
         setDefaultZoom();
         return true;
     }

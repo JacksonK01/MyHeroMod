@@ -4,7 +4,7 @@ import net.michaeljackson23.mineademia.abilitysystem.impl.abilityset.AbilitySet;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityset.IAbilitySet;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IAbilityUser;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.DodgeAbility;
-import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.abstractabilities.NoClipAbility;
+import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.abstractabilities.passive.NoClipAbility;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.example.ExampleAbility1;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.example.ExampleAbility2;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.example.ExampleAbility3;
@@ -16,6 +16,8 @@ import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.expl
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.explosion.ExplodeAPult;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.explosion.ExplosiveSpeedAbility;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.explosion.HowitzerImpactAbility;
+import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.fiercewings.WingedFlightAbility;
+import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.fiercewings.passive.FeatherWingsAbility;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.hchh.cold.IceBeamAbility;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.hchh.cold.IceShootAbility;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.hchh.cold.IceSnowflakeAbility;
@@ -57,6 +59,8 @@ public final class AbilitySets {
     public static final Function<IAbilityUser, IAbilitySet> ENGINE = registerAbilitySet("engine", (u) -> new AbilitySet("Engine", new EngineDashPassive(u), new SuperHeroLandingAbility(u)));
 
     public static final Function<IAbilityUser, IAbilitySet> ELECTRIFICATION = registerAbilitySet("electrification", (u) -> new AbilitySet("Electrification", new HumanStunGun(u), new BlockConductor(u)));
+
+    public static final Function<IAbilityUser, IAbilitySet> FIERCE_WINGS = registerAbilitySet("fierce_wings", (u) -> new AbilitySet("Fierce Wings", new FeatherWingsAbility(u), new WingedFlightAbility(u)));
 
     public static final Function<IAbilityUser, IAbilitySet> EXAMPLE = registerAbilitySet("example", (u) -> new AbilitySet("Example", new ExampleAbility1(u), new ExampleAbility2(u), new ExampleAbility3(u), new TimeStopAbility(u)));
 

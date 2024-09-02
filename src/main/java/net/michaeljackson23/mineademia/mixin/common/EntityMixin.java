@@ -6,8 +6,8 @@ import net.fabricmc.api.Environment;
 import net.michaeljackson23.mineademia.abilitysystem.impl.AbilityManager;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IAbilityUser;
 import net.michaeljackson23.mineademia.abilitysystem.networking.NetworkKeys;
-import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.abstractabilities.NoClipAbility;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.abstractabilities.passive.EntityRenderAbility;
+import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.abstractabilities.passive.NoClipAbility;
 import net.michaeljackson23.mineademia.client.ClientCache;
 import net.michaeljackson23.mineademia.datastructures.typesafemap.IReadonlyTypesafeMap;
 import net.michaeljackson23.mineademia.util.GlowingHelper;
@@ -59,7 +59,7 @@ public abstract class EntityMixin {
             return;
 
         NoClipAbility noClipAbility = user.getAbility(NoClipAbility.class);
-        if (noClipAbility == null || !noClipAbility.isClipping())
+        if (noClipAbility == null || !noClipAbility.isNoClipping())
             return;
 
         ci.cancel();

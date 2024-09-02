@@ -13,7 +13,7 @@
     "common.ServerPlayerEntityMixin",
     "common.SoundEventMixin",
     "common.WorldMixin",
-    "accessors.EntityAccessors",
+    "accessors.EntityAccessor",
     "accessors.LivingEntityAccessor"
   ],
   "client": [

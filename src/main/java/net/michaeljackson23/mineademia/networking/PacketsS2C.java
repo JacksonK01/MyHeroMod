@@ -15,7 +15,7 @@ import net.michaeljackson23.mineademia.client.ClientCache;
 import net.michaeljackson23.mineademia.client.gui.quirktablet.MockQuirkTabletGui;
 import net.michaeljackson23.mineademia.client.gui.quirktablet.QuirkTabletGui;
 import net.michaeljackson23.mineademia.client.gui.vestige.VestigeGUI;
-import net.michaeljackson23.mineademia.mixin.accessors.EntityAccessors;
+import net.michaeljackson23.mineademia.mixin.accessors.EntityAccessor;
 import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkData;
 import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkDataAccessors;
 import net.michaeljackson23.mineademia.quirk.quirkdata.QuirkDataPacket;
@@ -161,7 +161,7 @@ public class PacketsS2C {
                     Entity entity = world.getEntityById(id);
 
                     if (entity != null)
-                        ((EntityAccessors) entity).invokeSetFlag(6, isGlowing);
+                        ((EntityAccessor) entity).invokeSetFlag(6, isGlowing);
                         //EntityReflection.trySetFlag(entity, 6, isGlowing);
                 }
             }

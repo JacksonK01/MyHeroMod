@@ -28,7 +28,7 @@ public class MockQuirkTabletGui extends Screen {
 
         if (FabricLoader.getInstance().isDevelopmentEnvironment()) {
             ButtonWidget example = createButton("Example", "example");
-            addDrawableChild(example);
+            // addDrawableChild(example);
         }
 
         ButtonWidget none = createButton("Quirkless", "");
@@ -38,16 +38,18 @@ public class MockQuirkTabletGui extends Screen {
         ButtonWidget ofa = createButton("One For All", "ofa");
         ButtonWidget engine = createButton("Engine", "engine");
         ButtonWidget rifle = createButton("Rifle", "rifle");
-        ButtonWidget elec = createButton("Electrification", "electrification");
+        ButtonWidget electrification = createButton("Electrification", "electrification");
+        ButtonWidget fierce_wings = createButton("Fierce Wings", "fierce_wings");
 
-        addDrawableChild(none);
-        addDrawableChild(hchh_cold);
-        addDrawableChild(explosion);
-        addDrawableChild(whirlwind);
-        addDrawableChild(ofa);
-        addDrawableChild(engine);
-        addDrawableChild(rifle);
-        addDrawableChild(elec);
+//        addDrawableChild(none);
+//        addDrawableChild(hchh_cold);
+//        addDrawableChild(explosion);
+//        addDrawableChild(whirlwind);
+//        addDrawableChild(ofa);
+//        addDrawableChild(engine);
+//        addDrawableChild(rifle);
+//        addDrawableChild(electrification);
+//        addDrawableChild(fierce_wings);
     }
 
     private ButtonWidget createButton(String name, String value) {
@@ -59,7 +61,7 @@ public class MockQuirkTabletGui extends Screen {
 
         index++;
 
-        return ButtonWidget.builder(Text.literal(name), button -> {
+        ButtonWidget button = ButtonWidget.builder(Text.literal(name), b -> {
                     PacketByteBuf data = PacketByteBufs.create();
                     data.writeString(value);
                     ClientPlayNetworking.send(Networking.C2S_MOCK_CHANGE_QUIRK_WITH_TABLET, data);
@@ -67,6 +69,9 @@ public class MockQuirkTabletGui extends Screen {
                 .dimensions(xCoord, yCoord, 200, 20)
                 .tooltip(Tooltip.of(Text.literal("changes quirk")))
                 .build();
+
+        addDrawableChild(button);
+        return button;
     }
 
     @Override

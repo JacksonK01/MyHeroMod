@@ -4,7 +4,7 @@ import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.WrapWithCondition;
 import net.michaeljackson23.mineademia.abilitysystem.impl.AbilityManager;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IAbilityUser;
-import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.abstractabilities.NoClipAbility;
+import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.abstractabilities.passive.NoClipAbility;
 import net.minecraft.block.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -34,7 +34,7 @@ public class AbstractBlockMixin {
             return original;
 
         NoClipAbility noClipAbility = user.getAbility(NoClipAbility.class);
-        if (noClipAbility == null || !noClipAbility.isClipping())
+        if (noClipAbility == null || !noClipAbility.isNoClipping())
             return original;
 
         return VoxelShapes.empty();
@@ -50,7 +50,7 @@ public class AbstractBlockMixin {
             return false;
 
         NoClipAbility noClipAbility = user.getAbility(NoClipAbility.class);
-        return noClipAbility != null && noClipAbility.isClipping();
+        return noClipAbility != null && noClipAbility.isNoClipping();
     }
 
 
