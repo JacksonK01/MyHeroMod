@@ -29,6 +29,7 @@ import static net.michaeljackson23.mineademia.util.EntityAnimatedPartNames.*;
 
 
 //TODO add support for the player's overlay on their skin.
+//TODO the head gets weird for certain animations
 @SuppressWarnings("unchecked")
 @Mixin(PlayerEntityModel.class)
 public abstract class PlayerModelMixin<T extends LivingEntity> {

@@ -2,7 +2,7 @@ package net.michaeljackson23.mineademia.entity.projectile.stungrenade;
 
 import net.michaeljackson23.mineademia.entity.EntityRegister;
 import net.michaeljackson23.mineademia.util.AreaOfEffect;
-import net.michaeljackson23.mineademia.util.PlaceParticleInWorld;
+import net.michaeljackson23.mineademia.util.PlaceClientParticleInWorld;
 import net.michaeljackson23.mineademia.util.QuirkDamage;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -48,8 +48,8 @@ public class StunGrenadeProjectile extends ThrownItemEntity {
         }
         timer++;
         aoe();
-        PlaceParticleInWorld.spawn(getWorld(), ParticleTypes.FLASH, getX(), getY(), getZ(), 0, 0, 0, 1);
-        PlaceParticleInWorld.spawn(getWorld(), ParticleTypes.LAVA, getX(), getY(), getZ(), 0.3, 0.3, 0.3, 3);
+        PlaceClientParticleInWorld.spawn(getWorld(), ParticleTypes.FLASH, getX(), getY(), getZ(), 0, 0, 0, 1);
+        PlaceClientParticleInWorld.spawn(getWorld(), ParticleTypes.LAVA, getX(), getY(), getZ(), 0.3, 0.3, 0.3, 3);
     }
 
     @Override

@@ -1,7 +1,7 @@
 package net.michaeljackson23.mineademia.entity.projectile.airforce;
 
 import net.michaeljackson23.mineademia.entity.EntityRegister;
-import net.michaeljackson23.mineademia.util.PlaceParticleInWorld;
+import net.michaeljackson23.mineademia.util.PlaceClientParticleInWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -41,7 +41,7 @@ public class AirForceProjectile extends ThrownItemEntity {
     public void tick() {
         super.tick();
         this.getWorld().addParticle(ParticleTypes.END_ROD, true, this.getX(), this.getY(), this.getZ(), 0, 0, 0);
-        PlaceParticleInWorld.spawn(this.getWorld(), ParticleTypes.EXPLOSION, this.getX(), this.getY(), this.getZ(), 1, 1, 1, 3);
+        PlaceClientParticleInWorld.spawn(this.getWorld(), ParticleTypes.EXPLOSION, this.getX(), this.getY(), this.getZ(), 1, 1, 1, 3);
         timer++;
         if(timer > 40) {
             this.kill();

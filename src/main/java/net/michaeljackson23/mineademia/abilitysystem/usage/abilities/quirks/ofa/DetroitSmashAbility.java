@@ -35,6 +35,8 @@ public class DetroitSmashAbility extends HoldAbility implements ICooldownAbility
     private static final float MIN_SIZE_MULTIPLIER = 0.2f;
     private static final float MAX_CIRCLE_LIFE = 10;
     private static final int MAX_CHARGE = 45;
+    private static final int MAX_SHOCKWAVE_TIMER = 13;
+    private static final int MAX_INACTIVE_TICKS = 100;
 
     private static final int STAGE_PRE_PUNCH = 1;
     private static final int STAGE_SHOCK_WAVES = 2;
@@ -50,6 +52,7 @@ public class DetroitSmashAbility extends HoldAbility implements ICooldownAbility
     private int stage = 0;
     private int inActiveTicks = 0;
     private boolean hasDisplayedShockwave = false;
+    private boolean hasPlayedReleaseAnimation = false;
 
     public DetroitSmashAbility(@NotNull IAbilityUser user) {
         super(user, "Detroit Smash", "Charge your fist and release for a giant punch", AbilityCategory.ATTACK, AbilityCategory.ANIMATION);
@@ -126,10 +129,16 @@ public class DetroitSmashAbility extends HoldAbility implements ICooldownAbility
 
     @Override
     public void onTickInactive() {
+        if(!getUser().getAbilities().containsKey(DetroitSmashAbility.class)) {
+            reset();
+            return;
+        }
+
         LivingEntity entity = getEntity();
         ServerWorld serverWorld = (ServerWorld) entity.getWorld();
 
         if(ticksHeldFor > 5) {
+
             inActiveTicks++;
 
             if(posCache == null || vectorCache == null) {
@@ -143,16 +152,22 @@ public class DetroitSmashAbility extends HoldAbility implements ICooldownAbility
             else if(stage == STAGE_SHOCK_WAVES)
                 shockWavesStage();
 
-            if(inActiveTicks > 100) {
+            if(inActiveTicks > MAX_INACTIVE_TICKS) {
                 ticksHeldFor = 0;
             }
         }
-
     }
 
     private void prePunchStage() {
         LivingEntity entity = getEntity();
         ServerWorld serverWorld = (ServerWorld) entity.getWorld();
+        entity.setVelocity(0, entity.getVelocity().y, 0);
+        entity.velocityModified = true;
+
+        if(!hasPlayedReleaseAnimation) {
+            AnimationProxy.sendAnimationToClients(entity, "detroit_smash_release");
+            hasPlayedReleaseAnimation = true;
+        }
 
         for(int count = 1; count < ticksHeldFor; count++) {
             if(posCache != null && vectorCache != null) {
@@ -161,8 +176,7 @@ public class DetroitSmashAbility extends HoldAbility implements ICooldownAbility
             }
         }
 
-        if(inActiveTicks > 30) {
-            AnimationProxy.sendAnimationToClients(entity, "detroit_smash_release");
+        if(inActiveTicks > MAX_SHOCKWAVE_TIMER) {
             stage = STAGE_SHOCK_WAVES;
             entity.getWorld().playSound(null, entity.getX(), entity.getY(), entity.getZ(), ModSounds.OFA_RELEASE, SoundCategory.PLAYERS, 2f, 1f);
         }
@@ -187,6 +201,10 @@ public class DetroitSmashAbility extends HoldAbility implements ICooldownAbility
                     }
                 }
             }
+
+            entity.setVelocity(entity.getRotationVector().multiply(3));
+            entity.velocityModified = true;
+            inActiveTicks = 0;
             hasDisplayedShockwave = true;
         }
     }
@@ -206,5 +224,6 @@ public class DetroitSmashAbility extends HoldAbility implements ICooldownAbility
         vectorCache = null;
         inActiveTicks = 0;
         hasDisplayedShockwave = false;
+        hasPlayedReleaseAnimation = false;
     }
 }

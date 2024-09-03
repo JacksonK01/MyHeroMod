@@ -37,6 +37,7 @@ public final class DrawParticles {
 
         return playerCounter;
     }
+
     public <T extends ParticleEffect> int spawnParticles(@NotNull T particleEffect, float x, float y, float z, int count, @NotNull Vec3d delta, float speed, boolean force) {
         return spawnParticles(particleEffect, x, y, z, count, (float) delta.x, (float) delta.y, (float) delta.z, speed, force);
     }

@@ -2,7 +2,7 @@ package net.michaeljackson23.mineademia.entity.projectile.apshot;
 
 import net.michaeljackson23.mineademia.entity.EntityRegister;
 import net.michaeljackson23.mineademia.particles.ModParticles;
-import net.michaeljackson23.mineademia.util.PlaceParticleInWorld;
+import net.michaeljackson23.mineademia.util.PlaceClientParticleInWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -41,15 +41,15 @@ public class APShotProjectile extends ThrownItemEntity {
     public void tick() {
         super.tick();
         if(timer % 5 == 0) {
-            PlaceParticleInWorld.spawn(getWorld(), ParticleTypes.EXPLOSION, getX(), getY(), getZ(), 0, 0, 0, 1);
+            PlaceClientParticleInWorld.spawn(getWorld(), ParticleTypes.EXPLOSION, getX(), getY(), getZ(), 0, 0, 0, 1);
         }
         if(timer >= 50) {
             kill();
             return;
         }
         timer++;
-        PlaceParticleInWorld.spawn(getWorld(), ParticleTypes.LAVA, getX(), getY(), getZ(), 0, 0, 0, 1);
-        PlaceParticleInWorld.spawn(getWorld(), ModParticles.QUIRK_EXPLOSION_SHORT, getX(), getY(), getZ(), 0.3, 0.3, 0.3, 2);
+        PlaceClientParticleInWorld.spawn(getWorld(), ParticleTypes.LAVA, getX(), getY(), getZ(), 0, 0, 0, 1);
+        PlaceClientParticleInWorld.spawn(getWorld(), ModParticles.QUIRK_EXPLOSION_SHORT, getX(), getY(), getZ(), 0.3, 0.3, 0.3, 2);
     }
 
     @Override

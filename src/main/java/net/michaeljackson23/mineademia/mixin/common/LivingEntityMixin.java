@@ -2,12 +2,19 @@ package net.michaeljackson23.mineademia.mixin.common;
 
 import net.michaeljackson23.mineademia.animations.AnimationDataHolder;
 import net.michaeljackson23.mineademia.callbacks.BeforeEntityDamageCallback;
+import net.michaeljackson23.mineademia.particles.ModParticles;
+import net.michaeljackson23.mineademia.statuseffects.StatusEffectsRegister;
+import net.michaeljackson23.mineademia.statuseffects.TaseredStatusEffect;
+import net.michaeljackson23.mineademia.util.DrawParticles;
 import net.michaeljackson23.mineademia.util.LivingEntityMixinAccessor;
 import net.michaeljackson23.mineademia.util.MutableObject;
+import net.michaeljackson23.mineademia.util.PlaceClientParticleInWorld;
 import net.minecraft.client.render.entity.animation.Animation;
 import net.minecraft.entity.AnimationState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.ActionResult;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -17,6 +24,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import java.util.Objects;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin implements LivingEntityMixinAccessor {
@@ -58,8 +67,11 @@ public abstract class LivingEntityMixin implements LivingEntityMixinAccessor {
 
     @Inject(at = @At("TAIL"), method = "tick")
     private void tick(CallbackInfo ci) {
-        if(getSelf().getWorld().isClient)
+        LivingEntity self = getSelf();
+
+        if(self.getWorld().isClient) {
             updateAnimations();
+        }
     }
 
     @Unique

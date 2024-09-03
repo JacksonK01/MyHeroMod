@@ -23,6 +23,10 @@ public class StatusEffectsRegister {
         EFFECT_FROZEN.addAttributeModifier(EntityAttributes.GENERIC_MOVEMENT_SPEED,
                 "7107DE5E-7CE8-4030-940E-514C1F160890", -0.1,
                 EntityAttributeModifier.Operation.MULTIPLY_TOTAL);
+
+        EFFECT_TASER.addAttributeModifier(EntityAttributes.GENERIC_MOVEMENT_SPEED,
+                "7107DE5E-7CE8-4030-940E-514C1F160890", -1,
+                EntityAttributeModifier.Operation.MULTIPLY_TOTAL);
     }
 
     public static void register() {

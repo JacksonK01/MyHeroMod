@@ -1,5 +1,7 @@
 {
   "textures": [
-    "minecraft:enchanted_hit"
+    "mineademia:quirk_elec_1",
+    "mineademia:quirk_elec_2",
+    "mineademia:quirk_elec_3"
   ]
 }

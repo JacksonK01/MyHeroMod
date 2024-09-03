@@ -77,7 +77,7 @@ public class BlockConductor extends PassiveAbility implements ITickAbility {
         }
 
         blocksCache.add(newPos);
-        DrawParticles.forWorld(serverWorld).spawnParticles(ParticleTypes.ELECTRIC_SPARK,
+        DrawParticles.forWorld(serverWorld).spawnParticles(ModParticles.ELECTRIFICATION_PARTICLES,
                 newPos.toCenterPos(), 1, 0.5f, 0.5f, 0.5f, 0, true);
         AffectAll.withinRadius(LivingEntity.class, serverWorld, newPos.toCenterPos(), 1, 1, 1).exclude(livingEntity).with(entityToAffect -> {
             entityToAffect.setVelocity(0, 0, 0);

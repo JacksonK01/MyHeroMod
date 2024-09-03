@@ -53,6 +53,11 @@ public class ModSounds {
     public static final SoundEvent QUIRK_THEWORLD_STOP_TIME_START = registerSound("quirk_theworld_stop_time_start");
     public static final SoundEvent QUIRK_THEWORLD_STOP_TIME_STOP = registerSound("quirk_theworld_stop_time_end");
 
+    public static final SoundEvent QUIRK_ELECTRICITY_1 = registerSound("electricity_1");
+    public static final SoundEvent QUIRK_ELECTRICITY_2 = registerSound("electricity_2");
+    public static final SoundEvent QUIRK_ELECTRICITY_3 = registerSound("electricity_3");
+    public static final SoundEvent QUIRK_ELECTRICITY_4 = registerSound("electricity_4");
+
     private static SoundEvent registerSound(String id) {
         Identifier identifier = new Identifier(Mineademia.MOD_ID, id);
         return Registry.register(Registries.SOUND_EVENT, identifier, SoundEvent.of(identifier));

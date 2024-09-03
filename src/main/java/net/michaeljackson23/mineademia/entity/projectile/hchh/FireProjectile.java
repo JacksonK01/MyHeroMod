@@ -1,14 +1,10 @@
 package net.michaeljackson23.mineademia.entity.projectile.hchh;
 
 import net.michaeljackson23.mineademia.entity.EntityRegister;
-import net.michaeljackson23.mineademia.util.AreaOfEffect;
-import net.michaeljackson23.mineademia.util.PlaceParticleInWorld;
 import net.michaeljackson23.mineademia.util.QuirkDamage;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.projectile.thrown.ThrownItemEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;

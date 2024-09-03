@@ -47,5 +47,6 @@
   "death.attack.quirk_explosion_ap_shot.": "%1$s was incinerated by %2$s using AP Shot",
 
   "effect.mineademia.cowling": "Full Cowling",
-  "effect.mineademia.frozen": "Frozen"
+  "effect.mineademia.frozen": "Frozen",
+  "effect.mineademia.taser": "Taser"
 }
