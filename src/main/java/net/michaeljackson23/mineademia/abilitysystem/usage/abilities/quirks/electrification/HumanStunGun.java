@@ -9,22 +9,17 @@ import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IAbilityUs
 import net.michaeljackson23.mineademia.particles.ModParticles;
 import net.michaeljackson23.mineademia.sound.ModSounds;
 import net.michaeljackson23.mineademia.statuseffects.StatusEffectsRegister;
-import net.michaeljackson23.mineademia.util.AffectAll;
 import net.michaeljackson23.mineademia.util.DrawParticles;
 import net.michaeljackson23.mineademia.util.QuirkDamage;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class HumanStunGun extends ActiveAbility implements ITickAbility, ICooldownAbility {
 
@@ -66,7 +61,6 @@ public class HumanStunGun extends ActiveAbility implements ITickAbility, ICooldo
         LivingEntity attacker = entity.getAttacker();
 
         counter++;
-
         if(counter >= MAX_TIMER) {
             if(entity instanceof ServerPlayerEntity player) {
                 player.sendMessage(Text.literal("Failed to get a target").withColor(0xFFFF00), true);
