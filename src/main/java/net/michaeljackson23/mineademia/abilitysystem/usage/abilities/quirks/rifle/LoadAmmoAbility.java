@@ -169,6 +169,10 @@ public class LoadAmmoAbility extends PhaseAbility implements ICooldownAbility, I
         }
     }
 
+    public int getAmmoAmount(@NotNull AmmoType type) {
+        return ammoMap.getOrDefault(type, 0);
+    }
+
 
     public enum AmmoType {
 

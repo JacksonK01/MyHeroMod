@@ -44,4 +44,8 @@ public final class NetworkKeys {
     public static final IReadonlyTypesafeMap.Key<Integer> COOLDOWN_TICKS = new IReadonlyTypesafeMap.Key<>();
     public static final IReadonlyTypesafeMap.Key<Integer> COOLDOWN_TICKS_REMAINING = new IReadonlyTypesafeMap.Key<>();
 
+    // LoadAmmoAbility
+    public static final IReadonlyTypesafeMap.Key<Integer> REGULAR_AMOUNT = new IReadonlyTypesafeMap.Key<>();
+    public static final IReadonlyTypesafeMap.Key<Integer> HOLLOW_AMOUNT = new IReadonlyTypesafeMap.Key<>();
+
 }

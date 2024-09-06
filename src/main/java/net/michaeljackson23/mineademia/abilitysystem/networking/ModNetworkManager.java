@@ -8,6 +8,7 @@ import net.michaeljackson23.mineademia.abilitysystem.intr.ability.active.IActiva
 import net.michaeljackson23.mineademia.abilitysystem.intr.ability.extras.ICooldownAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IAbilityUser;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.abstractabilities.passive.EntityRenderAbility;
+import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.rifle.LoadAmmoAbility;
 import net.michaeljackson23.mineademia.datastructures.typesafemap.IReadonlyTypesafeMap;
 import net.michaeljackson23.mineademia.datastructures.typesafemap.TypesafeMap;
 import net.minecraft.network.PacketByteBuf;
@@ -58,6 +59,10 @@ public final class ModNetworkManager {
 
         registerObject(EntityRenderAbility.class)
                 .add(new ObjectRegisterEntry<>(EntityRenderAbility::getRange, NetworkKeys.RANGE, true, ObjectRegisterMethod.FLOAT));
+
+        registerObject(LoadAmmoAbility.class)
+                .add(new ObjectRegisterEntry<>((a) -> a.getAmmoAmount(LoadAmmoAbility.AmmoType.REGULAR), NetworkKeys.REGULAR_AMOUNT, true, ObjectRegisterMethod.INT))
+                .add(new ObjectRegisterEntry<>((a) -> a.getAmmoAmount(LoadAmmoAbility.AmmoType.HOLLOW_POINT), NetworkKeys.HOLLOW_AMOUNT, true, ObjectRegisterMethod.INT));
     }
 
     @SuppressWarnings("unchecked")
