@@ -11,6 +11,7 @@ import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.example.Exa
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.dev.mango.theworld.TimeStopAbility;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.electrification.BlockConductor;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.electrification.HumanStunGun;
+import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.electrification.IndiscriminateShock;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.engine.EngineDashPassive;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.explosion.ApShotAbility;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.explosion.ExplodeAPult;
@@ -58,7 +59,7 @@ public final class AbilitySets {
 
     public static final Function<IAbilityUser, IAbilitySet> ENGINE = registerAbilitySet("engine", (u) -> new AbilitySet("Engine", new EngineDashPassive(u), new SuperHeroLandingAbility(u)));
 
-    public static final Function<IAbilityUser, IAbilitySet> ELECTRIFICATION = registerAbilitySet("electrification", (u) -> new AbilitySet("Electrification", new HumanStunGun(u), new BlockConductor(u)));
+    public static final Function<IAbilityUser, IAbilitySet> ELECTRIFICATION = registerAbilitySet("electrification", (u) -> new AbilitySet("Electrification", new HumanStunGun(u), new BlockConductor(u), new IndiscriminateShock(u)));
 
     public static final Function<IAbilityUser, IAbilitySet> FIERCE_WINGS = registerAbilitySet("fierce_wings", (u) -> new AbilitySet("Fierce Wings", new FeatherWingsAbility(u), new WingedFlightAbility(u)));
 

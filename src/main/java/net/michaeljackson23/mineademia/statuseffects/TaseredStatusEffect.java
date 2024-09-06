@@ -21,6 +21,9 @@ public class TaseredStatusEffect extends StatusEffect {
     public void applyUpdateEffect(LivingEntity self, int amplifier) {
         super.applyUpdateEffect(self, amplifier);
 
+        self.setVelocity(0, self.getVelocity().y, 0);
+        self.velocityModified = true;
+
         if(self.getWorld() instanceof ServerWorld world) {
             world.spawnParticles(ModParticles.ELECTRIFICATION_PARTICLES,
                     self.getX(), self.getY() + 1, self.getZ(), amplifier,

@@ -143,10 +143,7 @@ public class QuirkHud {
 
     private static boolean shouldDisplay(@NotNull Class<?> abilityTYpe, @NotNull IReadonlyTypesafeMap ability) {
         int cooldownTicksRemaining = ability.getOrDefault(NetworkKeys.COOLDOWN_TICKS_REMAINING, 0); // if no cooldown present, never display
-        if (cooldownTicksRemaining == 0)
-            return false;
-
-        return true;
+        return cooldownTicksRemaining != 0;
     }
 
     private static int drawCooldown(@NotNull DrawContext context, float tick, int drawHeight, int longestTextLength, @NotNull IReadonlyTypesafeMap ability) {

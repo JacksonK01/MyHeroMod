@@ -31,8 +31,7 @@ public class HumanStunGun extends ActiveAbility implements ITickAbility, ICooldo
     private int counter = 0;
     private final Cooldown cooldown;
 
-
-    private final StatusEffectInstance taser = new StatusEffectInstance(StatusEffectsRegister.EFFECT_COWLING, 90,0, true, false);
+    private final StatusEffectInstance taser = new StatusEffectInstance(StatusEffectsRegister.EFFECT_COWLING, 120,0, true, false);
 
     public HumanStunGun(@NotNull IAbilityUser user) {
         super(user, "Human Stun Gun", "Defensively discharge electricity, electrocuting anyone who hits you.", AbilityCategory.DEFENSE);
@@ -41,8 +40,7 @@ public class HumanStunGun extends ActiveAbility implements ITickAbility, ICooldo
 
     @Override
     public void execute(boolean isKeyDown) {
-        if(isKeyDown && cooldown.isReadyAndReset()) {
-            offsetStamina(-STAMINA);
+        if(isKeyDown && cooldown.isReadyAndReset() && hasStaminaAndConsume(-STAMINA)) {
             isActive = true;
             spark();
         }
@@ -84,6 +82,7 @@ public class HumanStunGun extends ActiveAbility implements ITickAbility, ICooldo
         entity.velocityModified = true;
 
         attacker.addStatusEffect(taser);
+
         QuirkDamage.doEmitterDamage(entity, attacker, 10f);
         DrawParticles.forWorld(serverWorld).spawnParticles(ModParticles.ELECTRIFICATION_PARTICLES,
                 attacker.getPos().add(0, 1, 0), 10, 1f, 1f, 1f, 1, true);
