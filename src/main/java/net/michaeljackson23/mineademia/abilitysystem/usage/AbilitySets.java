@@ -14,7 +14,7 @@ import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.elec
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.electrification.IndiscriminateShock;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.engine.EngineDashPassive;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.explosion.ApShotAbility;
-import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.explosion.ExplodeAPult;
+import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.explosion.XCatapultAbility;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.explosion.ExplosiveSpeedAbility;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.explosion.HowitzerImpactAbility;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.fiercewings.WingedFlightAbility;
@@ -48,7 +48,7 @@ public final class AbilitySets {
 
     public static final Function<IAbilityUser, IAbilitySet> OFA = registerAbilitySet("ofa", (u) -> new AbilitySet("One For All", new AirForceAbility(u), new FullCowlingAbility(u), new ManchesterSmashAbility(u), new PickVestigeAbility(u), new DetroitSmashAbility(u)));
 
-    public static final Function<IAbilityUser, IAbilitySet> EXPLOSION = registerAbilitySet("explosion", (u) -> new AbilitySet("Explosion", new ExplosiveSpeedAbility(u), new ApShotAbility(u), new HowitzerImpactAbility(u), new ExplodeAPult(u)));
+    public static final Function<IAbilityUser, IAbilitySet> EXPLOSION = registerAbilitySet("explosion", (u) -> new AbilitySet("Explosion", new ExplosiveSpeedAbility(u), new ApShotAbility(u), new HowitzerImpactAbility(u), new XCatapultAbility(u)));
 
     public static final Function<IAbilityUser, IAbilitySet> RIFLE = registerAbilitySet("rifle", (u) -> new AbilitySet("Rifle", new EnhancedEyesightAbility(u), new HairAmmoAbility(u), new AirwalkAbility(u), new FireRifleAbility(u), new LoadAmmoAbility(u), new SuperchargedShotAbility(u), new SniperFarSightAbility(u), new RifleSmack(u)));
 

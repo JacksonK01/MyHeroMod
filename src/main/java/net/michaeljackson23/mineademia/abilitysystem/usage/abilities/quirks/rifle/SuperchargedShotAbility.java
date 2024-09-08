@@ -1,6 +1,7 @@
 package net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.rifle;
 
 import net.michaeljackson23.mineademia.abilitysystem.impl.ability.active.ToggleAbility;
+import net.michaeljackson23.mineademia.abilitysystem.impl.abilityyser.AbilityBlockReason;
 import net.michaeljackson23.mineademia.abilitysystem.intr.AbilityCategory;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IAbilityUser;
 import net.michaeljackson23.mineademia.networking.Networking;
@@ -23,10 +24,14 @@ public class SuperchargedShotAbility extends ToggleAbility {
 
     private int jammedTime;
 
+    private final AbilityBlockReason blockReason;
+
     public SuperchargedShotAbility(@NotNull IAbilityUser user) {
         super(user, "Supercharged Shot", DESCRIPTION, Networking.C2S_ABILITY_FOUR, AbilityCategory.UTILITY);
 
         this.jammedTime = -1;
+
+        this.blockReason = new AbilityBlockReason(this);
     }
 
     // Inform player in nicer ways
@@ -51,7 +56,7 @@ public class SuperchargedShotAbility extends ToggleAbility {
             jammedTime--;
 
         if (jammedTime == 0) {
-            getUser().setBlocked(false);
+            getUser().removeBlockReason(blockReason);
             jammedTime--;
         }
     }
@@ -93,7 +98,7 @@ public class SuperchargedShotAbility extends ToggleAbility {
             setActive(false);
 
             // setBlockedCategories(false, AbilityCategory.allExcept(AbilityCategory.MOBILITY));
-            getUser().setBlocked(true);
+            getUser().addBlockReason(blockReason);
             return false;
         }
 

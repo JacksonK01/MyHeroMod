@@ -8,6 +8,7 @@ import net.michaeljackson23.mineademia.abilitysystem.intr.ability.active.IActiva
 import net.michaeljackson23.mineademia.abilitysystem.intr.ability.extras.ICooldownAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IAbilityUser;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.abstractabilities.passive.EntityRenderAbility;
+import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.rifle.FireRifleAbility;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.rifle.LoadAmmoAbility;
 import net.michaeljackson23.mineademia.datastructures.typesafemap.IReadonlyTypesafeMap;
 import net.michaeljackson23.mineademia.datastructures.typesafemap.TypesafeMap;
@@ -15,8 +16,7 @@ import net.minecraft.network.PacketByteBuf;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
-import java.util.function.BiConsumer;
-import java.util.function.Function;
+import java.util.function.*;
 
 public final class ModNetworkManager {
 
@@ -60,9 +60,15 @@ public final class ModNetworkManager {
         registerObject(EntityRenderAbility.class)
                 .add(new ObjectRegisterEntry<>(EntityRenderAbility::getRange, NetworkKeys.RANGE, true, ObjectRegisterMethod.FLOAT));
 
-        registerObject(LoadAmmoAbility.class)
-                .add(new ObjectRegisterEntry<>((a) -> a.getAmmoAmount(LoadAmmoAbility.AmmoType.REGULAR), NetworkKeys.REGULAR_AMOUNT, true, ObjectRegisterMethod.INT))
-                .add(new ObjectRegisterEntry<>((a) -> a.getAmmoAmount(LoadAmmoAbility.AmmoType.HOLLOW_POINT), NetworkKeys.HOLLOW_AMOUNT, true, ObjectRegisterMethod.INT));
+
+        // RIFLE
+        ObjectRegister<LoadAmmoAbility> loadAmmoAbilityRegister = registerObject(LoadAmmoAbility.class);
+        for (LoadAmmoAbility.AmmoType ammoType : LoadAmmoAbility.AmmoType.values())
+            loadAmmoAbilityRegister.add(new ObjectRegisterEntry<>((a) -> a.getAmmoAmount(ammoType), ammoType.getNetworkKey(), true, ObjectRegisterMethod.INT));
+
+        registerObject(FireRifleAbility.class)
+                .add(new ObjectRegisterEntry<>(FireRifleAbility::isAmmoLoaded, NetworkKeys.AMMO_LOADED, true, ObjectRegisterMethod.BOOLEAN))
+                .add(new ObjectRegisterEntry<>((a) -> a.getAmmoType().ordinal(), NetworkKeys.AMMO_TYPE, true, ObjectRegisterMethod.INT));
     }
 
     @SuppressWarnings("unchecked")
@@ -133,7 +139,7 @@ public final class ModNetworkManager {
     }
 
 
-    public record ObjectRegisterEntry<OT, ET>(Function<OT, ET> serverGetter, IReadonlyTypesafeMap.Key<ET> clientKey, boolean minimal, ObjectRegisterMethod<ET> registerMethod) {
+    public record ObjectRegisterEntry<OT, ET>(@NotNull Function<OT, ET> serverGetter, @NotNull IReadonlyTypesafeMap.Key<ET> clientKey, boolean minimal, @NotNull ObjectRegisterMethod<ET> registerMethod) {
 
         public void encode(@NotNull OT object, @NotNull PacketByteBuf buffer) {
             registerMethod().bufferEncoder().accept(buffer, serverGetter().apply(object));
@@ -144,7 +150,7 @@ public final class ModNetworkManager {
         }
 
     }
-    public record ObjectRegisterMethod<ET>(BiConsumer<PacketByteBuf, ET> bufferEncoder, Function<PacketByteBuf, ET> bufferDecoder) {
+    public record ObjectRegisterMethod<ET>(@NotNull BiConsumer<PacketByteBuf, ET> bufferEncoder, @NotNull Function<PacketByteBuf, ET> bufferDecoder) {
 
         public static final ObjectRegisterMethod<Boolean> BOOLEAN = new ObjectRegisterMethod<>(PacketByteBuf::writeBoolean, PacketByteBuf::readBoolean);
 

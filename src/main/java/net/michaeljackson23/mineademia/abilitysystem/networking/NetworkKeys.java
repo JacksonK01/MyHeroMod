@@ -48,4 +48,8 @@ public final class NetworkKeys {
     public static final IReadonlyTypesafeMap.Key<Integer> REGULAR_AMOUNT = new IReadonlyTypesafeMap.Key<>();
     public static final IReadonlyTypesafeMap.Key<Integer> HOLLOW_AMOUNT = new IReadonlyTypesafeMap.Key<>();
 
+    // FireRifleAbility
+    public static final IReadonlyTypesafeMap.Key<Boolean> AMMO_LOADED = new IReadonlyTypesafeMap.Key<>();
+    public static final IReadonlyTypesafeMap.Key<Integer> AMMO_TYPE = new IReadonlyTypesafeMap.Key<>();
+
 }

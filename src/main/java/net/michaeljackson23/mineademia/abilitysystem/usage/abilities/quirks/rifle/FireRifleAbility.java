@@ -84,6 +84,9 @@ public class FireRifleAbility extends HoldAbility implements ICooldownAbility, I
         this.cooldown = new Cooldown(COOLDOWN_TIME);
 
         this.glowingIds = new HashSet<>();
+
+        this.ammoType = LoadAmmoAbility.AmmoType.REGULAR;
+        this.ammoLoaded = false;
     }
 
     @Override

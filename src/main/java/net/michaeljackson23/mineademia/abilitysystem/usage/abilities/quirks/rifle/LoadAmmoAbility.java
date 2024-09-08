@@ -8,6 +8,7 @@ import net.michaeljackson23.mineademia.abilitysystem.intr.ability.extras.ICooldo
 import net.michaeljackson23.mineademia.abilitysystem.intr.ability.extras.IRightClickAbility;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IAbilityUser;
 import net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.rifle.passive.HairAmmoAbility;
+import net.michaeljackson23.mineademia.datastructures.typesafemap.IReadonlyTypesafeMap;
 import net.michaeljackson23.mineademia.networking.Networking;
 import net.michaeljackson23.mineademia.sound.ModSounds;
 import net.minecraft.entity.LivingEntity;
@@ -176,8 +177,11 @@ public class LoadAmmoAbility extends PhaseAbility implements ICooldownAbility, I
 
     public enum AmmoType {
 
-        REGULAR(10, 40, 5, 5),
-        HOLLOW_POINT(15, 55, 10, 0);
+        REGULAR(10, 40, 5, 5, 0x0000ff),
+        HOLLOW_POINT(15, 55, 10, 0, 0xff0000);
+
+        public static final int DEFAULT_COLOR = 0x000000;
+
 
         private final float hairCost;
 
@@ -185,12 +189,20 @@ public class LoadAmmoAbility extends PhaseAbility implements ICooldownAbility, I
         private final int ticksToHit;
         private final int pierceLevel;
 
-        AmmoType(float hairCost, float damage, int ticksToHit, int pierceLevel) {
+        private final int color;
+
+        private final IReadonlyTypesafeMap.Key<Integer> networkKey;
+
+        AmmoType(float hairCost, float damage, int ticksToHit, int pierceLevel, int color) {
             this.hairCost = hairCost;
 
             this.damage = damage;
             this.ticksToHit = ticksToHit;
             this.pierceLevel = Math.max(0, pierceLevel);
+
+            this.color = color;
+
+            this.networkKey = new IReadonlyTypesafeMap.Key<>();
         }
 
         public float getHairCost() {
@@ -209,11 +221,30 @@ public class LoadAmmoAbility extends PhaseAbility implements ICooldownAbility, I
             return (byte) pierceLevel;
         }
 
+        public int getColor() {
+            return color;
+        }
+
+        @NotNull
+        public IReadonlyTypesafeMap.Key<Integer> getNetworkKey() {
+            return networkKey;
+        }
+
         public AmmoType getNext() {
             AmmoType[] ammoTypes = values();
             int nextIndex = (ordinal() + 1) % ammoTypes.length;
 
             return ammoTypes[nextIndex];
+        }
+
+
+        public static int getColor(int index) {
+            AmmoType[] values = values();
+
+            if (index < 0 || index >= values.length)
+                return DEFAULT_COLOR;
+
+            return values[index].getColor();
         }
 
     }

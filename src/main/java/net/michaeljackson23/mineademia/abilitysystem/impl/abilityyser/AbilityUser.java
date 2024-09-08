@@ -7,10 +7,13 @@ import net.michaeljackson23.mineademia.abilitysystem.intr.ability.IActiveAbility
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityset.IAbilityMap;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityset.IAbilitySet;
 import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IAbilityUser;
+import net.michaeljackson23.mineademia.abilitysystem.intr.abilityyser.IBlockReason;
 import net.michaeljackson23.mineademia.util.Mathf;
 import net.minecraft.entity.LivingEntity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.HashSet;
 
 public class AbilityUser implements IAbilityUser {
 
@@ -19,7 +22,7 @@ public class AbilityUser implements IAbilityUser {
     private int stamina;
 
     private boolean enabled;
-    private boolean blocked;
+    private final HashSet<IBlockReason> blockReasons;
 
     private final IAbilityMap abilityMap;
 
@@ -27,7 +30,7 @@ public class AbilityUser implements IAbilityUser {
         this.entity = entity;
 
         this.enabled = true;
-        this.blocked = false;
+        this.blockReasons = new HashSet<>();
 
         this.abilityMap = new AbilityMap();
     }
@@ -94,7 +97,7 @@ public class AbilityUser implements IAbilityUser {
 
     @Override
     public boolean isBlocked() {
-        return blocked;
+        return !blockReasons.isEmpty();
     }
 
     @Override
@@ -104,11 +107,18 @@ public class AbilityUser implements IAbilityUser {
     }
 
     @Override
-    public void setBlocked(boolean blocked, boolean cancel) {
-        this.blocked = blocked;
+    public boolean addBlockReason(@NotNull IBlockReason reason, boolean cancel) {
+        boolean result = blockReasons.add(reason);
 
         if (cancel)
             cancelAbilities();
+
+        return result;
+    }
+
+    @Override
+    public boolean removeBlockReason(@NotNull IBlockReason reason) {
+        return blockReasons.remove(reason);
     }
 
     public void setEntity(@NotNull LivingEntity entity) {

@@ -2,6 +2,7 @@ package net.michaeljackson23.mineademia.abilitysystem.usage.abilities.quirks.exp
 
 import net.michaeljackson23.mineademia.abilitysystem.impl.AbilityManager;
 import net.michaeljackson23.mineademia.abilitysystem.impl.ability.active.PhaseAbility;
+import net.michaeljackson23.mineademia.abilitysystem.impl.abilityyser.AbilityBlockReason;
 import net.michaeljackson23.mineademia.abilitysystem.intr.AbilityCategory;
 import net.michaeljackson23.mineademia.abilitysystem.intr.Cooldown;
 import net.michaeljackson23.mineademia.abilitysystem.intr.ability.extras.ICooldownAbility;
@@ -23,7 +24,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
-public class ExplodeAPult extends PhaseAbility implements ICooldownAbility {
+public class XCatapultAbility extends PhaseAbility implements ICooldownAbility {
 
     public static final String DESCRIPTION = "While in mid-air, the user grabs an opponent with one of their arms, then fires an explosion with their free arm, causing both them and their opponent to spin. The user then forcefully throws his opponent with the aid of a second explosion.";
 
@@ -71,14 +72,18 @@ public class ExplodeAPult extends PhaseAbility implements ICooldownAbility {
 
     private double prevY;
 
-    public ExplodeAPult(@NotNull IAbilityUser user) {
-        super(user, "Explode-A-Pult", DESCRIPTION, Networking.C2S_ABILITY_FOUR, AbilityCategory.MOBILITY, AbilityCategory.ATTACK);
+    private final AbilityBlockReason blockReason;
+
+    public XCatapultAbility(@NotNull IAbilityUser user) {
+        super(user, "X-Catapult", DESCRIPTION, Networking.C2S_ABILITY_FOUR, AbilityCategory.MOBILITY, AbilityCategory.ATTACK);
 
         this.cooldown = new Cooldown(COOLDOWN_TIME_MISS);
 
         setPhaseMethods(1, this::grabPhase, this::throwPhase, this::smokePhase);
         setStartPhaseMethod(0, this::startDashPhase);
         setStartPhaseMethod(2, this::startThrowPhase);
+
+        this.blockReason = new AbilityBlockReason(this);
     }
 
     @Override
@@ -165,7 +170,7 @@ public class ExplodeAPult extends PhaseAbility implements ICooldownAbility {
 
             IAbilityUser targetUser = AbilityManager.getUser(target);
             if (targetUser != null)
-                targetUser.setBlocked(false);
+                targetUser.removeBlockReason(blockReason);
 
             this.endPos = entity.getPos().add(forward.multiply(2));
             this.endDirection = forward;
@@ -185,7 +190,7 @@ public class ExplodeAPult extends PhaseAbility implements ICooldownAbility {
 
         IAbilityUser targetUser = AbilityManager.getUser(target);
         if (targetUser != null)
-            targetUser.setBlocked(true);
+            targetUser.addBlockReason(blockReason);
 
         this.endPos = entity.getPos();
 

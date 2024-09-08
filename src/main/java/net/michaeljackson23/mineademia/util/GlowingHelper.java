@@ -10,7 +10,7 @@ public final class GlowingHelper {
 
     private GlowingHelper() { }
 
-    public static final int WHITE = 16777215;
+    public static final int WHITE = 0xffffff;
 
     private static final HashMap<Entity, Integer> entityGlowColors = new HashMap<>();
 
