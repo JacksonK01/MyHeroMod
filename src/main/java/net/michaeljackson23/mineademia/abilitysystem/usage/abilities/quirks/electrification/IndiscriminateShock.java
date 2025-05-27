@@ -85,8 +85,11 @@ public class IndiscriminateShock extends PhaseAbility implements ICooldownAbilit
                 getEntity().getPos().add(0, 1, 0), CHARGE_PARTICLE_COUNT, 0, 0, 0, -0.5f, true);
 
         BlockPos pos = getEntity().getBlockPos();
-        world.setBlockState(pos, lightBlock);
-        placedLight.add(pos);
+
+        if(world.getBlockState(pos).equals(air)) {
+            world.setBlockState(pos, lightBlock);
+            placedLight.add(pos);
+        }
 
         if(ticks >= END_PHASE_CHARGE_TICKS) {
             nextPhase();
